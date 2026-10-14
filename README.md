@@ -35,5 +35,6 @@ go vet ./...
 - [交互参考与设计约束](docs/UX-REFERENCE.md)
 - [上游调研与重写边界](docs/UPSTREAM.md)
 - [开发记录与已知限制](docs/STATUS.md)
+- [上游测试样张：7 份 Word、7 份 PDF 和 7 份纯文本](testdata/upstream/gongwen-kit/README.md)
 
 上游参考：[imhuhe/gongwen-kit](https://github.com/imhuhe/gongwen-kit)。本仓库独立开发，引用或移植上游内容时保留对应许可证及版权声明。

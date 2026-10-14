@@ -1,0 +1,171 @@
+{
+  "repository": "https://github.com/imhuhe/gongwen-kit",
+  "commit": "d8dfe6a24e20ecaa64c14f3a79159813ad92db70",
+  "preparedDate": "2026-10-14",
+  "docxOrigin": "Generated from unmodified upstream templates with npm ci using its package-lock.json",
+  "pdfOrigin": "Copied byte-for-byte from upstream docs/样张; not rendered from these newly generated DOCX files",
+  "textOrigin": "Derived from DOCX main-body and table paragraph text; layout, automatic numbering, headers and footers are not preserved",
+  "samples": [
+    {
+      "name": "企业内部报告",
+      "upstreamGeneratorChecks": "passed",
+      "docxXmlValidation": "passed",
+      "pdfCopiedUnchanged": true,
+      "files": [
+        {
+          "path": "docx/企业内部报告.docx",
+          "bytes": 13004,
+          "sha256": "24f9d948896132a1eba18784a7df30bb1f7224cb8a9a0cd3c30f34d04ca60538"
+        },
+        {
+          "path": "pdf/企业内部报告.pdf",
+          "bytes": 62488,
+          "sha256": "a9dc2983203a8379678fa82a5c916a0b692f3084dda8196796ac254bd266358c"
+        },
+        {
+          "path": "text/企业内部报告.txt",
+          "bytes": 1180,
+          "sha256": "c4696b295ab2724f9241b956d2d0f6f1e76f5f2f0960bfadb5d74cf50e42e9f5"
+        }
+      ]
+    },
+    {
+      "name": "公文信函",
+      "upstreamGeneratorChecks": "passed",
+      "docxXmlValidation": "passed",
+      "pdfCopiedUnchanged": true,
+      "files": [
+        {
+          "path": "docx/公文信函.docx",
+          "bytes": 14659,
+          "sha256": "799357be532385d811b6711042512c0a59d85e3f6699f78c362820d2f4dd3123"
+        },
+        {
+          "path": "pdf/公文信函.pdf",
+          "bytes": 52032,
+          "sha256": "321943e52e45531528dfc869eaef8ae279b845b79cf0ca6f0a9e7d1e9cbae372"
+        },
+        {
+          "path": "text/公文信函.txt",
+          "bytes": 933,
+          "sha256": "dcaca22dc4b99a73e4502c728a1a58ac347765454938a5d0a511d3afb94e7b2f"
+        }
+      ]
+    },
+    {
+      "name": "公文管理办法",
+      "upstreamGeneratorChecks": "passed",
+      "docxXmlValidation": "passed",
+      "pdfCopiedUnchanged": true,
+      "files": [
+        {
+          "path": "docx/公文管理办法.docx",
+          "bytes": 12665,
+          "sha256": "0d0e19660e92f620b820749f5c253db47acf205160dc29e6d71ea67d5866e3cf"
+        },
+        {
+          "path": "pdf/公文管理办法.pdf",
+          "bytes": 57241,
+          "sha256": "4e046d3c6d7b412c9aed5b8c941c62c00aec35ccc378da827ff60962f14b5203"
+        },
+        {
+          "path": "text/公文管理办法.txt",
+          "bytes": 1504,
+          "sha256": "11350866300d27e5ee845946e00f3dd1a235b0003dd8d6e323eef7844114cdc0"
+        }
+      ]
+    },
+    {
+      "name": "公文纪要",
+      "upstreamGeneratorChecks": "passed",
+      "docxXmlValidation": "passed",
+      "pdfCopiedUnchanged": true,
+      "files": [
+        {
+          "path": "docx/公文纪要.docx",
+          "bytes": 12625,
+          "sha256": "9c74d1791b9f7c086c996fdbe34365e6205bfd8d840f42a07a1cf576a3e748a4"
+        },
+        {
+          "path": "pdf/公文纪要.pdf",
+          "bytes": 47661,
+          "sha256": "110ff5bb23dcda5c83dafa48eca552ad49529be12c882b425998f8bdf8d0bcb4"
+        },
+        {
+          "path": "text/公文纪要.txt",
+          "bytes": 1018,
+          "sha256": "e397695103edd10813648cef8e437e3a0d6e69725a366b95f7727bc59cb3bec0"
+        }
+      ]
+    },
+    {
+      "name": "公文要素全览",
+      "upstreamGeneratorChecks": "passed",
+      "docxXmlValidation": "passed",
+      "pdfCopiedUnchanged": true,
+      "files": [
+        {
+          "path": "docx/公文要素全览.docx",
+          "bytes": 14226,
+          "sha256": "800c13db1d667699031bf5d400a84bbf0f91b6e812d1abe9026c1d6d9fe79c2f"
+        },
+        {
+          "path": "pdf/公文要素全览.pdf",
+          "bytes": 90167,
+          "sha256": "7c17e96e45e36bd6bdbe8fd78d4681a1460d504721474a94ff437d9f8fa5abb7"
+        },
+        {
+          "path": "text/公文要素全览.txt",
+          "bytes": 2670,
+          "sha256": "ba7ec9abfec8141879ef8fc93b826d63531e9e1a023008ba8bb103fe14cfcc3f"
+        }
+      ]
+    },
+    {
+      "name": "公文请示",
+      "upstreamGeneratorChecks": "passed",
+      "docxXmlValidation": "passed",
+      "pdfCopiedUnchanged": true,
+      "files": [
+        {
+          "path": "docx/公文请示.docx",
+          "bytes": 13410,
+          "sha256": "4b60245cca29d40e354d0dbe0e60e9bb164bc73fbd101c454efd504887c2886c"
+        },
+        {
+          "path": "pdf/公文请示.pdf",
+          "bytes": 63819,
+          "sha256": "7daebb9c0e828216930912392a4ff8dfeaa3efe3887c0fcfc9a73e4dcab5627a"
+        },
+        {
+          "path": "text/公文请示.txt",
+          "bytes": 1682,
+          "sha256": "53eed8d7df25ba99ba0d54b55364ede5874ad462c733fb44becb395146532e41"
+        }
+      ]
+    },
+    {
+      "name": "公文通知",
+      "upstreamGeneratorChecks": "passed",
+      "docxXmlValidation": "passed",
+      "pdfCopiedUnchanged": true,
+      "files": [
+        {
+          "path": "docx/公文通知.docx",
+          "bytes": 12867,
+          "sha256": "e852551bd7a7b48adce42f9c9ba8cf00874677f94e0b9221071cacbe0fa3a1f4"
+        },
+        {
+          "path": "pdf/公文通知.pdf",
+          "bytes": 54236,
+          "sha256": "ef353b44d41611a6c8453ff6664e4280625955f1fd88cb4c023cb4f20a67934b"
+        },
+        {
+          "path": "text/公文通知.txt",
+          "bytes": 1107,
+          "sha256": "c9323a6c3f99bea4053dc6a4db0c6775fed980cdd72bc7b4ba62e8889e45ee65"
+        }
+      ]
+    }
+  ]
+}

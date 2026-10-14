@@ -1,0 +1,42 @@
+TEMPLATE: complete.js
+→ D:\Project\Doc2GovPDF\testdata\upstream\gongwen-kit\docx\公文要素全览.docx (14 KB)
+体例机检通过　公文要素全览.docx
+数字自洽通过　公文要素全览.docx
+文风机检通过　公文要素全览.docx
+EXIT_CODE: 0
+TEMPLATE: gongwen-qingshi.js
+→ D:\Project\Doc2GovPDF\testdata\upstream\gongwen-kit\docx\公文请示.docx (13 KB)
+体例机检通过　公文请示.docx
+数字自洽通过　公文请示.docx
+文风机检通过　公文请示.docx
+EXIT_CODE: 0
+TEMPLATE: gongwen-guanli.js
+→ D:\Project\Doc2GovPDF\testdata\upstream\gongwen-kit\docx\公文管理办法.docx (12 KB)
+体例机检通过　公文管理办法.docx
+数字自洽通过　公文管理办法.docx
+文风机检通过　公文管理办法.docx
+EXIT_CODE: 0
+TEMPLATE: notice.js
+→ D:\Project\Doc2GovPDF\testdata\upstream\gongwen-kit\docx\公文通知.docx (13 KB)
+体例机检通过　公文通知.docx
+数字自洽通过　公文通知.docx
+文风机检通过　公文通知.docx
+EXIT_CODE: 0
+TEMPLATE: xinhan.js
+→ D:\Project\Doc2GovPDF\testdata\upstream\gongwen-kit\docx\公文信函.docx (14 KB)
+体例机检通过　公文信函.docx
+数字自洽通过　公文信函.docx
+文风机检通过　公文信函.docx
+EXIT_CODE: 0
+TEMPLATE: jiyao.js
+→ D:\Project\Doc2GovPDF\testdata\upstream\gongwen-kit\docx\公文纪要.docx (12 KB)
+体例机检通过　公文纪要.docx
+数字自洽通过　公文纪要.docx
+文风机检通过　公文纪要.docx
+EXIT_CODE: 0
+TEMPLATE: qiye.js
+→ D:\Project\Doc2GovPDF\testdata\upstream\gongwen-kit\docx\企业内部报告.docx (13 KB)
+体例机检通过　企业内部报告.docx
+数字自洽通过　企业内部报告.docx
+文风机检通过　企业内部报告.docx
+EXIT_CODE: 0
