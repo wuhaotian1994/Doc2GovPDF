@@ -14,9 +14,13 @@
     assert(get('body-text').value.includes('办发〔2026〕12号'),'Go fix not applied');
     get('undo').click();
     await until(()=>document.querySelectorAll('.issue-card').length === 2,'undo');
+    const nativeExport = window.go.main.App.Export;
+    let exportedText = null;
+    window.go.main.App.Export = async text => { exportedText = text; return ''; };
     get('export-open').click();
-    assert(get('export-dialog').open,'export dialog not opened');
-    get('export-dialog').close();
+    await until(()=>exportedText === get('body-text').value && !get('export-open').disabled,'direct export action');
+    assert(!get('export-dialog'),'unnecessary export options still shown');
+    window.go.main.App.Export = nativeExport;
     get('edit-tab').click();
     get('body-text').value = '测试标题\n2025年2月29日\n<script>window.injected=true</script>';
     get('body-text').dispatchEvent(new Event('input',{bubbles:true}));
@@ -44,6 +48,6 @@
     get('preview-tab').click();
     assert(document.documentElement.scrollWidth <= innerWidth,'horizontal overflow');
     assert(!failures.length,JSON.stringify(failures));
-    window.runtime.EventsEmit('qa:result',{passed:true,checks:['real Go binding','two rules','apply','undo','export dialog','invalid date','HTML escaping','draft recovery','queued save reversion','keyboard tabs','window layout']});
+    window.runtime.EventsEmit('qa:result',{passed:true,checks:['real Go binding','two rules','apply','undo','direct export action','invalid date','HTML escaping','draft recovery','queued save reversion','keyboard tabs','window layout']});
   } catch(e) { window.runtime.EventsEmit('qa:result',{passed:false,error:String(e),stack:e.stack}); }
 })();

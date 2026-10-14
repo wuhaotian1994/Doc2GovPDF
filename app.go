@@ -5,7 +5,6 @@ import (
 	"doc2govpdf/internal/document"
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"io"
 	"os"
 	"path/filepath"
@@ -164,25 +163,9 @@ func (a *App) Apply(text, id string) (string, error)      { return document.Appl
 
 // Export always creates a NEW file. It cannot overwrite originals, existing
 // outputs or an alias of the original, even if the save dialog permits it.
-func (a *App) Export(text, kind string) (string, error) {
-	r, err := document.Check(text)
-	if err != nil {
-		return "", err
-	}
-	var data []byte
-	var ext, description string
-	switch kind {
-	case "docx":
-		data, err = document.DOCX(text)
-		ext = ".docx"
-		description = "Word 排版草稿"
-	case "report":
-		data, err = reportHTML(r)
-		ext = ".html"
-		description = "检查报告"
-	default:
-		return "", fmt.Errorf("当前版本支持 Word 草稿与检查报告导出")
-	}
+func (a *App) Export(text string) (string, error) {
+	data, err := document.DOCX(text)
+	ext, description := ".docx", "Word 排版草稿"
 	if err != nil {
 		return "", err
 	}
@@ -222,13 +205,4 @@ func writeNew(path string, data []byte) error {
 		return fmt.Errorf("文件写入失败，请检查磁盘空间后重试")
 	}
 	return nil
-}
-
-func reportHTML(r document.Report) ([]byte, error) {
-	t := template.Must(template.New("report").Funcs(template.FuncMap{"oneBased": func(i int) int { return i + 1 }}).Parse(`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>公文检查报告</title><style>body{max-width:850px;margin:48px auto;padding:24px;font:16px/1.8 system-ui;color:#242c37}li{margin:16px 0}code{overflow-wrap:anywhere}small{color:#566273}</style><h1>公文检查报告</h1><p>开发预览版 · 规则版本 {{.RuleVersion}}</p><p>已检查：独立成行的日期与发文字号写法。此报告不代表完整公文机检通过。</p><h2>待核对项（{{len .Issues}}）</h2><ol>{{range .Issues}}<li>第 {{oneBased .Paragraph}} 段：{{.Message}}<br>原文：{{.Original}}{{if .Replacement}}<br>建议：{{.Replacement}}{{end}}</li>{{else}}<li>在本次有限检查范围内未发现问题。</li>{{end}}</ol><h2>尚未检查</h2><ul>{{range .Unchecked}}<li>{{.}}</li>{{end}}</ul><p><small>正文 SHA-256：<code>{{.Digest}}</code></small></p></html>`))
-	var b strings.Builder
-	if err := t.Execute(&b, r); err != nil {
-		return nil, err
-	}
-	return []byte(b.String()), nil
 }

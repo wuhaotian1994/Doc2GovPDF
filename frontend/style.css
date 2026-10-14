@@ -90,10 +90,6 @@ dialog h2{font-size:20px;margin:0}
 dialog p{color:#566477;font-size:13px;line-height:1.8}
 .dialog-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .dialog-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:22px}
-.export-option{border:1px solid #d8dfe6;border-radius:5px;padding:14px;display:flex;align-items:center;gap:12px;margin:12px 0;cursor:pointer}
-.export-option input{accent-color:var(--accent)}
-.export-option strong{font-weight:550;font-size:13px}
-.export-option small{display:block;font-size:12px;color:#566477;margin-top:5px}
 .notice{background:#f5f6f8;border:1px solid #d8dfe6;border-radius:5px;font-size:12px;line-height:1.8;padding:12px;color:#566477;margin-top:15px}
 .toast{position:fixed;bottom:48px;left:50%;transform:translateX(-50%);max-width:80vw;background:#222b38;color:#fff;box-shadow:0 3px 15px rgba(0,0,0,.13);padding:12px 20px;border-radius:5px;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
 .drag-over{outline:2px solid var(--accent);outline-offset:-4px}

@@ -10,7 +10,7 @@ let queuedText = null, queuedName = null, saveFailed = false;
 
 function error(message) { $('error-text').textContent = String(message); $('error').hidden = false; }
 function toast(message) { clearTimeout(toastTimer); $('toast').textContent = message; $('toast').hidden = false; toastTimer = setTimeout(() => $('toast').hidden = true, 6000); }
-function setBusy(value) { busy = value; document.body.classList.toggle('busy', value); for (const id of ['import-home','import-work','new-document','export-save','sample-home','paste-home']) $(id).disabled = value; }
+function setBusy(value) { busy = value; document.body.classList.toggle('busy', value); for (const id of ['import-home','import-work','new-document','sample-home','paste-home']) $(id).disabled = value; $('export-open').disabled = value || !api || !report || !draft.text.trim(); }
 function view(edit) {
   $('edit-panel').hidden = !edit; $('preview-panel').hidden = edit;
   $('edit-tab').setAttribute('aria-selected', String(edit)); $('preview-tab').setAttribute('aria-selected', String(!edit));
@@ -59,7 +59,7 @@ function renderReport() {
     card.append(title, desc, change, apply); list.append(card);
   }
   if (!count) { const empty = document.createElement('div'); empty.className = 'empty-check'; empty.textContent = '可以导出排版草稿，继续核对内容和版式。'; list.append(empty); }
-  $('export-open').disabled = !api || !draft.text.trim();
+  $('export-open').disabled = busy || !api || !draft.text.trim();
   $('status').textContent = count ? `检查完成 · ${count} 处需确认` : '基础检查完成 · 完整机检尚未覆盖';
 }
 async function check() {
@@ -119,12 +119,11 @@ for (const id of ['preview-tab','edit-tab']) $(id).addEventListener('keydown', e
 $('body-text').addEventListener('input', e => { history = []; $('undo').disabled = true; changeText(e.target.value); });
 $('undo').onclick = () => { const previous = history.pop(); if (previous !== undefined) changeText(previous); $('undo').disabled = !history.length; };
 $('about').onclick = () => $('about-dialog').showModal(); $('dismiss-error').onclick = () => $('error').hidden = true;
-$('export-open').onclick = () => { $('export-notice').textContent = `${report?.issues.length ? `还有 ${report.issues.length} 处写法待核对。` : ''}字体、分页、数字与完整版式尚未核验，导出结果不是合格证明。`; $('export-dialog').showModal(); };
-$('export-save').onclick = async () => {
+$('export-open').onclick = async () => {
   if (!api || busy) return; setBusy(true);
-  const text = draft.text, format = document.querySelector('input[name="format"]:checked').value;
-  try { await persist(); const path = await api.Export(text, format); if (path) { $('export-dialog').close(); toast(`已保存：${path}`); $('status').textContent = `已导出 · ${path}`; } }
-  catch (e) { $('export-dialog').close(); error(e); } finally { setBusy(false); }
+  const text = draft.text;
+  try { await persist(); const path = await api.Export(text); if (path) { toast(`已保存：${path}`); $('status').textContent = `已导出 · ${path}`; } }
+  catch (e) { error(e); } finally { setBusy(false); }
 };
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'o') { e.preventDefault(); if (!document.querySelector('dialog[open]')) importFile(); }

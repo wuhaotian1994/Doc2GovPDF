@@ -1,10 +1,8 @@
 package main
 
 import (
-	"doc2govpdf/internal/document"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 )
 
@@ -40,16 +38,5 @@ func TestDraftReplaceAndRecover(t *testing.T) {
 	}
 	if d.Text != "第二份 <正文>" || d.Name != "新文" || d.UpdatedAt == "" {
 		t.Fatalf("bad recovery: %+v", d)
-	}
-}
-
-func TestReportEscapesDocument(t *testing.T) {
-	r := document.Report{RuleVersion: "test", Issues: []document.Issue{{Original: `<script>alert(1)</script>`, Message: "核对"}}, Unchecked: []string{"版式"}}
-	h, err := reportHTML(r)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if strings.Contains(string(h), "<script>") || !strings.Contains(string(h), "&lt;script&gt;") {
-		t.Fatal("report injects document HTML")
 	}
 }
