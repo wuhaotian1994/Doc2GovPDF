@@ -13,7 +13,7 @@ func TestGenerateUIFixture(t *testing.T) {
 		t.Skip("visual fixture generation")
 	}
 	a := &App{ctx: context.Background(), draftDir: t.TempDir()}
-	f := office.Fields{Kind: "plain", Title: "关于开展办公环境整理工作的通知", Agency: "办公室", Reference: "办发【2026】第012号", Date: "2026年10月08日", Body: "各部门：\n为营造整洁、有序的办公环境，现将有关事项通知如下。\n一、整理范围\n请各部门整理办公区域和纸质档案。\n二、工作安排\n请于本周五前完成整理。重要文件按规定归档。"}
+	f := office.Fields{Kind: "notice", Letterhead: true, Title: "示例单位办公室关于开展办公环境整理工作的通知", Agency: "示例单位办公室", Recipient: "各部门", Reference: "办发【2026】第012号", Date: "2026年10月08日", Body: "为营造整洁、有序的办公环境，现将有关事项通知如下。\n一、整理范围\n请各部门整理办公区域和纸质档案。\n二、工作安排\n请于本周五前完成整理。重要文件按规定归档。"}
 	m, e := office.NewDocument(f)
 	if e != nil {
 		t.Fatal(e)

@@ -3,20 +3,32 @@
  const until=async(fn,m)=>{const end=Date.now()+20000;while(Date.now()<end){if(await fn())return;await sleep(80)}throw Error('Timeout: '+m)};
  try{
   await until(()=>window.appReady,'ready');
+  get('template-home').click();await until(()=>!get('compose').hidden,'new document');
+  assert(get('field-letterhead').checked&&get('field-agency').required&&get('letterhead-fields').open,'redhead defaults hidden or disabled');
+  get('field-kind').value='plain';get('field-kind').dispatchEvent(new Event('change'));
+  assert(!get('field-letterhead').checked&&!get('field-agency').required,'plain document forced to redhead');
+  get('compose-cancel').click();
   get('sample-home').click();
-  await until(()=>document.querySelectorAll('.issue-card').length===2,'sample checks');
+  await until(()=>document.querySelectorAll('.issue-card').length===3,'sample checks');
   document.querySelector('.issue-action').click();
-  await until(()=>document.querySelectorAll('.issue-card').length===1,'apply');
+  await until(()=>document.querySelectorAll('.issue-card').length===2,'apply');
   get('undo').click();
-  await until(()=>document.querySelectorAll('.issue-card').length===2,'undo');
-  document.querySelector('.issue-action').click();await until(()=>document.querySelectorAll('.issue-card').length===1,'first fix');
-  document.querySelector('.issue-action').click();await until(()=>document.querySelectorAll('.issue-card').length===0,'second fix');
+  await until(()=>document.querySelectorAll('.issue-card').length===3,'undo');
+  for(let remaining=2;remaining>=1;remaining--){document.querySelector('.issue-action').click();await until(()=>document.querySelectorAll('.issue-card').length===remaining,'sample fix');}
+  document.querySelector('.issue-action').click();
+  const imprint=[...document.querySelectorAll('textarea[data-paragraph]')].find(e=>e.value.includes('印发'));
+  assert(imprint,'imprint field');imprint.value=imprint.value.replace('月08日','月8日');imprint.dispatchEvent(new Event('input',{bubbles:true}));
+  await until(()=>document.querySelectorAll('.issue-card').length===0,'manual imprint confirmation');
+  get('preview-tab').click();
   await until(()=>document.querySelector('#pdf-pages canvas'),'actual PDF rendered');
   get('output-format').value='docx';get('output-format').dispatchEvent(new Event('change'));
   const exportFn=window.go.main.App.ExportDocument;let exported;
   window.go.main.App.ExportDocument=async(model,format,tracked)=>{exported={model,format,tracked};return {paths:[],warnings:[]}};
   get('export-open').click();await until(()=>exported&&!get('export-open').disabled,'direct export');
-  assert(exported.format==='docx','wrong export format');window.go.main.App.ExportDocument=exportFn;
+  assert(exported.format==='docx','wrong export format');
+  assert(exported.model.blocks.some(b=>b.paragraph?.role==='agency'&&b.paragraph.color==='FF0000'),'sample is not redhead');
+  assert(exported.model.blocks.some(b=>b.paragraph?.role==='letterhead-divider'&&b.paragraph.borderBottom),'sample has no red divider');
+  window.go.main.App.ExportDocument=exportFn;
   get('edit-tab').click();
   const date=[...document.querySelectorAll('textarea[data-paragraph]')].find(e=>e.value==='2026年10月8日');
   assert(date,'date field');date.value='2025年2月29日';date.dispatchEvent(new Event('input',{bubbles:true}));
@@ -31,6 +43,6 @@
   const editable=[...document.querySelectorAll('textarea[data-paragraph]')].find(e=>!e.disabled&&e!==date);editable.value='<script>window.injected=true</script>';editable.dispatchEvent(new Event('input',{bubbles:true}));await sleep(500);assert(!window.injected,'HTML injection');
   get('preview-tab').focus();get('preview-tab').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));assert(get('edit-tab').getAttribute('aria-selected')==='true','keyboard tabs');
   assert(document.documentElement.scrollWidth<=innerWidth,'horizontal overflow');
-  window.runtime.EventsEmit('qa:result',{passed:true,checks:['structured Go bindings','automatic checks','apply','undo','actual PDF canvas','direct export dispatch','invalid date','workspace recovery','queued save reversion','HTML escaping','keyboard tabs','window layout']});
+  window.runtime.EventsEmit('qa:result',{passed:true,checks:['redhead default and plain opt-out','redhead sample export','structured Go bindings','automatic checks','apply','undo','actual PDF canvas','direct export dispatch','invalid date','workspace recovery','queued save reversion','HTML escaping','keyboard tabs','window layout']});
  }catch(e){window.runtime.EventsEmit('qa:result',{passed:false,error:String(e),stack:e.stack})}
 })();

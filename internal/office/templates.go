@@ -85,18 +85,18 @@ func NewDocument(f Fields) (Model, error) {
 			p.KeepNext = true
 		case "agency":
 			p.Font = "方正小标宋简体"
-			p.Size = 30
+			p.Size = 36
 			p.Color = "FF0000"
 			p.Align = "center"
 			p.Indent = 0
-			p.Line = 15
-			p.After = 20
+			p.Line = 19.05
+			p.After = 20.42
 			p.Before = 35
 			p.KeepNext = true
 		case "reference":
 			p.Align = "center"
 			p.Indent = 0
-			p.After = 12
+			p.After = 0
 			p.KeepNext = true
 		case "recipient":
 			p.Indent = 0
@@ -147,10 +147,8 @@ func NewDocument(f Fields) (Model, error) {
 		if f.Signer != "" {
 			ref += "\t签发人：" + f.Signer
 		}
-		if ref != "" {
+		if ref != "" || f.Kind != "letter" {
 			p = add(ref, "reference")
-			p.BorderBottom = f.Kind != "letter"
-			p.BorderColor = "FF0000"
 			if f.Signer != "" {
 				p.Align = "left"
 				p.Indent = 5.64
@@ -158,7 +156,19 @@ func NewDocument(f Fields) (Model, error) {
 			}
 			if f.Kind == "letter" {
 				p.Align = "right"
+				p.After = 12
 			}
+		}
+		if f.Kind != "letter" {
+			// A separate divider keeps the gap below the reference independent
+			// from the two blank body lines above the document title.
+			divider := add("", "letterhead-divider")
+			divider.Line = 2.70
+			divider.Indent = 0
+			divider.BorderBottom = true
+			divider.BorderColor = "FF0000"
+			divider.After = 20.42
+			divider.KeepNext = true
 		}
 	}
 	add(f.Title, "title")
@@ -168,6 +178,7 @@ func NewDocument(f Fields) (Model, error) {
 			text += "\t签发人：" + f.Signer
 		}
 		p := add(text, "reference")
+		p.After = 12
 		if f.Signer != "" {
 			p.Align = "left"
 			p.Indent = 5.64
