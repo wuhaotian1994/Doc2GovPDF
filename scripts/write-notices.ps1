@@ -16,6 +16,10 @@ foreach ($entry in $modules) {
     foreach ($license in $licenses) { [void]$notice.AppendLine((Get-Content -LiteralPath $license.FullName -Raw)) }
 }
 $goRoot = go env GOROOT
+foreach ($extra in @('frontend/vendor/pdfjs/LICENSE','assets/fonts/OFL.txt','internal/office/data/LICENSE')) {
+    [void]$notice.AppendLine("`n===== $extra =====")
+    [void]$notice.AppendLine((Get-Content -LiteralPath $extra -Raw))
+}
 [void]$notice.AppendLine("`n===== Go standard library =====")
 [void]$notice.AppendLine((Get-Content -LiteralPath (Join-Path $goRoot 'LICENSE') -Raw))
 [System.IO.File]::WriteAllText((Join-Path (Get-Location) 'THIRD_PARTY_NOTICES.txt'), $notice.ToString(), [System.Text.UTF8Encoding]::new($false))

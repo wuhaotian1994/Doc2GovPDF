@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"doc2govpdf/internal/document"
+	"doc2govpdf/internal/userdata"
 	"encoding/json"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,10 +22,23 @@ type Draft struct {
 }
 
 type App struct {
-	ctx          context.Context
-	mu           sync.Mutex
-	draftDir     string
-	closeAllowed bool
+	ctx                 context.Context
+	mu                  sync.Mutex
+	draftDir            string
+	closeAllowed        bool
+	previewMu           sync.Mutex
+	previewCancel       context.CancelFunc
+	previewKey          string
+	previewValue        Preview
+	updateMu            sync.Mutex
+	updateCancel        context.CancelFunc
+	updateInfo          UpdateInfo
+	pendingUpdate       *PendingUpdate
+	lastOutputs         []string
+	jobs                int
+	workspaceReadFailed bool
+	uiReady             bool
+	startupError        error
 }
 
 func NewApp() *App { return &App{} }
@@ -36,17 +49,44 @@ func (a *App) startup(ctx context.Context) {
 	} else if dir, err := os.UserConfigDir(); err == nil {
 		a.draftDir = filepath.Join(dir, "Doc2GovPDF")
 	}
+	go a.updateLoop(ctx)
+	if exe, e := os.Executable(); e == nil {
+		if pending, e := os.ReadFile(filepath.Join(filepath.Dir(exe), ".pending-health")); e == nil {
+			a.startupError = userdata.Snapshot(a.draftDir, userdata.Token(pending))
+		}
+	}
+	a.startupProbe()
 }
 func (a *App) beforeClose(ctx context.Context) bool {
 	a.mu.Lock()
 	allowed := a.closeAllowed
+	active := a.jobs > 0
+	ready := a.uiReady
 	a.mu.Unlock()
+	if active {
+		runtime.EventsEmit(ctx, "job:busy")
+		return true
+	}
+	if !ready {
+		return false
+	}
 	if !allowed {
 		runtime.EventsEmit(ctx, "app:closing")
 	}
 	return !allowed
 }
-func (a *App) Close() { a.mu.Lock(); a.closeAllowed = true; a.mu.Unlock(); runtime.Quit(a.ctx) }
+func (a *App) Close() {
+	a.mu.Lock()
+	if a.jobs > 0 {
+		a.mu.Unlock()
+		runtime.EventsEmit(a.ctx, "job:busy")
+		return
+	}
+	a.closeAllowed = true
+	a.mu.Unlock()
+	a.scheduleUpdate()
+	runtime.Quit(a.ctx)
+}
 
 func (a *App) LoadDraft() (Draft, error) {
 	a.mu.Lock()
@@ -110,79 +150,6 @@ func (a *App) SaveDraft(d Draft) error {
 		return fmt.Errorf("草稿替换失败，之前的草稿已保留")
 	}
 	return nil
-}
-
-func (a *App) Import() (Draft, error) {
-	path, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{Title: "选择正文文件", Filters: []runtime.FileFilter{{DisplayName: "Word 文件或 UTF-8 文本", Pattern: "*.docx;*.txt"}}})
-	if err != nil || path == "" {
-		return Draft{}, err
-	}
-	return a.ImportPath(path)
-}
-
-func (a *App) ImportPath(path string) (Draft, error) {
-	ext := strings.ToLower(filepath.Ext(path))
-	if ext != ".docx" && ext != ".txt" {
-		return Draft{}, fmt.Errorf("请选择 DOCX 或 UTF-8 TXT 文件，也可以直接粘贴正文")
-	}
-	f, err := os.Open(path)
-	if err != nil {
-		return Draft{}, fmt.Errorf("无法打开文件，请检查文件是否可访问")
-	}
-	defer f.Close()
-	stat, err := f.Stat()
-	if err != nil || !stat.Mode().IsRegular() {
-		return Draft{}, fmt.Errorf("请选择普通文件")
-	}
-	limit := int64(document.MaxDOCXBytes)
-	if ext == ".txt" {
-		limit = document.MaxTextBytes
-	}
-	if stat.Size() > limit {
-		return Draft{}, fmt.Errorf("文件过大，DOCX 上限为 50 MB，正文上限为 2 MB")
-	}
-	data, err := io.ReadAll(io.LimitReader(f, limit+1))
-	if err != nil || int64(len(data)) > limit {
-		return Draft{}, fmt.Errorf("文件读取失败或过大")
-	}
-	text := strings.TrimPrefix(string(data), "\ufeff")
-	if ext == ".docx" {
-		text, err = document.ReadDOCX(data)
-		if err != nil {
-			return Draft{}, err
-		}
-	}
-	if err := document.Validate(text); err != nil {
-		return Draft{}, err
-	}
-	return Draft{Text: document.NormalizeNewlines(text), Name: filepath.Base(path)}, nil
-}
-
-func (a *App) Check(text string) (document.Report, error) { return document.Check(text) }
-func (a *App) Apply(text, id string) (string, error)      { return document.Apply(text, id) }
-
-// Export always creates a NEW file. It cannot overwrite originals, existing
-// outputs or an alias of the original, even if the save dialog permits it.
-func (a *App) Export(text string) (string, error) {
-	data, err := document.DOCX(text)
-	ext, description := ".docx", "Word 排版草稿"
-	if err != nil {
-		return "", err
-	}
-	path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{Title: "另存新文件", DefaultFilename: "公文-" + description + ext, Filters: []runtime.FileFilter{{DisplayName: description, Pattern: "*" + ext}}})
-	if err != nil || path == "" {
-		return "", err
-	}
-	if filepath.Ext(path) == "" {
-		path += ext
-	}
-	if !strings.EqualFold(filepath.Ext(path), ext) {
-		return "", fmt.Errorf("文件扩展名应为 %s，请重新选择保存位置", ext)
-	}
-	if err := writeNew(path, data); err != nil {
-		return "", err
-	}
-	return path, nil
 }
 
 func writeNew(path string, data []byte) error {

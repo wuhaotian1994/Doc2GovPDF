@@ -4,9 +4,12 @@
 /build/bin/
 /build/qa/
 /frontend/wailsjs/
+/cmd/setup/payload/*
+!/cmd/setup/payload/README.txt
 /coverage/
 /tmp/
 /node_modules/
+/.release-private/
 *.exe
 *.msi
 *.test

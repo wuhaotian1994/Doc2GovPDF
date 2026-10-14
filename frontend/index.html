@@ -1,55 +1,22 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'">
-  <title>公文整理 · Doc2GovPDF</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: blob:; worker-src 'self' blob:; connect-src 'self' blob:"><title>公文整理</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="workspace.css"></head>
 <body>
-  <header class="app-header">
-    <div class="brand"><svg class="app-icon" viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M5 2h10l5 5v19H5zM15 2v6h5M9 13h7M9 17h7M9 21h5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><div><strong>公文整理</strong><span class="version">开发预览版 0.1</span></div></div>
-    <div class="header-right"><span class="local">本机处理</span><button class="icon-button" id="about" aria-label="查看当前版本能力">关于</button></div>
-  </header>
-  <div id="error" class="error-banner" role="alert" hidden><span id="error-text"></span><button id="dismiss-error" aria-label="关闭错误提示">关闭</button></div>
-  <main>
-    <section id="welcome" class="welcome" aria-labelledby="welcome-title">
-      <div class="welcome-content">
-        <h1 id="welcome-title">整理一份公文</h1>
-        <p class="intro">导入或粘贴正文，确认问题，另存排版草稿。</p>
-        <div class="drop-area" id="drop-area">
-          <strong>将 Word 文件拖到这里</strong>
-          <p>支持纯正文 DOCX 和 UTF-8 文本</p>
-          <div class="actions"><button class="primary" id="import-home">选择文件</button><button id="paste-home">粘贴正文</button></div>
-        </div>
-        <div class="welcome-bottom"><span>第一次使用？</span><button class="link" id="sample-home">用示例试一试</button></div>
-        <p class="scope-note">当前提供基础正文排版、日期与发文字号检查。<br>复杂 Word 结构会明确提示，完整机检与 PDF 输出正在开发。</p>
-      </div>
-    </section>
-    <section id="workspace" class="workspace" hidden aria-label="文档工作区">
-      <div class="toolbar">
-        <div class="file-info"><strong id="file-name">未命名正文</strong><span id="save-state" role="status">本地草稿</span></div>
-        <div class="toolbar-actions"><button id="import-work">导入</button><button id="new-document">新建</button><button class="primary" id="export-open" disabled>导出草稿</button></div>
-      </div>
-      <div class="work-grid">
-        <section class="document-panel" aria-label="正文与排版预览">
-          <div class="panel-toolbar"><div class="tabs" role="tablist" aria-label="文档视图"><button id="preview-tab" role="tab" aria-selected="true" aria-controls="preview-panel">排版预览</button><button id="edit-tab" role="tab" tabindex="-1" aria-selected="false" aria-controls="edit-panel">编辑正文</button></div><button id="undo" class="subtle" disabled>撤销修改</button></div>
-          <div id="preview-panel" class="preview-scroll" role="tabpanel" aria-labelledby="preview-tab"><div class="preview-label">非红头 · 基础排版草稿</div><article id="paper" class="paper" aria-label="正文预览"></article><p class="preview-footnote">此处为连续正文示意，Word 实际字体和分页尚未核验。</p></div>
-          <div id="edit-panel" class="editor" role="tabpanel" aria-labelledby="edit-tab" hidden><label for="body-text">第一行作为标题，后续内容作为正文</label><textarea id="body-text" spellcheck="false" placeholder="在这里粘贴或输入正文…" aria-describedby="editor-help"></textarea><p id="editor-help">内容变化后自动保存并重新检查。金额、数量和事实由你核对。</p></div>
-        </section>
-        <aside class="inspector" aria-labelledby="check-heading">
-          <div class="check-summary"><h2 id="check-heading" role="status">等待正文</h2><p id="check-description">填写内容后自动开始。</p></div>
-          <div id="issue-list" class="issue-list"></div>
-          <div class="coverage"><h3>检查范围</h3><p><svg class="coverage-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> 独立成行的日期写法</p><p><svg class="coverage-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> 独立成行的发文字号</p><details><summary>尚未检查的内容</summary><p>数字自洽、表格、文风、事实、字体及完整公文版式。</p></details><p class="coverage-note">没有提示，也不代表完整机检通过。</p></div>
-        </aside>
-      </div>
-    </section>
-  </main>
-  <footer class="statusbar"><span id="status">准备就绪</span><span id="character-count">Doc2GovPDF</span></footer>
-  <dialog id="about-dialog" aria-labelledby="about-title"><form method="dialog"><div class="dialog-heading"><h2 id="about-title">公文整理</h2><button class="close" aria-label="关闭"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div><p>让小白用户能最简单的步骤完成公文生成与机检。</p><p>当前是第一阶段开发预览。已接通本地正文导入、基础排版、两类写法检查、确认修改、自动草稿和 Word 草稿导出。</p><div class="notice">尚未提供 PDF、完整数字与文风检查、复杂 Word 保真、安装包及自动更新。请保留原始材料并复核导出文件。</div><div class="dialog-actions"><button class="primary">知道了</button></div></form></dialog>
-  <dialog id="replace-dialog" aria-labelledby="replace-title"><form method="dialog"><h2 id="replace-title">替换当前草稿？</h2><p>当前草稿会被替换。需要保留时，请先取消并导出 Word 草稿。磁盘上的原文件不会改变。</p><div class="dialog-actions"><button value="cancel" autofocus>取消</button><button value="replace" class="primary">替换草稿</button></div></form></dialog>
-  <div id="toast" class="toast" role="status" hidden></div>
-  <script src="app.js"></script>
-</body>
-</html>
+<header class="app-header"><div class="brand"><svg class="app-icon" viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M5 2h10l5 5v19H5zM15 2v6h5M9 13h7M9 17h7M9 21h5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><strong>公文整理</strong></div><div class="header-right"><span class="local">文件在本机处理</span><button id="settings-open" class="icon-button">设置</button></div></header>
+<div id="error" class="error-banner" role="alert" hidden><span id="error-text"></span><button id="dismiss-error">关闭</button></div>
+<main>
+<section id="welcome" class="welcome"><div class="welcome-content"><h1>整理一份公文</h1><p class="intro">导入已有文件，或从正文开始。</p><div class="drop-area"><strong>将 Word 文件拖到这里</strong><p>原件保留，修改后另存为新文件</p><div class="actions"><button id="import-home" class="primary">选择文件</button><button id="paste-home">粘贴正文</button></div></div><div class="welcome-bottom"><button id="template-home" class="link">从模板新建</button><span aria-hidden="true">·</span><button id="sample-home" class="link">用示例试一试</button></div></div></section>
+<section id="compose" class="compose" hidden><form id="compose-form"><div class="compose-heading"><h1>填写公文内容</h1><button type="button" id="compose-cancel">返回</button></div><div class="form-row"><label>文种<select id="field-kind"></select></label><label>成文日期<input id="field-date" type="date"></label></div><label>标题<input id="field-title" required maxlength="250" placeholder="例如：关于开展安全检查工作的通知"></label><label>正文<textarea id="field-body" required rows="12" placeholder="粘贴或输入正文，用换行区分段落。"></textarea></label><details><summary>发文单位、文号和附件</summary><div class="form-row"><label>发文单位<input id="field-agency" maxlength="150"></label><label>发文字号<input id="field-reference" maxlength="100" placeholder="例如：办发〔2026〕12号"></label></div><div class="form-row"><label>主送机关<input id="field-recipient" maxlength="300"></label><label>签发人<input id="field-signer" maxlength="100"></label></div><label>抄送机关<input id="field-copy" maxlength="500"></label><details><summary>纪要参会人员（仅纪要）</summary><label>出席人员<input id="field-attendees" maxlength="1000"></label><label>请假人员<input id="field-absentees" maxlength="1000"></label><label>列席人员<input id="field-observers" maxlength="1000"></label></details><label>附件名称（每行一个）<textarea id="field-attachments" rows="2"></textarea></label><label class="check-label"><input id="field-annex-pages" type="checkbox">为附件创建独立页面，生成后填写内容</label><label class="check-label"><input id="field-letterhead" type="checkbox">显示红头</label></details><div class="compose-submit"><span>软件会排版并指出需要核对的地方。</span><button class="primary" type="submit">生成公文</button></div></form></section>
+<section id="workspace" class="workspace" hidden>
+<div class="toolbar"><div class="file-info"><strong id="file-name">未命名公文</strong><span id="save-state" role="status">草稿自动保存在本机</span></div><div class="toolbar-actions"><button id="import-work">导入</button><button id="new-document">新建</button><label class="format-label"><span class="sr-only">导出格式</span><select id="output-format"><option value="both">Word + PDF</option><option value="pdf">PDF</option><option value="docx">Word</option></select></label><button id="export-open" class="primary" disabled>导出</button></div></div>
+<div id="font-notice" hidden><p id="font-warning"></p><label class="check-label"><input id="font-ack" type="checkbox">本次使用备用字体</label></div>
+<div id="document-notice" class="document-notice" hidden></div>
+<div class="work-grid"><section class="document-panel"><div class="panel-toolbar"><div class="tabs" role="tablist" aria-label="文档视图"><button id="preview-tab" role="tab" aria-selected="true" aria-controls="preview-panel">成品预览</button><button id="edit-tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="edit-panel">编辑正文</button></div><div><button id="undo" class="subtle" disabled>撤销</button><button id="normalize-format" class="subtle">统一格式</button><button id="refresh-preview" class="subtle">刷新预览</button><button id="cancel-preview" class="subtle" hidden>取消排版</button></div></div><div id="preview-panel" class="preview-scroll" role="tabpanel" aria-labelledby="preview-tab"><div id="pdf-state" role="status">正在排版…</div><div id="pdf-pages"></div></div><div id="edit-panel" class="structured-editor" role="tabpanel" aria-labelledby="edit-tab" hidden><p class="editor-help">修改会自动保存。导入文件中的原有批注、格式和文档部件将保留。</p><label class="paragraph-style">当前段落<select id="paragraph-role" disabled><option value="body">正文</option><option value="title">标题</option><option value="heading">一级标题</option><option value="heading2">二级标题</option><option value="signature">落款</option><option value="date">日期</option></select></label><div id="blocks-editor"></div><div class="edit-actions"><button id="add-paragraph">添加段落</button><button id="add-table">添加表格</button></div></div></section>
+<aside class="inspector"><div class="check-summary"><h2 id="check-heading" role="status">正在检查…</h2><p id="check-description"></p></div><div id="issue-list" class="issue-list"></div><div class="coverage"><button id="reset-ignored" class="link" hidden>重新查看已确认项</button><details><summary>本次检查范围</summary><p>日期、发文字号、用字、标点、字号、页面与可识别的数字关系。事实、引用含义和单位审批要求仍需人工核对。</p></details><label class="check-label"><input id="track-changes" type="checkbox" checked>在 Word 中保留文字修订</label></div></aside></div>
+<div id="export-success" class="export-success" hidden><span id="export-success-text"></span><button id="open-result">打开文件</button><button id="open-folder">打开文件夹</button></div>
+</section></main>
+<footer class="statusbar"><span id="status">准备就绪</span><span id="character-count"></span></footer>
+<dialog id="replace-dialog"><form method="dialog"><h2>替换当前工作？</h2><p>需要保留当前成品时，请先取消并导出。磁盘上的原件不会改变。</p><div class="dialog-actions"><button value="cancel" autofocus>取消</button><button value="replace" class="primary">替换</button></div></form></dialog>
+<dialog id="settings-dialog"><form id="settings-form"><div class="dialog-heading"><h2>设置</h2><button type="button" id="settings-close">关闭</button></div><label>常用发文单位<input id="pref-agency"></label><label>常用文号前缀<input id="pref-reference" placeholder="例如：办发"></label><label class="check-label"><input type="checkbox" id="pref-update">后台自动更新，退出后生效</label><p id="update-status">正在读取更新状态…</p><details><summary>字体状态</summary><div id="font-list"></div></details><div class="dialog-actions"><button id="clear-data-open" type="button">清除本地草稿</button><button class="primary" type="submit">保存设置</button></div></form></dialog>
+<dialog id="table-dialog"><form id="table-form"><h2>添加表格</h2><p>每行一行数据，列之间用 Tab 分隔；也可从 Excel 复制后粘贴。</p><label>表格内容<textarea id="table-input" rows="7" required></textarea></label><label class="check-label"><input type="checkbox" id="table-header" checked>第一行为表头</label><label class="check-label"><input type="checkbox" id="table-three-line" checked>使用公文常用的三线表</label><div class="dialog-actions"><button type="button" id="table-cancel">取消</button><button class="primary">添加</button></div></form></dialog>
+<dialog id="clear-data-dialog"><form method="dialog"><h2>清除本地草稿和文档副本？</h2><p>尚未导出的修改也会被清除。导入原件、导出成品和单位设置不会删除。</p><div class="dialog-actions"><button value="cancel" autofocus>取消</button><button id="clear-data-confirm" type="button">确认清除</button></div></form></dialog><div id="toast" class="toast" role="status" hidden></div>
+<script type="module" src="workspace-ui.js"></script></body></html>

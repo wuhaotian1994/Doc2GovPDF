@@ -15,6 +15,8 @@ import (
 //go:embed scripts/smoke-browser.js
 var smokeScript string
 
+func (a *App) startupProbe() {}
+
 // This test hook is excluded from the distributed executable.
 func (a *App) domReady(ctx context.Context) {
 	if os.Getenv("DOC2GOVPDF_TEST_MODE") != "1" {
