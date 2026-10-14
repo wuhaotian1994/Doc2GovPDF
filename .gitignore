@@ -1,0 +1,31 @@
+# Build outputs and local caches
+/bin/
+/dist/
+/build/bin/
+/coverage/
+/tmp/
+/node_modules/
+*.exe
+*.msi
+*.test
+*.out
+*.log
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.key
+
+# Local documents and generated user data
+/local-data/
+/user-documents/
+/exports/
+
+# Editor and OS files
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
