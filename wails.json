@@ -1,0 +1,10 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Doc2GovPDF",
+  "outputfilename": "Doc2GovPDF",
+  "frontend:dir": "frontend",
+  "frontend:install": "",
+  "frontend:build": "",
+  "author": {"name": "Doc2GovPDF"},
+  "info": {"productName": "Doc2GovPDF", "productVersion": "0.1.0", "comments": "本地公文整理工具开发预览版"}
+}

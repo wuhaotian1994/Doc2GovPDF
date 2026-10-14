@@ -2,6 +2,8 @@
 /bin/
 /dist/
 /build/bin/
+/build/qa/
+/frontend/wailsjs/
 /coverage/
 /tmp/
 /node_modules/
