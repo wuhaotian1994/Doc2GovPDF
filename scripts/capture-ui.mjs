@@ -35,6 +35,11 @@ try{
  await evaluate('document.getElementById("sample-home").click()');
  await until(()=>evaluate('Boolean(document.querySelector("#pdf-pages canvas"))'));
  await capture('02-review');
+ await evaluate('document.getElementById("home-open").click()');
+ await until(()=>evaluate('!document.getElementById("welcome").hidden'));
+ await capture('04-home-with-draft');
+ await evaluate('document.getElementById("resume-work").click()');
+ await until(()=>evaluate('!document.getElementById("workspace").hidden'));
  await call('Emulation.setDeviceMetricsOverride',{width:560,height:700,deviceScaleFactor:1,mobile:false});
  await capture('03-narrow');
  const overflow=await evaluate('document.documentElement.scrollWidth > innerWidth');
