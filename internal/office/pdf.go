@@ -66,6 +66,7 @@ func fontCatalog() {
 			}
 		}
 		fonts["Noto Serif SC"] = fontData{"Noto Serif SC", assets.FallbackFont}
+		fonts["Noto Serif SC Black"] = fontData{"Noto Serif SC Black", assets.FallbackBlackFont}
 		fontMaps = map[string]*sfnt.Font{}
 		for name, face := range fonts {
 			if parsed, e := sfnt.Parse(face.data); e == nil {
@@ -81,7 +82,7 @@ func FontStatus() []FontInfo {
 		_, ok := fonts[name]
 		info := FontInfo{Name: name, Available: ok}
 		if !ok {
-			info.Fallback = "Noto Serif SC"
+			info.Fallback = resolveFont(name).name
 		}
 		out = append(out, info)
 	}
@@ -104,6 +105,11 @@ func resolveFont(name string) fontData {
 	}
 	if f, ok := fonts[name]; ok {
 		return f
+	}
+	if name == "方正小标宋简体" || name == "黑体" {
+		if f, ok := fonts["Noto Serif SC Black"]; ok {
+			return f
+		}
 	}
 	return fonts["Noto Serif SC"]
 }
@@ -162,18 +168,23 @@ type PDFResult struct {
 	Warnings []string
 }
 type pdfWriter struct {
-	charSpacing float64
-	firstFooter []Paragraph
-	f           *fpdf.Fpdf
-	ctx         context.Context
-	page        Page
-	y           float64
-	loaded      map[string]string
-	warnings    map[string]bool
-	pages       int
-	hideFirst   bool
-	header      []Paragraph
-	firstHeader []Paragraph
+	charSpacing   float64
+	firstFooter   []Paragraph
+	f             *fpdf.Fpdf
+	ctx           context.Context
+	page          Page
+	y             float64
+	loaded        map[string]string
+	warnings      map[string]bool
+	pages         int
+	hideFirst     bool
+	header        []Paragraph
+	firstHeader   []Paragraph
+	lastInkBottom float64
+	newDocument   bool
+	faceName      string
+	pointSize     float64
+	keepTail      float64
 }
 
 func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
@@ -182,6 +193,8 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 	if fitErr != nil {
 		return PDFResult{}, fitErr
 	}
+	m = prepareNewLayout(m)
+	m = prepareInkPlacement(m, false)
 	if e := m.Validate(); e != nil {
 		return PDFResult{}, e
 	}
@@ -189,6 +202,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 		return PDFResult{}, fmt.Errorf("此文档包含不能可靠转换的对象，暂不能生成 PDF；Word 原件及对象会保留")
 	}
 	w := &pdfWriter{ctx: ctx, page: m.Page, loaded: map[string]string{}, warnings: map[string]bool{}, hideFirst: m.HideFirstPageNumber, header: m.Header, firstHeader: m.FirstHeader, firstFooter: m.FirstFooter}
+	w.newDocument = m.SourceID == ""
 	w.f = fpdf.NewCustom(&fpdf.InitType{UnitStr: "mm", Size: fpdf.SizeType{Wd: m.Page.Width, Ht: m.Page.Height}})
 	w.f.SetMargins(m.Page.Left, m.Page.Top, m.Page.Right)
 	w.f.SetCellMargin(0)
@@ -232,7 +246,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 	})
 	w.newPage()
 	var anchored []Paragraph
-	for _, b := range m.Blocks {
+	for index, b := range m.Blocks {
 		if e := ctx.Err(); e != nil {
 			return PDFResult{}, e
 		}
@@ -241,9 +255,40 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 				anchored = append(anchored, *b.Paragraph)
 				continue
 			}
+			if b.Paragraph.KeepNext {
+				height := w.paragraphHeight(*b.Paragraph, 0)
+				ownHeight := height
+				for next := index + 1; next < len(m.Blocks); next++ {
+					p := m.Blocks[next].Paragraph
+					if p == nil || p.AnchorBottom || p.PageBreak {
+						break
+					}
+					limit := 0
+					if !p.KeepNext {
+						limit = 1
+						if w.newDocument {
+							limit = 2
+						}
+						if chapterLabel.MatchString(b.Paragraph.Prefix + b.Paragraph.Text) {
+							limit = 2
+						}
+					}
+					height += w.paragraphHeight(*p, limit)
+					if !p.KeepNext {
+						break
+					}
+				}
+				w.keepTail = height - ownHeight
+				if !w.newDocument || height <= w.page.Height-w.page.Top-w.page.Bottom {
+					if e := w.room(height); e != nil {
+						return PDFResult{}, e
+					}
+				}
+			}
 			if e := w.paragraph(*b.Paragraph); e != nil {
 				return PDFResult{}, e
 			}
+			w.keepTail = 0
 		} else if b.Table != nil {
 			if e := w.table(*b.Table); e != nil {
 				return PDFResult{}, e
@@ -261,9 +306,13 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 			if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
 				line = p.Size * 25.4 / 72 * 1.3
 			}
-			height += p.Before + p.After + line*float64(len(w.wrapIndented(p.Prefix+p.Text, m.Page.Width-m.Page.Left-m.Page.Right, p.Indent)))
+			lines := len(w.wrapIndented(p.Prefix+p.Text, m.Page.Width-m.Page.Left-m.Page.Right-p.LeftIndent-p.RightIndent, p.Indent-p.Hanging))
+			if len(p.Tabs) > 0 && !strings.Contains(p.Text, "\n") {
+				lines = 1
+			}
+			height += p.Before + p.After + line*float64(lines)
 			if p.BorderBottom {
-				height += .4
+				height += borderWidth(p)
 			}
 		}
 		if e := w.room(height); e != nil {
@@ -304,10 +353,13 @@ func (w *pdfWriter) setFont(p Paragraph) {
 		w.f.AddUTF8FontFromBytes(family, "", fd.data)
 		w.loaded[sum] = family
 	}
-	if fd.name == "Noto Serif SC" && p.Font != "Noto Serif SC" {
-		w.warnings["缺少或无法识别字体“"+p.Font+"”，PDF 使用已嵌入的 Noto Serif SC 备用字体。"] = true
+	if strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name {
+		w.warnings["缺少或无法识别字体“"+p.Font+"”，PDF 使用已嵌入的 "+fd.name+" 备用字体。"] = true
 	}
 	w.f.SetFont(family, "", p.Size)
+	w.faceName = fd.name
+	w.pointSize = p.Size
+	w.f.RawWriteStr("BT 0 Tr ET")
 	w.charSpacing = 0
 	if p.Size == 16 && w.page.GridType == "linesAndChars" && w.page.CharSpace >= -1000 && w.page.CharSpace <= 0 {
 		w.charSpacing = float64(w.page.CharSpace) / 4096 * 25.4 / 72
@@ -318,6 +370,12 @@ func (w *pdfWriter) setFont(p Paragraph) {
 		if color, e := strconv.ParseUint(p.Color, 16, 32); e == nil {
 			w.f.SetTextColor(int(color>>16), int(color>>8&255), int(color&255))
 		}
+	}
+	if p.Bold && !strings.Contains(fd.name, "Black") {
+		n, _ := strconv.ParseUint(p.Color, 16, 32)
+		w.f.SetDrawColor(int(n>>16), int(n>>8&255), int(n&255))
+		w.f.SetLineWidth(p.Size * 25.4 / 72 * .015)
+		w.f.RawWriteStr("BT 2 Tr ET")
 	}
 }
 
@@ -389,7 +447,11 @@ func (w *pdfWriter) newPage() {
 			if x == 0 {
 				x = w.page.Left
 			}
-			w.drawBorder(p, x-.5, y, width+1)
+			if w.newDocument {
+				w.drawBorder(p, x, y, width)
+			} else {
+				w.drawBorder(p, x-.5, y, width+1)
+			}
 		}
 		if strings.TrimSpace(p.Text) == "" {
 			continue
@@ -401,7 +463,7 @@ func (w *pdfWriter) newPage() {
 			align = "C"
 		}
 		w.f.SetXY(w.page.Left, y)
-		w.f.CellFormat(w.page.Width-w.page.Left-w.page.Right, height, p.Text, "", 0, align, false, 0, "")
+		w.drawText(w.page.Left, y, w.page.Width-w.page.Left-w.page.Right, height, p.Text, align, w.charSpacing)
 		y += height
 		if p.BorderBottom {
 			w.f.SetDrawColor(210, 0, 0)
@@ -409,7 +471,8 @@ func (w *pdfWriter) newPage() {
 		}
 	}
 	if w.pages == 1 && len(lines) > 0 && y+6 > w.y {
-		w.y = y + 6
+		gap := 3.0
+		w.y = y + gap
 	}
 }
 func (w *pdfWriter) room(height float64) error {
@@ -442,8 +505,20 @@ func (w *pdfWriter) wrapIndented(text string, width, indent float64) []string {
 			if line != "" && w.textWidth(next) > available+.15 {
 				chars := []rune(line)
 				cut := len(chars)
+				if nonbreakingRune(r) && cut > 0 && nonbreakingRune(chars[cut-1]) {
+					start := cut
+					for start > 0 && nonbreakingRune(chars[start-1]) {
+						start--
+					}
+					if start > 0 {
+						cut = start
+					}
+				}
 				if strings.ContainsRune("，。；：！？、）】》〉」』〕％%.,;:!?)]}", r) {
-					cut--
+					cut = min(cut, len(chars)-1)
+					for cut > 0 && cut < len(chars) && nonbreakingRune(chars[cut-1]) && nonbreakingRune(chars[cut]) {
+						cut--
+					}
 				}
 				for cut > 0 && ((cut < len(chars) && strings.ContainsRune("，。；：！？、）】》〉」』〕％%.,;:!?)]}", chars[cut])) || strings.ContainsRune("（【《〈「『〔([{", chars[cut-1])) {
 					cut--
@@ -463,7 +538,14 @@ func (w *pdfWriter) wrapIndented(text string, width, indent float64) []string {
 	}
 	return out
 }
+
+func nonbreakingRune(r rune) bool {
+	return r >= '0' && r <= '9' || r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' || r == '×' || r == '-' || r == '/' || r == '.' || r == '%'
+}
 func (w *pdfWriter) paragraph(p Paragraph) error {
+	if p.Role == "letterhead-divider" && w.lastInkBottom > 0 {
+		p.Line = math.Max(.1, w.lastInkBottom+4-w.y-borderWidth(p)/2)
+	}
 	if p.Role == "roster" && strings.Contains(p.Text, "：") {
 		return w.roster(p)
 	}
@@ -525,6 +607,11 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 	if p.PageBreak && w.y > w.page.Top+.1 {
 		w.newPage()
 	}
+	// Word suppresses space-before at an automatic page start. Keep authored
+	// source placement and explicit page breaks, but match this for new output.
+	if w.newDocument && w.pages > 1 && math.Abs(w.y-w.page.Top) < .1 && !p.PageBreak {
+		p.Before = 0
+	}
 	w.setFont(p)
 	line := p.Line
 	if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
@@ -543,16 +630,41 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 	}
 	lines := w.wrapIndented(p.Prefix+p.Text, width, indent)
 	if p.KeepNext {
-		if e := w.room(p.Before + line*float64(len(lines)) + line); e != nil {
-			return e
+		height := p.Before + line*float64(len(lines)) + p.After + line
+		if !w.newDocument || height <= w.page.Height-w.page.Top-w.page.Bottom {
+			if e := w.room(height); e != nil {
+				return e
+			}
 		}
 	}
 	w.y += p.Before
+	// New Word documents use widow/orphan control by default. A three-line
+	// paragraph cannot leave one line on either page; longer paragraphs need
+	// at least two lines on each side of an automatic page break.
+	if w.newDocument && len(lines) > 1 {
+		need := min(len(lines), 2)
+		if len(lines) == 3 {
+			need = 3
+		}
+		if e := w.room(float64(need) * line); e != nil {
+			return e
+		}
+	}
 	for i, txt := range lines {
 		if e := w.ctx.Err(); e != nil {
 			return e
 		}
-		if e := w.room(line); e != nil {
+		need := line
+		if w.newDocument && len(lines)-i == 2 {
+			need = 2 * line
+		}
+		if w.newDocument && p.KeepNext && len(lines)-i <= 2 && w.keepTail > 0 {
+			tail := float64(len(lines)-i)*line + p.After + w.keepTail
+			if tail <= w.page.Height-w.page.Top-w.page.Bottom {
+				need = tail
+			}
+		}
+		if e := w.room(need); e != nil {
 			return e
 		}
 		w.setFont(p)
@@ -567,14 +679,40 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 			align = "R"
 		}
 		w.f.SetXY(x, w.y)
-		if p.Align == "both" && i < len(lines)-1 {
+		spacing := w.charSpacing
+		if p.Align == "both" && i < len(lines)-1 && w.textWidth(txt) > .8*(w.page.Width-w.page.Right-p.RightIndent-x) {
 			n := len([]rune(txt))
 			if n > 1 {
-				spacing := (w.page.Width - w.page.Right - p.RightIndent - x - w.f.GetStringWidth(txt)) / float64(n-1)
+				spacing = (w.page.Width - w.page.Right - p.RightIndent - x - w.glyphsWidth(txt)) / float64(n-1)
 				w.f.RawWriteStr(fmt.Sprintf("BT %.5f Tc ET", spacing*72/25.4))
 			}
 		}
-		w.f.CellFormat(w.page.Width-w.page.Right-p.RightIndent-x, line, txt, "", 0, align, false, 0, "")
+		lead, leadFont := "", ""
+		if i == 0 && p.PrefixFont != "" {
+			lead = p.Prefix
+			leadFont = p.PrefixFont
+		}
+		if i == 0 && p.Role == "article" {
+			lead = articleLabel.FindString(txt)
+			leadFont = "黑体"
+		}
+		if lead != "" && strings.HasPrefix(txt, lead) {
+			q := p
+			q.Font = leadFont
+			q.Text = lead
+			w.setFont(q)
+			w.f.RawWriteStr(fmt.Sprintf("BT %.5f Tc ET", spacing*72/25.4))
+			advance := w.glyphsWidth(lead) + float64(len([]rune(lead)))*spacing
+			w.drawText(x, w.y, advance, line, lead, "L", spacing)
+			w.setFont(p)
+			w.f.RawWriteStr(fmt.Sprintf("BT %.5f Tc ET", spacing*72/25.4))
+			w.f.SetXY(x+advance, w.y)
+			w.drawText(x+advance, w.y, w.page.Width-w.page.Right-p.RightIndent-x-advance, line, strings.TrimPrefix(txt, lead), "L", spacing)
+		} else {
+			w.drawText(x, w.y, w.page.Width-w.page.Right-p.RightIndent-x, line, txt, align, spacing)
+		}
+		_, bottom := glyphInk(Paragraph{Font: p.Font, Size: p.Size, Text: txt})
+		w.lastInkBottom = w.y + line/2 + .3*p.Size*25.4/72 + bottom
 		w.y += line
 	}
 	if p.BorderBottom {
@@ -584,9 +722,10 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 		}
 		n, _ := strconv.ParseUint(color, 16, 32)
 		w.f.SetDrawColor(int(n>>16), int(n>>8&255), int(n&255))
-		w.f.SetLineWidth(.4)
-		w.f.Line(w.page.Left, w.y+.2, w.page.Width-w.page.Right, w.y+.2)
-		w.y += .4
+		width := borderWidth(p)
+		w.f.SetLineWidth(width)
+		w.f.Line(w.page.Left, w.y+width/2, w.page.Width-w.page.Right, w.y+width/2)
+		w.y += width
 	}
 	w.y += p.After
 	return nil
@@ -612,6 +751,19 @@ func (w *pdfWriter) table(t Table) error {
 	sum := 0.0
 	for _, v := range t.Widths {
 		sum += v
+	}
+	tableX := w.page.Left
+	requested := sum
+	if t.Width > 0 {
+		requested = t.Width
+	}
+	if requested > 0 && requested < width {
+		if t.Align == "center" {
+			tableX += (width - requested) / 2
+		} else if t.Align == "right" {
+			tableX += width - requested
+		}
+		width = requested
 	}
 	for i := range widths {
 		widths[i] = width / float64(columns)
@@ -678,6 +830,12 @@ func (w *pdfWriter) table(t Table) error {
 				}
 			}
 			cellLines[i] = w.wrap(text, available)
+			if p.Role == "roster-names" {
+				cellLines[i] = nil
+				for _, line := range wrapRosterNames(text, available, w.textWidth) {
+					cellLines[i] = append(cellLines[i], w.wrap(line, available)...)
+				}
+			}
 			line := p.Line
 			if line < p.Size*25.4/72*1.15 {
 				line = p.Size * 25.4 / 72 * 1.4
@@ -689,9 +847,14 @@ func (w *pdfWriter) table(t Table) error {
 			}
 		}
 		if rowIndex > 0 && w.y+height > w.page.Height-w.page.Bottom {
+			if t.Borders && t.BorderStyle == "three-line" {
+				w.f.SetDrawColor(0, 0, 0)
+				w.f.SetLineWidth(.4)
+				w.f.Line(tableX, w.y, tableX+width, w.y)
+			}
 			w.newPage()
 			if t.Rows[0].Header {
-				if e := w.table(Table{Rows: []Row{t.Rows[0]}, Widths: t.Widths, Borders: t.Borders, BorderStyle: t.BorderStyle, Role: "repeat-header"}); e != nil {
+				if e := w.table(Table{Align: t.Align, Width: t.Width, Rows: []Row{t.Rows[0]}, Widths: t.Widths, Borders: t.Borders, BorderStyle: t.BorderStyle, Role: "repeat-header"}); e != nil {
 					return e
 				}
 				if w.y+height > w.page.Height-w.page.Bottom {
@@ -699,10 +862,15 @@ func (w *pdfWriter) table(t Table) error {
 				}
 			}
 		}
+		if rowIndex == 0 && row.Header && len(t.Rows) > 1 {
+			if e := w.room(height + w.tableRowHeight(t.Rows[1], widths)); e != nil {
+				return e
+			}
+		}
 		if e := w.room(height); e != nil {
 			return e
 		}
-		x := w.page.Left
+		x := tableX
 		if rowIndex == 0 && t.Borders && t.BorderStyle == "three-line" {
 			w.f.SetDrawColor(0, 0, 0)
 			w.f.SetLineWidth(.4)
@@ -721,15 +889,24 @@ func (w *pdfWriter) table(t Table) error {
 			left := padding.Left + cellFonts[i].LeftIndent
 			right := padding.Right + cellFonts[i].RightIndent
 			if c.Merge != "continue" {
+				extra := height - padding.Top - padding.Bottom - float64(len(cellLines[i]))*lh
+				offset := 0.0
+				if extra > 0 {
+					if c.VerticalAlign == "center" {
+						offset = extra / 2
+					} else if c.VerticalAlign == "bottom" {
+						offset = extra
+					}
+				}
 				for j, txt := range cellLines[i] {
-					w.f.SetXY(x+left, w.y+padding.Top+float64(j)*lh)
+					w.f.SetXY(x+left, w.y+padding.Top+offset+float64(j)*lh)
 					align := "L"
 					if cellFonts[i].Align == "center" {
 						align = "C"
 					} else if cellFonts[i].Align == "right" {
 						align = "R"
 					}
-					w.f.CellFormat(cw-left-right, lh, txt, "", 0, align, false, 0, "")
+					w.drawText(x+left, w.y+padding.Top+offset+float64(j)*lh, cw-left-right, lh, txt, align, w.charSpacing)
 				}
 			}
 			x += cw
@@ -738,16 +915,13 @@ func (w *pdfWriter) table(t Table) error {
 		if row.Header && t.Borders && t.BorderStyle == "three-line" {
 			w.f.SetDrawColor(0, 0, 0)
 			w.f.SetLineWidth(.2)
-			w.f.Line(w.page.Left, w.y, w.page.Left+width, w.y)
+			w.f.Line(tableX, w.y, tableX+width, w.y)
 		}
 	}
 	if t.Borders && t.BorderStyle == "three-line" && t.Role != "repeat-header" {
 		w.f.SetDrawColor(0, 0, 0)
 		w.f.SetLineWidth(.4)
-		w.f.Line(w.page.Left, w.y, w.page.Left+width, w.y)
-	}
-	if t.Role == "" {
-		w.y += 3
+		w.f.Line(tableX, w.y, tableX+width, w.y)
 	}
 	return nil
 }
@@ -757,7 +931,58 @@ func (w *pdfWriter) textWidth(text string) float64 {
 	if n < 1 {
 		return 0
 	}
-	return w.f.GetStringWidth(text) + float64(n-1)*w.charSpacing
+	return w.glyphsWidth(text) + float64(n-1)*w.charSpacing
+}
+
+const compactPunctuation = "，。；：！？、（）【】《》〈〉「」『』〔〕“”‘’"
+
+func (w *pdfWriter) runeAdvance(r rune) (float64, float64) {
+	width := w.f.GetStringWidth(string(r))
+	if w.page.GridType != "linesAndChars" || !strings.ContainsRune(compactPunctuation, r) || width < .8*w.pointSize*25.4/72 {
+		return width, 0
+	}
+	width /= 2
+	shift := 0.0
+	if face := fontMaps[w.faceName]; face != nil {
+		if glyph, e := face.GlyphIndex(nil, r); e == nil {
+			if b, _, e := face.GlyphBounds(nil, glyph, fixed.Int26_6(w.pointSize*64), font.HintingNone); e == nil {
+				left := float64(b.Min.X) / 64 * 25.4 / 72
+				right := float64(b.Max.X) / 64 * 25.4 / 72
+				shift = (width-(right-left))/2 - left
+			}
+		}
+	}
+	return width, shift
+}
+func (w *pdfWriter) glyphsWidth(text string) float64 {
+	width := 0.0
+	for _, r := range text {
+		advance, _ := w.runeAdvance(r)
+		width += advance
+	}
+	return width
+}
+func (w *pdfWriter) drawText(x, y, width, height float64, text, align string, spacing float64) {
+	n := len([]rune(text))
+	actual := w.glyphsWidth(text) + float64(max(0, n-1))*spacing
+	if align == "R" {
+		x += width - actual
+	} else if align == "C" {
+		x += (width - actual) / 2
+	}
+	if !strings.ContainsAny(text, compactPunctuation) {
+		w.f.RawWriteStr(fmt.Sprintf("BT %.5f Tc ET", spacing*72/25.4))
+		w.f.SetXY(x, y)
+		w.f.CellFormat(actual+.01, height, text, "", 0, "L", false, 0, "")
+		return
+	}
+	w.f.RawWriteStr("BT 0 Tc ET")
+	for _, r := range text {
+		advance, shift := w.runeAdvance(r)
+		w.f.SetXY(x+shift, y)
+		w.f.CellFormat(advance, height, string(r), "", 0, "L", false, 0, "")
+		x += advance + spacing
+	}
 }
 
 func (w *pdfWriter) drawBorder(p Paragraph, x, y, width float64) {
@@ -780,7 +1005,77 @@ func (w *pdfWriter) drawBorder(p Paragraph, x, y, width float64) {
 		w.f.SetLineWidth(.2)
 		w.f.Line(x, y-1.1, x+width, y-1.1)
 	} else {
-		w.f.SetLineWidth(.35)
+		w.f.SetLineWidth(borderWidth(p))
 		w.f.Line(x, y, x+width, y)
 	}
+}
+
+func borderWidth(p Paragraph) float64 {
+	if p.BorderWidth > 0 {
+		return p.BorderWidth
+	}
+	return .4
+}
+
+func (w *pdfWriter) paragraphHeight(p Paragraph, limit int) float64 {
+	w.setFont(p)
+	line := p.Line
+	if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
+		line = p.Size * 25.4 / 72 * 1.3
+	}
+	indent := p.Indent - p.Hanging
+	if p.Align == "center" || p.Align == "right" {
+		indent = 0
+	}
+	n := len(w.wrapIndented(p.Prefix+p.Text, w.page.Width-w.page.Left-w.page.Right-p.LeftIndent-p.RightIndent, indent))
+	if len(p.Tabs) > 0 {
+		n = 1
+	}
+	if w.newDocument && limit == 2 && n == 3 {
+		limit = 3
+	}
+	if limit > 0 && n > limit {
+		n = limit
+	}
+	h := p.Before + p.After + line*float64(n)
+	if p.BorderBottom {
+		h += borderWidth(p)
+	}
+	return h
+}
+
+func (w *pdfWriter) tableRowHeight(row Row, widths []float64) float64 {
+	h := row.Height
+	col := 0
+	for _, cell := range row.Cells {
+		cw := 0.0
+		for j := 0; j < cell.Span && col+j < len(widths); j++ {
+			cw += widths[col+j]
+		}
+		col += cell.Span
+		if len(cell.Paragraphs) == 0 {
+			continue
+		}
+		p := cell.Paragraphs[0]
+		if p.Size > 22 {
+			p.Size = 22
+		}
+		texts := []string{}
+		for _, q := range cell.Paragraphs {
+			texts = append(texts, q.Prefix+q.Text)
+		}
+		p.Text = strings.Join(texts, "\n")
+		w.setFont(p)
+		padding := cell.padding()
+		line := p.Line
+		if line < p.Size*25.4/72*1.15 {
+			line = p.Size * 25.4 / 72 * 1.4
+		}
+		n := len(w.wrap(p.Text, cw-padding.Left-padding.Right-p.LeftIndent-p.RightIndent))
+		ch := float64(n)*line + padding.Top + padding.Bottom
+		if ch > h {
+			h = ch
+		}
+	}
+	return h
 }

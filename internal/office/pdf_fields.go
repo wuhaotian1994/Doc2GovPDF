@@ -50,6 +50,7 @@ func (w *pdfWriter) tabbed(p Paragraph) error {
 		return e
 	}
 	w.y += p.Before
+	inkBottom := w.y
 	end := w.page.Left
 	parts := strings.Split(p.Text, "\t")
 	for i, text := range parts {
@@ -84,15 +85,21 @@ func (w *pdfWriter) tabbed(p Paragraph) error {
 			q.Text = run.text
 			w.setFont(q)
 			w.f.SetXY(x, w.y)
-			w.f.CellFormat(run.width+.01, line, run.text, "", 0, "L", false, 0, "")
+			w.drawText(x, w.y, run.width+.01, line, run.text, "L", w.charSpacing)
+			_, bottom := glyphInk(q)
+			if b := w.y + line/2 + .3*q.Size*25.4/72 + bottom; b > inkBottom {
+				inkBottom = b
+			}
 			x += run.width
 		}
 		end = x
 	}
+	w.lastInkBottom = inkBottom
 	w.y += line
 	if p.BorderBottom {
-		w.drawBorder(p, w.page.Left, w.y+.2, w.page.Width-w.page.Left-w.page.Right)
-		w.y += .4
+		width := borderWidth(p)
+		w.drawBorder(p, w.page.Left, w.y+width/2, w.page.Width-w.page.Left-w.page.Right)
+		w.y += width
 	}
 	w.y += p.After
 	return nil
@@ -120,6 +127,7 @@ func (w *pdfWriter) roster(p Paragraph) error {
 	base.Font = "仿宋"
 	name := base
 	name.Text = parts[1]
+	name.Role = "roster-names"
 	labelPara := base
 	labelPara.Font = "黑体"
 	labelPara.Text = label

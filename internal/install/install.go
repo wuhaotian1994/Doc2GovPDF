@@ -194,7 +194,7 @@ func Install(payload []byte, dir, version string) error {
 	}
 	for name := range state.Files {
 		dst := filepath.Join(absolute, name)
-		if e = os.Rename(filepath.Join(staging, name), dst); e != nil {
+		if e = replaceInstalledFile(filepath.Join(staging, name), dst); e != nil {
 			rollback()
 			return fmt.Errorf("无法替换 %s，请关闭正在运行的程序后重试：%w", name, e)
 		}

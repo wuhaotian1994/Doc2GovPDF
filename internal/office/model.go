@@ -21,9 +21,11 @@ type TabStop struct {
 }
 type Paragraph struct {
 	Italic       bool      `json:"italic,omitempty"`
+	Bold         bool      `json:"bold,omitempty"`
 	ID           string    `json:"id"`
 	Text         string    `json:"text"`
 	Prefix       string    `json:"prefix,omitempty"`
+	PrefixFont   string    `json:"prefixFont,omitempty"`
 	Role         string    `json:"role"`
 	Align        string    `json:"align"`
 	Font         string    `json:"font"`
@@ -43,6 +45,7 @@ type Paragraph struct {
 	BorderColor  string    `json:"borderColor,omitempty"`
 	BorderTop    bool      `json:"borderTop,omitempty"`
 	BorderStyle  string    `json:"borderStyle,omitempty"`
+	BorderWidth  float64   `json:"borderWidth,omitempty"`
 	AnchorBottom bool      `json:"anchorBottom,omitempty"`
 	FrameX       float64   `json:"frameX,omitempty"`
 	FrameY       float64   `json:"frameY,omitempty"`
@@ -65,11 +68,12 @@ func (c Cell) padding() CellMargins {
 }
 
 type Cell struct {
-	Paragraphs []Paragraph  `json:"paragraphs"`
-	Span       int          `json:"span"`
-	Merge      string       `json:"merge,omitempty"`
-	Margins    *CellMargins `json:"margins,omitempty"`
-	NoBorders  bool         `json:"noBorders,omitempty"`
+	VerticalAlign string       `json:"verticalAlign,omitempty"`
+	Paragraphs    []Paragraph  `json:"paragraphs"`
+	Span          int          `json:"span"`
+	Merge         string       `json:"merge,omitempty"`
+	Margins       *CellMargins `json:"margins,omitempty"`
+	NoBorders     bool         `json:"noBorders,omitempty"`
 }
 type Row struct {
 	Cells  []Cell  `json:"cells"`
@@ -77,6 +81,8 @@ type Row struct {
 	Height float64 `json:"height,omitempty"`
 }
 type Table struct {
+	Align       string    `json:"align,omitempty"`
+	Width       float64   `json:"width,omitempty"`
 	BorderStyle string    `json:"borderStyle,omitempty"`
 	Rows        []Row     `json:"rows"`
 	Widths      []float64 `json:"widths"`
@@ -212,6 +218,9 @@ func (m *Model) Validate() error {
 		if b.Table != nil {
 			if len(b.Table.Rows) > 1000 || len(b.Table.Widths) > 30 {
 				return fmt.Errorf("表格过大")
+			}
+			if math.IsNaN(b.Table.Width) || math.IsInf(b.Table.Width, 0) || b.Table.Width < 0 || b.Table.Width > m.Page.Width {
+				return fmt.Errorf("表格宽度无效")
 			}
 			for _, row := range b.Table.Rows {
 				if len(row.Cells) > 30 {

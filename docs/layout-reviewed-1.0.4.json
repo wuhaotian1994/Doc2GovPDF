@@ -1,0 +1,507 @@
+{
+  "date": "2026-10-15",
+  "reviewer": "Codex",
+  "method": "逐页查看 Poppler 渲染的实际 Word/PDF 对照图；自动断言仅作为补充。",
+  "artifactRoot": "build/qa/layout-audit/final",
+  "boards": [
+    {
+      "board": "source-公文要素全览-1",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文要素全览-1.png",
+      "sha256": "6f96886f2c050b50a049533a894ceec64193c90922b4b81961ad529a3ef6fe48"
+    },
+    {
+      "board": "source-公文要素全览-2",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文要素全览-2.png",
+      "sha256": "71c611389eb15e831484bac70fc198edc586839c7aaea92dd94e5e7aa35bdf97"
+    },
+    {
+      "board": "source-公文要素全览-3",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文要素全览-3.png",
+      "sha256": "22e043f4c2cf4f8b0ee074fc44349663140871f9c92ac6c4fad62cf29603df05"
+    },
+    {
+      "board": "source-公文要素全览-4",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文要素全览-4.png",
+      "sha256": "46f108e5ef4a129567cbbceb7ec16fed8aba0f1ed3cf956d7cbce529d755bc29"
+    },
+    {
+      "board": "source-公文要素全览-5",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文要素全览-5.png",
+      "sha256": "696fdb427a13e115eaa9aa080b382d2c651f0afa3486fe2b808d7e7cdcaea8d0"
+    },
+    {
+      "board": "source-公文管理办法-3",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文管理办法-3.png",
+      "sha256": "647843a5bdd771a929c1f1bd59290a20e4ac8ffd1d09ddbfa14c7210a7b0e0f2"
+    },
+    {
+      "board": "source-公文请示-1",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文请示-1.png",
+      "sha256": "2f8a4a7750a713283e41bc88fc9efb1296db664b9a46e4008139420ef16893e5"
+    },
+    {
+      "board": "source-公文请示-2",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文请示-2.png",
+      "sha256": "ffdb7aeebebd922182f98f60dc4fd8ccbd1ec92a7fb13171d32ee6a781f481b1"
+    },
+    {
+      "board": "source-公文请示-3",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文请示-3.png",
+      "sha256": "6c79e6c316e5401b884c782434e1835fdb7f2d83c6f1b5fe21c8708bcb6e881e"
+    },
+    {
+      "board": "source-公文请示-4",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文请示-4.png",
+      "sha256": "2559ad4158c3c62ac9a18437dd54e2c92827aabf4a1df2cc1c77c807ce8423a9"
+    },
+    {
+      "board": "source-公文通知-1",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文通知-1.png",
+      "sha256": "432d8bf76e014a3bd84b399c68edfc5abb096663f3905cd2bf073ec3ffbe3c4a"
+    },
+    {
+      "board": "source-公文通知-2",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文通知-2.png",
+      "sha256": "51525e8061375370877f198589a69f6a3391a3a0d376ef04a5a082c99e649332"
+    },
+    {
+      "board": "source-企业内部报告-1",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-企业内部报告-1.png",
+      "sha256": "d04252b8e57df6d910a789b5d2e336669730695076cd781300a9da1ecd480968"
+    },
+    {
+      "board": "source-企业内部报告-2",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-企业内部报告-2.png",
+      "sha256": "053cadc812ed6f355d32882f1d72927c6f660a8c5fbac6ea644010938f8c9a61"
+    },
+    {
+      "board": "source-公文信函-1",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文信函-1.png",
+      "sha256": "4f0a0774a39e62a94342514eb994e67b9748d6a097d722d1710650746d995949"
+    },
+    {
+      "board": "source-公文信函-2",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文信函-2.png",
+      "sha256": "2ef16294e2f3b56130dfd10d5ee97cc0193a2806287ac46324623515f0f51662"
+    },
+    {
+      "board": "source-公文管理办法-1",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文管理办法-1.png",
+      "sha256": "ad031db35823c14eb8796cf614cc1b80a49d2f5fc98850e0174a8d725edd3c78"
+    },
+    {
+      "board": "source-公文管理办法-2",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文管理办法-2.png",
+      "sha256": "2fedd99ee485f3eca90cfe88c7413f1133b86290d1fa8391f660d63149fb7719"
+    },
+    {
+      "board": "source-公文纪要-1",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文纪要-1.png",
+      "sha256": "7297d58ed3ee17de6426878ce7b2cf1102e54fa11cef1f174c8c49778af83d20"
+    },
+    {
+      "board": "source-公文纪要-2",
+      "file": "build/qa/layout-audit/final/rendered/compare-source-公文纪要-2.png",
+      "sha256": "1e2966ba72c6273f2354bfce19386d83a2cf1c97b6f1270a8f174347df532266"
+    },
+    {
+      "board": "letter-short-1",
+      "file": "build/qa/layout-audit/final/rendered/review-letter-short-1.png",
+      "sha256": "5d8b8779b06820f378a725b5440d74f5d0017d843534a157c5b95e6a572550b1"
+    },
+    {
+      "board": "minutes-short-1",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-short-1.png",
+      "sha256": "ebb639a9bb567d60c175d9987de868e747f4d4506e4bd8fd72adbe0f707e0d5c"
+    },
+    {
+      "board": "minutes-short-2",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-short-2.png",
+      "sha256": "3d646f5e8bd7b69b00fb4c084d043377a30c6c2f0401ab089204efb7d1ee15cb"
+    },
+    {
+      "board": "notice-short-1",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-short-1.png",
+      "sha256": "fc6285c83528c23a34df62ec66876f8d42ef8cb63b46c43544c716d9fdbbb2b0"
+    },
+    {
+      "board": "notice-short-2",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-short-2.png",
+      "sha256": "f6d91f97245d4cf74fcf346b0c9452a9600472f569ccc77f3a52b39aa53df4f2"
+    },
+    {
+      "board": "plain-short-1",
+      "file": "build/qa/layout-audit/final/rendered/review-plain-short-1.png",
+      "sha256": "40bcf0ad9088e3a767af8523828f925bdf99a80fa8d3f876eed3324f00c55be0"
+    },
+    {
+      "board": "report-short-1",
+      "file": "build/qa/layout-audit/final/rendered/review-report-short-1.png",
+      "sha256": "ec5a8879c903d43df0d8ca0bf7a68306d66698bea722359d0502571083030f20"
+    },
+    {
+      "board": "report-short-2",
+      "file": "build/qa/layout-audit/final/rendered/review-report-short-2.png",
+      "sha256": "9dda29bae78ec2e5e9dbbd4c0368832230315c03fab66d9d399747367e619b45"
+    },
+    {
+      "board": "request-short-1",
+      "file": "build/qa/layout-audit/final/rendered/review-request-short-1.png",
+      "sha256": "eaf55d3b6f821b5dfff9a423985d75ab623236ba30ca3cadc3f930edf36a2752"
+    },
+    {
+      "board": "request-short-2",
+      "file": "build/qa/layout-audit/final/rendered/review-request-short-2.png",
+      "sha256": "f93650985e026621c238a0e65179ae3d1dff54e90e757f40650a78cf88a57b0c"
+    },
+    {
+      "board": "rules-short-1",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-short-1.png",
+      "sha256": "b2223bb337c271057ede6b396faad72bace5b92dfd2ed1f54c137c78359a628a"
+    },
+    {
+      "board": "rules-short-2",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-short-2.png",
+      "sha256": "35bdcd9071f0b23b7d09a6b86c1ea56dfdb7f79c0735e70108b01f95b42a54b9"
+    },
+    {
+      "board": "letter-long-1",
+      "file": "build/qa/layout-audit/final/rendered/review-letter-long-1.png",
+      "sha256": "0df1816e3f27f3804d58fa9a8bd7d4d0dfc6b28e81c51738016abb024bfc345d"
+    },
+    {
+      "board": "letter-long-2",
+      "file": "build/qa/layout-audit/final/rendered/review-letter-long-2.png",
+      "sha256": "f57d11eebea792cc49664eec3625837d5bf3dcbfd217dd9b1baf72c37c9263a4"
+    },
+    {
+      "board": "letter-long-3",
+      "file": "build/qa/layout-audit/final/rendered/review-letter-long-3.png",
+      "sha256": "218c5ccdf86999b75d0e1c8e8ddbe37040ed5486dc7e4fdaab9297c1597875be"
+    },
+    {
+      "board": "letter-long-4",
+      "file": "build/qa/layout-audit/final/rendered/review-letter-long-4.png",
+      "sha256": "23b8ab9e9d434c3c58021227f460e843acd99f10d3e0ebfed376c5b9a9bb76e4"
+    },
+    {
+      "board": "letter-long-5",
+      "file": "build/qa/layout-audit/final/rendered/review-letter-long-5.png",
+      "sha256": "ca9a4f40ac4683d7d30dbc44b89d20ccc4330c5bf5a21c652a5cc5c043cd95d1"
+    },
+    {
+      "board": "letter-long-6",
+      "file": "build/qa/layout-audit/final/rendered/review-letter-long-6.png",
+      "sha256": "95f994f552a32f898b27890e033ba18a6bbabddc4a4431e1d72dad3530b06c5e"
+    },
+    {
+      "board": "minutes-long-1",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-long-1.png",
+      "sha256": "b0c58fba68fe1271ec2b53d1ebf537b9f8310c7b70a5afc5b5dda78c51be8357"
+    },
+    {
+      "board": "minutes-long-2",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-long-2.png",
+      "sha256": "b76410efc8731a1da0a4ead7cb511a1ecdaf0d8f6804faeef3adf42cf646fb2c"
+    },
+    {
+      "board": "minutes-long-3",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-long-3.png",
+      "sha256": "51e3234ad34b95f14d7720fa1a5d5888b253cdd4622f0eb726ec5d1f9939b72b"
+    },
+    {
+      "board": "minutes-long-4",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-long-4.png",
+      "sha256": "f4c9f553caa073f3898b819e7508eaaa93e3b0a92979b2c0bb121a5689bac710"
+    },
+    {
+      "board": "minutes-long-5",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-long-5.png",
+      "sha256": "70a0965c899aee6eb18ac686c35130bc7877a85f20d0c4bac7b26d41e44e4098"
+    },
+    {
+      "board": "minutes-long-6",
+      "file": "build/qa/layout-audit/final/rendered/review-minutes-long-6.png",
+      "sha256": "afb1c0a5888d265da814b5fdec32ca5a3e77ff0e44149a8e47496daaffbbeee5"
+    },
+    {
+      "board": "notice-long-1",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-long-1.png",
+      "sha256": "b2e0c68e18fffac6e1d5d3f0a31b931bb7c50a860021c9feaa2c2b29809f62f8"
+    },
+    {
+      "board": "notice-long-2",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-long-2.png",
+      "sha256": "cec1d93af957b5ae1709d768ae1a8acb34ddc4ac1a77d36acddb446bb4ff00fc"
+    },
+    {
+      "board": "notice-long-3",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-long-3.png",
+      "sha256": "672eaf6299c6822ed762876f1463da13028352ac509f4c4faffbf6bb2c68841b"
+    },
+    {
+      "board": "notice-long-4",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-long-4.png",
+      "sha256": "3b581ce6bb5e5f28fab73937e1083724994b747206fcc4d7e2db28149a075f0d"
+    },
+    {
+      "board": "notice-long-5",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-long-5.png",
+      "sha256": "f5267facfd7e3c337175e3e0594140a740f8e34a2dedb81b3b6cb5d58816f7c1"
+    },
+    {
+      "board": "notice-long-6",
+      "file": "build/qa/layout-audit/final/rendered/review-notice-long-6.png",
+      "sha256": "aa35ca7f00bdb838305901c14cd9eeced10ac4a54e1c686eea13ac91bde29499"
+    },
+    {
+      "board": "plain-long-1",
+      "file": "build/qa/layout-audit/final/rendered/review-plain-long-1.png",
+      "sha256": "72dd91c5a5167618cfded6d17e6ed82025009745eae46f117ee6d14f9bda606f"
+    },
+    {
+      "board": "plain-long-2",
+      "file": "build/qa/layout-audit/final/rendered/review-plain-long-2.png",
+      "sha256": "8ebdcc1c544be0634134b5d05c582503053a4782d8af9acf3deb05e05adf7bbf"
+    },
+    {
+      "board": "plain-long-3",
+      "file": "build/qa/layout-audit/final/rendered/review-plain-long-3.png",
+      "sha256": "a8a8f1a5b56faeb7e27fc4a8f280c4e41687acd09b0b1609fdc022ee5136fe30"
+    },
+    {
+      "board": "plain-long-4",
+      "file": "build/qa/layout-audit/final/rendered/review-plain-long-4.png",
+      "sha256": "2d19bc8ac64e33353eac8dbb9ea489ce95864396d9cc5019938d33d4996981c2"
+    },
+    {
+      "board": "plain-long-5",
+      "file": "build/qa/layout-audit/final/rendered/review-plain-long-5.png",
+      "sha256": "0e0db465d61cf965e4bd9bd0ff1414692cd27eeef476832916b3b88c2aff22d3"
+    },
+    {
+      "board": "plain-long-6",
+      "file": "build/qa/layout-audit/final/rendered/review-plain-long-6.png",
+      "sha256": "e85497c7e1d4cac0e81a786235dfbcc02085eff5514abaaf7f072c8014660e53"
+    },
+    {
+      "board": "report-long-1",
+      "file": "build/qa/layout-audit/final/rendered/review-report-long-1.png",
+      "sha256": "856d621e179a3480fe8063cfc5311dcffd0c24abd3e3fa0367685cf40c755420"
+    },
+    {
+      "board": "report-long-2",
+      "file": "build/qa/layout-audit/final/rendered/review-report-long-2.png",
+      "sha256": "2be066c3b91cf22868e505eb37a2b4d5b42219402175ea26450e8d0de41e6fd7"
+    },
+    {
+      "board": "report-long-3",
+      "file": "build/qa/layout-audit/final/rendered/review-report-long-3.png",
+      "sha256": "494e84ce43120370a03633a7de6ff9b375cd2257f3c35214c3597ca1dc3f2a14"
+    },
+    {
+      "board": "report-long-4",
+      "file": "build/qa/layout-audit/final/rendered/review-report-long-4.png",
+      "sha256": "b965a488bb5b4d44a1345090c6af890680f9a073efc3e92c3e8191ca290248ea"
+    },
+    {
+      "board": "report-long-5",
+      "file": "build/qa/layout-audit/final/rendered/review-report-long-5.png",
+      "sha256": "262ece6b717c2a0d9e2fe1385c38efe4a89b96da320b853c22c77f2a397a48a9"
+    },
+    {
+      "board": "report-long-6",
+      "file": "build/qa/layout-audit/final/rendered/review-report-long-6.png",
+      "sha256": "8f4ca23e3520ce1c0fd5756b03de2c53952d33e678d5b54ae2e408fb7d85d2a0"
+    },
+    {
+      "board": "request-long-1",
+      "file": "build/qa/layout-audit/final/rendered/review-request-long-1.png",
+      "sha256": "180d40603d4da22f8e3893cc43d27a331184b4f5bbbb66672cbd23be3a8c4ffc"
+    },
+    {
+      "board": "request-long-2",
+      "file": "build/qa/layout-audit/final/rendered/review-request-long-2.png",
+      "sha256": "0262525eb3c2d3cee8df9fa66adb1487b07795f1a24f304438e77c9200dddf2d"
+    },
+    {
+      "board": "request-long-3",
+      "file": "build/qa/layout-audit/final/rendered/review-request-long-3.png",
+      "sha256": "d1ca9a71c2317f389cde1a7a16e0b09a3c3afe312222903916cfc39775b76068"
+    },
+    {
+      "board": "request-long-4",
+      "file": "build/qa/layout-audit/final/rendered/review-request-long-4.png",
+      "sha256": "f75d2c9eaabb5077fa6782700d31dcaefe4c97a6b973d4f9f34fcdbeb3e8e519"
+    },
+    {
+      "board": "request-long-5",
+      "file": "build/qa/layout-audit/final/rendered/review-request-long-5.png",
+      "sha256": "93b4a0dca80448e6bebfe5e75a418c06b74ad172617fdeb4b6fdca82450f1d9a"
+    },
+    {
+      "board": "request-long-6",
+      "file": "build/qa/layout-audit/final/rendered/review-request-long-6.png",
+      "sha256": "7925c5b35468cf1e49703c43d16e7f100da2958d9f60bdb65f6a45e58fa51913"
+    },
+    {
+      "board": "rules-long-1",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-long-1.png",
+      "sha256": "82d39fb22cd15076945f1d570b91a1043aa355f4d0bb373de82208a1cad63798"
+    },
+    {
+      "board": "rules-long-2",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-long-2.png",
+      "sha256": "325c66ba6c9a3e13cafb67859112ce97f8c437fe3ee41dc874006b464e6589c9"
+    },
+    {
+      "board": "rules-long-3",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-long-3.png",
+      "sha256": "2b32ec5e70f3092b09a5723e33baefd05b145e0a80a2ba34d160443fab1accb4"
+    },
+    {
+      "board": "rules-long-4",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-long-4.png",
+      "sha256": "6d60b44c46d87cc4600a162a26a9bd5e798358dec2f6d55bd7d9997c896bb30d"
+    },
+    {
+      "board": "rules-long-5",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-long-5.png",
+      "sha256": "572ee0ee55e01b54dcca9a6f484d3d9bdb079d667abf3da4b09ec3673c4d0574"
+    },
+    {
+      "board": "rules-long-6",
+      "file": "build/qa/layout-audit/final/rendered/review-rules-long-6.png",
+      "sha256": "b7b92ea229b57fd5b10506f9d6b7f38a2ca5270d8830a61b795ef199f6b2dc60"
+    }
+  ],
+  "documents": [
+    {
+      "case": "letter-long",
+      "wordPages": 6,
+      "pdfPages": 6,
+      "sha256": "d051524a2a0a4d62bad67e031f719991390b07541171c53e78995d725153c26d"
+    },
+    {
+      "case": "letter-short",
+      "wordPages": 1,
+      "pdfPages": 1,
+      "sha256": "9c0c9d742ea8c079031888b37a9b3a3371a0751ff4ca6ec07b60fb4e36d8d65a"
+    },
+    {
+      "case": "minutes-long",
+      "wordPages": 6,
+      "pdfPages": 6,
+      "sha256": "1251f2a198e3783dbce1728019e97a41eb63bb22a4d11795aa8d30636eaee81e"
+    },
+    {
+      "case": "minutes-short",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "a44d437ea9dc3728256e36e9d1f4d0a9246b72518833fc26563e727704001a16"
+    },
+    {
+      "case": "notice-long",
+      "wordPages": 6,
+      "pdfPages": 6,
+      "sha256": "0e2f5b69cb7dec3ded70edf6ed608f95b7735aec0dfdc4ede13d0066234d9f73"
+    },
+    {
+      "case": "notice-short",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "04706da90643935d2fbf551114f94242001d9e14ff8b81262bc3b3d118372703"
+    },
+    {
+      "case": "plain-long",
+      "wordPages": 6,
+      "pdfPages": 6,
+      "sha256": "cfc068c1165c3e21e9f8d4207782fea60c11a5242bc9e6df3eaaca7d48288999"
+    },
+    {
+      "case": "plain-short",
+      "wordPages": 1,
+      "pdfPages": 1,
+      "sha256": "6b80ef4217b92d0786ac8a822db44f6a6d8fdf18d9026df822624f8137cef236"
+    },
+    {
+      "case": "report-long",
+      "wordPages": 6,
+      "pdfPages": 6,
+      "sha256": "13b7228be9ba6b053f43edec799c14a8c304b693532ffe6a7d109ecd82d5c8a7"
+    },
+    {
+      "case": "report-short",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "332987d153f8aa7aaa97beea12dfe12b2d33116c43ed9225daf156b121d2484e"
+    },
+    {
+      "case": "request-long",
+      "wordPages": 6,
+      "pdfPages": 6,
+      "sha256": "94061261aea94e96045811556895ecbda3a320629c4fd7c014d10fd18b793e3b"
+    },
+    {
+      "case": "request-short",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "f8217bc8b04a1a36c530f5cd3f4646b4a5929aae002a717ee5e07d21e39fe1e0"
+    },
+    {
+      "case": "rules-long",
+      "wordPages": 6,
+      "pdfPages": 6,
+      "sha256": "27d762f13cfb3e9bb03df0d54c047de3f2fc9cef6310188a2caf9fdc92fd1427"
+    },
+    {
+      "case": "rules-short",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "ecc3aea335c6f3f257541968753c16d03f3ffd78932128b13215df838b1be2a5"
+    },
+    {
+      "case": "source-企业内部报告",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "24f9d948896132a1eba18784a7df30bb1f7224cb8a9a0cd3c30f34d04ca60538"
+    },
+    {
+      "case": "source-公文信函",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "799357be532385d811b6711042512c0a59d85e3f6699f78c362820d2f4dd3123"
+    },
+    {
+      "case": "source-公文管理办法",
+      "wordPages": 3,
+      "pdfPages": 3,
+      "sha256": "0d0e19660e92f620b820749f5c253db47acf205160dc29e6d71ea67d5866e3cf"
+    },
+    {
+      "case": "source-公文纪要",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "9c74d1791b9f7c086c996fdbe34365e6205bfd8d840f42a07a1cf576a3e748a4"
+    },
+    {
+      "case": "source-公文要素全览",
+      "wordPages": 5,
+      "pdfPages": 5,
+      "sha256": "800c13db1d667699031bf5d400a84bbf0f91b6e812d1abe9026c1d6d9fe79c2f"
+    },
+    {
+      "case": "source-公文请示",
+      "wordPages": 4,
+      "pdfPages": 4,
+      "sha256": "4b60245cca29d40e354d0dbe0e60e9bb164bc73fbd101c454efd504887c2886c"
+    },
+    {
+      "case": "source-公文通知",
+      "wordPages": 2,
+      "pdfPages": 2,
+      "sha256": "e852551bd7a7b48adce42f9c9ba8cf00874677f94e0b9221071cacbe0fa3a1f4"
+    }
+  ],
+  "uniquePages": 168
+}

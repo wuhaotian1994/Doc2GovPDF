@@ -81,7 +81,7 @@ function persist(){
  return saveChain;
 }
 function changed({render=false,resetIgnored=true}={}){$('save-state').textContent='尚有更改待保存';revision++;previewRequest++;inspection=null;previewRevision=-1;pdfDocument=null;$('pdf-pages').replaceChildren();$('pdf-state').hidden=false;$('pdf-state').textContent='内容已变化，正在重新排版…';if(resetIgnored)work.ignored=[];$('export-success').hidden=true;$('file-name').textContent=work.name||'未命名公文';$('character-count').textContent=paragraphs().reduce((n,p)=>n+Array.from(p.text).length,0)+' 字';$('check-heading').textContent='正在检查…';$('check-description').textContent='内容已变化，自动重新核对。';$('issue-list').replaceChildren();if(render)renderEditors();clearTimeout(saveTimer);saveTimer=setTimeout(()=>persist().catch(()=>{}),350);clearTimeout(checkTimer);checkTimer=setTimeout(check,300);clearTimeout(previewTimer);previewTimer=setTimeout(preview,850);updateButtons();}
-const roleNames={agency:'发文机关标志',reference:'发文字号',recipient:'主送机关',title:'标题',body:'正文',heading:'一级标题',heading2:'二级标题',signature:'发文单位署名',date:'成文日期',imprint:'版记',roster:'参会人员','attachment-body':'附件正文'};
+const roleNames={agency:'发文机关标志',reference:'发文字号',recipient:'主送机关',title:'标题',body:'正文',heading:'一级标题',heading2:'二级标题',signature:'发文单位署名',date:'成文日期',imprint:'版记',roster:'参会人员','attachment-body':'附件正文','attachment-description':'附件说明',article:'条文正文'};
 const editableRoles=['body','title','heading','heading2','signature','date'];
 function renderEditors(){
  const fragment=document.createDocumentFragment();let index=0;selectedParagraph='';$('paragraph-role').disabled=true;
@@ -113,7 +113,7 @@ async function preview(){
  $('pdf-state').hidden=false;$('cancel-preview').hidden=false;$('pdf-state').textContent='正在生成 PDF 预览…';
  try{
   const result=await api.PreviewDocument(clone(work.document));if(current!==revision||request!==previewRequest)return;
-  fontWarnings=result.warnings||[];$('font-notice').hidden=!fontWarnings.length;$('font-warning').textContent=fontWarnings.length?'部分公文字体缺失或不可嵌入，PDF 将使用内置备用字体。需要严格字体要求时，请先安装对应字体。':'';
+  fontWarnings=result.warnings||[];$('font-notice').hidden=!fontWarnings.length;$('font-warning').textContent=fontWarnings.length?'部分公文字体缺失或不可嵌入。预览和新建 Word 使用内置备用字体；需要严格字体要求时，请安装对应的授权字体并重启软件。':'';
   await displayPDF(result.pdf,current,request);if(current!==revision||request!==previewRequest)return;
   previewRevision=current;$('pdf-state').hidden=true;$('character-count').textContent=result.pages+' 页';
  }catch(e){if(current!==revision||request!==previewRequest)return;$('pdf-state').textContent=String(e).includes('canceled')?'排版已取消，可点击“刷新预览”。':String(e);previewRevision=-1;}

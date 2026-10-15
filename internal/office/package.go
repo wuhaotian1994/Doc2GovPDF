@@ -233,9 +233,12 @@ func Open(data []byte) (*Package, error) {
 				}
 				counts[id][lvl]++
 				for j := lvl + 1; j < len(defs); j++ {
-					counts[id][j] = 0
+					if defs[j].Restart != 0 && (defs[j].Restart < 0 || lvl == defs[j].Restart-1) {
+						counts[id][j] = 0
+					}
 				}
 				r.Prefix = formatNumber(defs[lvl], counts[id], lvl)
+				r.PrefixFont = defs[lvl].Font
 				r.Role = "heading"
 				if lvl == 1 || strings.HasPrefix(r.Prefix, "（") {
 					r.Role = "heading2"
@@ -243,6 +246,10 @@ func Open(data []byte) (*Package, error) {
 					r.Role = "subheading"
 				}
 				r.KeepNext = true
+				if articleLabel.MatchString(r.Prefix) {
+					r.Role = "article"
+					r.KeepNext = false
+				}
 			}
 		}
 		if strings.Contains(strings.ToLower(styleID), "title") || r.Size >= 21 && r.Color != "FF0000" && r.Align == "center" {
@@ -279,6 +286,10 @@ func Open(data []byte) (*Package, error) {
 			p.Model.Blocks = append(p.Model.Blocks, Block{Paragraph: &r})
 		case "tbl":
 			t := Table{Rows: []Row{}, Borders: strings.Contains(attr(child(child(e, "tblPr"), "tblStyle"), "val"), "Grid"), BorderStyle: "grid"}
+			t.Align = attr(child(child(e, "tblPr"), "jc"), "val")
+			if size := child(child(e, "tblPr"), "tblW"); attr(size, "type") == "dxa" {
+				t.Width = number(attr(size, "w"), 0) / 56.6929
+			}
 			for _, c := range childElements(child(e, "tblGrid"), "gridCol") {
 				t.Widths = append(t.Widths, number(attr(c, "w"), 1000)/56.6929)
 			}
@@ -306,6 +317,7 @@ func Open(data []byte) (*Package, error) {
 				row.Height = number(attr(child(child(tr, "trPr"), "trHeight"), "val"), 0) / 56.6929
 				for _, tc := range childElements(tr, "tc") {
 					cell := Cell{Paragraphs: []Paragraph{}, Span: int(number(attr(child(child(tc, "tcPr"), "gridSpan"), "val"), 1))}
+					cell.VerticalAlign = attr(child(child(tc, "tcPr"), "vAlign"), "val")
 					margins := CellMargins{Left: 1.905, Right: 1.905}
 					for _, pr := range []*etree.Element{child(child(e, "tblPr"), "tblCellMar"), child(child(tc, "tcPr"), "tcMar")} {
 						if pr == nil {
@@ -376,6 +388,21 @@ func Open(data []byte) (*Package, error) {
 		p0 := p.Model.Blocks[i].Paragraph
 		if p0 != nil && p.Model.Blocks[i+1].Table != nil && strings.HasPrefix(strings.TrimSpace(p0.Text), "表") && p0.Align == "center" {
 			p0.Role = "caption"
+		}
+	}
+	for i, b := range p.Model.Blocks {
+		date := b.Paragraph
+		if date == nil || date.Align != "right" || !dateStandalone(strings.ReplaceAll(date.Text, " ", "")) {
+			continue
+		}
+		date.Role = "date"
+		for j := i - 1; j >= 0 && i-j <= 4; j-- {
+			sign := p.Model.Blocks[j].Paragraph
+			if sign == nil || sign.Align != "right" || len([]rune(sign.Text)) > 60 || strings.TrimSpace(sign.Text) == "" {
+				break
+			}
+			sign.Role = "signature"
+			sign.KeepNext = true
 		}
 	}
 	if p.Model.PDFUnsupported {
@@ -509,11 +536,13 @@ func applyProps(p *Paragraph, pp, rp *etree.Element) {
 		if border := child(child(pp, "pBdr"), "bottom"); border != nil {
 			p.BorderColor = attr(border, "color")
 			p.BorderStyle = attr(border, "val")
+			p.BorderWidth = number(attr(border, "sz"), 8) / 8 * 25.4 / 72
 		}
 		if border := child(child(pp, "pBdr"), "top"); border != nil {
 			p.BorderTop = true
 			p.BorderColor = attr(border, "color")
 			p.BorderStyle = attr(border, "val")
+			p.BorderWidth = number(attr(border, "sz"), 8) / 8 * 25.4 / 72
 		}
 		if frame := child(pp, "framePr"); frame != nil {
 			p.AnchorBottom = attr(frame, "vAnchor") == "margin" && attr(frame, "yAlign") == "bottom"
@@ -523,6 +552,9 @@ func applyProps(p *Paragraph, pp, rp *etree.Element) {
 		}
 	}
 	if rp != nil {
+		if bold := child(rp, "b"); bold != nil {
+			p.Bold = enabled(bold)
+		}
 		if italic := child(rp, "i"); italic != nil && attr(italic, "val") != "0" && attr(italic, "val") != "false" {
 			p.Italic = true
 		}
@@ -550,6 +582,8 @@ func readStyles(data []byte) map[string]*etree.Element {
 type numLevel struct {
 	Format, Text string
 	Start        int
+	Font         string
+	Restart      int
 }
 
 func readNumbering(data []byte) map[string][]numLevel {
@@ -566,7 +600,7 @@ func readNumbering(data []byte) map[string][]numLevel {
 			if i < 0 || i > 8 {
 				continue
 			}
-			levels[i] = numLevel{attr(child(l, "numFmt"), "val"), attr(child(l, "lvlText"), "val"), int(number(attr(child(l, "start"), "val"), 1))}
+			levels[i] = numLevel{attr(child(l, "numFmt"), "val"), attr(child(l, "lvlText"), "val"), int(number(attr(child(l, "start"), "val"), 1)), attr(child(child(l, "rPr"), "rFonts"), "eastAsia"), int(number(attr(child(l, "lvlRestart"), "val"), -1))}
 		}
 		abstract[attr(a, "abstractNumId")] = levels
 	}

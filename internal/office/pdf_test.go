@@ -5,12 +5,45 @@ import (
 	"codeberg.org/go-pdf/fpdf"
 	"context"
 	"encoding/json"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 	"time"
 )
+
+func TestNewParagraphDoesNotLeaveSingleLineAcrossPages(t *testing.T) {
+	for _, tc := range []struct{ chars, lines, fit, next int }{{60, 3, 2, 3}, {100, 4, 3, 2}, {100, 4, 1, 4}} {
+		w := &pdfWriter{ctx: context.Background(), loaded: map[string]string{}, warnings: map[string]bool{}, newDocument: true, page: Page{Width: 210, Height: 297, Top: 37, Bottom: 35, Left: 28, Right: 26}}
+		w.f = fpdf.New("P", "mm", "A4", "")
+		w.f.SetAutoPageBreak(false, w.page.Bottom)
+		w.newPage()
+		p := Paragraph{Text: strings.Repeat("甲", tc.chars), Font: "仿宋", Size: 16, Line: 10}
+		w.setFont(p)
+		if n := len(w.wrapIndented(p.Text, 156, 0)); n != tc.lines {
+			t.Fatalf("fixture needs %d lines, got %d", tc.lines, n)
+		}
+		w.y = w.page.Height - w.page.Bottom - float64(tc.fit)*p.Line - .1
+		if e := w.paragraph(p); e != nil {
+			t.Fatal(e)
+		}
+		if w.pages != 2 || math.Abs(w.y-w.page.Top-float64(tc.next)*p.Line) > .01 {
+			t.Fatalf("orphaned line: pages=%d y=%f case=%+v", w.pages, w.y, tc)
+		}
+	}
+}
+
+func TestLongClosingParagraphCanSplitBeforeSignature(t *testing.T) {
+	m, e := NewDocument(Fields{Kind: "plain", Title: "长段落测试", Body: strings.Repeat("材料需要逐项核对并保存原始记录。", 150), Agency: "示例单位", Date: "2026年10月15日"})
+	if e != nil {
+		t.Fatal(e)
+	}
+	r, e := RenderPDF(context.Background(), m)
+	if e != nil || r.Pages < 3 {
+		t.Fatalf("long final paragraph could not paginate: pages=%d err=%v", r.Pages, e)
+	}
+}
 
 func TestWrapKeepsPunctuationWithText(t *testing.T) {
 	w := &pdfWriter{ctx: context.Background(), loaded: map[string]string{}, warnings: map[string]bool{}}
@@ -25,6 +58,23 @@ func TestWrapKeepsPunctuationWithText(t *testing.T) {
 			r := []rune(line)
 			if strings.ContainsRune("，。！？）", r[0]) || r[len(r)-1] == '（' {
 				t.Fatalf("bad punctuation break: %q", lines)
+			}
+		}
+	}
+}
+
+func TestWrapKeepsNumbersAndPhoneTogether(t *testing.T) {
+	w := &pdfWriter{ctx: context.Background(), loaded: map[string]string{}, warnings: map[string]bool{}}
+	w.f = fpdf.New("P", "mm", "A4", "")
+	w.setFont(Paragraph{Font: "仿宋", Size: 16})
+	for _, text := range []string{"请于指定日期2026年办理。", "联系电话：010-12345678。", "（联系电话：×××-××××××××。）"} {
+		lines := w.wrap(text, 65)
+		if strings.Join(lines, "") != text {
+			t.Fatal("text lost")
+		}
+		for _, token := range []string{"2026", "010-12345678", "×××-××××××××"} {
+			if strings.Contains(text, token) && !strings.Contains(strings.Join(lines, "|"), token) {
+				t.Fatalf("token split: %q", lines)
 			}
 		}
 	}

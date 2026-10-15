@@ -106,6 +106,91 @@ func (a *App) GetWorkspace() (Workspace, error) {
 			a.workspaceReadFailed = true
 			return w, e
 		}
+		// Refresh source-derived metadata in older drafts without changing text.
+		if sourceIDPattern.MatchString(w.Document.SourceID) {
+			if raw, err := os.ReadFile(filepath.Join(a.draftDir, "sources", w.Document.SourceID+".docx")); err == nil {
+				if source, err := office.Open(raw); err == nil && source.Model.SourceID == w.Document.SourceID {
+					originals := map[string]*office.Paragraph{}
+					for _, p := range source.Model.Paragraphs() {
+						originals[p.ID] = p
+					}
+					for _, p := range w.Document.Paragraphs() {
+						if original := originals[p.ID]; original != nil {
+							if p.Prefix != "" {
+								p.Prefix = original.Prefix
+								p.PrefixFont = original.PrefixFont
+								if original.Role == "article" {
+									p.Role = original.Role
+									p.KeepNext = original.KeepNext
+								}
+							}
+							if original.Bold {
+								p.Bold = true
+							}
+							if p.Align == "right" && (original.Role == "signature" || original.Role == "date") {
+								p.Role = original.Role
+								p.KeepNext = original.KeepNext
+							}
+							if p.BorderWidth == 0 {
+								p.BorderWidth = original.BorderWidth
+							}
+						}
+					}
+					tablesByParagraph := map[string]*office.Table{}
+					cellsByParagraph := map[string]office.Cell{}
+					for _, block := range source.Model.Blocks {
+						if block.Table == nil {
+							continue
+						}
+						for _, row := range block.Table.Rows {
+							for _, cell := range row.Cells {
+								for _, p := range cell.Paragraphs {
+									tablesByParagraph[p.ID] = block.Table
+									cellsByParagraph[p.ID] = cell
+								}
+							}
+						}
+					}
+					for _, block := range w.Document.Blocks {
+						if block.Table == nil {
+							continue
+						}
+						var original *office.Table
+						for _, row := range block.Table.Rows {
+							for _, cell := range row.Cells {
+								for _, p := range cell.Paragraphs {
+									if candidate := tablesByParagraph[p.ID]; candidate != nil {
+										original = candidate
+									}
+								}
+							}
+						}
+						if original == nil {
+							continue
+						}
+						if block.Table.Align == "" {
+							block.Table.Align = original.Align
+						}
+						if block.Table.Width == 0 {
+							block.Table.Width = original.Width
+						}
+						for ri := range block.Table.Rows {
+							for ci := range block.Table.Rows[ri].Cells {
+								cell := &block.Table.Rows[ri].Cells[ci]
+								if cell.VerticalAlign == "" {
+									for _, p := range cell.Paragraphs {
+										if prior, ok := cellsByParagraph[p.ID]; ok {
+											cell.VerticalAlign = prior.VerticalAlign
+											break
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	return w, nil
 }

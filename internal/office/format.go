@@ -37,7 +37,7 @@ func NormalizeLayout(m Model) Model {
 			continue
 		}
 		switch p.Role {
-		case "body":
+		case "body", "article", "attachment-description", "attachment-body":
 			p.Font = "仿宋"
 			p.Size = 16
 			p.Line = 10.21
