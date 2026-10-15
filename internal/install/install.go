@@ -50,6 +50,11 @@ func Install(payload []byte, dir, version string) error {
 		return e
 	}
 	previous, oldErr := ReadState(absolute)
+	if oldErr == nil {
+		if e = CheckRemovable(absolute); e != nil {
+			return e
+		}
+	}
 	if oldErr != nil {
 		entries, e := os.ReadDir(absolute)
 		if e != nil {

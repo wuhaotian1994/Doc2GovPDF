@@ -15,6 +15,12 @@ import (
 	"time"
 )
 
+// Native dialogs remain the production default. Test builds replace only the
+// chooser result; import, validation, rendering and file writes remain real.
+var openDocumentDialog = runtime.OpenFileDialog
+var saveDocumentDialog = runtime.SaveFileDialog
+var openOutputDirectory = runtime.OpenDirectoryDialog
+
 type Action struct {
 	Time        string `json:"time"`
 	Kind        string `json:"kind"`
@@ -23,13 +29,24 @@ type Action struct {
 	After       string `json:"after"`
 }
 type Workspace struct {
-	Schema    int           `json:"schema"`
-	Name      string        `json:"name"`
-	Document  office.Model  `json:"document"`
-	Ignored   []string      `json:"ignored"`
-	Actions   []Action      `json:"actions"`
-	Fields    office.Fields `json:"fields"`
-	UpdatedAt string        `json:"updatedAt"`
+	Schema       int            `json:"schema"`
+	Name         string         `json:"name"`
+	Document     office.Model   `json:"document"`
+	Ignored      []string       `json:"ignored"`
+	Actions      []Action       `json:"actions"`
+	Fields       office.Fields  `json:"fields"`
+	Form         *office.Fields `json:"form,omitempty"`
+	Screen       string         `json:"screen,omitempty"`
+	ResumeTarget string         `json:"resumeTarget,omitempty"`
+	Editing      bool           `json:"editing,omitempty"`
+	TableDraft   *TableDraft    `json:"tableDraft,omitempty"`
+	UpdatedAt    string         `json:"updatedAt"`
+}
+type TableDraft struct {
+	Text      string `json:"text"`
+	Header    bool   `json:"header"`
+	ThreeLine bool   `json:"threeLine"`
+	Anchor    string `json:"anchor"`
 }
 type Preferences struct {
 	Agency          string `json:"agency"`
@@ -80,11 +97,11 @@ func (a *App) GetWorkspace() (Workspace, error) {
 		a.workspaceReadFailed = true
 		return w, fmt.Errorf("上次工作数据损坏，未覆盖原文件")
 	}
+	if w.Schema > 1 {
+		a.workspaceReadFailed = true
+		return w, fmt.Errorf("草稿来自更新版本，已保留文件；请升级后再打开")
+	}
 	if len(w.Document.Blocks) > 0 {
-		if w.Schema > 1 {
-			a.workspaceReadFailed = true
-			return w, fmt.Errorf("草稿来自更新版本，已保留文件；请升级后再打开")
-		}
 		if e = w.Document.Validate(); e != nil {
 			a.workspaceReadFailed = true
 			return w, e
@@ -97,6 +114,18 @@ func (a *App) SaveWorkspace(w Workspace) error {
 		return fmt.Errorf("升级前备份未完成，未改动草稿")
 	}
 	w.Schema = 1
+	if w.TableDraft != nil && len(w.TableDraft.Text) > 2*1024*1024 {
+		return fmt.Errorf("表格草稿过大，请分批添加")
+	}
+	if w.Screen != "" && w.Screen != "welcome" && w.Screen != "compose" && w.Screen != "workspace" {
+		return fmt.Errorf("工作界面状态无效")
+	}
+	if w.Form != nil {
+		data, e := json.Marshal(w.Form)
+		if e != nil || len(data) > 3*1024*1024 {
+			return fmt.Errorf("新建草稿过大，请缩短正文")
+		}
+	}
 	if len(w.Document.Blocks) > 0 {
 		if e := w.Document.Validate(); e != nil {
 			return e
@@ -112,7 +141,7 @@ func (a *App) SaveWorkspace(w Workspace) error {
 	a.mu.Lock()
 	defer a.mu.Unlock()
 	if a.workspaceReadFailed {
-		if len(w.Document.Blocks) == 0 {
+		if len(w.Document.Blocks) == 0 && w.Form == nil {
 			return nil
 		}
 		old, e := os.ReadFile(filepath.Join(a.draftDir, "workspace.json"))
@@ -169,6 +198,9 @@ func (a *App) GetPreferences() (Preferences, error) {
 	if e = json.Unmarshal(b, &p); e != nil {
 		return p, fmt.Errorf("设置损坏，请重新保存设置")
 	}
+	if p.OutputFormat != "both" && p.OutputFormat != "pdf" && p.OutputFormat != "docx" {
+		p.OutputFormat = "both"
+	}
 	return p, nil
 }
 func (a *App) SavePreferences(p Preferences) error {
@@ -200,7 +232,7 @@ func (a *App) SavePreferences(p Preferences) error {
 	return nil
 }
 func (a *App) ImportWorkspace() (Workspace, error) {
-	path, e := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{Title: "选择公文", Filters: []runtime.FileFilter{{DisplayName: "Word 或文本", Pattern: "*.docx;*.txt"}}})
+	path, e := openDocumentDialog(a.ctx, runtime.OpenDialogOptions{Title: "选择公文", Filters: []runtime.FileFilter{{DisplayName: "Word 或文本", Pattern: "*.docx;*.txt"}}})
 	if e != nil || path == "" {
 		return Workspace{}, e
 	}
@@ -340,6 +372,22 @@ func availablePath(dir, base, ext string) string {
 	}
 	return filepath.Join(dir, fmt.Sprintf("%s-%d%s", base, time.Now().UnixNano(), ext))
 }
+func availablePair(dir, base string) []string {
+	for i := 0; i < 10000; i++ {
+		name := base
+		if i > 0 {
+			name = fmt.Sprintf("%s-%d", base, i)
+		}
+		docx, pdf := filepath.Join(dir, name+".docx"), filepath.Join(dir, name+".pdf")
+		_, de := os.Stat(docx)
+		_, pe := os.Stat(pdf)
+		if os.IsNotExist(de) && os.IsNotExist(pe) {
+			return []string{docx, pdf}
+		}
+	}
+	name := fmt.Sprintf("%s-%d", base, time.Now().UnixNano())
+	return []string{filepath.Join(dir, name+".docx"), filepath.Join(dir, name+".pdf")}
+}
 func (a *App) ExportDocument(m office.Model, format string, tracked bool) (ExportResult, error) {
 	a.mu.Lock()
 	a.jobs++
@@ -383,15 +431,15 @@ func (a *App) ExportDocument(m office.Model, format string, tracked bool) (Expor
 	paths := []string{}
 	payloads := [][]byte{}
 	if format == "both" {
-		dir, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{Title: "选择成品保存文件夹"})
+		dir, err := openOutputDirectory(a.ctx, runtime.OpenDialogOptions{Title: "选择成品保存文件夹"})
 		if err != nil || dir == "" {
 			return result, err
 		}
-		paths = []string{availablePath(dir, base, ".docx"), availablePath(dir, base, ".pdf")}
+		paths = availablePair(dir, base)
 		payloads = [][]byte{docx, pdf}
 	} else {
 		ext := "." + format
-		path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{Title: "保存成品", DefaultFilename: base + ext, Filters: []runtime.FileFilter{{DisplayName: strings.ToUpper(format), Pattern: "*" + ext}}})
+		path, err := saveDocumentDialog(a.ctx, runtime.SaveDialogOptions{Title: "保存成品", DefaultFilename: base + ext, Filters: []runtime.FileFilter{{DisplayName: strings.ToUpper(format), Pattern: "*" + ext}}})
 		if err != nil || path == "" {
 			return result, err
 		}

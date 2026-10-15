@@ -14,6 +14,7 @@
   get('sample-home').click();
   await until(()=>get('replace-dialog').open,'protect unfinished composition');get('replace-dialog').close('replace');
   await until(()=>document.querySelectorAll('.issue-card').length===3,'sample checks');
+  await until(()=>!get('home-open').disabled,'sample ready');
   const sampleText=[...document.querySelectorAll('textarea[data-paragraph]')].map(e=>e.value).join('\n');
   get('home-open').click();
   assert(!get('welcome').hidden&&get('workspace').hidden&&get('home-open').hidden,'sample has no route home');
@@ -64,5 +65,5 @@
   get('preview-tab').focus();get('preview-tab').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));assert(get('edit-tab').getAttribute('aria-selected')==='true','keyboard tabs');
   assert(document.documentElement.scrollWidth<=innerWidth,'horizontal overflow');
   window.runtime.EventsEmit('qa:result',{passed:true,checks:['return home and resume','pending edits retained on home','home despite save failure','redhead default and plain opt-out','redhead sample export','structured Go bindings','automatic checks','apply','undo','actual PDF canvas','direct export dispatch','invalid date','workspace recovery','queued save reversion','HTML escaping','keyboard tabs','window layout']});
- }catch(e){window.runtime.EventsEmit('qa:result',{passed:false,error:String(e),stack:e.stack})}
+ }catch(e){window.runtime.EventsEmit('qa:result',{passed:false,error:String(e),visibleError:get('error-text')?.textContent,stack:e.stack})}
 })();

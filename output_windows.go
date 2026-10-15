@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 )
 
+var launchResult = shellOpenResult
+
 func (a *App) OpenResult(path string, folder bool) error {
 	a.mu.Lock()
 	allowed := false
@@ -27,6 +29,9 @@ func (a *App) OpenResult(path string, folder bool) error {
 	if folder {
 		path = filepath.Dir(path)
 	}
+	return launchResult(path)
+}
+func shellOpenResult(path string) error {
 	p, e := windows.UTF16PtrFromString(path)
 	if e != nil {
 		return e

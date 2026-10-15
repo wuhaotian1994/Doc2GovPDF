@@ -1,4 +1,4 @@
-param([string]$Installer='dist/Doc2GovPDF-0.2.0-setup.exe',[string]$CrashProbe='build/bin/Doc2GovPDF-upgradeprobe.exe')
+param([string]$Installer='dist/Doc2GovPDF-1.0.3-setup.exe',[string]$CrashProbe='build/bin/Doc2GovPDF-upgradeprobe.exe',[string]$PreviousInstaller='')
 $ErrorActionPreference='Stop'
 Set-Location (Split-Path -Parent $PSScriptRoot)
 $workspaceRoot=(Get-Location).Path
@@ -8,9 +8,10 @@ $profile=Join-Path $testRoot 'profile'
 if (-not ([IO.Path]::GetFullPath($testRoot)).StartsWith($workspaceRoot+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) { throw 'Test path outside workspace' }
 New-Item -ItemType Directory -Force -Path $testRoot,$profile | Out-Null
 $installerPath=(Resolve-Path -LiteralPath $Installer).Path
-function Install-TestApp {
+function Install-TestApp([string]$PackagePath=$installerPath,[switch]$ExpectFailure) {
     $errorLog=Join-Path $testRoot 'installer-stderr.txt'
-    $p=Start-Process -FilePath $installerPath -ArgumentList "--silent --no-register --target `"$installRoot`"" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $errorLog
+    $p=Start-Process -FilePath $PackagePath -ArgumentList "--silent --no-register --target `"$installRoot`"" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $errorLog
+    if ($ExpectFailure) { if ($p.ExitCode -eq 0) { throw 'Installer replaced a running application' }; return }
     if ($p.ExitCode -ne 0) { throw "Installer exit $($p.ExitCode): $(Get-Content -LiteralPath $errorLog -Raw)" }
 }
 function Test-AppRunning {
@@ -31,9 +32,10 @@ $previousMode=$env:DOC2GOVPDF_TEST_MODE
 try {
     $env:DOC2GOVPDF_DATA_DIR=$profile
     $env:DOC2GOVPDF_TEST_MODE='1'
-    Install-TestApp
+    if ($PreviousInstaller) { Install-TestApp -PackagePath (Resolve-Path -LiteralPath $PreviousInstaller).Path } else { Install-TestApp }
     $marker=Join-Path $installRoot '.doc2govpdf-install.json'
     $state=Get-Content -LiteralPath $marker -Raw | ConvertFrom-Json
+    $previousVersion=$state.version
     foreach ($file in $state.files.PSObject.Properties) { if ((Get-FileHash -LiteralPath (Join-Path $installRoot $file.Name)).Hash.ToLowerInvariant() -ne $file.Value) { throw 'Installed file digest mismatch' } }
     Set-Content -LiteralPath (Join-Path $installRoot '用户文档.txt') -Value '必须保留'
     if (Test-Path -LiteralPath build/qa/ui-fixture.json) {
@@ -41,9 +43,12 @@ try {
         [ordered]@{schema=1;name='升级前原始草稿';document=$fixture.model;ignored=@();actions=@()} | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath (Join-Path $profile 'workspace.json')
     }
     Install-TestApp
+    $state=Get-Content -LiteralPath $marker -Raw | ConvertFrom-Json
     $launcher=Join-Path $installRoot 'Doc2GovPDF-launcher.exe'
     Start-Process -FilePath $launcher -WindowStyle Hidden | Out-Null
     Wait-Condition { -not (Test-Path -LiteralPath (Join-Path $installRoot '.pending-health')) } 'Upgrade health check did not complete'
+    Install-TestApp -ExpectFailure
+    foreach ($file in $state.files.PSObject.Properties) { if ((Get-FileHash -LiteralPath (Join-Path $installRoot $file.Name)).Hash.ToLowerInvariant() -ne $file.Value) { throw 'Busy-install attempt altered installed files' } }
     Stop-TestApp
     Install-TestApp
     [IO.File]::WriteAllBytes((Join-Path $installRoot 'Doc2GovPDF.exe'),[Text.Encoding]::ASCII.GetBytes('MZ-corrupt-test'))
@@ -66,7 +71,7 @@ try {
     Wait-Condition { -not (Test-Path -LiteralPath $marker) } 'Uninstall did not complete'
     if (-not (Test-Path -LiteralPath (Join-Path $installRoot '用户文档.txt'))) { throw 'Uninstall removed user document' }
     New-Item -ItemType Directory -Force -Path build/qa | Out-Null
-    [ordered]@{passed=$true;testRoot=$testRoot;environment='Windows 11 host with existing WebView2; not a clean VM';dataRollbackTested=(Test-Path -LiteralPath $CrashProbe);checks=@('packaged installation','Chinese and space-containing path','installed file hashes','same-version reinstall','startup health check','failed-start rollback','user-data recovery when probe present','uninstall','user document retention')} | ConvertTo-Json | Set-Content -LiteralPath build/qa/install-result.json
+    [ordered]@{passed=$true;testRoot=$testRoot;environment='Windows 11 host with existing WebView2; not a clean VM';previousVersion=$previousVersion;installedVersion=$state.version;dataRollbackTested=(Test-Path -LiteralPath $CrashProbe);checks=@('packaged installation','Chinese and space-containing path','installed file hashes','upgrade with original draft','running-app install rejected without file changes','same-version reinstall','startup health check','failed-start rollback','user-data recovery when probe present','uninstall','user document retention')} | ConvertTo-Json | Set-Content -LiteralPath build/qa/install-result.json
     Write-Output 'PASS: installation, health check, rollback, uninstall and user-document retention.'
 } finally {
     Stop-TestApp

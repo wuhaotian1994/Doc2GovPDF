@@ -12,7 +12,7 @@ func SetRole(m Model, id, role string) (Model, error) {
 		if p.ID != id {
 			continue
 		}
-		if p.Protected || p.Prefix != "" {
+		if p.Protected || p.Prefix != "" || !valid[p.Role] {
 			return m, fmt.Errorf("此段包含受保护内容或自动编号，请保留原结构")
 		}
 		p.Role = role
@@ -22,6 +22,8 @@ func SetRole(m Model, id, role string) (Model, error) {
 		p.Indent = 11.29
 		p.Color = "000000"
 		p.KeepNext = false
+		p.LeftIndent, p.RightIndent, p.Hanging = 0, 0, 0
+		p.Line = 10.21
 		switch role {
 		case "title":
 			p.Size = 22

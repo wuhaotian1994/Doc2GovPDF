@@ -28,10 +28,14 @@ try{
  socket.addEventListener('message',event=>{const r=JSON.parse(event.data);const job=jobs.get(r.id);if(job){clearTimeout(job.timer);jobs.delete(r.id);r.error?job.reject(new Error(r.error.message)):job.resolve(r.result);}});
  await call('Page.enable');await call('Runtime.enable');
  await call('Emulation.setDeviceMetricsOverride',{width:1120,height:720,deviceScaleFactor:1,mobile:false});
- await call('Page.addScriptToEvaluateOnNewDocument',{source:'const fixture='+JSON.stringify(fixture)+';window.go={main:{App:{Templates:async()=>fixture.templates,GetPreferences:async()=>({agency:"",referencePrefix:"",outputFormat:"both",autoUpdate:true}),GetWorkspace:async()=>({document:{blocks:[]}}),Fonts:async()=>fixture.fonts,BuildDocument:async()=>structuredClone(fixture.model),InspectDocument:async()=>structuredClone(fixture.inspection),PreviewDocument:async()=>structuredClone(fixture.preview),SaveWorkspace:async()=>{},MarkHealthy:async()=>{}}}};'});
+ await call('Page.addScriptToEvaluateOnNewDocument',{source:'const fixture='+JSON.stringify(fixture)+';window.go={main:{App:{Templates:async()=>fixture.templates,GetPreferences:async()=>({agency:"",referencePrefix:"",outputFormat:"both",autoUpdate:true}),GetWorkspace:async()=>({document:{blocks:[]}}),Fonts:async()=>fixture.fonts,BuildDocument:async()=>structuredClone(fixture.model),InspectDocument:async()=>structuredClone(fixture.inspection),PreviewDocument:async()=>structuredClone(fixture.preview),SaveWorkspace:async()=>{},SavePreferences:async()=>{},UpdateStatus:async()=>({version:"1.0.3",configured:false,message:"本地安装版。"}),MarkHealthy:async()=>{}}}};'});
  await call('Page.navigate',{url:pageURL});
  await until(()=>evaluate('Boolean(window.appReady)'));
  await capture('01-home');
+ await evaluate('document.getElementById("template-home").click()');
+ await until(()=>evaluate('!document.getElementById("compose").hidden'));
+ await capture('05-compose');
+ await evaluate('document.getElementById("home-open").click()');
  await evaluate('document.getElementById("sample-home").click()');
  await until(()=>evaluate('Boolean(document.querySelector("#pdf-pages canvas"))'));
  await capture('02-review');
@@ -44,5 +48,13 @@ try{
  await capture('03-narrow');
  const overflow=await evaluate('document.documentElement.scrollWidth > innerWidth');
  if(overflow)throw new Error('Narrow layout overflows');
+ await evaluate('document.getElementById("settings-open").click()');
+ await until(()=>evaluate('document.getElementById("settings-dialog").open'));
+ await capture('06-settings');
+ await call('Emulation.setDeviceMetricsOverride',{width:640,height:360,deviceScaleFactor:2,mobile:false});
+ await capture('07-settings-scaled');
+ const modalFits=await evaluate('(()=>{const d=document.getElementById("settings-dialog").getBoundingClientRect();return d.left>=0&&d.right<=innerWidth&&d.top>=0&&d.bottom<=innerHeight})()');
+ if(!modalFits)throw new Error('Settings dialog exceeds compact viewport');
+ await evaluate('document.getElementById("settings-close").click()');
  console.log('Captured home, actual PDF review, and narrow layout fixtures.');
 }finally{server.close();socket?.close();child.kill();for(const j of jobs.values())clearTimeout(j.timer);}
