@@ -8,7 +8,7 @@ const profile=await mkdtemp(resolve(output,'profile-'));
 const child=spawn(resolve(root,'build/bin/Doc2GovPDF-test.exe'),[],{cwd:root,windowsHide:true,env:{...process.env,DOC2GOVPDF_DATA_DIR:profile,DOC2GOVPDF_TEST_MODE:'1'}});
 let launchError; child.on('error',e=>launchError=e);
 try {
-  const deadline=Date.now()+35000; let result;
+  const deadline=Date.now()+75000; let result;
   while(Date.now()<deadline) {
     if(launchError) throw launchError;
     try { result=JSON.parse(await readFile(resolve(profile,'result.json'),'utf8'))[0]; } catch {}

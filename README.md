@@ -4,9 +4,9 @@
 
 Windows 本地公文工具，以 Go 重写 gongwen-kit 核心流程，使用 Wails 桌面界面。导入 Word/TXT、粘贴正文或选择模板，在原文中处理必要问题，预览后导出 Word、PDF 或两者。无需账号，正文不上传，无需安装 Office 即可生成 PDF。
 
-## 本地安装版 1.0.4
+## 本地安装版 1.0.5
 
-安装包：`dist/Doc2GovPDF-1.0.4-setup.exe`。双击安装，从开始菜单打开“公文整理”。安装包包含离线 WebView2 组件和可分发的备用中文字体；已有符合要求的 WebView2 时复用。
+安装包：`dist/Doc2GovPDF-1.0.5-setup.exe`。双击安装，从开始菜单打开“公文整理”。安装包包含离线 WebView2 组件和可分发的备用中文字体；已有符合要求的 WebView2 时复用。
 
 按用户 2026-10-14 的决定，仅保留本地版本，不创建公开仓库、不上传安装包、不启用联网更新。签名清单、后台下载、退出安装、启动失败及数据回退机制已实现；公开服务和 Windows 代码签名证书尚未配置。当前升级方式为运行新的本地安装包。
 
@@ -30,8 +30,8 @@ Go 1.26.2、Windows x64、WebView2；Node 24 用于隔离桌面测试，无 npm 
 ```powershell
 ./scripts/build.ps1
 ./scripts/test-desktop.ps1
-./scripts/package.ps1 -Version 1.0.4 -LocalRelease
-./scripts/test-install.ps1 -Installer dist/Doc2GovPDF-1.0.4-setup.exe
+./scripts/package.ps1 -Version 1.0.5 -LocalRelease
+./scripts/test-install.ps1 -Installer dist/Doc2GovPDF-1.0.5-setup.exe
 ```
 
 打包前将官方 x64 离线 WebView2 安装器置于 `tmp/tooling/MicrosoftEdgeWebView2RuntimeInstallerX64.exe`；脚本核验 Microsoft Authenticode 签名。完整验收步骤与边界见 [验收记录](docs/STATUS.md)。

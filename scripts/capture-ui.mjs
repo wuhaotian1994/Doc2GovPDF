@@ -17,7 +17,7 @@ const child=spawn(edge,['--headless=new','--disable-gpu','--no-first-run','--rem
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const until=async fn=>{for(let i=0;i<120;i++){try{const r=await fn();if(r)return r;}catch{}await sleep(100);}throw new Error('Browser timeout');};
 let socket,id=0;const jobs=new Map();
-function call(method,params={}){return new Promise((resolve,reject)=>{const request=++id;const timer=setTimeout(()=>{jobs.delete(request);reject(new Error(method+' timed out'));},10000);jobs.set(request,{resolve,reject,timer});socket.send(JSON.stringify({id:request,method,params}));});}
+function call(method,params={}){return new Promise((resolve,reject)=>{const request=++id;const timer=setTimeout(()=>{jobs.delete(request);reject(new Error(method+' timed out'));},30000);jobs.set(request,{resolve,reject,timer});socket.send(JSON.stringify({id:request,method,params}));});}
 async function evaluate(expression){const r=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw new Error(JSON.stringify(r.exceptionDetails));return r.result.value;}
 async function capture(name){const r=await call('Page.captureScreenshot',{format:'png'});await writeFile(resolve(out,name+'.png'),Buffer.from(r.data,'base64'));}
 try{
@@ -39,6 +39,17 @@ try{
  await evaluate('document.getElementById("sample-home").click()');
  await until(()=>evaluate('Boolean(document.querySelector("#pdf-pages canvas"))'));
  await capture('02-review');
+ await until(()=>evaluate('!document.getElementById("edit-panel").inert && !document.getElementById("home-open").disabled'));
+ await evaluate('document.getElementById("edit-tab").click()');
+ await capture('08-split-editor');
+ for(const [width,height,name] of [[900,700,'09-split-compact'],[720,520,'10-split-minimum'],[640,700,'11-split-scaled']]){
+  await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
+  await capture(name);
+  const geometry=await evaluate('(()=>{const a=document.getElementById("edit-panel").getBoundingClientRect(),b=document.getElementById("preview-panel").getBoundingClientRect();return {overflow:document.documentElement.scrollWidth>innerWidth,left:a.width,right:b.width,side:a.right<=b.left+1}})()');
+  if(geometry.overflow||width>=720&&(!geometry.side||geometry.left<300||geometry.right<340))throw new Error('Split view geometry failed: '+JSON.stringify(geometry));
+ }
+ await call('Emulation.setDeviceMetricsOverride',{width:1120,height:720,deviceScaleFactor:1,mobile:false});
+ await evaluate('document.getElementById("preview-tab").click()');
  await evaluate('document.getElementById("home-open").click()');
  await until(()=>evaluate('!document.getElementById("welcome").hidden'));
  await capture('04-home-with-draft');

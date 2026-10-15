@@ -1,4 +1,4 @@
-param([string]$Installer='dist/Doc2GovPDF-1.0.4-setup.exe',[string]$CrashProbe='build/bin/Doc2GovPDF-upgradeprobe.exe',[string]$PreviousInstaller='')
+param([string]$Installer='dist/Doc2GovPDF-1.0.5-setup.exe',[string]$CrashProbe='build/bin/Doc2GovPDF-upgradeprobe.exe',[string]$PreviousInstaller='')
 $ErrorActionPreference='Stop'
 Set-Location (Split-Path -Parent $PSScriptRoot)
 $workspaceRoot=(Get-Location).Path

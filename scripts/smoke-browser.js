@@ -35,6 +35,7 @@
   get('preview-tab').click();
   await until(()=>document.querySelector('#pdf-pages canvas'),'actual PDF rendered');
   get('output-format').value='docx';get('output-format').dispatchEvent(new Event('change'));
+  await until(()=>!get('export-open').disabled,'checks ready for export');
   const exportFn=window.go.main.App.ExportDocument;let exported;
   window.go.main.App.ExportDocument=async(model,format,tracked)=>{exported={model,format,tracked};return {paths:[],warnings:[]}};
   get('export-open').click();await until(()=>exported&&!get('export-open').disabled,'direct export');
@@ -43,6 +44,23 @@
   assert(exported.model.blocks.some(b=>b.paragraph?.role==='letterhead-divider'&&b.paragraph.borderBottom),'sample has no red divider');
   window.go.main.App.ExportDocument=exportFn;
   get('edit-tab').click();
+  assert(!get('edit-panel').hidden&&!get('preview-panel').hidden,'editing hides preview');
+  const left=get('edit-panel').getBoundingClientRect(),right=get('preview-panel').getBoundingClientRect();
+  assert(left.right<=right.left+1&&left.width>=320&&right.width>=360,'editor and preview are not usable left/right panes');
+  assert(!document.querySelector('[role=tablist]')&&get('editor-checks').contains(get('inspector')),'old tabs or third column remain');
+  const live=[...document.querySelectorAll('textarea[data-paragraph]')].find(e=>e.value.includes('请各部门整理'));
+  const oldCanvas=document.querySelector('#pdf-pages canvas'),oldPixels=oldCanvas.toDataURL();
+  live.focus();live.value+='请核对资料完整性。';live.dispatchEvent(new Event('input',{bubbles:true}));live.setSelectionRange(5,5);
+  assert(oldCanvas.isConnected,'typing blanks the preview');
+  await until(()=>get('pdf-state').hidden&&document.querySelector('#pdf-pages canvas')!==oldCanvas,'live preview update');
+  assert(document.querySelector('#pdf-pages canvas').toDataURL()!==oldPixels,'live PDF pixels did not change');
+  assert(document.activeElement===live&&live.selectionStart===5,'preview update stole editor focus or caret');
+  const realPreview=window.go.main.App.PreviewDocument;let compositionRenders=0;
+  window.go.main.App.PreviewDocument=async(...args)=>{compositionRenders++;return realPreview(...args)};
+  live.dispatchEvent(new CompositionEvent('compositionstart'));live.value+='中文输入';live.dispatchEvent(new InputEvent('input',{bubbles:true,isComposing:true}));
+  await sleep(650);assert(compositionRenders===0,'rendered an unfinished IME composition');
+  live.dispatchEvent(new CompositionEvent('compositionend'));await until(()=>compositionRenders>0&&get('pdf-state').hidden,'IME preview update');
+  window.go.main.App.PreviewDocument=realPreview;
   const date=[...document.querySelectorAll('textarea[data-paragraph]')].find(e=>e.value==='2026年10月8日');
   assert(date,'date field');date.value='2025年2月29日';date.dispatchEvent(new Event('input',{bubbles:true}));
   await until(()=>document.querySelectorAll('.issue-card').length===1,'invalid date');
@@ -62,8 +80,9 @@
   get('home-open').click();await until(()=>get('save-state').textContent==='已保存到本机','home save retry');
   assert(JSON.stringify(await window.go.main.App.GetWorkspace()).includes('2025年2月28日'),'home did not flush pending edit');get('resume-work').click();
   const editable=[...document.querySelectorAll('textarea[data-paragraph]')].find(e=>!e.disabled&&e!==date);editable.value='<script>window.injected=true</script>';editable.dispatchEvent(new Event('input',{bubbles:true}));await sleep(500);assert(!window.injected,'HTML injection');
-  get('preview-tab').focus();get('preview-tab').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));assert(get('edit-tab').getAttribute('aria-selected')==='true','keyboard tabs');
+  get('preview-tab').click();assert(get('edit-panel').hidden&&!get('preview-panel').hidden&&document.activeElement===get('edit-tab'),'finish editing failed');
+  get('edit-tab').click();assert(!get('edit-panel').hidden&&!get('preview-panel').hidden,'reenter split editing failed');
   assert(document.documentElement.scrollWidth<=innerWidth,'horizontal overflow');
-  window.runtime.EventsEmit('qa:result',{passed:true,checks:['return home and resume','pending edits retained on home','home despite save failure','redhead default and plain opt-out','redhead sample export','structured Go bindings','automatic checks','apply','undo','actual PDF canvas','direct export dispatch','invalid date','workspace recovery','queued save reversion','HTML escaping','keyboard tabs','window layout']});
+  window.runtime.EventsEmit('qa:result',{passed:true,checks:['return home and resume','pending edits retained on home','home despite save failure','redhead default and plain opt-out','redhead sample export','structured Go bindings','automatic checks','apply','undo','actual PDF canvas','direct export dispatch','invalid date','workspace recovery','queued save reversion','HTML escaping','finish and reenter editing','window layout','left/right split with integrated checks','live PDF pixel update without blanking','editor focus and caret retained','IME preview after composition']});
  }catch(e){window.runtime.EventsEmit('qa:result',{passed:false,error:String(e),visibleError:get('error-text')?.textContent,stack:e.stack})}
 })();
