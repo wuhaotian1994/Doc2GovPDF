@@ -20,7 +20,7 @@
 
 除结构和内容断言外，必须测试 Windows 上实际生成的 DOCX 和 PDF；不能用上游的测试结论替代重写版本的验收。
 
-本次需求调研已读取项目说明、依赖、许可证及修复、字体、依据文档，核对了源码目录。随后已运行七份上游模板及生成链内的机检，生成对应 DOCX 并收录上游 PDF，见 [测试样张](../testdata/upstream/gongwen-kit/README.md)。未运行上游负例与修复测试套件，尚未完成逐条源码审计。
+2026-10-17 完成 1.1.0 对齐：再次通过 `git ls-remote` 确认 HEAD 仍为上述提交；逐项读取生成构件、check-doc、check-num、style-scan、文字修正规则及公开测试。运行未修改的上游 negative.js 和 fix.js，保留其 44 份 DOCX 与 23 对文字标本，再由 Go 实现逐项验证。Go 修复产物额外使用上游脚本接受/拒绝修订并重新检查，且由真实 Word 隐藏打开验证兼容性。详细映射、证据和明确适配见 [对齐记录](UPSTREAM-PARITY.md)。七份原始样例仍保留在 [测试样张](../testdata/upstream/gongwen-kit/README.md)，未修改原件。
 
 ## 许可处理
 

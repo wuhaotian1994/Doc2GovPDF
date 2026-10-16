@@ -185,6 +185,7 @@ type pdfWriter struct {
 	faceName      string
 	pointSize     float64
 	keepTail      float64
+	hiddenInk     bool
 }
 
 func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
@@ -194,7 +195,9 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 		return PDFResult{}, fitErr
 	}
 	m = prepareNewLayout(m)
+	m = preparePDFParagraphSpacing(m)
 	m = prepareInkPlacement(m, false)
+	m = suppressPreprintedMarks(m)
 	if e := m.Validate(); e != nil {
 		return PDFResult{}, e
 	}
@@ -260,6 +263,15 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 				ownHeight := height
 				for next := index + 1; next < len(m.Blocks); next++ {
 					p := m.Blocks[next].Paragraph
+					if table := m.Blocks[next].Table; table != nil {
+						if table.Caption != nil {
+							height += w.paragraphHeight(*table.Caption, 0)
+						}
+						for ri := 0; ri < len(table.Rows) && ri < 2; ri++ {
+							height += w.tableRowHeight(table.Rows[ri], table.Widths)
+						}
+						break
+					}
 					if p == nil || p.AnchorBottom || p.PageBreak {
 						break
 					}
@@ -337,6 +349,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 	return result, nil
 }
 func (w *pdfWriter) setFont(p Paragraph) {
+	w.hiddenInk = p.HiddenInk
 	fd := resolveFont(p.Font)
 	if r := missingGlyph(fd.name, p.Prefix+p.Text); r != 0 {
 		fd = fonts["Noto Serif SC"]
@@ -467,7 +480,9 @@ func (w *pdfWriter) newPage() {
 		y += height
 		if p.BorderBottom {
 			w.f.SetDrawColor(210, 0, 0)
-			w.f.Line(w.page.Left, y, w.page.Width-w.page.Right, y)
+			if !p.HiddenInk {
+				w.f.Line(w.page.Left, y, w.page.Width-w.page.Right, y)
+			}
 		}
 	}
 	if w.pages == 1 && len(lines) > 0 && y+6 > w.y {
@@ -703,6 +718,17 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 			w.setFont(q)
 			w.f.RawWriteStr(fmt.Sprintf("BT %.5f Tc ET", spacing*72/25.4))
 			advance := w.glyphsWidth(lead) + float64(len([]rune(lead)))*spacing
+			if align == "C" || align == "R" {
+				w.setFont(p)
+				total := advance + w.glyphsWidth(strings.TrimPrefix(txt, lead)) + float64(max(0, len([]rune(strings.TrimPrefix(txt, lead)))-1))*spacing
+				available := w.page.Width - w.page.Right - p.RightIndent - x
+				if align == "C" {
+					x += (available - total) / 2
+				} else {
+					x += available - total
+				}
+				w.setFont(q)
+			}
 			w.drawText(x, w.y, advance, line, lead, "L", spacing)
 			w.setFont(p)
 			w.f.RawWriteStr(fmt.Sprintf("BT %.5f Tc ET", spacing*72/25.4))
@@ -724,13 +750,27 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 		w.f.SetDrawColor(int(n>>16), int(n>>8&255), int(n&255))
 		width := borderWidth(p)
 		w.f.SetLineWidth(width)
-		w.f.Line(w.page.Left, w.y+width/2, w.page.Width-w.page.Right, w.y+width/2)
+		if !p.HiddenInk {
+			w.f.Line(w.page.Left, w.y+width/2, w.page.Width-w.page.Right, w.y+width/2)
+		}
 		w.y += width
 	}
 	w.y += p.After
 	return nil
 }
 func (w *pdfWriter) table(t Table) error {
+	if t.Caption != nil {
+		height := w.paragraphHeight(*t.Caption, 0)
+		for i := 0; i < len(t.Rows) && i < 2; i++ {
+			height += w.tableRowHeight(t.Rows[i], t.Widths)
+		}
+		if e := w.room(height); e != nil {
+			return e
+		}
+		if e := w.paragraph(*t.Caption); e != nil {
+			return e
+		}
+	}
 	width := w.page.Width - w.page.Left - w.page.Right
 	columns := len(t.Widths)
 	if columns == 0 {
@@ -963,6 +1003,9 @@ func (w *pdfWriter) glyphsWidth(text string) float64 {
 	return width
 }
 func (w *pdfWriter) drawText(x, y, width, height float64, text, align string, spacing float64) {
+	if w.hiddenInk {
+		return
+	}
 	n := len([]rune(text))
 	actual := w.glyphsWidth(text) + float64(max(0, n-1))*spacing
 	if align == "R" {
@@ -986,6 +1029,9 @@ func (w *pdfWriter) drawText(x, y, width, height float64, text, align string, sp
 }
 
 func (w *pdfWriter) drawBorder(p Paragraph, x, y, width float64) {
+	if p.HiddenInk {
+		return
+	}
 	color := p.BorderColor
 	if color == "" || color == "auto" {
 		color = "000000"

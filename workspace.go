@@ -29,20 +29,24 @@ type Action struct {
 	After       string `json:"after"`
 }
 type Workspace struct {
-	Schema       int            `json:"schema"`
-	Name         string         `json:"name"`
-	Document     office.Model   `json:"document"`
-	Ignored      []string       `json:"ignored"`
-	Actions      []Action       `json:"actions"`
-	Fields       office.Fields  `json:"fields"`
-	Form         *office.Fields `json:"form,omitempty"`
-	Screen       string         `json:"screen,omitempty"`
-	ResumeTarget string         `json:"resumeTarget,omitempty"`
-	Editing      bool           `json:"editing,omitempty"`
-	TableDraft   *TableDraft    `json:"tableDraft,omitempty"`
-	UpdatedAt    string         `json:"updatedAt"`
+	EditingElements bool           `json:"editingElements,omitempty"`
+	IncludeComments bool           `json:"includeComments,omitempty"`
+	Schema          int            `json:"schema"`
+	Name            string         `json:"name"`
+	Document        office.Model   `json:"document"`
+	Ignored         []string       `json:"ignored"`
+	Actions         []Action       `json:"actions"`
+	Fields          office.Fields  `json:"fields"`
+	Form            *office.Fields `json:"form,omitempty"`
+	Screen          string         `json:"screen,omitempty"`
+	ResumeTarget    string         `json:"resumeTarget,omitempty"`
+	Editing         bool           `json:"editing,omitempty"`
+	TableDraft      *TableDraft    `json:"tableDraft,omitempty"`
+	UpdatedAt       string         `json:"updatedAt"`
 }
 type TableDraft struct {
+	Caption   string `json:"caption,omitempty"`
+	Alignment string `json:"alignment,omitempty"`
 	Text      string `json:"text"`
 	Header    bool   `json:"header"`
 	ThreeLine bool   `json:"threeLine"`
@@ -55,10 +59,11 @@ type Preferences struct {
 	AutoUpdate      bool   `json:"autoUpdate"`
 }
 type Preview struct {
-	PDF      string   `json:"pdf"`
-	Pages    int      `json:"pages"`
-	Warnings []string `json:"warnings"`
-	Digest   string   `json:"digest"`
+	Prefixes map[string]string `json:"prefixes,omitempty"`
+	PDF      string            `json:"pdf"`
+	Pages    int               `json:"pages"`
+	Warnings []string          `json:"warnings"`
+	Digest   string            `json:"digest"`
 }
 type ExportResult struct {
 	Paths    []string `json:"paths"`
@@ -116,6 +121,10 @@ func (a *App) GetWorkspace() (Workspace, error) {
 					}
 					for _, p := range w.Document.Paragraphs() {
 						if original := originals[p.ID]; original != nil {
+							if p.Protected && p.Text == original.Text && len(p.EditableRanges) == 0 {
+								p.EditableRanges = original.EditableRanges
+								p.FormatLocked = original.FormatLocked
+							}
 							if p.Prefix != "" {
 								p.Prefix = original.Prefix
 								p.PrefixFont = original.PrefixFont
@@ -201,6 +210,9 @@ func (a *App) SaveWorkspace(w Workspace) error {
 	w.Schema = 1
 	if w.TableDraft != nil && len(w.TableDraft.Text) > 2*1024*1024 {
 		return fmt.Errorf("表格草稿过大，请分批添加")
+	}
+	if w.TableDraft != nil && (len([]rune(w.TableDraft.Caption)) > 150 || len(w.TableDraft.Alignment) > 20) {
+		return fmt.Errorf("表格草稿设置过长")
 	}
 	if w.Screen != "" && w.Screen != "welcome" && w.Screen != "compose" && w.Screen != "workspace" {
 		return fmt.Errorf("工作界面状态无效")
@@ -369,6 +381,7 @@ func modelDigest(m office.Model) string {
 	return fmt.Sprintf("%x", sha256.Sum256(b))
 }
 func (a *App) PreviewDocument(m office.Model) (Preview, error) {
+	m = office.RenumberDocument(m)
 	key := modelDigest(m)
 	a.previewMu.Lock()
 	if key == a.previewKey {
@@ -388,6 +401,12 @@ func (a *App) PreviewDocument(m office.Model) (Preview, error) {
 		return Preview{}, e
 	}
 	v := Preview{PDF: base64.StdEncoding.EncodeToString(r.Data), Pages: r.Pages, Warnings: r.Warnings, Digest: key}
+	if m.AutoNumbering {
+		v.Prefixes = map[string]string{}
+		for _, p := range m.Paragraphs() {
+			v.Prefixes[p.ID] = p.Prefix
+		}
+	}
 	a.previewMu.Lock()
 	defer a.previewMu.Unlock()
 	if ctx.Err() != nil {
@@ -408,6 +427,13 @@ func (a *App) CancelPreview() {
 var sourceIDPattern = regexp.MustCompile(`^[a-f0-9]{64}$`)
 
 func (a *App) docxBytes(m office.Model, tracked bool) ([]byte, error) {
+	b, e := a.baseDocxBytes(m, tracked)
+	if e != nil {
+		return nil, e
+	}
+	return office.AddReviewComments(b, m, m.ReviewComments)
+}
+func (a *App) baseDocxBytes(m office.Model, tracked bool) ([]byte, error) {
 	if m.SourceID == "" {
 		return office.CreateDOCX(m)
 	}
@@ -489,9 +515,27 @@ func (a *App) ExportDocument(m office.Model, format string, tracked bool) (Expor
 	if e != nil {
 		return result, e
 	}
+	confirmed := map[string]bool{}
+	for _, id := range m.ConfirmedIssues {
+		confirmed[id] = true
+	}
 	for _, issue := range inspection.Issues {
 		if issue.Severity == "error" {
 			return result, fmt.Errorf("请先处理：%s", issue.Message)
+		}
+		if issue.Severity == "review" && !confirmed[issue.ID] {
+			annotated := false
+			if format == "docx" {
+				for _, note := range m.ReviewComments {
+					if strings.Contains(note.Text, issue.Message) {
+						annotated = true
+						break
+					}
+				}
+			}
+			if !annotated {
+				return result, fmt.Errorf("还有待核对项：%s。请修改、确认保留，或仅导出带批注的 Word 供复核。", issue.Message)
+			}
 		}
 	}
 	var docx, pdf []byte

@@ -21,30 +21,53 @@ func Templates() []Template {
 }
 
 type Fields struct {
-	Kind        string   `json:"kind"`
-	Title       string   `json:"title"`
-	Agency      string   `json:"agency"`
-	Reference   string   `json:"reference"`
-	Recipient   string   `json:"recipient"`
-	Body        string   `json:"body"`
-	Date        string   `json:"date"`
-	Signer      string   `json:"signer"`
-	CopyTo      string   `json:"copyTo"`
-	Attachments []string `json:"attachments"`
-	Letterhead  bool     `json:"letterhead"`
-	AnnexPages  bool     `json:"annexPages"`
-	Attendees   string   `json:"attendees"`
-	Absentees   string   `json:"absentees"`
-	Observers   string   `json:"observers"`
+	AutoNumbering       bool     `json:"autoNumbering,omitempty"`
+	Agencies            []string `json:"agencies,omitempty"`
+	Signers             []string `json:"signers,omitempty"`
+	SigningAgencies     []string `json:"signingAgencies,omitempty"`
+	CopyNumber          string   `json:"copyNumber,omitempty"`
+	Classification      string   `json:"classification,omitempty"`
+	SecrecyPeriod       string   `json:"secrecyPeriod,omitempty"`
+	Urgency             string   `json:"urgency,omitempty"`
+	Preprinted          bool     `json:"preprinted,omitempty"`
+	MarkWithoutFile     bool     `json:"markWithoutFile,omitempty"`
+	IssueNumber         string   `json:"issueNumber,omitempty"`
+	Issuer              string   `json:"issuer,omitempty"`
+	IssueDate           string   `json:"issueDate,omitempty"`
+	Unsealed            bool     `json:"unsealed,omitempty"`
+	Note                string   `json:"note,omitempty"`
+	DetachedAttachments bool     `json:"detachedAttachments,omitempty"`
+	Kind                string   `json:"kind"`
+	Title               string   `json:"title"`
+	Agency              string   `json:"agency"`
+	Reference           string   `json:"reference"`
+	Recipient           string   `json:"recipient"`
+	Body                string   `json:"body"`
+	Date                string   `json:"date"`
+	Signer              string   `json:"signer"`
+	CopyTo              string   `json:"copyTo"`
+	Attachments         []string `json:"attachments"`
+	Letterhead          bool     `json:"letterhead"`
+	AnnexPages          bool     `json:"annexPages"`
+	Attendees           string   `json:"attendees"`
+	Absentees           string   `json:"absentees"`
+	Observers           string   `json:"observers"`
 }
 
 var h1 = regexp.MustCompile(`^[一二三四五六七八九十百]+、`)
 var h2 = regexp.MustCompile(`^（[一二三四五六七八九十百]+）`)
+var h3 = regexp.MustCompile(`^[0-9]+\.[^0-9]`)
+var h4 = regexp.MustCompile(`^（[0-9]+）`)
 var article = regexp.MustCompile(`^第[一二三四五六七八九十百千]+[章条]`)
 var chapterLabel = regexp.MustCompile(`^第[一二三四五六七八九十百千0-9]+章`)
 var articleLabel = regexp.MustCompile(`^第[一二三四五六七八九十百千0-9]+条`)
 
 func NewDocument(f Fields) (Model, error) {
+	var extraErr error
+	f, extraErr = validateExtraFields(f)
+	if extraErr != nil {
+		return Model{}, extraErr
+	}
 	valid := false
 	for _, t := range Templates() {
 		if t.ID == f.Kind {
@@ -199,7 +222,16 @@ func NewDocument(f Fields) (Model, error) {
 		if h2.MatchString(line) {
 			role = "heading2"
 		}
+		if h3.MatchString(line) {
+			role = "heading3"
+		}
+		if h4.MatchString(line) {
+			role = "heading4"
+		}
 		p := add(line, role)
+		if role == "heading3" || role == "heading4" {
+			p.KeepNext = true
+		}
 		if f.Kind == "rules" && chapterLabel.MatchString(line) {
 			p.Align = "center"
 			p.Indent = 0
@@ -211,6 +243,14 @@ func NewDocument(f Fields) (Model, error) {
 			p.Role = "article"
 			p.Font = "仿宋"
 			p.KeepNext = false
+		}
+		if f.Kind == "rules" && h2.MatchString(line) {
+			p.Role = "heading3"
+			p.Font = "仿宋"
+		}
+		if f.Kind == "rules" && h3.MatchString(line) {
+			p.Role = "heading4"
+			p.Font = "仿宋"
 		}
 	}
 	for i, name := range f.Attachments {
@@ -225,6 +265,7 @@ func NewDocument(f Fields) (Model, error) {
 			label += fmt.Sprintf("%d. ", i+1)
 		}
 		p := add(label+name, "attachment-description")
+		p.KeepNext = true
 		prefixWidth := textAdvanceMM(label, p.Font, p.Size)
 		p.LeftIndent = 11.29 + prefixWidth
 		if i > 0 {
@@ -268,7 +309,9 @@ func NewDocument(f Fields) (Model, error) {
 			p.PageBreak = true
 			p.Indent = 0
 			p.After = 10.21
-			add(name, "title")
+			title := add(name, "title")
+			title.Size = 16
+			title.Role = "attachment-title"
 			add("", "attachment-body")
 		}
 	}
@@ -298,6 +341,9 @@ func NewDocument(f Fields) (Model, error) {
 		p.Tabs = []TabStop{{Align: "right", Position: 156 - 2*14*25.4/72}}
 		line(.35, 1.06)
 	}
+	m = applyExtraFields(m, f)
+	m.AutoNumbering = f.AutoNumbering
+	m = RenumberDocument(m)
 	return m, m.Validate()
 }
 func xmlText(s string) string {
@@ -307,6 +353,16 @@ func xmlText(s string) string {
 }
 func twips(mm float64) int { return int(mm*56.692913 + 0.5) }
 func paragraphXML(p Paragraph) string {
+	if p.HiddenInk {
+		if p.BorderBottom {
+			p.Line += borderWidth(p)
+		}
+		p.Text = ""
+		p.Prefix = ""
+		p.Color = "000000"
+		p.BorderTop = false
+		p.BorderBottom = false
+	}
 	var props strings.Builder
 	props.WriteString(`<w:snapToGrid w:val="0"/>`)
 	if p.BorderBottom && p.Text == "" && p.FrameWidth == 0 {
@@ -329,6 +385,9 @@ func paragraphXML(p Paragraph) string {
 	}
 	if p.KeepNext {
 		props.WriteString(`<w:keepNext/>`)
+	}
+	if p.AutoNumbered {
+		fmt.Fprintf(&props, `<w:numPr><w:ilvl w:val="%d"/><w:numId w:val="1"/></w:numPr>`, p.OutlineLevel-1)
 	}
 	if p.AnchorBottom {
 		props.WriteString(`<w:framePr w:w="8844" w:h="1600" w:hRule="auto" w:hAnchor="text" w:vAnchor="margin" w:xAlign="center" w:yAlign="bottom" w:wrap="notBeside"/>`)
@@ -368,7 +427,11 @@ func paragraphXML(p Paragraph) string {
 		fmt.Fprintf(&props, `<w:pBdr><w:%s w:val="%s" w:sz="%d" w:space="0" w:color="%s"/></w:pBdr>`, side, xmlText(style), width, xmlText(color))
 	}
 	var run strings.Builder
-	for i, line := range strings.Split(p.Prefix+p.Text, "\n") {
+	visiblePrefix := p.Prefix
+	if p.AutoNumbered {
+		visiblePrefix = ""
+	}
+	for i, line := range strings.Split(visiblePrefix+p.Text, "\n") {
 		if i > 0 {
 			run.WriteString(`<w:br/>`)
 		}
@@ -377,6 +440,20 @@ func paragraphXML(p Paragraph) string {
 	color := p.Color
 	if color == "" {
 		color = "000000"
+	}
+	if p.Role == "header-meta" && strings.Contains(p.Text, "\t") {
+		parts := strings.SplitN(p.Text, "\t", 2)
+		return `<w:p><w:pPr>` + props.String() + `</w:pPr>` + formattedRun(parts[0]+"\t", p.Font, p.Size, color) + formattedRun(parts[1], "仿宋", p.Size, color) + `</w:p>`
+	}
+	if p.Role == "signer" {
+		parts := strings.SplitN(p.Text, "\t", 2)
+		if len(parts) == 2 {
+			right := formattedRun(parts[1], "楷体", p.Size, color)
+			if strings.HasPrefix(parts[1], "签发人：") {
+				right = formattedRun("签发人：", "仿宋", p.Size, color) + formattedRun(strings.TrimPrefix(parts[1], "签发人："), "楷体", p.Size, color)
+			}
+			return `<w:p><w:pPr>` + props.String() + `</w:pPr>` + formattedRun(parts[0]+"\t", "仿宋", p.Size, color) + right + `</w:p>`
+		}
 	}
 	if len(p.Tabs) > 0 && strings.Contains(p.Text, "签发人：") {
 		parts := strings.SplitN(p.Text, "签发人：", 2)
@@ -391,7 +468,7 @@ func paragraphXML(p Paragraph) string {
 		label := articleLabel.FindString(p.Text)
 		return `<w:p><w:pPr>` + props.String() + `</w:pPr>` + formattedRun(label, "黑体", p.Size, color) + formattedRun(strings.TrimPrefix(p.Text, label), p.Font, p.Size, color) + `</w:p>`
 	}
-	if p.PrefixFont != "" && p.Prefix != "" {
+	if p.PrefixFont != "" && p.Prefix != "" && !p.AutoNumbered {
 		return `<w:p><w:pPr>` + props.String() + `</w:pPr>` + formattedRun(p.Prefix, p.PrefixFont, p.Size, color) + formattedRun(p.Text, p.Font, p.Size, color) + `</w:p>`
 	}
 	if strings.Contains(p.Text, "\t") {
@@ -429,6 +506,7 @@ func CreateDOCX(m Model) ([]byte, error) {
 	}
 	m = prepareNewLayout(m)
 	m = prepareInkPlacement(m, true)
+	m = suppressPreprintedMarks(m)
 	if e := m.Validate(); e != nil {
 		return nil, e
 	}
@@ -439,6 +517,9 @@ func CreateDOCX(m Model) ([]byte, error) {
 			continue
 		}
 		t := b.Table
+		if t.Caption != nil {
+			body.WriteString(paragraphXML(*t.Caption))
+		}
 		widths := append([]float64{}, t.Widths...)
 		columns := 0
 		for _, row := range t.Rows {
@@ -544,13 +625,14 @@ func CreateDOCX(m Model) ([]byte, error) {
 	body.WriteString(`<w:docGrid w:type="linesAndChars" w:linePitch="579" w:charSpace="-842"/></w:sectPr>`)
 	parts := map[string]string{"[Content_Types].xml": `<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/word/footer2.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/></Types>`, "_rels/.rels": `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="doc" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`, "word/document.xml": `<w:document xmlns:w="` + W + `" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>` + body.String() + `</w:body></w:document>`, "word/_rels/document.xml.rels": `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="settings" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="footerOdd" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/><Relationship Id="footerEven" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer2.xml"/></Relationships>`, "word/settings.xml": `<w:settings xmlns:w="` + W + `"><w:evenAndOddHeaders/><w:characterSpacingControl w:val="compressPunctuation"/><w:compat><w:doNotExpandShiftReturn/></w:compat></w:settings>`}
 	for i, align := range []string{"right", "left"} {
-		parts[fmt.Sprintf("word/footer%d.xml", i+1)] = `<w:ftr xmlns:w="` + W + `"><w:p><w:pPr><w:ind w:left="280" w:right="280" w:firstLine="0"/><w:spacing w:before="0" w:after="0" w:line="280" w:lineRule="exact"/><w:jc w:val="` + align + `"/></w:pPr><w:r><w:rPr><w:snapToGrid w:val="0"/><w:spacing w:val="0"/><w:rFonts w:ascii="SimSun" w:hAnsi="SimSun" w:eastAsia="宋体"/><w:sz w:val="28"/></w:rPr><w:t xml:space="preserve">— </w:t></w:r><w:fldSimple w:instr="PAGE"><w:r><w:rPr><w:snapToGrid w:val="0"/><w:spacing w:val="0"/><w:rFonts w:ascii="SimSun" w:hAnsi="SimSun" w:eastAsia="宋体"/><w:sz w:val="28"/></w:rPr><w:t>1</w:t></w:r></w:fldSimple><w:r><w:rPr><w:snapToGrid w:val="0"/><w:spacing w:val="0"/><w:rFonts w:ascii="SimSun" w:hAnsi="SimSun" w:eastAsia="宋体"/><w:sz w:val="28"/></w:rPr><w:t xml:space="preserve"> —</w:t></w:r></w:p></w:ftr>`
+		parts[fmt.Sprintf("word/footer%d.xml", i+1)] = pageFooterXML(align)
 	}
 	var out bytes.Buffer
 	addFirstPageParts(parts, m)
 	parts["word/styles.xml"] = `<w:styles xmlns:w="` + W + `"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="仿宋" w:hAnsi="仿宋" w:eastAsia="仿宋"/><w:sz w:val="32"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:line="579" w:lineRule="exact"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style></w:styles>`
 	parts["[Content_Types].xml"] = strings.Replace(parts["[Content_Types].xml"], "</Types>", `<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`, 1)
 	parts["word/_rels/document.xml.rels"] = strings.Replace(parts["word/_rels/document.xml.rels"], "</Relationships>", `<Relationship Id="styles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`, 1)
+	addNumberingPart(parts, m)
 	fontFiles := addFallbackFonts(parts)
 	z := zip.NewWriter(&out)
 	names := []string{}

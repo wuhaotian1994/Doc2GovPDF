@@ -5,8 +5,38 @@ import (
 	"bytes"
 	"github.com/beevik/etree"
 	"os"
+	"strings"
 	"testing"
 )
+
+func assertValidOwnRevisionMarkup(t *testing.T, p *Package) {
+	t.Helper()
+	seen := map[string]bool{}
+	for name, data := range p.Parts {
+		if !strings.HasSuffix(name, ".xml") {
+			continue
+		}
+		d, e := parseXML(data)
+		if e != nil {
+			t.Fatal(e)
+		}
+		for _, tag := range []string{"ins", "del", "pPrChange", "rPrChange", "sectPrChange"} {
+			for _, n := range descendants(d.Root(), tag) {
+				if attr(n, "author") != "Doc2GovPDF" {
+					continue
+				}
+				id := attr(n, "id")
+				if seen[id] {
+					t.Fatalf("duplicate own revision ID %s in %s", id, name)
+				}
+				seen[id] = true
+				if tag == "del" && len(descendants(n, "t")) > 0 {
+					t.Fatal("deleted text was not serialized as delText")
+				}
+			}
+		}
+	}
+}
 
 func rejectOwnChanges(d *etree.Document) {
 	root := d.Root()
@@ -74,6 +104,7 @@ func TestRejectOurRevisionsRestoresOriginalText(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
+	assertValidOwnRevisionMarkup(t, edited)
 	rejectOwnChanges(edited.XML)
 	restoredXML, e := edited.XML.WriteToBytes()
 	if e != nil {
@@ -99,4 +130,37 @@ func TestRejectOurRevisionsRestoresOriginalText(t *testing.T) {
 	if restored.Model.Text() != source.Model.Text() {
 		t.Fatal("rejecting application revisions did not restore the original text")
 	}
+}
+
+func TestBodyAndHeaderShareUniqueRevisionIDs(t *testing.T) {
+	m, e := NewDocument(Fields{Kind: "letter", Letterhead: true, Agency: "示例单位", Title: "关于核对资料的函", Body: "原始正文。"})
+	if e != nil {
+		t.Fatal(e)
+	}
+	b, e := CreateDOCX(m)
+	if e != nil {
+		t.Fatal(e)
+	}
+	p, e := Open(b)
+	if e != nil {
+		t.Fatal(e)
+	}
+	next := p.Model.Clone()
+	next.FirstHeader[0].Text = "示例办公室"
+	for _, q := range next.Paragraphs() {
+		if q.Role == "title" {
+			q.Text += "（修订）"
+			q.Size = 20
+			break
+		}
+	}
+	out, e := p.Export(next, true)
+	if e != nil {
+		t.Fatal(e)
+	}
+	fixed, e := Open(out)
+	if e != nil {
+		t.Fatal(e)
+	}
+	assertValidOwnRevisionMarkup(t, fixed)
 }

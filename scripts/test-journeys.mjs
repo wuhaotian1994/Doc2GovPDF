@@ -4,7 +4,7 @@ import {resolve,extname} from 'node:path';
 import assert from 'node:assert/strict';
 const root=resolve(import.meta.dirname,'..'),out=resolve(root,'build/qa');
 await mkdir(out,{recursive:true});const profile=await mkdtemp(resolve(out,'journeys-'));const results=[];
-for(const phase of ['1','2','3','4']){
+for(const phase of ['1','2','3','4','5']){
  const child=spawn(resolve(root,'build/bin/Doc2GovPDF-test.exe'),[],{cwd:root,windowsHide:true,env:{...process.env,DOC2GOVPDF_DATA_DIR:profile,DOC2GOVPDF_TEST_MODE:'1',DOC2GOVPDF_QA_JOURNEYS:'1',DOC2GOVPDF_QA_PHASE:phase}});
  let launchError,exited=false;child.on('error',e=>launchError=e);child.on('exit',()=>exited=true);
  try{

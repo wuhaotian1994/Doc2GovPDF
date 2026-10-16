@@ -26,7 +26,7 @@ var conventions = []convention{
 	{"style.modal-stack", `(?:可能|也许|或许|大概|似乎|恐怕|应该|应当)[、]?(?:可能|也许|或许|大概|似乎|恐怕|应该|应当)`, "连续使用了多个情态词，可考虑保留最准确的一个。", "文风建议，不作强制判断", "suggestion"},
 	{"style.latin", `(?i)\be\.g\.|\bi\.e\.|\betc\.|\bet al\.`, "中文行文中的拉丁缩写可考虑改成中文，专业引文除外。", "文风建议", "suggestion"},
 	{"style.tool-marker", `turn[0-9]+search[0-9]+|oai_citation|oaicite|contentReference`, "发现工具引用占位符，请核对并替换为可读的真实出处。", "出稿清理建议", "suggestion"},
-	{"style.nominalization", `(?:进行|予以|加以)(?:了|一个|一场|一次|一番)?[^，。；：！？、,.:;!?()（）「」\n]{0,8}(?:调整|修改|优化|处理|检查|确认|评估|分析|核实|更新|变更|操作|梳理|排查|整理|验证|说明|补充)`, "这处表达可考虑直接使用动作词，以使句子更简洁。", "文风建议", "suggestion"},
+	{"style.nominalization", `(?:进行|予以|加以)(?:了|一个|一场|一次|一番)?[^，。；：！？、,.:;!?()（）「」\n]{0,8}(?:调整|修改|优化|处理|检查|确认|评估|分析|核实|更新|变更|操作|梳理|排查|整理|验证|说明|补充|升级|改造|讨论|盘点|清理|迁移|部署|发布|采集|统计|核算)`, "这处表达可考虑直接使用动作词，以使句子更简洁。", "文风建议", "suggestion"},
 }
 var conventionRegex = func() []*regexp.Regexp {
 	out := make([]*regexp.Regexp, len(conventions))
@@ -101,8 +101,10 @@ func checkTextConventions(m Model, tables map[string]bool, add addFinding) {
 		if p.Prefix != "" && strings.HasPrefix(strings.TrimSpace(p.Text), p.Prefix) {
 			add(p, "format.duplicate-number", "review", "这段同时存在自动编号和重复的手写编号，请确认后移除重复部分。", strings.TrimPrefix(p.Text, p.Prefix), "段落结构校验")
 		}
-		if strings.Contains(p.Text, "不是") && strings.Contains(p.Text, "而是") || strings.Contains(p.Text, "并非") && strings.Contains(p.Text, "而是") {
-			negatives = append(negatives, p)
+		for _, hit := range regexp.MustCompile(`(?:不是|并非)[^。！？\n]{0,30}而是`).FindAllString(p.Text, -1) {
+			if editableOccurrence(p.Text, hit) >= 0 {
+				negatives = append(negatives, p)
+			}
 		}
 	}
 	if len(negatives) >= 3 {
@@ -128,7 +130,7 @@ func checkTextConventions(m Model, tables map[string]bool, add addFinding) {
 				if ri > 0 && text == "" {
 					add(p, "table.empty-cell", "suggestion", "这个单元格没有内容，请确认是缺数据，还是应填写“—”。", "", "表格完整性提示，不把空值当成 0")
 				}
-				if strings.HasSuffix(text, "。") && utf8.RuneCountInString(text) < 20 {
+				if strings.HasSuffix(text, "。") {
 					add(p, "table.punctuation", "suggestion", "简短表格词条的句末句号可考虑省略；完整叙述句应按语境保留。", "", "表格文字体例建议")
 				}
 			}

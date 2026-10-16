@@ -23,6 +23,38 @@ func fitMark(p *Paragraph, width float64) error {
 }
 func fitMarks(m Model) (Model, error) {
 	m = m.Clone()
+	for _, b := range m.Blocks {
+		if b.Table != nil && b.Table.Role == "joint-mark" && len(b.Table.Rows) > 0 {
+			row := &b.Table.Rows[0]
+			if len(row.Cells) == 0 || len(row.Cells[0].Paragraphs) == 0 {
+				continue
+			}
+			probe := row.Cells[0].Paragraphs[0]
+			probe.Text = ""
+			for _, p := range row.Cells[0].Paragraphs {
+				if len([]rune(p.Text)) > len([]rune(probe.Text)) {
+					probe.Text = p.Text
+				}
+			}
+			if len(row.Cells) > 1 {
+				probe.Text += "文件"
+			}
+			if e := fitMark(&probe, 156); e != nil {
+				return m, e
+			}
+			fileWidth := 0.0
+			if len(row.Cells) > 1 {
+				fileWidth = 2 * probe.Size * 25.4 / 72
+				b.Table.Widths[1] = fileWidth
+			}
+			b.Table.Widths[0] = 156 - fileWidth
+			for ci := range row.Cells {
+				for pi := range row.Cells[ci].Paragraphs {
+					row.Cells[ci].Paragraphs[pi].Size = probe.Size
+				}
+			}
+		}
+	}
 	for _, p := range m.Paragraphs() {
 		if p.Role == "agency" {
 			if e := fitMark(p, m.Page.Width-m.Page.Left-m.Page.Right); e != nil {

@@ -4,9 +4,9 @@
 
 Windows 本地公文工具，以 Go 重写 gongwen-kit 核心流程，使用 Wails 桌面界面。导入 Word/TXT、粘贴正文或选择模板，在原文中处理必要问题，预览后导出 Word、PDF 或两者。无需账号，正文不上传，无需安装 Office 即可生成 PDF。
 
-## 本地安装版 1.0.5
+## 本地安装版 1.1.0
 
-安装包：`dist/Doc2GovPDF-1.0.5-setup.exe`。双击安装，从开始菜单打开“公文整理”。安装包包含离线 WebView2 组件和可分发的备用中文字体；已有符合要求的 WebView2 时复用。
+安装包：`dist/Doc2GovPDF-1.1.0-setup.exe`。双击安装，从开始菜单打开“公文整理”。安装包包含离线 WebView2 组件和可分发的备用中文字体；已有符合要求的 WebView2 时复用。
 
 按用户 2026-10-14 的决定，仅保留本地版本，不创建公开仓库、不上传安装包、不启用联网更新。签名清单、后台下载、退出安装、启动失败及数据回退机制已实现；公开服务和 Windows 代码签名证书尚未配置。当前升级方式为运行新的本地安装包。
 
@@ -21,6 +21,8 @@ Windows 本地公文工具，以 Go 重写 gongwen-kit 核心流程，使用 Wai
 - Go 本地 PDF 渲染，实际 PDF 预览，字体探测及缺字保护。字体不可用时须明确确认备用字体，不能将替代字体当作标准字体通过。
 - 当前用户安装、卸载、版本与数据回退；卸载保留用户文件和草稿。
 
+1.1.0 补齐联合机关与多签发人、预印套打、份号/密级/期限/紧急程度、纪要期号、联合落款、不加印章版式、独立印发信息和不装订附件。四级自动编号输出为真实 Word 编号；修改“公文要素”保留已编辑正文、表格和附件。支持预览后批量整理常见文字问题、随 Word 保存疑点批注，以及直接打开 PDF 核对实际字体和分页。正式输出前必须处理或明确确认待核对项；数字不自动修改。
+
 图片、公式、复杂域等无法可靠生成 PDF 的结构会明确提示；DOCX 中受保护的对象保留。嵌套表格、宏等不支持的输入会拒绝。普通 Word 编辑器可能重新分页，实际 PDF 预览是 PDF 成品依据。检查只覆盖软件已实现的规则，不判断事实真实性。
 
 ## 开发与验收
@@ -30,8 +32,8 @@ Go 1.26.2、Windows x64、WebView2；Node 24 用于隔离桌面测试，无 npm 
 ```powershell
 ./scripts/build.ps1
 ./scripts/test-desktop.ps1
-./scripts/package.ps1 -Version 1.0.5 -LocalRelease
-./scripts/test-install.ps1 -Installer dist/Doc2GovPDF-1.0.5-setup.exe
+./scripts/package.ps1 -Version 1.1.0 -LocalRelease
+./scripts/test-install.ps1 -Installer dist/Doc2GovPDF-1.1.0-setup.exe
 ```
 
 打包前将官方 x64 离线 WebView2 安装器置于 `tmp/tooling/MicrosoftEdgeWebView2RuntimeInstallerX64.exe`；脚本核验 Microsoft Authenticode 签名。完整验收步骤与边界见 [验收记录](docs/STATUS.md)。
@@ -41,7 +43,8 @@ Go 1.26.2、Windows x64、WebView2；Node 24 用于隔离桌面测试，无 npm 
 - [产品需求](docs/PRD.md)
 - [实现与交付清单](docs/IMPLEMENTATION.md)
 - [使用说明](docs/USAGE.md)
-- [七种模板 Word / PDF 逐页验收](docs/LAYOUT-AUDIT-1.0.4.md)
+- [七种模板及扩展要素 Word / PDF 逐页验收](docs/LAYOUT-AUDIT-1.1.0.md)
+- [上游功能与规则对照](docs/UPSTREAM-PARITY.md)
 - [上游测试样张：7 份 Word、7 份 PDF 和 7 份纯文本](testdata/upstream/gongwen-kit/README.md)
 - [设计依据](docs/UX-REFERENCE.md) 与 [Impeccable 使用记录](docs/IMPECCABLE.md)
 

@@ -1,0 +1,342 @@
+{
+  "upstream": "d8dfe6a24e20ecaa64c14f3a79159813ad92db70",
+  "textCases": [
+    [
+      "月日编虚位",
+      "于2026年05月08日前报送",
+      "于2026年5月8日前报送"
+    ],
+    [
+      "发文字号括号",
+      "×发【2026】12号",
+      "×发〔2026〕12号"
+    ],
+    [
+      "发文字号第与虚位",
+      "×发〔2026〕第012号",
+      "×发〔2026〕12号"
+    ],
+    [
+      "中文数字日期",
+      "二〇二六年十月十三日",
+      "2026年10月13日"
+    ],
+    [
+      "中文数字日期（年月）",
+      "二〇二六年三月",
+      "2026年3月"
+    ],
+    [
+      "全角数字",
+      "共１２个项目",
+      "共12个项目"
+    ],
+    [
+      "半角括号",
+      "各县(市、区)",
+      "各县（市、区）"
+    ],
+    [
+      "半角标点",
+      "现通知如下:一是,二是.",
+      "现通知如下：一是，二是。"
+    ],
+    [
+      "右括号后的句点",
+      "（详见附件).",
+      "（详见附件）。"
+    ],
+    [
+      "异形词",
+      "筹画项目",
+      "筹划项目"
+    ],
+    [
+      "数字与单位",
+      "容量100kWh",
+      "容量100 kWh"
+    ],
+    [
+      "纯小数",
+      "厚度.5毫米",
+      "厚度0.5毫米"
+    ],
+    [
+      "网址不改",
+      "见 https://a.b/c,d 页",
+      "见 https://a.b/c,d 页"
+    ],
+    [
+      "引号里的原话不改",
+      "「筹画」一词",
+      "「筹画」一词"
+    ],
+    [
+      "时刻不改",
+      "10:30开会",
+      "10:30开会"
+    ],
+    [
+      "序号点不改",
+      "附件：1.工作方案",
+      "附件：1.工作方案"
+    ],
+    [
+      "小数不改",
+      "增长2.5亿元。",
+      "增长2.5亿元。"
+    ],
+    [
+      "英文缩写不改",
+      "see e.g. this",
+      "see e.g. this"
+    ],
+    [
+      "无〇的年份不改",
+      "二零二六年",
+      "二零二六年"
+    ],
+    [
+      "非发文字号的方括号不改",
+      "参见[2026]年报",
+      "参见[2026]年报"
+    ],
+    [
+      "书名号里的文件名照录",
+      "《二〇三五年远景目标纲要》",
+      "《二〇三五年远景目标纲要》"
+    ],
+    [
+      "留空待填的金额不补 0",
+      "（¥      .00元整）",
+      "（¥      .00元整）"
+    ],
+    [
+      "断开的数不补 0",
+      "纯度≥ 99 .8%",
+      "纯度≥ 99 .8%"
+    ]
+  ],
+  "files": [
+    {
+      "name": "accepted.docx",
+      "path": "repair/accepted.docx",
+      "sha256": "6ff3de240b3b3cd4abc58cb5a52e3524e9e5c518baddb4ab0b460607f4671244"
+    },
+    {
+      "name": "complete-修订.docx",
+      "path": "repair/complete-修订.docx",
+      "sha256": "1254704afebc309c4582b27843b7a8b26c0d2ab3934f6d1034ab18b1fb3c1574"
+    },
+    {
+      "name": "complete.docx",
+      "path": "repair/complete.docx",
+      "sha256": "1d3b0a5b0299bcd5b9874591620b0b6949427480014f9975148d7889bb1256bc"
+    },
+    {
+      "name": "gongwen-qingshi-修订.docx",
+      "path": "repair/gongwen-qingshi-修订.docx",
+      "sha256": "0039ed4560c922b11537c1b0ae555deaafec923a1db324b9e7da247467274aec"
+    },
+    {
+      "name": "gongwen-qingshi.docx",
+      "path": "repair/gongwen-qingshi.docx",
+      "sha256": "548d52684510bac1f8da941afa8b4c6d2aa61ec886ceb0b78e3aba6af5e4a003"
+    },
+    {
+      "name": "jiyao-修订.docx",
+      "path": "repair/jiyao-修订.docx",
+      "sha256": "163b5842e6623da0974e55e637def747466f0af0cf84c829d1cdbe38db207f5a"
+    },
+    {
+      "name": "jiyao.docx",
+      "path": "repair/jiyao.docx",
+      "sha256": "f64ab8d3405d37487095bd0383781831cb9e3aff9f7fdaf701895c153456b0ac"
+    },
+    {
+      "name": "messy-修订.docx",
+      "path": "repair/messy-修订.docx",
+      "sha256": "9c8f69ddb659418405b4846b3309501d5f795e8ec94dd37dfcba2234ae97eb44"
+    },
+    {
+      "name": "messy.docx",
+      "path": "repair/messy.docx",
+      "sha256": "41c5e38a45a80d394490ad4d934ced35a7fd38b3f82b441050a9efeb8fb5dec4"
+    },
+    {
+      "name": "notice-修订.docx",
+      "path": "repair/notice-修订.docx",
+      "sha256": "a5dcdcc074b2b2c81b7fb9b6fe3b08d0691dd54fa21e82d058b38f7562664ab4"
+    },
+    {
+      "name": "notice.docx",
+      "path": "repair/notice.docx",
+      "sha256": "884ea77f2aef9be3a14677de39492f3a96bd07074cd0ac22fa8444d05f76bc0b"
+    },
+    {
+      "name": "qiye-修订.docx",
+      "path": "repair/qiye-修订.docx",
+      "sha256": "587e9f37b42ba9d0ea4d9dff35e2a868249764ed606170a87c5e555a78baf7ef"
+    },
+    {
+      "name": "qiye.docx",
+      "path": "repair/qiye.docx",
+      "sha256": "0bcce82c73464756477feb7ebeb04257b1d41aab27d94ee1bc0149b5cbf0c7a5"
+    },
+    {
+      "name": "xinhan-修订.docx",
+      "path": "repair/xinhan-修订.docx",
+      "sha256": "53af569c8113ef7e68006e1a729fe5980058473fe4d1656d43b6800b0d794a35"
+    },
+    {
+      "name": "xinhan.docx",
+      "path": "repair/xinhan.docx",
+      "sha256": "11395d1c19ac40cdfb40681ee923ad58cb9f312b5128d5c9c7b7ea57192d50f3"
+    },
+    {
+      "name": "不同主语.docx",
+      "path": "negative/不同主语.docx",
+      "sha256": "f27af101e327e21b550b8a77b878088d2f50c0eabfe772360a61939f6b802adb"
+    },
+    {
+      "name": "不同年份.docx",
+      "path": "negative/不同年份.docx",
+      "sha256": "8ce526836a82e1820d372297552af128a5513a7626276277b91bccbe7700532d"
+    },
+    {
+      "name": "中文样式标题.docx",
+      "path": "negative/中文样式标题.docx",
+      "sha256": "4e367ee7478c366e1f1af3df1ae235f288e4b48aa9e7ab6d38f03395a5bf6555"
+    },
+    {
+      "name": "功率明细.docx",
+      "path": "negative/功率明细.docx",
+      "sha256": "0780693c639c186fce5d1853a24c2c57a3bc4da2c916167087b20b32a01a1ebe"
+    },
+    {
+      "name": "千分位.docx",
+      "path": "negative/千分位.docx",
+      "sha256": "76098e51282c9e91d7963f0ddb9d4135926abac44408de1257a95d3d4b8afd56"
+    },
+    {
+      "name": "半角标点.docx",
+      "path": "negative/半角标点.docx",
+      "sha256": "dd332fa9a06ed45ed1511479432f9f1c1d376c3088c63c2e2828c4f240c91f6c"
+    },
+    {
+      "name": "单项合计错.docx",
+      "path": "negative/单项合计错.docx",
+      "sha256": "6e7a64a61a4e48235f4fe8173528be82d3416369079255bdbb98c7cb627de075"
+    },
+    {
+      "name": "合计错.docx",
+      "path": "negative/合计错.docx",
+      "sha256": "8c25fd1968ee5b56fe382afe9d05b5b55396de28f674329f2b97dc21f1f1ad5d"
+    },
+    {
+      "name": "增长率行.docx",
+      "path": "negative/增长率行.docx",
+      "sha256": "2241194ee3d230e1e6fdd620e996f890781d50698b109bba1a2a1f9c45eb9042"
+    },
+    {
+      "name": "多段小计正确.docx",
+      "path": "negative/多段小计正确.docx",
+      "sha256": "a4459eec958928d1635ce7fb79d0148fc0c3e78d6520ffa2db3259b168f95e7b"
+    },
+    {
+      "name": "多段小计错.docx",
+      "path": "negative/多段小计错.docx",
+      "sha256": "937a2c1f6c4c5b6ca1c81b40c8d62347de86b5c074ba6885b3aae2482f92a5d5"
+    },
+    {
+      "name": "序数错.docx",
+      "path": "negative/序数错.docx",
+      "sha256": "14077b4762958df7cc7b4c5fec82607e29492ec4665369ecd9a85a08a0e04203"
+    },
+    {
+      "name": "异形词.docx",
+      "path": "negative/异形词.docx",
+      "sha256": "5081366110afd7bb88f5b5d46787bfcbb6bb51416b8c3c382b22997048d7a613"
+    },
+    {
+      "name": "手写表合计错.docx",
+      "path": "negative/手写表合计错.docx",
+      "sha256": "89d87eca780791f515db6257dbd4d6bcc479c86ecfc929e803598e468c32eb32"
+    },
+    {
+      "name": "手写表同名行.docx",
+      "path": "negative/手写表同名行.docx",
+      "sha256": "0a1505e5703756808a75d33c66b3c38164c57de60e0eec62d2313789255bf4f3"
+    },
+    {
+      "name": "手打标题.docx",
+      "path": "negative/手打标题.docx",
+      "sha256": "51004d8ca2590e89cedb1f0449b15f5492e6ad06f2323d0b29505a1734b94c8f"
+    },
+    {
+      "name": "括号错.docx",
+      "path": "negative/括号错.docx",
+      "sha256": "0e9acc24e9c44f8508358c664ea279720714b41ae29d11ff7ca1684996a5610c"
+    },
+    {
+      "name": "文号错.docx",
+      "path": "negative/文号错.docx",
+      "sha256": "a17cb2f0879548c1fccf74c6b86fa5295c7a9ec99acb2be79bf462a8bda111bc"
+    },
+    {
+      "name": "无标签比率行.docx",
+      "path": "negative/无标签比率行.docx",
+      "sha256": "35681b30069865bdf8ea78d731e5163fd67a6b530cac5ec8b81b9c3c0f150286"
+    },
+    {
+      "name": "日期错.docx",
+      "path": "negative/日期错.docx",
+      "sha256": "892c5aeb22349004ae2494d110c48e238c192167e31a4cea00f25a49bf3941cb"
+    },
+    {
+      "name": "正文异值.docx",
+      "path": "negative/正文异值.docx",
+      "sha256": "e344c6892c4903eadb6e7a7632119a903cfdbb8fa191325a7e6d14911845c66b"
+    },
+    {
+      "name": "正文表格异值.docx",
+      "path": "negative/正文表格异值.docx",
+      "sha256": "c29304dff170e9dbdb1dcc4b0f85bea2f04e0db4c95b00285692fe2be443a673"
+    },
+    {
+      "name": "比率列.docx",
+      "path": "negative/比率列.docx",
+      "sha256": "207d06a287d64d1bf36d4706ed142dc8512f3de1683fc4eef8d4f20812ebccbf"
+    },
+    {
+      "name": "版心错.docx",
+      "path": "negative/版心错.docx",
+      "sha256": "6ce8452ac4ef216e974462981e3981a9d454b89afa685262fc68d478b428d4f5"
+    },
+    {
+      "name": "统一是.docx",
+      "path": "negative/统一是.docx",
+      "sha256": "4154dc31caddad627efbe6210603b684d0fcbd9b0ae56e7f4aded910b2abf620"
+    },
+    {
+      "name": "虚位错.docx",
+      "path": "negative/虚位错.docx",
+      "sha256": "6fecd9830283233c9f0278d738809300152d5f59d441454b881c76ec8bed3cf9"
+    },
+    {
+      "name": "计数标题.docx",
+      "path": "negative/计数标题.docx",
+      "sha256": "61b99f2cca0a6e172d9985f73b53dfd90db635d8f946dcd9290971f370cdc616"
+    },
+    {
+      "name": "计数正确.docx",
+      "path": "negative/计数正确.docx",
+      "sha256": "c654ad6cd1c2eb1d7dcf9b539f4a7a8611aae65234958faac96b16fbeda317a1"
+    },
+    {
+      "name": "计数行内.docx",
+      "path": "negative/计数行内.docx",
+      "sha256": "52d83a3d7729aa9cb287a8ab61b6c09c3f482cbf2973cb9521b9205b9e4abe97"
+    }
+  ]
+}

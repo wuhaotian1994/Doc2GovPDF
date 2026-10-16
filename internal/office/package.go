@@ -173,7 +173,26 @@ func Open(data []byte) (*Package, error) {
 			applyProps(&r, child(style, "pPr"), child(style, "rPr"))
 		}
 		applyProps(&r, pr, nil)
+		r.ExplicitIndent = child(pr, "ind") != nil
+		if style := styles[styleID]; style != nil {
+			name := strings.ToLower(attr(child(style, "name"), "val"))
+			if strings.HasPrefix(name, "heading") {
+				r.OutlineLevel = int(number(strings.TrimSpace(strings.TrimPrefix(name, "heading")), 0))
+			}
+			if ol := child(child(style, "pPr"), "outlineLvl"); ol != nil {
+				r.OutlineLevel = int(number(attr(ol, "val"), 9)) + 1
+			}
+		}
+		if ol := child(pr, "outlineLvl"); ol != nil {
+			r.OutlineLevel = int(number(attr(ol, "val"), 9)) + 1
+		}
+		if r.OutlineLevel > 0 && r.OutlineLevel < 5 {
+			r.Role = []string{"", "heading", "heading2", "subheading", "subheading"}[r.OutlineLevel]
+			r.KeepNext = true
+		}
 		var walk func(*etree.Element)
+		baseFont, baseSize, baseColor, baseItalic, baseBold := r.Font, r.Size, r.Color, r.Italic, r.Bold
+		anyItalic, anyRed := false, false
 		walk = func(n *etree.Element) {
 			if n.NamespaceURI() != W {
 				r.Protected = true
@@ -182,6 +201,11 @@ func Open(data []byte) (*Package, error) {
 			}
 			if n.NamespaceURI() == W {
 				switch n.Tag {
+				case "r":
+					r.Font, r.Size, r.Color, r.Italic, r.Bold = baseFont, baseSize, baseColor, baseItalic, baseBold
+					if style := styles[attr(child(child(n, "rPr"), "rStyle"), "val")]; style != nil {
+						applyProps(&r, nil, child(style, "rPr"))
+					}
 				case "pPr":
 					return
 				case "del", "moveFrom":
@@ -190,6 +214,8 @@ func Open(data []byte) (*Package, error) {
 				case "ins", "moveTo", "fldSimple", "fldChar", "sdt", "hyperlink", "commentRangeStart", "commentRangeEnd", "commentReference", "bookmarkStart", "bookmarkEnd":
 					r.Protected = true
 				case "t":
+					anyItalic = anyItalic || r.Italic
+					anyRed = anyRed || strings.EqualFold(r.Color, "FF0000")
 					r.Text += n.Text()
 					return
 				case "tab":
@@ -224,6 +250,10 @@ func Open(data []byte) (*Package, error) {
 			}
 		}
 		walk(e)
+		r.Italic = anyItalic
+		if anyRed {
+			r.Color = "FF0000"
+		}
 		if np := child(pr, "numPr"); np != nil {
 			id := attr(child(np, "numId"), "val")
 			lvl := int(number(attr(child(np, "ilvl"), "val"), 0))
@@ -240,7 +270,7 @@ func Open(data []byte) (*Package, error) {
 				r.Prefix = formatNumber(defs[lvl], counts[id], lvl)
 				r.PrefixFont = defs[lvl].Font
 				r.Role = "heading"
-				if lvl == 1 || strings.HasPrefix(r.Prefix, "（") {
+				if lvl == 1 {
 					r.Role = "heading2"
 				} else if lvl >= 2 || len(r.Prefix) > 0 && r.Prefix[0] >= '0' && r.Prefix[0] <= '9' {
 					r.Role = "subheading"
@@ -275,7 +305,15 @@ func Open(data []byte) (*Package, error) {
 			}
 		}
 		if len(descendants(e, "pPrChange"))+len(descendants(e, "rPrChange")) > 0 {
+			r.FormatLocked = true
+		}
+		if len(descendants(e, "rPrChange")) > 0 {
 			r.Protected = true
+		}
+		if r.Protected {
+			for _, g := range editableRunGroups(e) {
+				r.EditableRanges = append(r.EditableRanges, TextRange{g.start, g.end})
+			}
 		}
 		return r
 	}
@@ -469,6 +507,7 @@ func Open(data []byte) (*Package, error) {
 			}
 		}
 	}
+	inferStructuralRoles(&p.Model)
 	p.baseline = p.Model.Clone()
 	return p, nil
 }
@@ -611,21 +650,44 @@ func readNumbering(data []byte) map[string][]numLevel {
 }
 func chinese(n int) string {
 	digits := []rune("零一二三四五六七八九")
-	if n < 10 && n >= 0 {
-		return string(digits[n])
+	if n < 0 || n >= 100000000 {
+		return strconv.Itoa(n)
 	}
-	if n < 100 && n > 0 {
-		v := ""
-		if n >= 20 {
-			v = string(digits[n/10])
-		}
-		v += "十"
-		if n%10 != 0 {
-			v += string(digits[n%10])
-		}
-		return v
+	if n == 0 {
+		return "零"
 	}
-	return strconv.Itoa(n)
+	if n >= 10000 {
+		out := chinese(n/10000) + "万"
+		rest := n % 10000
+		if rest > 0 {
+			if rest < 1000 {
+				out += "零"
+			}
+			out += chinese(rest)
+		}
+		return out
+	}
+	var out strings.Builder
+	zero := false
+	for i, unit := range []int{1000, 100, 10, 1} {
+		digit := n / unit
+		n %= unit
+		if digit == 0 {
+			if out.Len() > 0 && n > 0 {
+				zero = true
+			}
+			continue
+		}
+		if zero {
+			out.WriteRune('零')
+			zero = false
+		}
+		if !(unit == 10 && digit == 1 && out.Len() == 0) {
+			out.WriteRune(digits[digit])
+		}
+		out.WriteString([]string{"千", "百", "十", ""}[i])
+	}
+	return out.String()
 }
 func formatNumber(l numLevel, counts []int, level int) string {
 	s := l.Text
@@ -659,14 +721,26 @@ func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
 	d := p.XML.Copy()
 	d.Root().CreateAttr("xmlns:w", W)
 	body := child(d.Root(), "body")
-	list := descendants(body, "p")
+	list := bodyParagraphElements(body)
 	if len(list) != len(old) {
 		return nil, fmt.Errorf("原文段落结构无法安全修改")
 	}
 	changed := false
-	nextID := revisionIDs(d.Root())
+	roots := []*etree.Element{d.Root()}
+	for name, data := range p.Parts {
+		if name != "word/document.xml" && strings.HasSuffix(name, ".xml") {
+			if part, e := parseXML(data); e == nil && part.Root() != nil {
+				roots = append(roots, part.Root())
+			}
+		}
+	}
+	nextID := revisionIDs(roots...)
 	if m.Page != p.baseline.Page {
 		for _, section := range descendants(body, "sectPr") {
+			if section.Parent() != nil && section.Parent().Tag == "sectPrChange" {
+				continue
+			}
+			oldSection := section.Copy()
 			grid := child(section, "docGrid")
 			if grid == nil {
 				grid = section.CreateElement("w:docGrid")
@@ -682,10 +756,22 @@ func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
 			sz.CreateAttr("w:h", strconv.Itoa(twips(m.Page.Height)))
 			margin := child(section, "pgMar")
 			if margin == nil {
-				margin = section.CreateElement("w:pgMar")
+				margin = etree.NewElement("w:pgMar")
+				section.InsertChildAt(sz.Index()+1, margin)
 			}
 			for key, v := range map[string]float64{"top": m.Page.Top, "bottom": m.Page.Bottom, "left": m.Page.Left, "right": m.Page.Right} {
 				margin.CreateAttr("w:"+key, strconv.Itoa(twips(v)))
+			}
+			if tracked && child(section, "sectPrChange") == nil {
+				change := section.CreateElement("w:sectPrChange")
+				change.CreateAttr("w:id", nextID())
+				change.CreateAttr("w:author", "Doc2GovPDF")
+				change.CreateAttr("w:date", time.Now().UTC().Format(time.RFC3339))
+				change.AddChild(oldSection)
+			}
+			if change := child(section, "sectPrChange"); change != nil {
+				section.RemoveChild(change)
+				section.AddChild(change)
 			}
 		}
 		changed = true
@@ -695,11 +781,24 @@ func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
 			return nil, fmt.Errorf("段落顺序已改变")
 		}
 		formatChanged := !sameFormat(*r, *old[i])
+		if old[i].FormatLocked && formatChanged {
+			return nil, fmt.Errorf("此段有原有格式修订，请保留其格式；正文仍可单独修改")
+		}
 		if r.Text == old[i].Text && !formatChanged {
 			continue
 		}
 		if old[i].Protected {
-			return nil, fmt.Errorf("此段包含原有修订或对象，不能自动修改")
+			if formatChanged {
+				if len(old[i].EditableRanges) == 0 {
+					return nil, fmt.Errorf("此段包含原有修订或对象，不能自动修改格式")
+				}
+				reviseFormatOnRuns(list[i], *r, tracked, nextID, true)
+			}
+			if e := rewriteProtectedText(list[i], old[i].Text, r.Text, tracked, nextID); e != nil {
+				return nil, e
+			}
+			changed = true
+			continue
 		}
 		changed = true
 		para := list[i]
@@ -725,15 +824,16 @@ func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
 			para.RemoveChild(c)
 		}
 		if tracked {
+			stripOwnRunHistory(props)
 			del := para.CreateElement("w:del")
 			del.CreateAttr("w:id", nextID())
 			del.CreateAttr("w:author", "Doc2GovPDF")
 			del.CreateAttr("w:date", time.Now().UTC().Format(time.RFC3339))
 			for _, c := range children {
+				del.AddChild(c)
 				for _, t := range descendants(c, "t") {
 					t.Tag = "delText"
 				}
-				del.AddChild(c)
 			}
 			ins := para.CreateElement("w:ins")
 			ins.CreateAttr("w:id", nextID())
@@ -754,13 +854,26 @@ func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
 		case "firstFooter":
 			before, after = p.baseline.FirstFooter, m.FirstFooter
 		}
-		data, edited, err := rewriteStory(p.Parts[name], before, after, tracked)
+		data, edited, err := rewriteStory(p.Parts[name], before, after, tracked, nextID)
 		if err != nil {
 			return nil, err
 		}
 		if edited {
 			overrides[name] = data
 			changed = true
+		}
+	}
+	if m.LayoutNormalized {
+		footerParts, e := normalizedFooterParts(p.Parts, d)
+		if e != nil {
+			return nil, e
+		}
+		if len(footerParts) > 0 {
+			changed = true
+			bodyChanged = true
+		}
+		for name, data := range footerParts {
+			overrides[name] = data
 		}
 	}
 	if !changed {
@@ -796,6 +909,17 @@ func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
 			return nil, e
 		}
 	}
+	for name, data := range overrides {
+		if _, exists := p.Parts[name]; !exists {
+			w, e := z.Create(name)
+			if e != nil {
+				return nil, e
+			}
+			if _, e = w.Write(data); e != nil {
+				return nil, e
+			}
+		}
+	}
 	if e = z.Close(); e != nil {
 		return nil, e
 	}
@@ -821,7 +945,7 @@ func addRun(parent *etree.Element, text string, props *etree.Element) {
 	}
 }
 
-func revisionIDs(root *etree.Element) func() string {
+func revisionIDs(roots ...*etree.Element) func() string {
 	next := int64(100000)
 	var scan func(*etree.Element)
 	scan = func(e *etree.Element) {
@@ -832,6 +956,10 @@ func revisionIDs(root *etree.Element) func() string {
 			scan(c)
 		}
 	}
-	scan(root)
+	for _, root := range roots {
+		if root != nil {
+			scan(root)
+		}
+	}
 	return func() string { s := strconv.FormatInt(next, 10); next++; return s }
 }

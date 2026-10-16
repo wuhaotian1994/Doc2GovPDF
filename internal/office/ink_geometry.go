@@ -81,9 +81,24 @@ func prepareInkPlacement(m Model, word bool) Model {
 		return m
 	}
 	m = m.Clone()
+	metaHeight := 0.0
+	for i, b := range m.Blocks {
+		if p := b.Paragraph; p != nil {
+			if p.Role == "header-meta" {
+				metaHeight += p.Before + p.Line + p.After
+			}
+			if p.Role == "mark-spacer" && i+1 < len(m.Blocks) && m.Blocks[i+1].Table != nil {
+				t := m.Blocks[i+1].Table
+				if len(t.Rows) > 0 && len(t.Rows[0].Cells) > 0 && len(t.Rows[0].Cells[0].Paragraphs) > 0 {
+					q := t.Rows[0].Cells[0].Paragraphs[0]
+					p.Line = math.Max(.1, 35-metaHeight-inkTopOffset(q, q.Line, word))
+				}
+			}
+		}
+	}
 	for _, p := range m.Paragraphs() {
 		if p.Role == "agency" && p.Before > 0 {
-			p.Before = math.Max(0, 35-inkTopOffset(*p, p.Line, word))
+			p.Before = math.Max(0, 35-metaHeight-inkTopOffset(*p, p.Line, word))
 		}
 	}
 	for i := range m.FirstHeader {

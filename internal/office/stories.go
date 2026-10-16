@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func rewriteStory(data []byte, before, after []Paragraph, tracked bool) ([]byte, bool, error) {
+func rewriteStory(data []byte, before, after []Paragraph, tracked bool, generator ...func() string) ([]byte, bool, error) {
 	if len(before) != len(after) {
 		return nil, false, fmt.Errorf("页眉页脚结构不能直接增删")
 	}
@@ -22,6 +22,9 @@ func rewriteStory(data []byte, before, after []Paragraph, tracked bool) ([]byte,
 		return nil, false, fmt.Errorf("页眉页脚结构无法安全修改")
 	}
 	nextID := revisionIDs(d.Root())
+	if len(generator) > 0 {
+		nextID = generator[0]
+	}
 	changed := false
 	for i, p := range after {
 		old := before[i]
@@ -69,15 +72,16 @@ func rewriteStory(data []byte, before, after []Paragraph, tracked bool) ([]byte,
 			node.RemoveChild(c)
 		}
 		if tracked {
+			stripOwnRunHistory(props)
 			deleted := node.CreateElement("w:del")
 			deleted.CreateAttr("w:id", nextID())
 			deleted.CreateAttr("w:author", "Doc2GovPDF")
 			deleted.CreateAttr("w:date", time.Now().UTC().Format(time.RFC3339))
 			for _, c := range previous {
+				deleted.AddChild(c)
 				for _, text := range descendants(c, "t") {
 					text.Tag = "delText"
 				}
-				deleted.AddChild(c)
 			}
 			inserted := node.CreateElement("w:ins")
 			inserted.CreateAttr("w:id", nextID())

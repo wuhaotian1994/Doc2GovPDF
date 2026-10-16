@@ -3,7 +3,7 @@ package office
 import "fmt"
 
 func SetRole(m Model, id, role string) (Model, error) {
-	valid := map[string]bool{"body": true, "title": true, "heading": true, "heading2": true, "signature": true, "date": true}
+	valid := map[string]bool{"body": true, "title": true, "heading": true, "heading2": true, "heading3": true, "heading4": true, "article": true, "signature": true, "date": true}
 	if !valid[role] {
 		return m, fmt.Errorf("段落类型无效")
 	}
@@ -12,10 +12,14 @@ func SetRole(m Model, id, role string) (Model, error) {
 		if p.ID != id {
 			continue
 		}
-		if p.Protected || p.Prefix != "" || !valid[p.Role] {
+		if p.Protected || p.FormatLocked || (p.Prefix != "" && !p.AutoNumbered) || !valid[p.Role] {
 			return m, fmt.Errorf("此段包含受保护内容或自动编号，请保留原结构")
 		}
 		p.Role = role
+		p.OutlineLevel = 0
+		p.Prefix = ""
+		p.PrefixFont = ""
+		p.AutoNumbered = false
 		p.Size = 16
 		p.Font = "仿宋"
 		p.Align = "both"
@@ -37,11 +41,13 @@ func SetRole(m Model, id, role string) (Model, error) {
 		case "heading2":
 			p.Font = "楷体"
 			p.KeepNext = true
+		case "heading3", "heading4":
+			p.KeepNext = true
 		case "signature", "date":
 			p.Align = "right"
 			p.Indent = 0
 		}
-		return m, nil
+		return RenumberDocument(m), nil
 	}
 	return m, fmt.Errorf("未找到这一段")
 }

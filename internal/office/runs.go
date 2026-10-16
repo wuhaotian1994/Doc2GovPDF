@@ -6,6 +6,19 @@ import (
 	"strings"
 )
 
+// The inserted run already has its final formatting. The old run keeps the
+// original format revision inside the deletion; copying it would duplicate IDs.
+func stripOwnRunHistory(props *etree.Element) {
+	if props == nil {
+		return
+	}
+	for _, c := range props.ChildElements() {
+		if c.Tag == "rPrChange" && attr(c, "author") == "Doc2GovPDF" {
+			props.RemoveChild(c)
+		}
+	}
+}
+
 func addParagraphText(parent *etree.Element, p Paragraph, props *etree.Element) {
 	add := func(text, font string) {
 		var rp *etree.Element

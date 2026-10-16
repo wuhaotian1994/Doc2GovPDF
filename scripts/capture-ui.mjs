@@ -28,7 +28,7 @@ try{
  socket.addEventListener('message',event=>{const r=JSON.parse(event.data);const job=jobs.get(r.id);if(job){clearTimeout(job.timer);jobs.delete(r.id);r.error?job.reject(new Error(r.error.message)):job.resolve(r.result);}});
  await call('Page.enable');await call('Runtime.enable');
  await call('Emulation.setDeviceMetricsOverride',{width:1120,height:720,deviceScaleFactor:1,mobile:false});
- await call('Page.addScriptToEvaluateOnNewDocument',{source:'const fixture='+JSON.stringify(fixture)+';window.go={main:{App:{Templates:async()=>fixture.templates,GetPreferences:async()=>({agency:"",referencePrefix:"",outputFormat:"both",autoUpdate:true}),GetWorkspace:async()=>({document:{blocks:[]}}),Fonts:async()=>fixture.fonts,BuildDocument:async()=>structuredClone(fixture.model),InspectDocument:async()=>structuredClone(fixture.inspection),PreviewDocument:async()=>structuredClone(fixture.preview),SaveWorkspace:async()=>{},SavePreferences:async()=>{},UpdateStatus:async()=>({version:"1.0.3",configured:false,message:"本地安装版。"}),MarkHealthy:async()=>{}}}};'});
+ await call('Page.addScriptToEvaluateOnNewDocument',{source:'const fixture='+JSON.stringify(fixture)+';window.go={main:{App:{Templates:async()=>fixture.templates,GetPreferences:async()=>({agency:"",referencePrefix:"",outputFormat:"both",autoUpdate:true}),GetWorkspace:async()=>({document:{blocks:[]}}),Fonts:async()=>fixture.fonts,BuildDocument:async()=>structuredClone(fixture.model),UpdateDocumentElements:async()=>structuredClone(fixture.model),PreviewSafeRepairs:async()=>structuredClone(fixture.repairPlan),ReviewPDFFile:async()=>structuredClone(fixture.pdfReview),RecheckPDF:async()=>structuredClone(fixture.pdfReview.inspection),InspectDocument:async()=>structuredClone(fixture.inspection),PreviewDocument:async()=>structuredClone(fixture.preview),SaveWorkspace:async()=>{},SavePreferences:async()=>{},UpdateStatus:async()=>({version:"1.0.3",configured:false,message:"本地安装版。"}),MarkHealthy:async()=>{}}}};'});
  await call('Page.navigate',{url:pageURL});
  await until(()=>evaluate('Boolean(window.appReady)'));
  await capture('01-home');
@@ -67,5 +67,19 @@ try{
  const modalFits=await evaluate('(()=>{const d=document.getElementById("settings-dialog").getBoundingClientRect();return d.left>=0&&d.right<=innerWidth&&d.top>=0&&d.bottom<=innerHeight})()');
  if(!modalFits)throw new Error('Settings dialog exceeds compact viewport');
  await evaluate('document.getElementById("settings-close").click()');
- console.log('Captured home, actual PDF review, and narrow layout fixtures.');
+ await call('Emulation.setDeviceMetricsOverride',{width:1120,height:780,deviceScaleFactor:1,mobile:false});
+ await evaluate('document.getElementById("edit-elements").click();document.getElementById("extra-elements").open=true;document.getElementById("extra-elements").scrollIntoView({block:"start"})');
+ await capture('12-extra-elements');
+ await call('Emulation.setDeviceMetricsOverride',{width:720,height:620,deviceScaleFactor:1,mobile:false});await capture('13-extra-elements-small');
+ if(await evaluate('document.documentElement.scrollWidth>innerWidth'))throw new Error('Expanded elements overflow');
+ await evaluate('document.getElementById("compose-form").requestSubmit()');await until(()=>evaluate('!document.getElementById("workspace").hidden && !document.getElementById("home-open").disabled'));
+ await call('Emulation.setDeviceMetricsOverride',{width:1120,height:780,deviceScaleFactor:1,mobile:false});
+ await evaluate('document.getElementById("review-pdf").click()');await until(()=>evaluate('Boolean(document.querySelector("#pdf-review-canvas canvas"))'));await capture('14-pdf-inspection');
+ await call('Emulation.setDeviceMetricsOverride',{width:720,height:620,deviceScaleFactor:1,mobile:false});await capture('15-pdf-inspection-small');
+ const fits=await evaluate('(()=>{const r=document.getElementById("pdf-review-dialog").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight})()');if(!fits)throw new Error('PDF inspection dialog overflow');
+ await evaluate('document.getElementById("pdf-review-close").click();document.getElementById("editor-checks").open=true;document.getElementById("repair-common").click()');await until(()=>evaluate('document.getElementById("repair-dialog").open'));
+ await capture('16-repair-confirmation-small');
+ await call('Emulation.setDeviceMetricsOverride',{width:1120,height:780,deviceScaleFactor:1,mobile:false});await capture('17-repair-confirmation');
+ console.log('Captured standard, split, extended elements, PDF inspection and repair confirmation fixtures.');
+
 }finally{server.close();socket?.close();child.kill();for(const j of jobs.values())clearTimeout(j.timer);}

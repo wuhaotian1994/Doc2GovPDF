@@ -19,6 +19,10 @@ import (
 var assets embed.FS
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "--inspect-pdf-worker" {
+		pdfInspectionWorker()
+		return
+	}
 	app := NewApp()
 	webviewData := ""
 	if dir := os.Getenv("DOC2GOVPDF_DATA_DIR"); dir != "" {

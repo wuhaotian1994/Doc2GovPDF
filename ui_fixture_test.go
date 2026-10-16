@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"doc2govpdf/internal/office"
+	"encoding/base64"
 	"encoding/json"
 	"os"
 	"testing"
@@ -27,6 +28,30 @@ func TestGenerateUIFixture(t *testing.T) {
 		t.Fatal(e)
 	}
 	fixture := map[string]interface{}{"model": m, "inspection": check, "preview": pdf, "fonts": office.FontStatus(), "templates": office.Templates()}
+	plan, e := office.PlanSafeRepairs(m)
+	if e != nil {
+		t.Fatal(e)
+	}
+	fixture["repairPlan"] = plan
+	wrong := m.Clone()
+	for _, p := range wrong.Paragraphs() {
+		if p.Role == "title" {
+			p.Font = "宋体"
+		}
+	}
+	wrongPDF, e := a.PreviewDocument(wrong)
+	if e != nil {
+		t.Fatal(e)
+	}
+	bytes, e := base64.StdEncoding.DecodeString(wrongPDF.PDF)
+	if e != nil {
+		t.Fatal(e)
+	}
+	pdfCheck, e := office.InspectPDFBytes(context.Background(), bytes, nil)
+	if e != nil {
+		t.Fatal(e)
+	}
+	fixture["pdfReview"] = map[string]interface{}{"name": "字体核对示例.pdf", "pdf": wrongPDF.PDF, "inspection": pdfCheck}
 	b, _ := json.Marshal(fixture)
 	os.MkdirAll("build/qa", 0700)
 	if e = os.WriteFile("build/qa/ui-fixture.json", b, 0600); e != nil {

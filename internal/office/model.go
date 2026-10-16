@@ -20,38 +20,44 @@ type TabStop struct {
 	Position float64 `json:"position"`
 }
 type Paragraph struct {
-	Italic       bool      `json:"italic,omitempty"`
-	Bold         bool      `json:"bold,omitempty"`
-	ID           string    `json:"id"`
-	Text         string    `json:"text"`
-	Prefix       string    `json:"prefix,omitempty"`
-	PrefixFont   string    `json:"prefixFont,omitempty"`
-	Role         string    `json:"role"`
-	Align        string    `json:"align"`
-	Font         string    `json:"font"`
-	Size         float64   `json:"size"`
-	Color        string    `json:"color,omitempty"`
-	Before       float64   `json:"before"`
-	After        float64   `json:"after"`
-	Line         float64   `json:"line"`
-	Indent       float64   `json:"indent"`
-	LeftIndent   float64   `json:"leftIndent,omitempty"`
-	RightIndent  float64   `json:"rightIndent,omitempty"`
-	Hanging      float64   `json:"hanging,omitempty"`
-	PageBreak    bool      `json:"pageBreak,omitempty"`
-	BreakOffsets []int     `json:"breakOffsets,omitempty"`
-	KeepNext     bool      `json:"keepNext,omitempty"`
-	BorderBottom bool      `json:"borderBottom,omitempty"`
-	BorderColor  string    `json:"borderColor,omitempty"`
-	BorderTop    bool      `json:"borderTop,omitempty"`
-	BorderStyle  string    `json:"borderStyle,omitempty"`
-	BorderWidth  float64   `json:"borderWidth,omitempty"`
-	AnchorBottom bool      `json:"anchorBottom,omitempty"`
-	FrameX       float64   `json:"frameX,omitempty"`
-	FrameY       float64   `json:"frameY,omitempty"`
-	FrameWidth   float64   `json:"frameWidth,omitempty"`
-	Protected    bool      `json:"protected,omitempty"`
-	Tabs         []TabStop `json:"tabs,omitempty"`
+	HiddenInk      bool        `json:"hiddenInk,omitempty"`
+	ExplicitIndent bool        `json:"explicitIndent,omitempty"`
+	AutoNumbered   bool        `json:"autoNumbered,omitempty"`
+	EditableRanges []TextRange `json:"editableRanges,omitempty"`
+	FormatLocked   bool        `json:"formatLocked,omitempty"`
+	OutlineLevel   int         `json:"outlineLevel,omitempty"`
+	Italic         bool        `json:"italic,omitempty"`
+	Bold           bool        `json:"bold,omitempty"`
+	ID             string      `json:"id"`
+	Text           string      `json:"text"`
+	Prefix         string      `json:"prefix,omitempty"`
+	PrefixFont     string      `json:"prefixFont,omitempty"`
+	Role           string      `json:"role"`
+	Align          string      `json:"align"`
+	Font           string      `json:"font"`
+	Size           float64     `json:"size"`
+	Color          string      `json:"color,omitempty"`
+	Before         float64     `json:"before"`
+	After          float64     `json:"after"`
+	Line           float64     `json:"line"`
+	Indent         float64     `json:"indent"`
+	LeftIndent     float64     `json:"leftIndent,omitempty"`
+	RightIndent    float64     `json:"rightIndent,omitempty"`
+	Hanging        float64     `json:"hanging,omitempty"`
+	PageBreak      bool        `json:"pageBreak,omitempty"`
+	BreakOffsets   []int       `json:"breakOffsets,omitempty"`
+	KeepNext       bool        `json:"keepNext,omitempty"`
+	BorderBottom   bool        `json:"borderBottom,omitempty"`
+	BorderColor    string      `json:"borderColor,omitempty"`
+	BorderTop      bool        `json:"borderTop,omitempty"`
+	BorderStyle    string      `json:"borderStyle,omitempty"`
+	BorderWidth    float64     `json:"borderWidth,omitempty"`
+	AnchorBottom   bool        `json:"anchorBottom,omitempty"`
+	FrameX         float64     `json:"frameX,omitempty"`
+	FrameY         float64     `json:"frameY,omitempty"`
+	FrameWidth     float64     `json:"frameWidth,omitempty"`
+	Protected      bool        `json:"protected,omitempty"`
+	Tabs           []TabStop   `json:"tabs,omitempty"`
 }
 type CellMargins struct {
 	Top    float64 `json:"top"`
@@ -81,13 +87,14 @@ type Row struct {
 	Height float64 `json:"height,omitempty"`
 }
 type Table struct {
-	Align       string    `json:"align,omitempty"`
-	Width       float64   `json:"width,omitempty"`
-	BorderStyle string    `json:"borderStyle,omitempty"`
-	Rows        []Row     `json:"rows"`
-	Widths      []float64 `json:"widths"`
-	Borders     bool      `json:"borders"`
-	Role        string    `json:"role,omitempty"`
+	Caption     *Paragraph `json:"caption,omitempty"`
+	Align       string     `json:"align,omitempty"`
+	Width       float64    `json:"width,omitempty"`
+	BorderStyle string     `json:"borderStyle,omitempty"`
+	Rows        []Row      `json:"rows"`
+	Widths      []float64  `json:"widths"`
+	Borders     bool       `json:"borders"`
+	Role        string     `json:"role,omitempty"`
 }
 type Block struct {
 	Paragraph *Paragraph `json:"paragraph,omitempty"`
@@ -105,16 +112,21 @@ type Page struct {
 	CharSpace int     `json:"charSpace"`
 }
 type Model struct {
-	Blocks              []Block     `json:"blocks"`
-	Page                Page        `json:"page"`
-	Template            string      `json:"template"`
-	SourceID            string      `json:"sourceId,omitempty"`
-	Warnings            []string    `json:"warnings"`
-	PDFUnsupported      bool        `json:"pdfUnsupported"`
-	HideFirstPageNumber bool        `json:"hideFirstPageNumber"`
-	Header              []Paragraph `json:"header,omitempty"`
-	FirstHeader         []Paragraph `json:"firstHeader,omitempty"`
-	FirstFooter         []Paragraph `json:"firstFooter,omitempty"`
+	ConfirmedIssues     []string        `json:"confirmedIssues,omitempty"`
+	AutoNumbering       bool            `json:"autoNumbering,omitempty"`
+	LayoutNormalized    bool            `json:"layoutNormalized,omitempty"`
+	Preprinted          bool            `json:"preprinted,omitempty"`
+	ReviewComments      []ReviewComment `json:"reviewComments,omitempty"`
+	Blocks              []Block         `json:"blocks"`
+	Page                Page            `json:"page"`
+	Template            string          `json:"template"`
+	SourceID            string          `json:"sourceId,omitempty"`
+	Warnings            []string        `json:"warnings"`
+	PDFUnsupported      bool            `json:"pdfUnsupported"`
+	HideFirstPageNumber bool            `json:"hideFirstPageNumber"`
+	Header              []Paragraph     `json:"header,omitempty"`
+	FirstHeader         []Paragraph     `json:"firstHeader,omitempty"`
+	FirstFooter         []Paragraph     `json:"firstFooter,omitempty"`
 }
 
 func DefaultPage() Page {
@@ -128,6 +140,9 @@ func (m *Model) Paragraphs() []*Paragraph {
 			out = append(out, b.Paragraph)
 		}
 		if b.Table != nil {
+			if b.Table.Caption != nil {
+				out = append(out, b.Table.Caption)
+			}
 			for ri := range b.Table.Rows {
 				for ci := range b.Table.Rows[ri].Cells {
 					cell := &b.Table.Rows[ri].Cells[ci]
@@ -170,6 +185,16 @@ func (m *Model) Validate() error {
 		return fmt.Errorf("页面尺寸无效")
 	}
 	for _, p := range m.Paragraphs() {
+		lastRange := 0
+		if len(p.EditableRanges) > 1000 {
+			return fmt.Errorf("段落保护片段过多")
+		}
+		for _, r := range p.EditableRanges {
+			if r.Start < lastRange || r.End < r.Start || r.End > len(p.Text) || !utf8.ValidString(p.Text[r.Start:r.End]) {
+				return fmt.Errorf("段落保护片段位置无效")
+			}
+			lastRange = r.End
+		}
 		for _, n := range []float64{p.Size, p.Before, p.After, p.Line, p.Indent, p.LeftIndent, p.RightIndent, p.Hanging} {
 			if math.IsNaN(n) || math.IsInf(n, 0) {
 				return fmt.Errorf("段落尺寸无效")

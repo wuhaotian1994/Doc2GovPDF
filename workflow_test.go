@@ -96,3 +96,25 @@ func TestOldDraftTableMetadataSurvivesInsertedParagraph(t *testing.T) {
 	}
 	t.Fatal("table metadata was matched by unstable block position")
 }
+
+func TestBatchRepairHonorsRetainedWording(t *testing.T) {
+	a := &App{}
+	m := office.Plain("标题\n筹画项目\n于2026年05月08日前报送")
+	r, e := office.Inspect(m)
+	if e != nil {
+		t.Fatal(e)
+	}
+	var ignored []string
+	for _, f := range r.Issues {
+		if f.Rule == "word.variant" {
+			ignored = append(ignored, f.ID)
+		}
+	}
+	plan, e := a.PreviewSafeRepairs(m, ignored)
+	if e != nil {
+		t.Fatal(e)
+	}
+	if !strings.Contains(plan.Document.Text(), "筹画项目") || !strings.Contains(plan.Document.Text(), "2026年5月8日") {
+		t.Fatal("retained wording ignored or unrelated repair skipped")
+	}
+}

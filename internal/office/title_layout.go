@@ -13,6 +13,7 @@ func prepareNewLayout(m Model) Model {
 		return m
 	}
 	m = m.Clone()
+	m = RenumberDocument(m)
 	// Keep some preceding content with the closing signature. Otherwise a
 	// short document can end with a page containing only the agency and date.
 	for i, block := range m.Blocks {

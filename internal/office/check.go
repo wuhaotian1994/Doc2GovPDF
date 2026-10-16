@@ -58,7 +58,7 @@ func wordPairs(data string, reverse bool) []wordPair {
 
 var variants = wordPairs(variantData, true)
 var styles = wordPairs(styleData, false)
-var protectedSpan = regexp.MustCompile(`“[^”]*”|「[^」]*」|《[^》]*》|https?://\S+|[\w.+-]+@[\w.-]+\.[A-Za-z]+`)
+var protectedSpan = regexp.MustCompile(`“[^”]*”|「[^」]*」|《[^》]*》|https?://[^\s，。；）]+|[\w.+-]+@[\w.-]+\.[A-Za-z]+`)
 
 func editableOccurrence(text, needle string) int {
 	spans := protectedSpan.FindAllStringIndex(text, -1)
@@ -86,10 +86,13 @@ func editableOccurrence(text, needle string) int {
 	}
 }
 func Inspect(m Model) (Inspection, error) {
+	m = RenumberDocument(m)
 	if e := m.Validate(); e != nil {
 		return Inspection{}, e
 	}
 	r := Inspection{Digest: fmt.Sprintf("%x", sha256.Sum256([]byte(m.Text()))), Version: "0.2.0", Issues: []Finding{}, Unchecked: []string{"事实、政策含义、引用准确性与单位审批要求"}}
+	corrections := map[string]map[string]string{}
+	tableIDs := map[string]bool{}
 	add := func(p *Paragraph, rule, severity, message, replacement, basis string) {
 		if len(r.Issues) >= 500 {
 			return
@@ -99,15 +102,30 @@ func Inspect(m Model) (Inspection, error) {
 		if p != nil {
 			original = p.Text
 			id = p.ID
+			if corrections[id] == nil {
+				corrections[id] = TextCorrections(*p)
+			}
+			if value := corrections[id][rule]; value != "" {
+				replacement = value
+			}
 			if p.Protected {
+				replacement = corrections[id][rule]
+			}
+			if p.Role == "agency" || tableIDs[id] {
 				replacement = ""
 			}
 		}
 		key := fmt.Sprintf("%s:%s:%s:%s", r.Digest, id, rule, message)
+		if replacement != "" {
+			for _, prior := range r.Issues {
+				if prior.ParagraphID == id && prior.Rule == rule && prior.Replacement == replacement {
+					return
+				}
+			}
+		}
 		hash := sha256.Sum256([]byte(key))
 		r.Issues = append(r.Issues, Finding{ID: fmt.Sprintf("%x", hash[:12]), ParagraphID: id, Rule: rule, Severity: severity, Message: message, Original: original, Replacement: replacement, Basis: basis})
 	}
-	tableIDs := map[string]bool{}
 	for _, b := range m.Blocks {
 		if b.Table != nil {
 			for _, row := range b.Table.Rows {
@@ -124,9 +142,6 @@ func Inspect(m Model) (Inspection, error) {
 			add(p, "attachment.empty", "error", "这个附件页还没有内容，请填写后再导出。", "", "附件内容完整性")
 		}
 		if strings.TrimSpace(p.Text) == "" {
-			continue
-		}
-		if p.Protected {
 			continue
 		}
 		if p.Italic {
@@ -162,22 +177,18 @@ func Inspect(m Model) (Inspection, error) {
 				add(p, "style.word", "suggestion", "“"+pair.from+"”："+pair.to+"。请结合语境判断。", "", "编辑建议，不属于强制格式规则")
 			}
 		}
-		for _, pair := range []wordPair{{",", "，"}, {";", "；"}, {":", "："}, {"(", "（"}, {")", "）"}} {
-			if n := editableOccurrence(p.Text, pair.from); n >= 0 && hasHan(p.Text) {
-				before, after := byte(0), byte(0)
-				if n > 0 {
-					before = p.Text[n-1]
+		if p.Role != "agency" && !tableIDs[p.ID] {
+			for rule, next := range TextCorrections(*p) {
+				duplicate := false
+				for _, issue := range r.Issues {
+					if issue.ParagraphID == p.ID && (issue.Rule == rule || issue.Replacement == next) {
+						duplicate = true
+						break
+					}
 				}
-				if n+1 < len(p.Text) {
-					after = p.Text[n+1]
+				if !duplicate {
+					add(p, rule, "review", "这处写法可按公文体例整理，请对照原文确认修改。", next, "对应上游体例修正规则；引用、网址、数字事实保留")
 				}
-				if before >= '0' && before <= '9' && after >= '0' && after <= '9' {
-					continue
-				}
-				if strings.Contains(p.Text, "http") {
-					continue
-				}
-				add(p, "punctuation.half", "review", "中文段落中出现半角标点，请确认此处是否应使用全角。", p.Text[:n]+pair.to+p.Text[n+1:], "GB/T 15834—2011，需结合语言环境")
 			}
 		}
 		if !tableIDs[p.ID] && (p.Role == "body" || p.Role == "heading" || p.Role == "heading2") && math.Abs(p.Size-16) > .1 {
@@ -188,13 +199,14 @@ func Inspect(m Model) (Inspection, error) {
 	if math.Abs(page.Width-210) > 1 || math.Abs(page.Height-297) > 1 {
 		add(nil, "format.page", "review", "纸张尺寸不是 A4，请核对原稿是否采用特殊纸张。", "", "GB/T 9704—2012 5.1")
 	}
-	if m.Template != "letter" && (math.Abs(page.Top-37) > 1 || math.Abs(page.Left-28) > 1) {
+	if m.Template != "letter" && (math.Abs(page.Top-37) > .1 || math.Abs(page.Bottom-35) > .1 || math.Abs(page.Left-28) > .1 || math.Abs(page.Right-26) > .1) {
 		add(nil, "format.margin", "review", "页边距与通用公文设置不同，请确认是否使用信函等特殊格式。", "", "GB/T 9704—2012 5.2")
 	}
 	checkTables(m, add)
 	checkEnumeration(m, add)
 	crossMetrics(m, add)
 	checkTextConventions(m, tableIDs, add)
+	checkTableConventions(m, add)
 	if m.PDFUnsupported {
 		r.Unchecked = append(r.Unchecked, "复杂对象及其 PDF 版面")
 	}
@@ -234,161 +246,9 @@ func cellText(c Cell) string {
 	return strings.TrimSpace(strings.Join(s, " "))
 }
 func totalLabel(s string) bool {
-	s = strings.ReplaceAll(s, " ", "")
+	s = strings.Join(strings.Fields(s), "")
 	return s == "合计" || s == "总计" || s == "小计"
 }
-func checkTables(m Model, add addFinding) {
-	for ti, b := range m.Blocks {
-		if b.Table == nil || len(b.Table.Rows) < 3 {
-			continue
-		}
-		rows := b.Table.Rows
-		for ri, row := range rows {
-			if len(row.Cells) < 2 || !totalLabel(cellText(row.Cells[0])) {
-				continue
-			}
-			for ci := 1; ci < len(row.Cells); ci++ {
-				expected, pct, ok := parseNumber(cellText(row.Cells[ci]))
-				if !ok || len(row.Cells[ci].Paragraphs) == 0 {
-					continue
-				}
-				sum := 0.0
-				n := 0
-				ambiguous := false
-				for k := 1; k < ri; k++ {
-					if len(rows[k].Cells) != len(row.Cells) || totalLabel(cellText(rows[k].Cells[0])) {
-						ambiguous = true
-						break
-					}
-					v, vpct, ok := parseNumber(cellText(rows[k].Cells[ci]))
-					if !ok || vpct != pct || rows[k].Cells[ci].Span != 1 || rows[k].Cells[ci].Merge != "" {
-						ambiguous = true
-						break
-					}
-					sum += v
-					n++
-				}
-				if ambiguous || n < 1 {
-					continue
-				}
-				if math.Abs(sum-expected) > .005 {
-					p := &row.Cells[ci].Paragraphs[0]
-					add(p, "number.table-total", "review", fmt.Sprintf("表格 %d 的合计为 %g，已列分项相加为 %g。请核对统计范围与原始数字。", ti+1, expected, sum), "", "数字自洽校验；数值不自动修改")
-				}
-				if pct && math.Abs(sum-100) > .5 {
-					p := &row.Cells[ci].Paragraphs[0]
-					add(p, "number.percentage", "review", fmt.Sprintf("已列占比合计为 %g%%。若这些项目构成完整总体，应核对是否为 100%%；部分列举可忽略。", sum), "", "完整构成条件下的百分比检查")
-				}
-			}
-		}
-		// Row totals are only compared when an explicit total column exists.
-		if len(rows) > 2 {
-			header := rows[0]
-			for ci, c := range header.Cells {
-				if ci < 2 || !totalLabel(cellText(c)) {
-					continue
-				}
-				for ri := 1; ri < len(rows); ri++ {
-					row := rows[ri]
-					if len(row.Cells) <= ci || totalLabel(cellText(row.Cells[0])) {
-						continue
-					}
-					total, _, ok := parseNumber(cellText(row.Cells[ci]))
-					if !ok {
-						continue
-					}
-					sum := 0.0
-					valid := true
-					for j := 1; j < ci; j++ {
-						v, pct, ok := parseNumber(cellText(row.Cells[j]))
-						if !ok || pct {
-							valid = false
-							break
-						}
-						sum += v
-					}
-					if valid && math.Abs(sum-total) > .005 && len(row.Cells[ci].Paragraphs) > 0 {
-						add(&row.Cells[ci].Paragraphs[0], "number.row-total", "review", fmt.Sprintf("这一行合计为 %g，分项相加为 %g，请核对统计口径。", total, sum), "", "数字自洽校验")
-					}
-				}
-			}
-		}
-	}
-}
-
-var countIntro = regexp.MustCompile(`(?:以下|如下|包括|做了)([一二三四五六七八九十\d]+)(?:个方面|个?事项|项|点|方面)`)
-
-func headingLevel(p *Paragraph) int {
-	text := p.Prefix + p.Text
-	if h1.MatchString(text) || p.Role == "heading" {
-		return 1
-	}
-	if h2.MatchString(text) || p.Role == "heading2" {
-		return 2
-	}
-	if strings.HasPrefix(text, "（") && strings.Contains(text, "）") {
-		return 4
-	}
-	if p.Role == "subheading" {
-		return 3
-	}
-	return 0
-}
-func checkEnumeration(m Model, add addFinding) {
-	var ps []*Paragraph
-	for _, b := range m.Blocks {
-		if b.Paragraph != nil {
-			ps = append(ps, b.Paragraph)
-		}
-	}
-	for i, p := range ps {
-		match := countIntro.FindStringSubmatch(p.Text)
-		if match == nil || editableOccurrence(p.Text, match[0]) < 0 {
-			continue
-		}
-		want, e := strconv.Atoi(match[1])
-		if e != nil {
-			for n := 1; n <= 99; n++ {
-				if chinese(n) == match[1] {
-					want = n
-					break
-				}
-			}
-		}
-		if want <= 0 || want > 100 {
-			continue
-		}
-		level, count := 0, 0
-		complete := false
-		for j := i + 1; j < len(ps) && j < i+401; j++ {
-			q := ps[j]
-			if q.Role == "signature" || q.Role == "date" || q.Role == "imprint" || q.Role == "roster" || q.PageBreak {
-				complete = true
-				break
-			}
-			current := headingLevel(q)
-			if current > 0 {
-				if level == 0 {
-					level = current
-				}
-				if current < level {
-					complete = true
-					break
-				}
-				if current == level {
-					count++
-				}
-			}
-			if j == len(ps)-1 {
-				complete = true
-			}
-		}
-		if complete && count > 0 && count != want {
-			add(p, "number.enumeration", "review", fmt.Sprintf("这里写了“%s”，对应层级识别到 %d 个事项，请核对是否完整。", match[0], count), "", "列举结构检查，遇到未能完整识别的结构不作确定结论")
-		}
-	}
-}
-
 func ApplyFinding(m Model, id string) (Model, error) {
 	r, e := Inspect(m)
 	if e != nil {
@@ -398,7 +258,14 @@ func ApplyFinding(m Model, id string) (Model, error) {
 		if f.ID == id && f.Replacement != "" {
 			m = m.Clone()
 			for _, p := range m.Paragraphs() {
-				if p.ID == f.ParagraphID && !p.Protected {
+				if p.ID == f.ParagraphID && (!p.Protected || TextCorrections(*p)[f.Rule] == f.Replacement) {
+					if p.Protected {
+						ranges, e := rebaseEditableRanges(*p, f.Replacement)
+						if e != nil {
+							return m, e
+						}
+						p.EditableRanges = ranges
+					}
 					p.Text = f.Replacement
 					return m, nil
 				}

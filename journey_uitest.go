@@ -91,5 +91,5 @@ func (a *App) qaFixtures() (map[string]interface{}, error) {
 	openDocumentDialog = func(context.Context, runtime.OpenDialogOptions) (string, error) { return qaDialogPath() }
 	saveDocumentDialog = func(context.Context, runtime.SaveDialogOptions) (string, error) { return qaDialogPath() }
 	openOutputDirectory = func(context.Context, runtime.OpenDialogOptions) (string, error) { return qaDialogPath() }
-	return map[string]interface{}{"phase": os.Getenv("DOC2GOVPDF_QA_PHASE"), "files": files, "text": txt, "bad": bad, "empty": empty, "unsupported": unsupported, "output": out}, nil
+	return map[string]interface{}{"phase": os.Getenv("DOC2GOVPDF_QA_PHASE"), "files": files, "pdf": filepath.Join(root, "testdata/upstream/gongwen-kit/pdf/公文通知.pdf"), "text": txt, "bad": bad, "empty": empty, "unsupported": unsupported, "output": out}, nil
 }

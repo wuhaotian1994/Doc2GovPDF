@@ -1,0 +1,910 @@
+{
+  "date": "2026-10-17",
+  "reviewer": "Codex",
+  "method": "逐页查看真实 Word/Go PDF/上游参考的 Poppler 图像；自动断言作为补充。",
+  "uniquePages": 203,
+  "boards": [
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-short-1.png",
+      "sha256": "bb010da18aa56cc8873557ca05886608047d62377049f1d7afa82d18a791da9d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-short-2.png",
+      "sha256": "d72f69a0eec72046dc41af0d805959ca084fd45e28d86d9e33e9aeedd0b3dc28"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-short-1.png",
+      "sha256": "024bf595e7ddae14301f1bd16834817c56afdbcaaa9ac6ebb33f36b6583df9d8"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-short-2.png",
+      "sha256": "2c47dc72d247ece83e8244f125c1d151f5840ab034281369dc992e9bf0c7491d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-short-1.png",
+      "sha256": "1968f7e680470a387affeef36807d855d75b0185f28a1779debae9036bd23252"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-short-2.png",
+      "sha256": "6e7dd3c74b037bf8ced984e547df07958bba6fc2ab5b999bae29bc2fac380762"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-letter-short-1.png",
+      "sha256": "7dbe2e4e788f563411708b4d66da102a34f00e44d74177c1f2da5ac4bccb01b0"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-short-1.png",
+      "sha256": "ec87135ef7e7f4a9291b53cc5d8df0ed7ff0887a8d959aca207e6483dd0444cb"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-short-2.png",
+      "sha256": "aa1d6319e01e0c179f450ada0deeac9a504c006f69d1771e6a148d933aaa39f0"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-short-1.png",
+      "sha256": "c93d85810f6365f6c02e936664758d39bdee05708a72ad74c8b9372ffe9ed6f9"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-short-2.png",
+      "sha256": "727924106a83e81d7670957829de4f9a1d9dd37c37761701c51d184a4d8d9cd3"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-plain-short-1.png",
+      "sha256": "36e32b258c03b91d8e9c259c33eb823293f15880adae2c0c7fc9141bcb79c5ba"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-long-1.png",
+      "sha256": "048737f84e45c835199b87661aa0adc86391da958eb17a9c07cf8712382a466d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-long-2.png",
+      "sha256": "68deefff2dea6be24d80a4f4440dcdc05d3748be66303a3cd89a81afcc73662f"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-long-3.png",
+      "sha256": "0fc70b85f8061bc329b154328f796d0ae1f7bc385488c7b5f5b6dcdbfadcc6ec"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-long-4.png",
+      "sha256": "eeb203d008d6d9918de48950d3b76a49933aa7600c92924f9d7601b37d9f16aa"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-long-5.png",
+      "sha256": "81f6361fd3aa6b0b9e789b682e097a84b0e91f770fa4f32074a8189e0325bfe1"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-notice-long-6.png",
+      "sha256": "417d6d0b913266d520e915b448a1fc21a33ca7448b2bb49ca8f4e067ceb85583"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-long-1.png",
+      "sha256": "df9b79798ed51c3731d98491c5070daeac7c360b2b6b9808dc6cd80abd81e719"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-long-2.png",
+      "sha256": "0029ff2c5299dd39fb19b98d95e18609d4493c06dbe3d0786aa01c72c60abbf9"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-long-3.png",
+      "sha256": "43e6949b7d1bed70c236cf2360f225a442c8c7bba60c9e524194a8fec04f8bf9"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-long-4.png",
+      "sha256": "cdf08b6a3a9dfb0a91a9c23bd6a955c8408cde3344ae4cfe0df936c2a4940241"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-long-5.png",
+      "sha256": "c92615f7c2b231b7cdae56a8fc7af70f8719f06d16772843610e96c41d43d581"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-report-long-6.png",
+      "sha256": "4fdc47fda1e98415e804aa787b4e59c6334e201ca55f8c34c91a64bd68dedc6d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-long-1.png",
+      "sha256": "0a24e26583693606cdb1ec1c7545ba5743713887cea85712be9f01a83d3c181a"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-long-2.png",
+      "sha256": "1cb59a06cbb5a7f515c2e5cbce788f0a9671efae3e6261eb5141fcdfcbd5c011"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-long-3.png",
+      "sha256": "ce4d5dafdcf5c636fc1c64a78e7e3003a10e0df8893b39e9184a912ed34c9b8d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-long-4.png",
+      "sha256": "05dcb7eeaec34186262cb528be58f3fc32c1888e2a7249af5c9cb411fa3a9856"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-long-5.png",
+      "sha256": "3ee69957d38c4f3e934637766ad5d4044d087276758c94c8847297e7b5e9ecd5"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-request-long-6.png",
+      "sha256": "0e3b76627c57fe9f31fe9d8dceb016d6517442eb933f77494e83667e9a4df094"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-letter-long-1.png",
+      "sha256": "73330b3f4af3bb10c257734413a416554e6c18782ac8dfdc8200fa3f34bf2f20"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-letter-long-2.png",
+      "sha256": "ce0f9f30199bd4e54bd53563ae1d38277a5afd152214aabbc089cafde9165538"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-letter-long-3.png",
+      "sha256": "5ef382b51099491390fa8fb9a8ed7effe26e341c34a3b85d93a9b4a0fd8ec396"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-letter-long-4.png",
+      "sha256": "e7cd76087c4db795886e03983eeb64488c85e1f10d3159a679ac5e42bef28338"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-letter-long-5.png",
+      "sha256": "1066726ca6c97f0fac30b6aaaf15a9e30334d8d8b639d445ed8b27fb06566ab5"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-letter-long-6.png",
+      "sha256": "b61b77ccb9efa7dcc7e924412dfe3c17826b8621762007b990011b28408a2291"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-long-1.png",
+      "sha256": "b0c58fba68fe1271ec2b53d1ebf537b9f8310c7b70a5afc5b5dda78c51be8357"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-long-2.png",
+      "sha256": "b76410efc8731a1da0a4ead7cb511a1ecdaf0d8f6804faeef3adf42cf646fb2c"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-long-3.png",
+      "sha256": "51e3234ad34b95f14d7720fa1a5d5888b253cdd4622f0eb726ec5d1f9939b72b"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-long-4.png",
+      "sha256": "f4c9f553caa073f3898b819e7508eaaa93e3b0a92979b2c0bb121a5689bac710"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-long-5.png",
+      "sha256": "98445d5fd9e26237c5304cccdcdd5db0371f04cc95fa9ec74c657a8d0526df78"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-minutes-long-6.png",
+      "sha256": "0e62a54013edafea9b083ea7e7af57ffb729e2a18cf75705f98e56e517b6b444"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-long-1.png",
+      "sha256": "71f54ee3a22d38824a2a908acd900732151f347624852df7965f59bbd1df7cdc"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-long-2.png",
+      "sha256": "6ab6aba3ce7e776f766e6adb74d98851c69a44ad5b845df8d4889b9bca7f345d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-long-3.png",
+      "sha256": "0ff9dbeb138e43ff622ff952af8b590539857660b97f90769e86814ee049b92f"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-long-4.png",
+      "sha256": "91d51951436a9c6e9e83b9607ffb28113cfbccebf2c8f992b2b72095c22bd34b"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-long-5.png",
+      "sha256": "83c54465b3ba83f08ecf525cbb994acaa8957258997ac396e59117d130a6e60d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-rules-long-6.png",
+      "sha256": "9fa8ac4501ea7e926a441610c6d7c3c88bfbea2c8885d4169eb7f2a628da4a16"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-plain-long-1.png",
+      "sha256": "38d0e8a03e474af1195c44eb21051acc9aff9381f198b4258ac77f500f5e4656"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-plain-long-2.png",
+      "sha256": "67f5bbed3aedf274856ea5731e520f16fd5bf24a1e2e6e2ca11313770771451d"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-plain-long-3.png",
+      "sha256": "8a60268da6d9ed82618fb95b69374b9752892a62951cf5db32b4fdfbe90a5c22"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-plain-long-4.png",
+      "sha256": "7052b4199ddb9e71e2b4edd2629c8cab0d43bddbf435f56fb0f30e4d5429ed0a"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-plain-long-5.png",
+      "sha256": "08f564343754592873f184ba636f15397a1f68fa400c43fac9197442df5e83f5"
+    },
+    {
+      "group": "base",
+      "file": "build/qa/layout-audit/1.1.0/rendered/review-plain-long-6.png",
+      "sha256": "c493ad32b3c809ed37de616848f3e4ad6baf489743dd2f211cce0bd5e96c755b"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-企业内部报告-1.png",
+      "sha256": "5e6268f89d666f5ed7b7ed78c58d4813329c25ad1841ec4b2e34ef8a3513b01f"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-企业内部报告-2.png",
+      "sha256": "2ea1d2f89b096b5745493d648d7bc70705cd324c2bc7449744f8c2fd4a9291fe"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文信函-1.png",
+      "sha256": "d219168d19892b29f6437836fea7b1286247cd4cfb54426a7103ea4da6ad952b"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文信函-2.png",
+      "sha256": "4f5b60c2f5e1eddba21afe06f532b50a164f23705f5e14c36c55471b84e40542"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文管理办法-1.png",
+      "sha256": "4513fbebe42f4dac4acb7d272f0066396270d56d3085ecc843855299f745dc7e"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文管理办法-2.png",
+      "sha256": "3b2ad3a48622aad11731f64070e879fe2e1e88dcf2cdea3a1d373cb573b59eb2"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文管理办法-3.png",
+      "sha256": "2f4760be3e73f844324462511abfc3b9e109727e315f1e77a5c90e6f7b26b04e"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文纪要-1.png",
+      "sha256": "ca02916004f3013ebc5c01830fd0d94a234da425e1a83602fd26fd1eebfcc70f"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文纪要-2.png",
+      "sha256": "53148a88222105c7f098553a1a262fd2306dc3d53987561a92b803891e506ee6"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文要素全览-1.png",
+      "sha256": "2940aab65760c9776482deae52f44d2d4ae1f5c9299a8c20f1fd593b1a14ef43"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文要素全览-2.png",
+      "sha256": "7273962d4fc7eae1beb594d6a567b9a15c2ef3cbb7055588ecbd1bc4874939df"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文要素全览-3.png",
+      "sha256": "b311e6d33082264f11da8a9848b62d3a4d2a9e91ad58d95f8986d9f909328d41"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文要素全览-4.png",
+      "sha256": "a44e0c63bcc44570b416e13e045ab199eba81a9a02535edb6c29bd425f79ee82"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文要素全览-5.png",
+      "sha256": "0d087b0c281d13a4ef2ce2db7d00389bed827243be492fd1db2a25b09346d784"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文请示-1.png",
+      "sha256": "7eb66558a3000433a9ef771e2270e5c3962677466c30b97c487610c512b9deed"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文请示-2.png",
+      "sha256": "5e5e0b475b4340d032df860d59f1b465dff7438530082c55afff1dac7c391519"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文请示-3.png",
+      "sha256": "2594ff745539f6dbdfb2d61d13da5c5cbbfd1106dea1bb895d5af2c9881deaba"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文请示-4.png",
+      "sha256": "19d7cee804343c16223566ae28eb4d5720981893b0e265bd7ceaa3f368907ed9"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文通知-1.png",
+      "sha256": "b69684cd4b9699b562954c254bbbcfdf265c618eb9e3d937c48ea605279d5d10"
+    },
+    {
+      "group": "source",
+      "file": "build/qa/layout-audit/1.1.0/rendered/compare-source-公文通知-2.png",
+      "sha256": "bfd3108964896edd72ae94e452f725dcd4eaf5ed2a09007f77232f6333430d90"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-automatic-articles-1.png",
+      "sha256": "d1d613991e8e3afbe9a95594ab4ab4610782e825d0dc1631353ff976a1288e05"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-automatic-articles-2.png",
+      "sha256": "c46bd8e104b1c74fc8145be37c1455a6234ac2b84b295f4426f290a3617c3e66"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-automatic-articles-3.png",
+      "sha256": "4fbb8b5ca121f21d092bcf13847901594c03b1dd3a96283f27e1b735a5802908"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-joint-notice-1.png",
+      "sha256": "e5b2a6b57fc00e38cf032f4303ed5c72409e233e355ac2b67d9b242f49349378"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-joint-notice-2.png",
+      "sha256": "0f6f40a97a2cd9d64e22c67cd6c0ba03e7dd5dcb4aded041ea7423f3a6e557d3"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-joint-request-1.png",
+      "sha256": "8185485bbc92578679be0d01b7456846b085e2c4e0dc73abb2f446ff0356c24b"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-joint-request-2.png",
+      "sha256": "040a8a191a2a6370619bd43277d0e371a748a19aa57a0fef23ccfac6cd73fd75"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-preprinted-1.png",
+      "sha256": "3e8a78732c35ba55ec1f1a213a1fb17762b8f14f056249af2792df7f0d0170cb"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-preprinted-2.png",
+      "sha256": "c5a12f3ae03855e2609260e6d4bec79494a842f01e553c428ef64e30cc224d4d"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-letter-elements-1.png",
+      "sha256": "5df301c856afd0000b0f422b005810f0e28535d2304903e93eb9cd37ecd060fc"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-unsealed-joint-1.png",
+      "sha256": "8a5ea31ae4142ff0ad9b4a414dab0337718685a9d05a59dc00955245b14ca3a4"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-minutes-issue-1.png",
+      "sha256": "8bab281d23e7dc930304a904167749c5655db3618cd40cd482ec2be44ac03f78"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-minutes-issue-2.png",
+      "sha256": "9d4065e79ca2fb7bb940259d9efa845eed9f18f154812568abed458a37a4c530"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-detached-attachments-1.png",
+      "sha256": "7baaf257a426bcc23a2b8cc5d26858cbee95824076bccb1ef3b0a7c00b9ce435"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-detached-attachments-2.png",
+      "sha256": "929c4b5666e1be8e1249a2b5482fd6be678804e9ed0b876ca2d4b60ccfb9062e"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-detached-attachments-3.png",
+      "sha256": "ceb34069b9f99d07c3ad32256bc12b1d51742068c1c7271b8edb294cc9515646"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-detached-attachments-4.png",
+      "sha256": "ffe9d23cf5375ff7c7eed8df9bf760a5a515f8fa2e136d634f6be53c67f8ed3d"
+    },
+    {
+      "group": "extended",
+      "file": "build/qa/extended-audit/rendered/compare-word-comments-1.png",
+      "sha256": "9ff9d8e5a7b909fbb1e04d3dc9c692043213108f1f3366cda1da27ae88b6bf68"
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-long/document.docx",
+      "sha256": "1cdbd58d4697d8ae8b637572305657c21a2e1ca66d8f2f784a522fc14983b08a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-long/go.pdf",
+      "sha256": "cebabba19c75172eadf51a78b391cafa4f1c05cd0851b7d6e8c0db0267f1176f"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-long/reference.pdf",
+      "sha256": "321943e52e45531528dfc869eaef8ae279b845b79cf0ca6f0a9e7d1e9cbae372"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-long/word.pdf",
+      "sha256": "bdd4240ea70e0992ef6bdf79e0b9fd3261cbcc1ec042062d73ccb927bc1696ae"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-short/document.docx",
+      "sha256": "9c0c9d742ea8c079031888b37a9b3a3371a0751ff4ca6ec07b60fb4e36d8d65a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-short/go.pdf",
+      "sha256": "80a1a5480254f9228c774516ae5912eb2010169ea1c8133cdeefcc6e65beb010"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-short/reference.pdf",
+      "sha256": "321943e52e45531528dfc869eaef8ae279b845b79cf0ca6f0a9e7d1e9cbae372"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/letter-short/word.pdf",
+      "sha256": "7659eb50187b25339c52e70f317165e046c59e46d1406f6c491875f7af8e3fc6"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-long/document.docx",
+      "sha256": "3d278cd627bbce8179fb5fae6948d965fda1de2392782c7cdc5129da6c98673b"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-long/go.pdf",
+      "sha256": "a667f481c60dac219a07ac5ef2a336fb45b391390ee39d907b34647350640ec3"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-long/reference.pdf",
+      "sha256": "110ff5bb23dcda5c83dafa48eca552ad49529be12c882b425998f8bdf8d0bcb4"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-long/word.pdf",
+      "sha256": "557bae5e3ea83d7cf416aefa77496106686397ce6ec292a1fd3923b28bb5a98c"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-short/document.docx",
+      "sha256": "a44d437ea9dc3728256e36e9d1f4d0a9246b72518833fc26563e727704001a16"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-short/go.pdf",
+      "sha256": "8c10c186ad814d85e9c69f74f060f381ab550cc168942772d22722e5d4372dc9"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-short/reference.pdf",
+      "sha256": "110ff5bb23dcda5c83dafa48eca552ad49529be12c882b425998f8bdf8d0bcb4"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/minutes-short/word.pdf",
+      "sha256": "d50155d6d39c04f15e1cda112d3076391fa79b5635eb0021afa81164475079a0"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-long/document.docx",
+      "sha256": "37357b99646d67b3d53ceabc5240d94f423f717b8cf58e6dee86e3cc5f8d8ee8"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-long/go.pdf",
+      "sha256": "fd5f67d46a5705d6520f4df049ffa537c4f3e9707fbad3ff3cd00a5dc2648c32"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-long/reference.pdf",
+      "sha256": "ef353b44d41611a6c8453ff6664e4280625955f1fd88cb4c023cb4f20a67934b"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-long/word.pdf",
+      "sha256": "00b2efc9e5e42a80db90e45769f1b61ea4198cefe79ee576560d9842d2652698"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-short/document.docx",
+      "sha256": "04706da90643935d2fbf551114f94242001d9e14ff8b81262bc3b3d118372703"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-short/go.pdf",
+      "sha256": "aa7d105cd87c40791451145f7f4ca3ff77b40759b929692a9291ef2678dc4796"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-short/reference.pdf",
+      "sha256": "ef353b44d41611a6c8453ff6664e4280625955f1fd88cb4c023cb4f20a67934b"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/notice-short/word.pdf",
+      "sha256": "e96d306d36ec49c00b78f7a97f7e3b110a5862a54895c00dc997469f2c35ed83"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-long/document.docx",
+      "sha256": "3984e77c28b008c40701bcbad0387e1de479803a31e6c7f9580bf341ef0bb6f1"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-long/go.pdf",
+      "sha256": "cbe8a4ddf9e4e95c331087740c5eb532619dbb1b50c26d449d726820a5974cdf"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-long/reference.pdf",
+      "sha256": "a9dc2983203a8379678fa82a5c916a0b692f3084dda8196796ac254bd266358c"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-long/word.pdf",
+      "sha256": "ba057d3955f1669557e40c9b5bb8d29e5aec1c171bddd0c640201e34051ef730"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-short/document.docx",
+      "sha256": "6b80ef4217b92d0786ac8a822db44f6a6d8fdf18d9026df822624f8137cef236"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-short/go.pdf",
+      "sha256": "bbb27adad4a2e9ea372bba4d44614be4da243743e76390574d3490cf0748eacd"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-short/reference.pdf",
+      "sha256": "a9dc2983203a8379678fa82a5c916a0b692f3084dda8196796ac254bd266358c"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/plain-short/word.pdf",
+      "sha256": "0704a72e649fb71254aad4e331961f03c1ffe2d4283cbbc2ab1959b55aabd190"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-long/document.docx",
+      "sha256": "aab401d795c68a1e7fec6da39e18f4a63c328bc9ad7bb47ee25d4741da950cb4"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-long/go.pdf",
+      "sha256": "dae1eb986f03e92c5086698fdef8adcd0ebb8d66eabdb3f0e6bffe28be8fde24"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-long/reference.pdf",
+      "sha256": "7daebb9c0e828216930912392a4ff8dfeaa3efe3887c0fcfc9a73e4dcab5627a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-long/word.pdf",
+      "sha256": "ce9a6da652d3069b9b64ae4f82c40d92eeda84d4c6ccd5616c7f602a967ba263"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-short/document.docx",
+      "sha256": "332987d153f8aa7aaa97beea12dfe12b2d33116c43ed9225daf156b121d2484e"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-short/go.pdf",
+      "sha256": "fc414a7614854239a2c891623057939501e9b4f07cafa931026b07e5b21c77dc"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-short/reference.pdf",
+      "sha256": "7daebb9c0e828216930912392a4ff8dfeaa3efe3887c0fcfc9a73e4dcab5627a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/report-short/word.pdf",
+      "sha256": "45efdb7661fab0728955055f0cf03ec1f257099fe3521bcbb42f4763b5976bd8"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-long/document.docx",
+      "sha256": "fcb67f0f68c1fc0b356550f3367d09f465805947afc3b0d4f24fb3f4282a562a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-long/go.pdf",
+      "sha256": "23370b66a6196049886f0a76508931e12478175d54ccfa07b01f697cf6d856bd"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-long/reference.pdf",
+      "sha256": "7daebb9c0e828216930912392a4ff8dfeaa3efe3887c0fcfc9a73e4dcab5627a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-long/word.pdf",
+      "sha256": "9ac0ff29337eb9b15db377d8537aaf641e4512b02528b6963ca6a13ee0257001"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-short/document.docx",
+      "sha256": "f8217bc8b04a1a36c530f5cd3f4646b4a5929aae002a717ee5e07d21e39fe1e0"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-short/go.pdf",
+      "sha256": "96e1057c9c789d6c96bbff4094c00f3f84d9261bc269af82bec2fad58152e7d6"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-short/reference.pdf",
+      "sha256": "7daebb9c0e828216930912392a4ff8dfeaa3efe3887c0fcfc9a73e4dcab5627a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/request-short/word.pdf",
+      "sha256": "232b58354c057ec5f3de3c44c4b9bb7fab55118ac3d57dd9968c9a6043009daa"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-long/document.docx",
+      "sha256": "57808c6df4f78ce073c8f743da5ba47418f04e010e1af6d64eb70d17bd61863b"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-long/go.pdf",
+      "sha256": "dafd7ac58865c6804c5992ae74a183eb5e4c88c03f07e017d8e464c3bfbed030"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-long/reference.pdf",
+      "sha256": "4e046d3c6d7b412c9aed5b8c941c62c00aec35ccc378da827ff60962f14b5203"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-long/word.pdf",
+      "sha256": "2ccea9316309e801accadc0b3f34af1d8f33df4808aa4f93521fd9c494245e39"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-short/document.docx",
+      "sha256": "ecc3aea335c6f3f257541968753c16d03f3ffd78932128b13215df838b1be2a5"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-short/go.pdf",
+      "sha256": "0a4f863466a4084b94da980bf170d53b9cded6aa24776fd9fff7abf927e85f10"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-short/reference.pdf",
+      "sha256": "4e046d3c6d7b412c9aed5b8c941c62c00aec35ccc378da827ff60962f14b5203"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/rules-short/word.pdf",
+      "sha256": "ca65e0c76d4769d404490c20d329d2c3644f14744389b4e64cdea3f3ba8e1c70"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-企业内部报告/document.docx",
+      "sha256": "24f9d948896132a1eba18784a7df30bb1f7224cb8a9a0cd3c30f34d04ca60538"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-企业内部报告/go.pdf",
+      "sha256": "b5e24fb41098bb8375d3c6a6e36ec1ad6ef98d9a86fb46d1def0eafa4a2e2fdd"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-企业内部报告/reference.pdf",
+      "sha256": "a9dc2983203a8379678fa82a5c916a0b692f3084dda8196796ac254bd266358c"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-企业内部报告/word.pdf",
+      "sha256": "03010df5c06f54b2d2e84f41ca17fac7e9f13a090295970d143e743a7c7c1379"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文信函/document.docx",
+      "sha256": "799357be532385d811b6711042512c0a59d85e3f6699f78c362820d2f4dd3123"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文信函/go.pdf",
+      "sha256": "ed8c1c8f471e94305b6d80799722da99ca753a3b7dc6e06b135c0e30c225ed1c"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文信函/reference.pdf",
+      "sha256": "321943e52e45531528dfc869eaef8ae279b845b79cf0ca6f0a9e7d1e9cbae372"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文信函/word.pdf",
+      "sha256": "43682df81ef9f9a7f35c930a906a91eb73ddba3554c649b14d46dad1e8368878"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文管理办法/document.docx",
+      "sha256": "0d0e19660e92f620b820749f5c253db47acf205160dc29e6d71ea67d5866e3cf"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文管理办法/go.pdf",
+      "sha256": "a1e12f3427d0aba07b8daa74a76bd765593e6dcd3bbcf95033edee3070309f15"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文管理办法/reference.pdf",
+      "sha256": "4e046d3c6d7b412c9aed5b8c941c62c00aec35ccc378da827ff60962f14b5203"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文管理办法/word.pdf",
+      "sha256": "79693d7c7417d81d970c7b80d31bf97a8c36b26958692f2762d951fde6e2a91c"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文纪要/document.docx",
+      "sha256": "9c74d1791b9f7c086c996fdbe34365e6205bfd8d840f42a07a1cf576a3e748a4"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文纪要/go.pdf",
+      "sha256": "8956197089e59c51c475c198d2f2fca449efff41f9c5e3a73aa93a31fa6ddb27"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文纪要/reference.pdf",
+      "sha256": "110ff5bb23dcda5c83dafa48eca552ad49529be12c882b425998f8bdf8d0bcb4"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文纪要/word.pdf",
+      "sha256": "768755e052af934ff5abaf6f75cd689db0630e83dfcef7a92caf6d281d085c78"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文要素全览/document.docx",
+      "sha256": "800c13db1d667699031bf5d400a84bbf0f91b6e812d1abe9026c1d6d9fe79c2f"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文要素全览/go.pdf",
+      "sha256": "c0d58c913a9ad89d24c5d341c4e7c96c6767d3f7e04a312003eccbf14e136126"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文要素全览/reference.pdf",
+      "sha256": "7c17e96e45e36bd6bdbe8fd78d4681a1460d504721474a94ff437d9f8fa5abb7"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文要素全览/word.pdf",
+      "sha256": "16c8da055fb7a321557a8fe6e5ba9974e680a0a5258182a1d27e21ed09477d02"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文请示/document.docx",
+      "sha256": "4b60245cca29d40e354d0dbe0e60e9bb164bc73fbd101c454efd504887c2886c"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文请示/go.pdf",
+      "sha256": "faeee577657f6d98d9256ec0c8fb643ad5854ea902049bd46cd8cef9b853d913"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文请示/reference.pdf",
+      "sha256": "7daebb9c0e828216930912392a4ff8dfeaa3efe3887c0fcfc9a73e4dcab5627a"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文请示/word.pdf",
+      "sha256": "29fd00a31e91cf93f51fbc17df05662626824b5429d0b89f69c42ecaeb8f8973"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文通知/document.docx",
+      "sha256": "e852551bd7a7b48adce42f9c9ba8cf00874677f94e0b9221071cacbe0fa3a1f4"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文通知/go.pdf",
+      "sha256": "f0c23ec3138141f3fb221cf70ea9762d875f7047be129cfc57e2d4c96db43677"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文通知/reference.pdf",
+      "sha256": "ef353b44d41611a6c8453ff6664e4280625955f1fd88cb4c023cb4f20a67934b"
+    },
+    {
+      "file": "build/qa/layout-audit/1.1.0/source-公文通知/word.pdf",
+      "sha256": "e070f14eaa6215ff7803e653d28f21299caaf52cf8fe92e65e029af63b0c1fef"
+    },
+    {
+      "file": "build/qa/extended-audit/automatic-articles/document.docx",
+      "sha256": "b12483bb59efebcd0b20c821f6bbf98d8974773914da00f2909161e249cc60a5"
+    },
+    {
+      "file": "build/qa/extended-audit/automatic-articles/go.pdf",
+      "sha256": "e5eb924a10ef7b36cc460d190e5758d8c33c7b2c148c8b1e7e0dc79230d55f7e"
+    },
+    {
+      "file": "build/qa/extended-audit/automatic-articles/word.pdf",
+      "sha256": "dde42e1c87950779ee8788aff9cf36294a209eb82e556c28ad47e2e3fbdcab23"
+    },
+    {
+      "file": "build/qa/extended-audit/detached-attachments/document.docx",
+      "sha256": "e08e79f77876e8b180c5cf614cc1861a54b59a61f00b0aa5a23bae5f9fda09f3"
+    },
+    {
+      "file": "build/qa/extended-audit/detached-attachments/go.pdf",
+      "sha256": "cef2474c521a917f80b52a99d0b7769199e5fe5a658c8c1da8a9595925680a70"
+    },
+    {
+      "file": "build/qa/extended-audit/detached-attachments/word.pdf",
+      "sha256": "265782d1ccdef2f518a13dd1049d9c87cffcacc4f316946fa7b809d8e0ebeaa2"
+    },
+    {
+      "file": "build/qa/extended-audit/joint-notice/document.docx",
+      "sha256": "db547948017832360f832a98cc41c3680afaf70213de97b7dea04d079f984661"
+    },
+    {
+      "file": "build/qa/extended-audit/joint-notice/go.pdf",
+      "sha256": "06b0dd3095b50f63bd6ed0f119aed6f683c923aac420da6cdf88ec06936efdcb"
+    },
+    {
+      "file": "build/qa/extended-audit/joint-notice/word.pdf",
+      "sha256": "adce5a3c3842dc12898750ca1437f4f350e46d48f7028d51209691402b89e6a3"
+    },
+    {
+      "file": "build/qa/extended-audit/joint-request/document.docx",
+      "sha256": "878eda555c075dd7422c9f06647507d22dd531f52e07e92ebd81058d48b87be4"
+    },
+    {
+      "file": "build/qa/extended-audit/joint-request/go.pdf",
+      "sha256": "05dbbdcaf63cf89fe46571b7db74141eea0bfe768bac2f31278a2a94efff2e9f"
+    },
+    {
+      "file": "build/qa/extended-audit/joint-request/word.pdf",
+      "sha256": "76b86d207644766e7c7315b420a079968c9f825972b1d94f05b6ef5970548823"
+    },
+    {
+      "file": "build/qa/extended-audit/letter-elements/document.docx",
+      "sha256": "1c1e919a259dfc221cea4ce6c2a1d8a2ef72ac610c7b25129069a37b79af122f"
+    },
+    {
+      "file": "build/qa/extended-audit/letter-elements/go.pdf",
+      "sha256": "f632f43195881629ad7a07fb5e8fe52fb2374a74171eebda6cd4d493582f8933"
+    },
+    {
+      "file": "build/qa/extended-audit/letter-elements/word.pdf",
+      "sha256": "f82d6f70f8dc700a4a8b40afc9a0c7865eb07ae385806fb8797cb330396b9b8b"
+    },
+    {
+      "file": "build/qa/extended-audit/minutes-issue/document.docx",
+      "sha256": "f81132cd9d1d01177e3d8ea3a331e48bf61a04569e5c203e2225682b9d7f2e66"
+    },
+    {
+      "file": "build/qa/extended-audit/minutes-issue/go.pdf",
+      "sha256": "9bc1d17a081980af430b3fe279d425fe0e2ecbd4d4cbca3103cec35e84b4353b"
+    },
+    {
+      "file": "build/qa/extended-audit/minutes-issue/word.pdf",
+      "sha256": "92766f61604276020c33639b3d9c7c0e89840c54883d5bedfdd45a248a338fba"
+    },
+    {
+      "file": "build/qa/extended-audit/preprinted/document.docx",
+      "sha256": "f3dcff283f51fadde146ea199fe6fb523856e187d798a8009c81b50a48bd3359"
+    },
+    {
+      "file": "build/qa/extended-audit/preprinted/go.pdf",
+      "sha256": "b82e867a93c2769c6d51cfdb63464569d8b454913b90ef84310d6b0cbedc2a48"
+    },
+    {
+      "file": "build/qa/extended-audit/preprinted/word.pdf",
+      "sha256": "6917f801f5270662dacb8714c8d34e8d0fea4333d3d287616770850352770f8c"
+    },
+    {
+      "file": "build/qa/extended-audit/unsealed-joint/document.docx",
+      "sha256": "545230cfd16eba1cf2beb037363f306d953344798ff9d2acb41f92b2381c9b56"
+    },
+    {
+      "file": "build/qa/extended-audit/unsealed-joint/go.pdf",
+      "sha256": "b7793a95498d25bd8094c17bbae4774a0d765f36c1e3336e26e80eaa68f70fd1"
+    },
+    {
+      "file": "build/qa/extended-audit/unsealed-joint/word.pdf",
+      "sha256": "a4760b99a786995cb718bff4a2c081ba818a904bac872c658bc4c4c6ee6d767a"
+    },
+    {
+      "file": "build/qa/extended-audit/word-comments/document.docx",
+      "sha256": "fc1f46167534f5ac0347474585c30714b68e8ee5e2f66c8ae3bbdbb51829bb1c"
+    },
+    {
+      "file": "build/qa/extended-audit/word-comments/word.pdf",
+      "sha256": "efe2bad26f0b030e28e409fd2bea7f7bc58c2f326aaf311973f97711e5f93cbc"
+    }
+  ]
+}

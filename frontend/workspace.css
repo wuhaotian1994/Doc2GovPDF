@@ -1,4 +1,10 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+#extra-elements{border-top:1px solid var(--line);padding-top:16px;margin-top:24px}#compose-error{margin-top:16px}
+#repair-common{margin:12px 16px;text-align:left}#editor-checks #repair-common{margin-inline:0}#repair-dialog{width:min(760px,90vw)}#repair-changes{max-height:50vh;overflow:auto;overflow-wrap:anywhere}#repair-changes p{white-space:pre-wrap}
+#pdf-review-dialog{width:min(1100px,94vw);max-width:94vw;padding:24px}#pdf-review-form{display:flex;flex-direction:column;max-height:84vh;min-height:0}#pdf-review-name{margin:0 0 16px;overflow-wrap:anywhere;font-size:13px;color:var(--muted)}
+.pdf-review-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;min-height:0;gap:24px}.pdf-review-view{overflow:auto;min-height:0;background:var(--canvas-inset,#edf0f4);padding:16px}.pdf-review-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:16px;font-size:13px}.pdf-review-findings{overflow:auto;min-height:0;font-size:13px;line-height:1.7}.pdf-review-findings details{margin:24px 0}.pdf-review-findings details>summary{cursor:pointer}.pdf-review-findings .issue-card{margin:0}#pdf-review-canvas canvas{width:100%;height:auto;display:block;background:white}#pdf-review-fonts{overflow-wrap:anywhere}
+@media(max-width:800px){#pdf-review-dialog{padding:16px}.pdf-review-layout{grid-template-columns:minmax(0,1fr) 220px;gap:16px}.pdf-review-view{padding:12px}}
+@media(max-width:600px){.pdf-review-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(180px,1fr) minmax(100px,160px)}#pdf-review-canvas canvas{max-width:260px;margin-inline:auto}}
 .document-views{display:flex;flex:1;min-height:0;min-width:0}
 .document-views>.preview-scroll{min-width:0;min-height:0}
 .view-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.view-actions strong{font-size:13px;font-weight:600}

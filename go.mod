@@ -6,6 +6,7 @@ require (
 	codeberg.org/go-pdf/fpdf v0.12.0
 	github.com/beevik/etree v1.6.0
 	github.com/go-ole/go-ole v1.3.0
+	github.com/ledongthuc/pdf v0.0.0-20260907135840-6c8c28e0e8a0
 	github.com/wailsapp/go-webview2 v1.0.22
 	github.com/wailsapp/wails/v2 v2.15.0
 	golang.org/x/image v0.41.0
@@ -39,3 +40,5 @@ require (
 	golang.org/x/net v0.56.0 // indirect
 	golang.org/x/text v0.39.0 // indirect
 )
+
+replace github.com/ledongthuc/pdf => ./third_party/pdfreader
