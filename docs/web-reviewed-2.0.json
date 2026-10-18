@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-18",
+  "reviewer": "Codex",
+  "method": "Actual Word/PDF page-by-page review; 15 comparison boards, 30 pages. Two UI visual rounds; functional regressions separately.",
+  "boards": [
+    {
+      "file": "build/qa/web-documents/rendered/compare-letter-1.png",
+      "sha256": "47eee6a6154816776ae89dc4c1b535fb304d00c8aca9b23f08d9213673ace998"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-letter-2.png",
+      "sha256": "65f0293d71dc348d3c11565f0bef9cbadc8f14f780a254c46805dc0e6bed0981"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-minutes-1.png",
+      "sha256": "93c1bcb1052897cf55e3543f8938b26ec9c2fd5188591da30aa42d0748ed8b96"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-minutes-2.png",
+      "sha256": "03d107eacdf2a299e3c1636d067435e4a9d181510b7cd27c9242b5ebb92fda37"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-notice-1.png",
+      "sha256": "048012f008559c177b667620198b177a6cc0b47a5b3d784efa41c88d8ce1a3c9"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-notice-2.png",
+      "sha256": "53999f82fd0d2b432a626a85b7d392cc6e60a99ef6f5552fd257b0cceda500f6"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-plain-1.png",
+      "sha256": "723873a201309f18fe2ee69f234dadb14c0a708ba60f2e92c0682c124a8c6473"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-plain-2.png",
+      "sha256": "011cda8c1df2a22a90d5a11b60885c2e3f99b9b1b9ae195dc744f2a0d6964bec"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-report-1.png",
+      "sha256": "84db93a7af543295809b5cf6bfae68236296f12fbbb141104134ffbd587abfc2"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-report-2.png",
+      "sha256": "a7e51f51f67cf3054d0e6857e22e125c48caa1f9c863d3c610be16887fc016af"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-request-1.png",
+      "sha256": "c01afefbda84f058b983d9e88c08725672723f1311dd47545f4ee843f62b8ab1"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-request-2.png",
+      "sha256": "748fd40b3e1bf30dd605bbb2fea50e68a9d9bb9f1ead8b04726f991ae62be311"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-rules-1.png",
+      "sha256": "f72389e023fa0bde279d04e9f330154cd7d90976f86494577f2e47e0b04ce9bc"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-rules-2.png",
+      "sha256": "5a2765a578b6a63d71685f130f03f26780bfed9a1d063feab720ca41deadd4aa"
+    },
+    {
+      "file": "build/qa/web-documents/rendered/compare-rules-3.png",
+      "sha256": "f817b0db5d017fb7c9c74bd3271a270f07f5a83ec978673644e3ff6b18f4f9f6"
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "build/qa/web-documents/letter/document.docx",
+      "sha256": "c19ec1b1b4f94197fd1fceb932cbfeb003971ae917d2cd519046e01f3252de5d"
+    },
+    {
+      "file": "build/qa/web-documents/letter/word.pdf",
+      "sha256": "4be287e01f87106df5666ca1471c9609cd4881f7a2ed587c10207bab474317bb"
+    },
+    {
+      "file": "build/qa/web-documents/letter/go.pdf",
+      "sha256": "d002776684bd3762d689414899698e4860766c6a8e008cebfe44909fa89a75c5"
+    },
+    {
+      "file": "build/qa/web-documents/minutes/document.docx",
+      "sha256": "def2047699fb7828cacb144aefd2e9e2abd565684983d20dff4244a44025c81d"
+    },
+    {
+      "file": "build/qa/web-documents/minutes/word.pdf",
+      "sha256": "256d8a045320ca8af1f83b66e752a19769707bb7327b042355a0be753c9354cd"
+    },
+    {
+      "file": "build/qa/web-documents/minutes/go.pdf",
+      "sha256": "f4b5a7768512bb56952be664e8311aaf5c8aa70c7d4fe5984c5ed6be5585c03f"
+    },
+    {
+      "file": "build/qa/web-documents/notice/document.docx",
+      "sha256": "c9d8f639f15cdbcffdd173b5c4317bd901cbf186d9126c8c15ab44aab3f4338a"
+    },
+    {
+      "file": "build/qa/web-documents/notice/word.pdf",
+      "sha256": "03161311af76e8a753fdc498087f0e06a34fc981b1e515130bdc347e2c0313dd"
+    },
+    {
+      "file": "build/qa/web-documents/notice/go.pdf",
+      "sha256": "df163919eaa9e800a0c2d21ab885c862967bd9a6cb8bc37adaf1b9f172669b35"
+    },
+    {
+      "file": "build/qa/web-documents/plain/document.docx",
+      "sha256": "f1b9d5dabfc82d97ed9c7a906ba3519e02acf3364286ac69bb78cc535dbbd251"
+    },
+    {
+      "file": "build/qa/web-documents/plain/word.pdf",
+      "sha256": "de1ab08bc13d419a8ed2238ebf447d03e101a535d436ba64bd5aad1876fe67f0"
+    },
+    {
+      "file": "build/qa/web-documents/plain/go.pdf",
+      "sha256": "2aa9516e807a8f3637139028c60011becdd396dc6d3fceade6fd1458af13268b"
+    },
+    {
+      "file": "build/qa/web-documents/report/document.docx",
+      "sha256": "36549abff706aa708bafab8d60f5f739f3da4b6a8fd74e13e9a7189352002731"
+    },
+    {
+      "file": "build/qa/web-documents/report/word.pdf",
+      "sha256": "21e41d7eb3401283b9bc22acbba285b1508583fc1c7f72f7b6dc015ddd1a453a"
+    },
+    {
+      "file": "build/qa/web-documents/report/go.pdf",
+      "sha256": "1d78046356650b986699a6ceff7b7950d7784c3d1fb8d0453c8577cbd6f0e08f"
+    },
+    {
+      "file": "build/qa/web-documents/request/document.docx",
+      "sha256": "dc8d8df9967204d749838798ff534c1dd9f47f254de4819d5386408c403a3c1c"
+    },
+    {
+      "file": "build/qa/web-documents/request/word.pdf",
+      "sha256": "318861d03f3ee71175076553486b9727ea5d8bcae732d2bbb309fbd7cc212e48"
+    },
+    {
+      "file": "build/qa/web-documents/request/go.pdf",
+      "sha256": "e87cdc20745fcb64659a346e740be793e5b57243c28605779e6e6a86f761b9e2"
+    },
+    {
+      "file": "build/qa/web-documents/rules/document.docx",
+      "sha256": "d3d210302e4c683abbaae649be9dac6cd77975c20f0f7dabe944eb8edb05f028"
+    },
+    {
+      "file": "build/qa/web-documents/rules/word.pdf",
+      "sha256": "6b14ad34b0385f21ad01e358d1425cd2a82e83eea09a168f4c319289e8de0901"
+    },
+    {
+      "file": "build/qa/web-documents/rules/go.pdf",
+      "sha256": "46eb5c54b77bd6334de98c51ddbd1e90da5415902703999a0c475b953f194e14"
+    }
+  ],
+  "browserChecks": [
+    "real browser engine startup",
+    "mobile home has no horizontal overflow",
+    "left editor and right real PDF",
+    "batch confirmation contains real edits",
+    "real UI ZIP download with review gate",
+    "home and resume",
+    "IndexedDB autosave after body edit",
+    "mobile editing has no horizontal overflow",
+    "mobile form has no horizontal overflow",
+    "all seven templates, automatic numbering, annexes, PDF fonts and ZIP outputs",
+    "corrupt input rejected",
+    "seven upstream originals imported and exported",
+    "browser back/forward retains form and draft",
+    "authorized font loaded locally",
+    "draft restored after reload",
+    "offline reload and engine startup",
+    "saved draft still available offline",
+    "no external requests or document uploads"
+  ],
+  "storageChecks": [
+    "single editable tab",
+    "second-tab save rejected",
+    "original draft preserved"
+  ]
+}

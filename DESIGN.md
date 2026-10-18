@@ -1,119 +1,41 @@
 ---
-name: Doc2GovPDF
-description: 专注正文、问题和交付的 Windows 公文工具
+name: 公文整理 Web
+description: 以文件和成品画布为中心的浏览器公文工具
 colors:
-  primary: "#0067c0"
-  primary-hover: "#005aab"
-  text: "#222b38"
-  muted: "#566477"
-  canvas: "#f5f6f8"
-  canvas-inset: "#edf0f4"
+  primary: "#8d243a"
+  text: "#30242a"
+  muted: "#706269"
+  background: "#faf7f2"
+  input-surface: "#f4c6d2"
+  canvas: "#eee9e4"
   surface: "#ffffff"
-  border: "#d8dfe6"
-  drop-boundary: "#b3c0cf"
-  success: "#2c6b53"
-  warning: "#805b15"
-  warning-surface: "#fff7df"
-  error: "#9a3926"
-  error-surface: "#fff0ec"
-  error-border: "#efc2b6"
-  selection: "#cce4fa"
-  selection-text: "#153b60"
-  shadow-subtle: "rgba(0,0,0,.04)"
-  shadow-paper: "rgba(0,0,0,.08)"
-  shadow-overlay: "rgba(0,0,0,.18)"
-  shadow-toast: "rgba(0,0,0,.13)"
-  backdrop: "rgba(0,0,0,.25)"
+  border: "#ded6d3"
+  highlight: "#f3d569"
 rounded:
-  control: "5px"
-  dialog: "10px"
-spacing:
-  compact: "8px"
-  group: "16px"
-  section: "24px"
-typography:
-  caption:
-    fontFamily: "Segoe UI Variable, Segoe UI, Microsoft YaHei UI, sans-serif"
-    fontSize: "12px"
-    fontWeight: 400
-    lineHeight: 1.8
-  label:
-    fontFamily: "Segoe UI Variable, Segoe UI, Microsoft YaHei UI, sans-serif"
-    fontSize: "13px"
-    fontWeight: 400
-    lineHeight: 1.6
-  body:
-    fontFamily: "Segoe UI Variable, Segoe UI, Microsoft YaHei UI, sans-serif"
-    fontSize: "14px"
-    fontWeight: 400
-    lineHeight: 1.6
-  heading:
-    fontFamily: "Segoe UI Variable, Segoe UI, Microsoft YaHei UI, sans-serif"
-    fontSize: "20px"
-    fontWeight: 600
-    lineHeight: 1.4
-  brand:
-    fontFamily: "Segoe UI Variable, Segoe UI, Microsoft YaHei UI, sans-serif"
-    fontSize: "16px"
-    fontWeight: 600
-    lineHeight: 1.4
-  welcome:
-    fontFamily: "Segoe UI Variable, Segoe UI, Microsoft YaHei UI, sans-serif"
-    fontSize: "22px"
-    fontWeight: 600
-    lineHeight: 1.4
-  document-body:
-    fontFamily: "FangSong, 仿宋, SimSun, serif"
-    fontSize: "16px"
-    fontWeight: 400
-    lineHeight: 1.95
-  document-title:
-    fontFamily: "方正小标宋简体, SimSun, serif"
-    fontSize: "24px"
-    fontWeight: 400
-    lineHeight: 1.55
-components:
-  button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.surface}"
-    rounded: "{rounded.control}"
-    padding: "8px 15px"
+  control: "8px"
+  surface: "16px"
 ---
 
-## Overview
+## Current authority
 
-从当前桌面实现提炼并约束后续界面。采用克制、熟悉的 Windows 工具语言；Squoosh 只影响输入、处理、输出顺序，ImageOptim 只影响专注程度。无需用户参与常规设计取舍。
+2026-10-18 用户明确要求纯网页版，且不要旧桌面设计。本文件替换原设计规范；旧 frontend/ 是保留的桌面版本，当前界面源代码为 web/。直接采用已确认的 Squoosh / ImageOptim 文件工具方向，不重新要求用户选风格。
 
-## Colors
+## Visual world
 
-白色用于正文和可操作内容，浅冷灰区分窗口与工作区域。蓝色只强调主操作、选择与焦点。问题使用暖色且同时给出文字；成功色不用于宣称完整机检通过。
+温暖白底、莓红操作、粉色文件接收区、少量黄色示例提示。沿用文件工具熟悉的导入→检查/编辑→下载关系；不采用 Windows 仪表盘或灰蓝桌面壳。首页的纸张示例明确标为示例，可直接打开真实文稿。纸张是内容，不做背景装饰。品牌来自大块接收区和清晰的纸张画布。
 
-## Typography
+## Type and spacing
 
-界面使用系统中文字体，不下载外部字体。操作性正文以 14 px 为基础，辅助说明至少 12 px。文档预览显示实际 Go PDF；Word 和 PDF 的样稿核验范围记录于验收文档，不把所有用户文件称为已核验。界面字体不冒充正式输出字体。
+自托管 Noto Sans SC 界面子集 400/700，不向外部字体服务请求。15px 默认文字，13px 操作正文，11–12px 辅助标签；首页标题桌面 52px、手机 34px。正文编辑和界面文字使用同一可读的无衬线；成品画布使用实际 PDF 字体。小标题上方留足空间。控件通常至少 44px；密集桌面次要工具允许 36px。
 
-## Layout
+## Composition
 
-标准窗口为 1120×780，保留系统标题栏。首页接收内容；浏览成品时为文档主区和 300 px 问题栏。点击“编辑正文”进入约 44% 左侧编辑、56% 右侧实时成品预览，两栏独立滚动；检查项收进左侧可展开区域，避免三栏挤压。720 px 最小窗口以及 640 CSS px 缩放场景均保留左右布局，只有低于 520 CSS px 时上下排列。它是桌面缩放适配，不是移动端产品承诺。
+首页最大 1120px，顶部简洁品牌与核对/偏好入口。第一屏明确导入、粘贴、示例、新建；有草稿时提供继续入口。工作区以纸张画布为中心，检查项使用右侧窄栏。进入编辑时左侧正文/检查，右侧始终显示 PDF。默认整页预览，可切换适合宽度。手机上下布局并独立限制长编辑区高度。表单沿用真实文种字段与渐进展开。
 
-## Elevation & Depth
+## Behavior
 
-工具栏和侧栏使用分隔线；纸张使用轻阴影表达内容层。对话框用于设置、局部编辑、批量修改确认及独立 PDF 核对；不嵌套弹窗。导出直接进入系统另存窗口，不增加报告选择步骤。禁止多层卡片和装饰性发光。
+Word/TXT 从浏览器选择或拖入；输入不上传。保存为 IndexedDB 草稿，原件不覆盖。PDF 下载一份文件，Word+PDF 一次下载 ZIP，避免多文件权限干扰。返回首页与浏览器返回都保留当前工作。复杂要素、授权字体、PDF 核对均有可见入口。受保护文字及数字不猜改，批量整理先确认。
 
-## Shapes
+## Verification contract
 
-标准按钮使用 5 px 圆角，对话框为 10 px。图标使用一致的线条 SVG；避免将 emoji 或任意 Unicode 符号当图标。保留原生滚动条和 Windows 操作预期。
-
-## Components
-
-主按钮按当前任务突出；“编辑正文”是进入分栏工作台的普通按钮，“完成编辑”收起编辑区。编辑时预览始终可见，停笔约 450 ms 后自动排版，中文输入法完成组合后再触发；更新期间保留上一版并明确标注，成功后整体替换，避免闪白、光标丢失和旧结果覆盖新输入。问题列表采用分隔行，包含解释、原文、建议和确认操作。失败消息保留内容，并给出恢复方法。状态变化不增加装饰性入场动画。
-
-## Do's and Don'ts
-
-保留文件选择、可见焦点、Esc 关闭对话框、明确的另存动作和本地草稿状态。专业条款放在详情。不要营销式大标题、数字大屏、密集徽章、无用 eyebrow 标签或假合规评分。开发中能力必须在相关操作处说明。
-
-## 1.1.0 Interaction Additions
-
-更多公文要素默认折叠，按文种显示相关字段。编辑已有公文要素时复用表单，正文不重建，退出后恢复编辑上下文。批量整理逐项呈现原文和改后文字，取消不修改，确认后可撤销。导出禁用时说明具体原因；待核对稿只通过明确选择的 Word 批注输出。
-
-PDF 核对是可返回的独立对话框：左侧真实纸张、右侧问题及字体，逐页导航；720 px 保留两列，600 px 以下纵向排列，均可滚动。关闭不触碰当前 Word 草稿。继续使用既有字体、颜色、按钮和分隔线，无新增视觉系统。
+Impeccable Operate / craft-floor 与 UI/UX Pro Max 用于状态、响应式、键盘和可读性核对。用户既有“不询问常规设计选择”的指令优先于技能访谈。参考已明确，concept-seed 不覆盖此选择。代码实现后用真实引擎的无头浏览器分别核对桌面/手机，最多两轮视觉检查；功能测试单独覆盖导出、恢复和离线。

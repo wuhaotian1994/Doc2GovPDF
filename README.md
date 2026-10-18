@@ -1,51 +1,39 @@
-# 公文整理 · Doc2GovPDF
+# 公文整理 Web
 
 让小白用户能最简单的步骤完成公文生成与机检。
 
-Windows 本地公文工具，以 Go 重写 gongwen-kit 核心流程，使用 Wails 桌面界面。导入 Word/TXT、粘贴正文或选择模板，在原文中处理必要问题，预览后导出 Word、PDF 或两者。无需账号，正文不上传，无需安装 Office 即可生成 PDF。
+2026-10-18 起，项目改为**纯网页版**。打开网页即可导入 Word/TXT、粘贴或新建七类公文；左侧编辑、右侧实时预览，核对后下载 Word、PDF 或配套 ZIP。Go 引擎通过 WebAssembly 在浏览器本地运行，不需要安装 EXE、Office 或向服务器上传文稿。
 
-## 本地安装版 1.1.0
+新版界面以 [Squoosh](https://squoosh.app/) 的文件处理画布和 [ImageOptim](https://imageoptim.com/mac) 的简洁操作为参考，替换旧桌面风格；继续应用 Impeccable。
 
-安装包：`dist/Doc2GovPDF-1.1.0-setup.exe`。双击安装，从开始菜单打开“公文整理”。安装包包含离线 WebView2 组件和可分发的备用中文字体；已有符合要求的 WebView2 时复用。
+## 本地打开
 
-按用户 2026-10-14 的决定，仅保留本地版本，不创建公开仓库、不上传安装包、不启用联网更新。签名清单、后台下载、退出安装、启动失败及数据回退机制已实现；公开服务和 Windows 代码签名证书尚未配置。当前升级方式为运行新的本地安装包。
-
-已验证环境为 Windows 11 x64。Windows 10、干净虚拟机和真实用户可用性测试尚未完成，不能据此宣称已覆盖。
-
-## 功能
-
-- 通知、报告、请示、函、纪要、管理办法、非红头文书七类模板；红头、发文字号、签发人、附件、纪要人员及单位预设。
-- 结构化 DOCX 导入、正文与简单表格编辑、段落角色、统一格式、文字和格式修订；未修改的源 DOCX 原样导出。
-- 日期、发文字号、编号层级、体例、异形词和文风建议；表格合计/比例、重复指标及跨表数字核对。数字与事实不猜改。
-- 原文定位、确认修改、保留原文、撤销、草稿自动保存和异常恢复。无独立检查报告。
-- Go 本地 PDF 渲染，实际 PDF 预览，字体探测及缺字保护。字体不可用时须明确确认备用字体，不能将替代字体当作标准字体通过。
-- 当前用户安装、卸载、版本与数据回退；卸载保留用户文件和草稿。
-
-1.1.0 补齐联合机关与多签发人、预印套打、份号/密级/期限/紧急程度、纪要期号、联合落款、不加印章版式、独立印发信息和不装订附件。四级自动编号输出为真实 Word 编号；修改“公文要素”保留已编辑正文、表格和附件。支持预览后批量整理常见文字问题、随 Word 保存疑点批注，以及直接打开 PDF 核对实际字体和分页。正式输出前必须处理或明确确认待核对项；数字不自动修改。
-
-图片、公式、复杂域等无法可靠生成 PDF 的结构会明确提示；DOCX 中受保护的对象保留。嵌套表格、宏等不支持的输入会拒绝。普通 Word 编辑器可能重新分页，实际 PDF 预览是 PDF 成品依据。检查只覆盖软件已实现的规则，不判断事实真实性。
-
-## 开发与验收
-
-Go 1.26.2、Windows x64、WebView2；Node 24 用于隔离桌面测试，无 npm 前端构建步骤。
+开发环境执行：
 
 ```powershell
-./scripts/build.ps1
-./scripts/test-desktop.ps1
-./scripts/package.ps1 -Version 1.1.0 -LocalRelease
-./scripts/test-install.ps1 -Installer dist/Doc2GovPDF-1.1.0-setup.exe
+./scripts/build-web.ps1
+go run ./cmd/webserve
 ```
 
-打包前将官方 x64 离线 WebView2 安装器置于 `tmp/tooling/MicrosoftEdgeWebView2RuntimeInstallerX64.exe`；脚本核验 Microsoft Authenticode 签名。完整验收步骤与边界见 [验收记录](docs/STATUS.md)。
+然后打开 http://127.0.0.1:37841 。这个服务只提供静态文件，不接收文稿。`dist/web/` 可部署到支持 HTTPS 的任意静态托管，不能通过双击 file:// 页面运行。当前遵守“暂不公开”的决定，没有上传或部署。
 
-草稿位于 `%APPDATA%/Doc2GovPDF/workspace.json`，测试可用 `DOC2GOVPDF_DATA_DIR` 隔离。导出不覆盖原件或已有同名文件。
+## 使用与保存
 
-- [产品需求](docs/PRD.md)
-- [实现与交付清单](docs/IMPLEMENTATION.md)
-- [使用说明](docs/USAGE.md)
-- [七种模板及扩展要素 Word / PDF 逐页验收](docs/LAYOUT-AUDIT-1.1.0.md)
-- [上游功能与规则对照](docs/UPSTREAM-PARITY.md)
-- [上游测试样张：7 份 Word、7 份 PDF 和 7 份纯文本](testdata/upstream/gongwen-kit/README.md)
-- [设计依据](docs/UX-REFERENCE.md) 与 [Impeccable 使用记录](docs/IMPECCABLE.md)
+- 七种模板、联合发文与特殊要素、自动编号、表格和附件、逐项核对、批量整理、Word 修订/批注、成品 PDF 核对均可使用。
+- 草稿、原件副本与自己选择的授权字体保存在当前浏览器 IndexedDB。清理浏览器站点数据会删除这些副本；下载的文件不受影响。
+- 浏览器不能直接读取电脑上的公文字体。默认内置开源备用字体，导出前明确确认；严格要求指定字体时，在“偏好设置”载入单位授权的 TTF/TTC。备用字体不等于指定字体合规。
+- 首次加载后静态资源在本地缓存，缓存就绪后可离线打开。网页更新在旧页面关闭、重新打开后生效，不中断编辑。
+- DOCX/TXT 上限 50 MB；PDF 核对上限 32 MB、100 页。复杂对象无法可靠转成 PDF 时明确提示，原 Word 优先保留。
 
-参考项目：[imhuhe/gongwen-kit](https://github.com/imhuhe/gongwen-kit)。上游词表、样张、第三方代码和字体保留各自版权与许可证，详见 `THIRD_PARTY_NOTICES.txt`。
+## 验收与资料
+
+```powershell
+go test ./...
+go vet ./...
+node scripts/test-web.mjs
+python scripts/verify-web-exports.py
+```
+
+浏览器测试使用隐藏 Edge、真实 Wasm 引擎和实际下载。文档测试另用隐藏 Word/Poppler 对照成品，不操作鼠标键盘。具体结果见 [网页版验收](docs/WEB-2.0.md)。[上游功能映射](docs/UPSTREAM-PARITY.md)、[原始测试样例](testdata/upstream/gongwen-kit/README.md) 和 [新增负例](testdata/upstream/parity/README.md) 保留。
+
+`frontend/`、Wails 入口及历史 `dist/Doc2GovPDF-1.1.0-setup.exe` 保留供追溯；它们不参与当前网页构建。旧桌面版验收在 [STATUS](docs/STATUS.md)。第三方代码与字体许可见 THIRD_PARTY_NOTICES.txt 和 web/fonts/OFL.txt。
