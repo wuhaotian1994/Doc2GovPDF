@@ -1,0 +1,7 @@
+{
+  "name": "doc2govpdf-browser-verification",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node ../test-writer-browsers.mjs"},
+  "devDependencies": {"playwright": "1.64.1"}
+}

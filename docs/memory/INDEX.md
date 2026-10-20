@@ -13,6 +13,7 @@
 | 草稿覆盖、Worker 取消、浏览器恢复问题？ | [网页恢复经验](topics/verification-and-pitfalls.md#浏览器与存储) |
 | 完整网页移植还剩什么？ | [当前交接](handoffs/01a13839-web-port.md) |
 | 为什么不选文种、改为填写式首页？ | [填写式重写](handoffs/01a158b0-guided-writing.md)、[产品方案](../GUIDED-WRITING.md) |
+| 常用信息、旧稿保护、浏览器和手机验证到哪一步？ | [经常使用与跨浏览器验收](../RETURNING-USERS-QA.md) |
 
 ## 当前进行中的任务
 

@@ -27,6 +27,7 @@ h3 { font-size: 17px; }
 .brand > svg { width: 30px; height: 34px; color: var(--blue); }
 .brand-caption { font-size: 13px; color: var(--muted); font-weight: 400; margin-left: 19px; }
 .header-actions { display: flex; align-items: center; gap: 8px; }
+.header-actions button { padding-inline: 12px; }
 #save-status { color: var(--muted); font-size: 12px; margin-right: 18px; }
 .quiet { background: transparent; color: var(--muted); }
 .quiet:hover:not(:disabled) { background: var(--canvas); color: var(--ink); }
@@ -103,9 +104,10 @@ input[type=checkbox], input[type=radio] { accent-color: var(--blue); width: 18px
 .format-picker small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
 .extension { margin-left: auto; color: var(--muted); font-size: 12px; }
 .export-status { color: var(--success); font-size: 13px; margin-top: 16px; }
+.export-status.failed { color: var(--error); }
 .global-message { background: #fff2e3; color: #704316; padding: 13px 40px; font-size: 14px; }
-.skip { position: fixed; top: -100px; left: 10px; background: var(--paper); z-index: 10; padding: 12px; }
-.skip:focus { top: 10px; }
+.skip { position: fixed; top: 10px; left: 10px; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; background: var(--paper); z-index: 10; padding: 0; }
+.skip:focus { width: auto; height: auto; clip-path: none; overflow: visible; padding: 12px; }
 dialog { border: 1px solid var(--line); border-radius: 12px; color: var(--ink); width: min(540px, calc(100% - 32px)); padding: 26px; max-height: 85vh; overflow: auto; box-shadow: 0 18px 60px #172a4230; }
 dialog::backdrop { background: #18243850; }
 dialog h2 { font-size: 21px; }
@@ -117,6 +119,24 @@ dialog p { font-size: 14px; color: var(--muted); }
 hr { border: 0; border-top: 1px solid var(--line); margin: 25px 0 10px; }
 #font-status p { font-size: 12px; margin: 6px 0; }
 #font-status { margin-bottom: 22px; }
+.reuse-status { color: var(--blue); background: var(--tint); padding: 12px 16px; border-radius: var(--radius); font-size: 13px; margin: 0 0 24px; overflow-wrap: anywhere; }
+.mobile-tools, .mobile-only { display: none; }
+.text-button { background: transparent; color: var(--blue); padding: 6px 0; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
+.remember-row { display: flex; align-items: center; gap: 14px; margin: -6px 0 24px; }
+.remember-row button { flex-shrink: 0; font-size: 13px; }
+.remember-row p { margin: 0; }
+.preview-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.preview-actions button { padding-inline: 10px; font-size: 12px; }
+.preview-canvas.zoomed { overflow: auto; }
+.preview-canvas.zoomed #pdf-pages { min-width: 794px; }
+.current-document { font-size: 14px; font-weight: 600; padding-top: 18px; overflow-wrap: anywhere; }
+.recent-document { border-top: 1px solid var(--line); padding: 18px 0 12px; }
+.recent-document h3 { font-size: 15px; margin: 0; overflow-wrap: anywhere; }
+.recent-actions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.recent-actions button { font-size: 12px; padding: 6px 10px; color: var(--blue); }
+#draft-dialog { width: min(620px,calc(100% - 32px)); }
+#common-form > label { display: block; font-size: 14px; margin-bottom: 8px; }
+#preview-heading { scroll-margin-top: 16px; }
 @media (min-width: 1450px) { .writing { padding-left: 64px; padding-right: 64px; } }
 @media (max-width: 1050px) {
   .app-header { padding: 0 24px; } .brand-caption { display: none; }
@@ -136,5 +156,17 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 25px 0 10px; }
   .preview-footer { padding: 6px 14px; } .preview-footer > span { font-size: 12px; }
   .two-fields { grid-template-columns: 1fr; gap: 0; } #body { max-height: 45vh; min-height: 230px; }
   .global-message { padding: 12px 20px; } input:not([type=checkbox]):not([type=radio]), textarea { font-size: 16px; }
+  .header-actions { width: 100%; justify-content: space-between; }
+  .mobile-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: -12px 0 10px; color: var(--muted); font-size: 12px; }
+  .mobile-tools button { padding-inline: 8px; color: var(--blue); font-size: 12px; }
+  .mobile-only { display: inline-flex; }
+  .preview-toolbar { flex-wrap: wrap; gap: 8px; }
+  .preview-actions { margin-left: auto; }
+  .remember-row { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .preview-canvas { max-width: 100%; }
+  .preview-canvas.zoomed #pdf-pages { min-width: 680px; }
+  .preview-canvas.zoomed { max-height: 80dvh; min-height: 400px; }
+  .form-step h1 { scroll-margin-top: 20px; }
+  dialog { padding: 22px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }

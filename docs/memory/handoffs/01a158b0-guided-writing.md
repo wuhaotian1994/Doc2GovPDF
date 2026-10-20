@@ -4,6 +4,8 @@
 
 状态：本轮重写完成、本地验证与交付完成；未公开上线。
 
+2026-10-20 后续追加“经常使用与跨浏览器”已完成本地实现和模拟验证：常用信息、最近文档、复制与独立文件导入、手机预览操作。最新验收见 [经常使用与跨浏览器](../../RETURNING-USERS-QA.md)，过程见日志 E05–E07；下文初轮验证保留其历史范围。
+
 ## 目标与完成结果
 
 用户明确推翻旧首页，第一原则为使用方便简单、像注册一样填写。后续纠正“不选文种，面向中国大陆”；格式由实施者判断。
@@ -17,8 +19,10 @@
 - `web/write.html`、`write.css`、`write.js`：新填写界面。
 - `web/write-model.js`：字段/草稿约束、TXT、独立落款与红头、新流程模型适配。避免把落款日期推断为印发日期，红头首段 before=0 对齐 Word/PDF。
 - `web/write-engine.js`：独立 Worker 队列、超时与重启，未依赖其他会话未提交的 engine-client.js。
+- 后续 `web/write-library.js`：常用信息/文档库校验与归档，不静默淘汰旧稿。
 - `scripts/build-web.ps1`：write.html 构建为 index.html，旧 web/index.html 构建为 advanced.html。
 - `scripts/test-guided-model.mjs`、`test-guided-web.mjs`、`verify-guided-word.ps1`：本轮测试。
+- 后续 `scripts/test-writer-library.mjs`、`test-writer-browsers.mjs`、`verify-writer-outputs.py`：复用与七配置验证；`scripts/browser-tests/` 固定 Playwright 1.64.1，node_modules 忽略。
 - `.impeccable/design.json`：设计 sidecar，本轮明确随 Git 保存；其父目录其他本地会话数据仍忽略。
 
 当前交付产物：`dist/guided-web/`。本机静态服务 `http://127.0.0.1:37842/`，仅监听回环地址。进程记录 `build/qa/guided/server.pid`，不可跨会话盲信 PID；先检查监听与进程路径。旧 37841 入口未替换。
@@ -31,6 +35,8 @@ go run ./cmd/webserve -listen 127.0.0.1:37842 -dir dist/guided-web
 ```
 
 ## 已验证
+
+后续最新：10 项模型/库单测、28 项原 Edge 回归、7 配置 176 项跨浏览器检查通过；匹配 Playwright 1.64.1。Chrome/Edge 使用本机浏览器，Firefox/WebKit 使用测试构建；Android/iPhone/iPad 为触控模拟。七配置的实际 PDF 文字、Word 正文 XML、TXT 一致；Word 16.0 隐藏渲染与页面核查通过。证据 `build/qa/returning/verified-summary.json` 含最新源码 SHA256，最终源码与该构建一致。
 
 - 5 项模型单测通过。
 - 28 项真实无头 Edge 浏览器检查通过，含真实导出、草稿恢复/替换、非法日期、字体事务、多页翻页、存储失败与离线加载。
@@ -48,7 +54,7 @@ go run ./cmd/webserve -listen 127.0.0.1:37842 -dir dist/guided-web
 ## 边界与下一步
 
 - 未公开发布，没有新的账号、收费或外部服务；上线仍需用户明确授权。
-- 已验证 Windows Edge 的桌面/手机视口，不等于真实 iOS Safari、Android Chrome 或所有辅助技术通过。
+- 初轮只验证 Edge；后续已扩至上述七配置，但仍不等于真实 iOS Safari、Android Chrome、macOS Safari 或所有辅助技术通过。
 - 尚无真实用户可用性测评；正式上线前应开展任务完成率/中途退出观察及跨浏览器验证。
 - 内置字体不是指定公文字体合规证明，Word 在其他电脑可能重排；应用已明确提示并提供授权字体入口。
-- 下一步若继续：优先让目标用户完成真实写作任务并记录阻碍，再做跨浏览器发布验证。不要重新引入文种选择或另起风格。
+- 下一步若继续：补真实设备、软键盘与辅助技术验证，再让目标用户完成真实写作任务并记录阻碍。桌面引擎/触控模拟已完成，不要重复把模拟列为真机。不要重新引入文种选择或另起风格。

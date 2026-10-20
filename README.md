@@ -20,7 +20,9 @@ go run ./cmd/webserve
 ## 使用与保存
 
 - 填写首页源文件为 `web/write.html`，构建后是 `index.html`。标题和正文必填，其余按需展开；不自动填写事实或生成文号。
-- 填写草稿保存在 localStorage，字体保存在独立 IndexedDB；“我的草稿”可下载 `.gongwen.json`、重新打开和恢复替换前的文档。正文上限 10 万字符，草稿文件上限 1 MB。清理站点数据会删除本地副本，下载的文件不受影响。
+- 填写草稿保存在 localStorage，字体保存在独立 IndexedDB；“我的文档”可下载 `.gongwen.json`、重新打开和恢复替换前的文档。正文上限 10 万字符，草稿文件上限 1 MB。清理站点数据会删除本地副本，下载的文件不受影响。
+- “记住常用信息”保存单位、落款、收文对象等固定内容，新建自动带入；日期、文号、正文不自动沿用。“常用设置”可修改或清空，当前文档不受影响。
+- “我的文档”可切换旧稿、复制新稿、下载备份与删除。最多归档 20 份，满时提示处理，不静默删除。导入已下载的旧稿会保存为独立副本，不覆盖较新版本。
 - “整理已有 Word”进入 `advanced.html`，保留旧网页的复杂文档编辑、联合发文、表格、修订/批注和 PDF 核对。该界面源文件仍为 `web/index.html`；其既有草稿与新填写草稿隔离。
 - 浏览器不能直接读取电脑公文字体。默认使用内置开源备用字体；单位有指定要求时，在“字体设置”选择有权使用和嵌入的 TTF/TTC。备用字体不等于指定字体合规，Word 在另一电脑上可能重排。
 - 首次加载后静态资源在本地缓存，缓存就绪后可离线打开。网页更新在旧页面关闭、重新打开后生效，不中断编辑。
@@ -34,7 +36,20 @@ go vet ./...
 node --test scripts/test-guided-model.mjs
 ./scripts/build-web.ps1 -Output build/qa/guided-web
 node scripts/test-guided-web.mjs
+node --test scripts/test-writer-library.mjs
 ```
+
+跨浏览器及手机触控模拟（本机需已有 Chrome、Edge）：
+
+```powershell
+npm ci --prefix scripts/browser-tests
+$env:PLAYWRIGHT_BROWSERS_PATH="$PWD/tmp/playwright-browsers"
+node scripts/browser-tests/node_modules/playwright/cli.js install firefox webkit
+./scripts/build-web.ps1 -Output build/qa/returning-web
+node scripts/test-writer-browsers.mjs
+```
+
+该矩阵使用 Chrome、Edge、Firefox 测试构建、WebKit 测试引擎，以及 Android/iPhone/iPad 触控模拟。它不等于真实手机、macOS Safari 或系统软键盘已验证。具体环境、证据和边界见 [经常使用与跨浏览器验收](docs/RETURNING-USERS-QA.md)。
 
 浏览器测试使用独立无头 Edge、真实 Wasm 引擎和实际下载。文档测试另用隐藏 Word/Poppler 对照成品，不操作鼠标键盘。最新证据与边界见 [填写式重写交接](docs/memory/handoffs/01a158b0-guided-writing.md)。[旧网页版验收](docs/WEB-2.0.md)、[上游功能映射](docs/UPSTREAM-PARITY.md)、[原始测试样例](testdata/upstream/gongwen-kit/README.md) 和 [新增负例](testdata/upstream/parity/README.md) 保留。
 

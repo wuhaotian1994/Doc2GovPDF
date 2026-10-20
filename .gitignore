@@ -9,6 +9,7 @@
 /coverage/
 /tmp/
 /node_modules/
+/scripts/browser-tests/node_modules/
 /.release-private/
 *.exe
 *.msi

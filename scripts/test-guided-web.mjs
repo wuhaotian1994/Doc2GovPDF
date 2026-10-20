@@ -99,7 +99,7 @@ try {
   await screenshot('mobile-writing');
   await check('mobile has no horizontal overflow and retains preview',`document.documentElement.scrollWidth<=390 && document.querySelector('#pdf-pages canvas').getBoundingClientRect().width>0`);
   await click('[data-panel="1"] [type=submit]');await screenshot('mobile-export');
-  await click('#draft-menu');await click('#new-document');await click('#confirm-replace');
+  await click('#new-document');
   await check('new document clears fields',`document.getElementById('title').value===''`);
   await check('new document clears old PDF and pagination',`document.querySelector('#pdf-pages canvas')===null && document.getElementById('page-count').textContent==='A4 纸张'`);
   await click('#draft-menu');await click('#undo-replace');await click('#confirm-replace');
