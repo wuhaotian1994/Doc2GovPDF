@@ -4,6 +4,8 @@ Set-Location (Split-Path -Parent $PSScriptRoot)
 $env:GOMODCACHE="$PWD/tmp/gomod";$env:GOCACHE="$PWD/tmp/gocache"
 New-Item -ItemType Directory -Force -Path $Output | Out-Null
 Copy-Item -Path web/* -Destination $Output -Recurse -Force
+Copy-Item -LiteralPath web/index.html -Destination (Join-Path $Output 'advanced.html') -Force
+Copy-Item -LiteralPath web/write.html -Destination (Join-Path $Output 'index.html') -Force
 Copy-Item -LiteralPath frontend/vendor -Destination $Output -Recurse -Force
 Copy-Item -LiteralPath THIRD_PARTY_NOTICES.txt -Destination (Join-Path $Output 'THIRD_PARTY_NOTICES.txt')
 $goRoot=(go env GOROOT).Trim()

@@ -1,41 +1,193 @@
 ---
-name: 公文整理 Web
-description: 以文件和成品画布为中心的浏览器公文工具
+name: 公文 Web
+description: 明亮、直接、像填表一样完成文档
 colors:
-  primary: "#8d243a"
-  text: "#30242a"
-  muted: "#706269"
-  background: "#faf7f2"
-  input-surface: "#f4c6d2"
-  canvas: "#eee9e4"
-  surface: "#ffffff"
-  border: "#ded6d3"
-  highlight: "#f3d569"
+  blue: "#2458b8"
+  blue-hover: "#194594"
+  tint: "#edf3fe"
+  ink: "#202b3c"
+  muted: "#5e6b7b"
+  paper: "#fff"
+  canvas: "#eef1f5"
+  line: "#dce2ea"
+  input-line: "#aeb9c8"
+  error: "#aa2633"
+  success: "#286545"
+  focus: "#e5ab33"
+typography:
+  headline:
+    fontFamily: '"Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif'
+    fontSize: "26px"
+    fontWeight: 650
+    lineHeight: 1.5
+    letterSpacing: "-.025em"
+  title:
+    fontFamily: '"Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif'
+    fontSize: "17px"
+    fontWeight: 700
+    lineHeight: 1.65
+  body:
+    fontFamily: '"Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif'
+    fontSize: "15px"
+    fontWeight: 400
+    lineHeight: 1.65
+  label:
+    fontFamily: '"Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif'
+    fontSize: "14px"
+    fontWeight: 600
+    lineHeight: 1.65
+  hint:
+    fontFamily: '"Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif'
+    fontSize: "12px"
+    fontWeight: 400
+    lineHeight: 1.7
 rounded:
-  control: "8px"
-  surface: "16px"
+  control: "7px"
+  dialog: "12px"
+spacing:
+  unit: "8px"
+  pair: "16px"
+  field: "24px"
+components:
+  button-primary:
+    backgroundColor: "{colors.blue}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.control}"
+    padding: "10px 17px"
+  button-primary-hover:
+    backgroundColor: "{colors.blue-hover}"
+  button-secondary:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    padding: "10px 17px"
+  button-quiet:
+    backgroundColor: "transparent"
+    textColor: "{colors.muted}"
+    rounded: "{rounded.control}"
+    padding: "10px 17px"
+  input:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    padding: "11px 13px"
+    width: "100%"
+  format-option:
+    backgroundColor: "{colors.paper}"
+    rounded: "{rounded.control}"
+    padding: "14px 16px"
+  format-option-selected:
+    backgroundColor: "{colors.tint}"
+  step-navigation:
+    textColor: "{colors.muted}"
+    padding: "0 0 28px"
+  document-preview:
+    backgroundColor: "{colors.paper}"
+  dialog:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.dialog}"
+    padding: "26px"
+    width: "min(540px, calc(100% - 32px))"
 ---
 
-## Current authority
+# Design System: 公文 Web
 
-2026-10-18 用户明确要求纯网页版，且不要旧桌面设计。本文件替换原设计规范；旧 frontend/ 是保留的桌面版本，当前界面源代码为 web/。直接采用已确认的 Squoosh / ImageOptim 文件工具方向，不重新要求用户选风格。
+## Overview
 
-## Visual world
+**Creative North Star: “明亮的办公填写台”**
 
-温暖白底、莓红操作、粉色文件接收区、少量黄色示例提示。沿用文件工具熟悉的导入→检查/编辑→下载关系；不采用 Windows 仪表盘或灰蓝桌面壳。首页的纸张示例明确标为示例，可直接打开真实文稿。纸张是内容，不做背景装饰。品牌来自大块接收区和清晰的纸张画布。
+界面让人直接开始填写，纸张让人看清成品。白底、中文系统无衬线与克制蓝色组成日常办公表单的视觉语言；冷灰画布衬托真实文档，装饰服从阅读与操作。
 
-## Type and spacing
+本规范根据 `web/write.css` 与实际填写页面提取，适用于当前主流程。2026-10-20 用户明确授权重写，取代此前暖白、莓红、粉色接收区的导入式主页规范。旧网页保留在高级 Word 入口，旧桌面实现保留历史；它们的存在不改变本次主流程的视觉权威。具体页面方向见 [填写式文档方案](docs/GUIDED-WRITING.md)。
 
-自托管 Noto Sans SC 界面子集 400/700，不向外部字体服务请求。15px 默认文字，13px 操作正文，11–12px 辅助标签；首页标题桌面 52px、手机 34px。正文编辑和界面文字使用同一可读的无衬线；成品画布使用实际 PDF 字体。小标题上方留足空间。控件通常至少 44px；密集桌面次要工具允许 36px。
+**Key Characteristics:**
 
-## Composition
+- 直接的表单语言，可见标签与清楚的主操作。
+- 留白与细分隔线组织信息，选填内容逐步展开。
+- 界面字体与成品字体各司其职，真实 PDF 承担结果展示。
+- 文字说明保存、更新、错误与下载状态。
 
-首页最大 1120px，顶部简洁品牌与核对/偏好入口。第一屏明确导入、粘贴、示例、新建；有草稿时提供继续入口。工作区以纸张画布为中心，检查项使用右侧窄栏。进入编辑时左侧正文/检查，右侧始终显示 PDF。默认整页预览，可切换适合宽度。手机上下布局并独立限制长编辑区高度。表单沿用真实文种字段与渐进展开。
+## Colors
 
-## Behavior
+配色以稳定的蓝色行动提示搭配冷中性背景，颜色值以前述 token 和源 CSS 为准。
 
-Word/TXT 从浏览器选择或拖入；输入不上传。保存为 IndexedDB 草稿，原件不覆盖。PDF 下载一份文件，Word+PDF 一次下载 ZIP，避免多文件权限干扰。返回首页与浏览器返回都保留当前工作。复杂要素、授权字体、PDF 核对均有可见入口。受保护文字及数字不猜改，批量整理先确认。
+### Primary
 
-## Verification contract
+`blue` 用于主按钮、当前步骤、链接、选中项与输入焦点；`blue-hover` 表示主按钮悬停；`tint` 只提供轻量选中底色。
 
-Impeccable Operate / craft-floor 与 UI/UX Pro Max 用于状态、响应式、键盘和可读性核对。用户既有“不询问常规设计选择”的指令优先于技能访谈。参考已明确，concept-seed 不覆盖此选择。代码实现后用真实引擎的无头浏览器分别核对桌面/手机，最多两轮视觉检查；功能测试单独覆盖导出、恢复和离线。
+### Neutral
+
+`paper` 是表单和纸张底色，`canvas` 是预览画布及次要悬停底色。`ink` 承载正文与标题，`muted` 用于说明。`line` 划分区域，`input-line` 提供比区域线更明确的控件边界。
+
+错误使用 `error`，完成状态使用 `success`，按钮和链接的键盘焦点使用 `focus`。每种状态都伴随文字或控件语义。
+
+**The Action Color Rule.** 蓝色指向可操作或当前选中的内容，不用大面积装饰抢占纸张与正文的注意力。
+
+## Typography
+
+界面采用系统中文无衬线回退栈。CSS 首选 Noto Sans SC，但当前填写页没有单独声明自托管字体文件；不得将字体栈声明说成已加载该字体。预览使用实际 PDF 内字体，不能用界面字体假扮成品排版。
+
+主标题使用 `headline`，窄屏降至 23px。小节标题使用 `title`；表单标签使用 `label`；正文默认使用 `body`；选填、提示和保存状态使用小字号辅助层级。正文输入行高为 1.9，保持长段落易读。窄屏输入和文本域使用 16px。品牌字为 22px，窄屏为 20px；没有营销式超大标题。
+
+**The Two Text Contexts Rule.** 界面负责解释操作，PDF 负责展示文档；字体、换行和纸面比例不能在这两种上下文间混用。
+
+## Layout
+
+当前填写页最大宽度为 1600px，桌面表单与预览两栏比例为 0.95:1.05，各栏最小 430px。顶部产品栏高 80px，表单内边距为上 32px、左右 48px；1450px 及以上左右增至 64px。字段以 24px 间隔组织，相邻双字段间距为 16px。
+
+1050px 及以下收紧留白，两栏最小宽度分别为 380px 与 340px。760px 及以下切为填写在上、预览在下，表单左右留白 22px，双字段改为单列，正文输入区限制最大高度 45vh。桌面预览在视口内保持可见并内部滚动，窄屏取消吸附与内部滚动。
+
+三步导航、选填展开、摘要回改属于当前页面组合，其他新页面可复用其信息层级，不必机械复制三步结构。主要操作最小高度 44px；输入最小高度 46px。
+
+## Elevation & Depth
+
+表单与按钮默认平面，通过白底、冷灰画布和细边界区分层次。阴影仅强调纸张与模态浮层，不将普通字段包装成浮卡。
+
+纸张阴影为 `0 6px 22px #1f30451a`，空预览纸张使用更轻的 `0 6px 22px #1f304510`，对话框为 `0 18px 60px #172a4230`，遮罩为 `#18243850`。这些扩展值记录在 sidecar，不属于 frontmatter 组件属性。
+
+## Shapes
+
+控件采用轻圆角 `control`，对话框采用 `dialog`。真实纸页保持直角，空纸页按 A4 比例 210:297 展示。步骤编号为圆形，其他信息不滥用胶囊形。图标是简洁描边 SVG，常规 20px、描边 1.6；不使用装饰插画替代内容或控件。
+
+## Components
+
+### Buttons
+
+主按钮蓝底白字，次按钮白底深字并带输入级边框，安静按钮透明底灰字。悬停改变底色；禁用降低透明度至 0.5，并与业务状态一致。键盘焦点使用 3px 金色外框、外偏移 3px。背景与边框过渡为 0.16s ease，减少动态效果偏好下关闭过渡。
+
+### Inputs / Fields
+
+标签始终可见，选填标记紧邻标签，提示在控件下方；占位符只提供示例。焦点使用 2px 蓝色外框、外偏移 2px，同时改变边框。错误用红色边界与行内文字，并设置无效状态。正文允许垂直调整大小。
+
+### Navigation
+
+三步进度以数字圆圈和文字共同说明位置；当前步骤为蓝色实心圆与加粗文字，并使用 `aria-current="step"`。步骤按钮保持键盘可用。顶部只提供品牌、保存状态、草稿和字体设置；窄屏隐藏品牌副标题和顶部保存文字，但保存失败仍须明确告知。
+
+### Cards / Containers
+
+下载格式是一组带原生单选框的整行选择项，边框与轻蓝底共同表达选中；Word/PDF/TXT 的用途紧随名称，扩展名作为弱提示。摘要是带分隔线的定义列表，每行有对应“修改”，不用装饰卡片代替可扫描内容。
+
+### Live Document Preview
+
+冷灰画布容纳白色真实 PDF 页面；顶部显示生成状态，底部提供页码与翻页。空态说明填写标题后的结果，不将虚构样张当作用户文档。更新失败或内容未同步时明确标明上一版，不能只保留看似已完成的纸张。
+
+### Dialogs
+
+草稿与字体设置使用同一轻圆角白色对话框，宽度受视口约束，最大高度 85vh，内容可滚动。标题、关闭和主次操作清楚分组；替换前解释可恢复性并提供下载当前草稿。
+
+## Do's and Don'ts
+
+### Do:
+
+- **Do** 从实际填写内容开始，使用可见标签与明确的选填说明。
+- **Do** 保持主要操作的 44px 点击区和可见键盘焦点。
+- **Do** 用真实 PDF 显示成品，并解释正在更新、失败与旧版本状态。
+- **Do** 在窄屏保留内容与操作顺序，用上下布局延续预览能力。
+
+### Don't:
+
+- **Don't** 把已替代的莓红、粉色接收区或桌面壳当作当前主流程设计规范。
+- **Don't** 用颜色单独表达错误、选中或完成。
+- **Don't** 用占位符代替标签，或把可选字段默认展开成复杂参数面板。
+- **Don't** 用静态图片模拟可操作表单或实时成品。

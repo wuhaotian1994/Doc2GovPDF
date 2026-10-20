@@ -12,7 +12,7 @@
 ## 已确认的长期约定
 
 - 当前交付为**纯网页版**：`web/` 是当前界面，`internal/webengine/` 是 Go/Wasm 边界，`internal/office/` 是共用文档引擎。`frontend/` 和根目录 Wails 入口是桌面历史实现。
-- 用户已认可当前网页设计。补功能保持既有视觉系统；未获重新设计要求时不要另起风格。
+- 2026-10-20 用户明确授权填写式重写，替代此前“保留已认可网页设计”的要求。第一原则是使用简单：不选文种，面向中国大陆，直接填写内容并预览导出。新主入口为 `web/write.html`（构建为首页），旧复杂编辑界面保留为 `advanced.html`。后续补功能遵循最新 `DESIGN.md`，不自行再换风格。
 - 用户不承担半成品验收。常规产品、编码、测试与本地提交自主完成；确需外部发布、付费、账号权限或不可恢复的操作时才确认。
 - 仍然**暂不公开发布**。不得因完成代码而推送公开仓库或部署公网。文稿在浏览器本地处理，不上传。
 - 不操作用户鼠标键盘、不抢占前台。用独立无头浏览器、隐藏测试进程、隐藏 Word 和文件工具验证。
@@ -36,6 +36,7 @@
 - [产品与架构演变](docs/memory/topics/product-and-architecture.md)
 - [测试证据与故障经验](docs/memory/topics/verification-and-pitfalls.md)
 - [本会话：网页完整移植交接](docs/memory/handoffs/01a13839-web-port.md)
+- [填写式重写交接](docs/memory/handoffs/01a158b0-guided-writing.md)
 - [桌面版上游对齐](docs/UPSTREAM-PARITY.md)、[网页版初次交付](docs/WEB-2.0.md)
 
 运行命令和版本以项目 README/脚本为准。`build/qa/`、`tmp/`、`dist/` 通常被 Git 忽略：可以链接本机证据，但必须在已提交记录中摘要关键结果，不能假定其他机器也有这些文件。
