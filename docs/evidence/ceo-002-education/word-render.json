@@ -1,0 +1,23 @@
+[
+  {
+    "file": "copied.docx",
+    "pdf": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\build\\qa\\ceo-002-education-word\\copied.word.pdf",
+    "pages": 5,
+    "wordVersion": "16.0",
+    "sha256": "D6774BE0FF7F52080CE2B9A5B44B94A88BDE71B7F2CAFE8C9C95FC8F7889C2D7"
+  },
+  {
+    "file": "guided.docx",
+    "pdf": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\build\\qa\\ceo-002-education-word\\guided.word.pdf",
+    "pages": 5,
+    "wordVersion": "16.0",
+    "sha256": "D6774BE0FF7F52080CE2B9A5B44B94A88BDE71B7F2CAFE8C9C95FC8F7889C2D7"
+  },
+  {
+    "file": "receipt.docx",
+    "pdf": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\build\\qa\\ceo-002-education-word\\receipt.word.pdf",
+    "pages": 5,
+    "wordVersion": "16.0",
+    "sha256": "985D81F8D4B32F3A7DEC0C1EC34A1FCC3EFE910825CD36DAE2ACD223750593F4"
+  }
+]

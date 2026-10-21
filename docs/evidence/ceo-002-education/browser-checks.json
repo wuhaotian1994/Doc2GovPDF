@@ -1,0 +1,53 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "checks": [
+      "whole-material path preserves source, historical signing date and postscript",
+      "downloaded continuation preserves every field and original material",
+      "native editable copy exposes existing table action",
+      "actual receipt has four columns, header and two genuinely empty rows",
+      "receipt stays after signing/publication note and before imprint",
+      "table insertion can be undone without losing source text",
+      "refreshed advanced copy retains blank receipt and imprint",
+      "original guided draft remains untouched",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "version": "157.0",
+    "checks": [
+      "whole-material path preserves source, historical signing date and postscript",
+      "downloaded continuation preserves every field and original material",
+      "native editable copy exposes existing table action",
+      "actual receipt has four columns, header and two genuinely empty rows",
+      "receipt stays after signing/publication note and before imprint",
+      "table insertion can be undone without losing source text",
+      "refreshed advanced copy retains blank receipt and imprint",
+      "original guided draft remains untouched",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "version": "27.2",
+    "checks": [
+      "whole-material path preserves source, historical signing date and postscript",
+      "downloaded continuation preserves every field and original material",
+      "native editable copy exposes existing table action",
+      "actual receipt has four columns, header and two genuinely empty rows",
+      "receipt stays after signing/publication note and before imprint",
+      "table insertion can be undone without losing source text",
+      "refreshed advanced copy retains blank receipt and imprint",
+      "original guided draft remains untouched",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]
