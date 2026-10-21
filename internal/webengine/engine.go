@@ -58,6 +58,59 @@ func dispatch(r Request) (any, error) {
 	var f office.Fields
 	var text, id string
 	switch r.Method {
+	case "ValidateWorkspace":
+		if len(r.Args) == 0 {
+			return nil, fmt.Errorf("缺少草稿")
+		}
+		w, e := validateWorkspace(r.Args[0])
+		if e != nil {
+			return nil, e
+		}
+		if len(r.Args) > 1 {
+			var source []byte
+			if e := arg(1, &source); e != nil {
+				return nil, e
+			}
+			b, e := validateBackup(Backup{Workspace: w, Source: source})
+			if e != nil {
+				return nil, e
+			}
+			w = b.Workspace
+		}
+		return w, nil
+	case "ValidatePreferences":
+		var p Preferences
+		if e := arg(0, &p); e != nil {
+			return nil, e
+		}
+		return p, validPreferences(p)
+	case "CreateBackup":
+		var b Backup
+		if e := arg(0, &b); e != nil {
+			return nil, e
+		}
+		return makeBackup(b)
+	case "ReadBackup":
+		var b []byte
+		if e := arg(0, &b); e != nil {
+			return nil, e
+		}
+		return readBackup(b)
+	case "ValidateBackup":
+		var b Backup
+		if e := arg(0, &b); e != nil {
+			return nil, e
+		}
+		return validateBackup(b)
+	case "ValidateFont":
+		var b []byte
+		if e := arg(0, &text); e != nil {
+			return nil, e
+		}
+		if e := arg(1, &b); e != nil {
+			return nil, e
+		}
+		return nil, office.ValidateFont(text, b)
 	case "Templates":
 		return office.Templates(), nil
 	case "Fonts":

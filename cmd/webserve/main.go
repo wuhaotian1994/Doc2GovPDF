@@ -4,6 +4,7 @@ package main
 import (
 	"flag"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -19,8 +20,18 @@ func main() {
 	if e != nil {
 		log.Fatal(e)
 	}
+	listener, e := net.Listen("tcp", *address)
+	if e != nil {
+		log.Fatal(e)
+	}
+	server := http.Server{Handler: staticHandler(root), ReadHeaderTimeout: 5 * time.Second}
+	log.Printf("Browser app: http://%s", listener.Addr())
+	log.Fatal(server.Serve(listener))
+}
+
+func staticHandler(root string) http.Handler {
 	files := http.FileServer(http.Dir(root))
-	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != "GET" && r.Method != "HEAD" {
 			http.Error(w, "Method not allowed", 405)
 			return
@@ -28,6 +39,20 @@ func main() {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("Referrer-Policy", "no-referrer")
 		w.Header().Set("Cache-Control", "no-cache")
+		// Windows registry associations must not determine executable web MIME types.
+		// In particular .mjs can otherwise be served as text/plain with nosniff.
+		switch strings.ToLower(filepath.Ext(r.URL.Path)) {
+		case ".js", ".mjs":
+			w.Header().Set("Content-Type", "application/javascript")
+		case ".wasm":
+			w.Header().Set("Content-Type", "application/wasm")
+		case ".css":
+			w.Header().Set("Content-Type", "text/css; charset=utf-8")
+		case ".html":
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		case ".svg":
+			w.Header().Set("Content-Type", "image/svg+xml")
+		}
 		if r.URL.Path == "/document-engine.wasm" && strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
 			p := filepath.Join(root, "document-engine.wasm.gz")
 			if _, e := os.Stat(p); e == nil {
@@ -40,7 +65,4 @@ func main() {
 		}
 		files.ServeHTTP(w, r)
 	})
-	server := http.Server{Addr: *address, Handler: handler, ReadHeaderTimeout: 5 * time.Second}
-	log.Printf("Browser app: http://%s", *address)
-	log.Fatal(server.ListenAndServe())
 }

@@ -10,7 +10,7 @@ let saveChain=Promise.resolve(), queued='',saveFailed=false, history=[],pdfTask=
 let previewRevision=-1,fontWarnings=[],selectedParagraph='';
 let currentScreen='welcome',resumeTarget=null,previewRequest=0,tableAnchor='';
 let preferenceChain=Promise.resolve();
-let composing=false,historyNavigation=false;
+let composing=false,historyNavigation=false,savesInFlight=0,preferencesInFlight=0,skipUnloadWarning=false;
 const clone=value=>structuredClone(value);
 function paragraphs(){return work.document.blocks.flatMap(b=>b.paragraph?[b.paragraph]:[...(b.table.caption?[b.table.caption]:[]),...b.table.rows.flatMap(r=>r.cells.flatMap(c=>c.paragraphs))]);}
 function findParagraph(id){return paragraphs().find(p=>p.id===id);}
@@ -80,21 +80,21 @@ function clearPreview(){composing=false;observer?.disconnect();pdfDocument=null;
 function snapshot(){history.push(clone(work));if(history.length>30)history.shift();}
 function record(kind,id,before,after){work.actions ||= [];work.actions.push({time:new Date().toISOString(),kind,paragraphId:id,before,after});if(work.actions.length>1000)work.actions.shift();}
 function persist(){
- clearTimeout(saveTimer);
+ clearTimeout(saveTimer);saveTimer=null;
  if(!api)return Promise.resolve();
  if(resumeTarget==='compose'&&work.form)work.form=readFields();
  if($('table-dialog').open)work.tableDraft=readTableDraft();
  if(!work.document.blocks.length&&!work.form)return saveChain.catch(()=>{});
  const state=clone(work),key=JSON.stringify(state);
  if(!saveFailed&&key===queued)return saveChain;
- queued=key;$('save-state').textContent='正在保存…';$('compose-save').textContent='正在保存…';
+ queued=key;savesInFlight++;$('save-state').textContent='正在保存…';$('compose-save').textContent='正在保存…';
  saveChain=saveChain.catch(()=>{}).then(()=>api.SaveWorkspace(state)).then(()=>{
   if(key===queued)saveFailed=false;
   if(JSON.stringify(work)===key){$('save-state').textContent='已保存到此浏览器';$('compose-save').textContent='新建草稿已保存到此浏览器';}
- }).catch(e=>{if(key===queued)saveFailed=true;$('save-state').textContent='保存失败，可按 Ctrl+S 重试';$('compose-save').textContent='保存失败，可按 Ctrl+S 重试';error(e);throw e;});
+ }).catch(e=>{if(key===queued)saveFailed=true;$('save-state').textContent='保存失败，可按 Ctrl+S 重试';$('compose-save').textContent='保存失败，可按 Ctrl+S 重试';error(e);throw e;}).finally(()=>{savesInFlight--});
  return saveChain;
 }
-function changed({render=false,resetIgnored=true}={}){$('save-state').textContent='尚有更改待保存';revision++;previewRequest++;inspection=null;previewRevision=-1;$('pdf-state').hidden=false;$('pdf-state').textContent=$('pdf-pages').children.length?'正在更新预览，下方暂为上一版…':'内容已变化，正在排版…';if(resetIgnored)work.ignored=[];$('export-success').hidden=true;$('file-name').textContent=work.name||'未命名公文';$('character-count').textContent=paragraphs().reduce((n,p)=>n+Array.from(p.text).length,0)+' 字';$('check-heading').textContent='正在检查…';$('editor-check-summary').textContent='检查与修改 · 正在核对';$('check-description').textContent='内容已变化，自动重新核对。';$('issue-list').replaceChildren();if(render)renderEditors();clearTimeout(saveTimer);saveTimer=setTimeout(()=>persist().catch(()=>{}),350);clearTimeout(checkTimer);checkTimer=setTimeout(check,300);clearTimeout(previewTimer);if(!composing)previewTimer=setTimeout(preview,450);updateButtons();}
+function changed({render=false,resetIgnored=true}={}){$('save-state').textContent='尚有更改待保存';revision++;previewRequest++;inspection=null;previewRevision=-1;$('pdf-state').hidden=false;$('pdf-state').textContent=$('pdf-pages').children.length?'正在更新预览，下方暂为上一版…':'内容已变化，正在排版…';if(resetIgnored)work.ignored=[];$('export-success').hidden=true;$('file-name').textContent=work.name||'未命名公文';$('character-count').textContent=paragraphs().reduce((n,p)=>n+Array.from(p.text).length,0)+' 字';$('check-heading').textContent='正在检查…';$('editor-check-summary').textContent='检查与修改 · 正在核对';$('check-description').textContent='内容已变化，自动重新核对。';$('issue-list').replaceChildren();if(render)renderEditors();clearTimeout(saveTimer);saveTimer=null;saveTimer=setTimeout(()=>persist().catch(()=>{}),350);clearTimeout(checkTimer);checkTimer=setTimeout(check,300);clearTimeout(previewTimer);if(!composing)previewTimer=setTimeout(preview,450);updateButtons();}
 const roleNames={agency:'发文机关标志',reference:'发文字号',recipient:'主送机关',title:'标题',body:'正文',heading:'一级标题',heading2:'二级标题',heading3:'三级标题',heading4:'四级标题',signer:'签发人','header-meta':'版头信息','attachment-title':'附件标题',note:'附注',caption:'表格标题',signature:'发文单位署名',date:'成文日期',imprint:'版记',roster:'参会人员','attachment-body':'附件正文','attachment-description':'附件说明',article:'条文正文'};
 const editableRoles=['body','title','heading','heading2','heading3','heading4','article','signature','date'];
 function renderEditors(){
@@ -182,7 +182,7 @@ function fillFields(fields){
  const date=fields.date?.replace(/\s+/g,'').match(/^(\d{4})年(\d{1,2})月(\d{1,2})日$/);$('field-date').value=date?`${date[1]}-${date[2].padStart(2,'0')}-${date[3].padStart(2,'0')}`:'';
  $('field-attachments').value=(fields.attachments||[]).join('\n');$('field-annex-pages').checked=Boolean(fields.annexPages);$('field-letterhead').checked=Boolean(fields.letterhead);fillExtraFields(fields);syncLetterhead();
 }
-function saveForm(){if(currentScreen!=='compose')return;work.form=readFields();$('compose-save').textContent='尚有更改待保存';clearTimeout(saveTimer);saveTimer=setTimeout(()=>persist().catch(()=>{}),350);}
+function saveForm(){if(currentScreen!=='compose')return;work.form=readFields();$('compose-save').textContent='尚有更改待保存';clearTimeout(saveTimer);saveTimer=null;saveTimer=setTimeout(()=>persist().catch(()=>{}),350);}
 $('field-kind').onchange=()=>{syncLetterhead(true);saveForm();};$('field-letterhead').onchange=()=>{syncLetterhead();saveForm();};
 $('compose-form').addEventListener('input',saveForm);$('compose-form').addEventListener('change',saveForm);
 async function compose(kind){
@@ -266,7 +266,7 @@ function showTableDraft(draft){$('table-caption').value=draft.caption||'';$('tab
 $('add-table').onclick=()=>{if(busy)return;tableAnchor=document.activeElement?.dataset.paragraph||selectedParagraph;$('table-form').reset();work.tableDraft=readTableDraft();$('table-dialog').showModal();$('table-input').focus();};
 $('table-cancel').onclick=()=>{work.tableDraft=null;$('table-dialog').close();persist().catch(()=>{});};
 $('table-dialog').addEventListener('cancel',()=>{work.tableDraft=null;setTimeout(()=>persist().catch(()=>{}),0);});
-for(const event of ['input','change'])$('table-form').addEventListener(event,()=>{work.tableDraft=readTableDraft();clearTimeout(saveTimer);saveTimer=setTimeout(()=>persist().catch(()=>{}),350);});
+for(const event of ['input','change'])$('table-form').addEventListener(event,()=>{work.tableDraft=readTableDraft();clearTimeout(saveTimer);saveTimer=null;saveTimer=setTimeout(()=>persist().catch(()=>{}),350);});
 $('table-form').onsubmit=e=>{
  e.preventDefault();const text=$('table-input').value.replace(/\r\n?/g,'\n').replace(/^\n+|\n+$/g,'');const rows=text.split('\n').map(row=>row.split('\t'));
  if(!rows.some(r=>r.some(c=>c.trim()))){error('请先粘贴表格内容，空白内容不能生成表格。');return;}
@@ -276,13 +276,13 @@ $('table-form').onsubmit=e=>{
  work.tableDraft=null;$('table-dialog').close();dismissError();insertBlock({table},tableAnchor);
 };
 function savePreferences(next){
- preferenceChain=preferenceChain.catch(()=>{}).then(()=>api.SavePreferences(next)).then(()=>{prefs=next;});return preferenceChain;
+ preferencesInFlight++;preferenceChain=preferenceChain.catch(()=>{}).then(()=>api.SavePreferences(next)).then(()=>{prefs=next;}).finally(()=>{preferencesInFlight--});return preferenceChain;
 }
 
 $('clear-data-open').onclick=()=>{$('settings-dialog').close();$('clear-data-dialog').showModal();};
 $('clear-data-confirm').onclick=async()=>{
  if(busy)return;setBusy(true);$('clear-data-confirm').disabled=true;
- try{clearTimeout(saveTimer);clearTimeout(checkTimer);clearTimeout(previewTimer);previewRequest++;revision++;await saveChain.catch(()=>{});await api.ClearLocalDrafts();work={name:'',document:{blocks:[]},form:null,ignored:[],actions:[]};history=[];resumeTarget=null;inspection=null;queued='';saveFailed=false;observer?.disconnect();await pdfTask?.destroy();pdfTask=null;pdfDocument=null;previewRevision=-1;lastResult=[];$('export-success').hidden=true;$('compose-form').reset();$('pdf-pages').replaceChildren();$('blocks-editor').replaceChildren();$('clear-data-dialog').close();dismissError();screen('welcome');toast('本地草稿已清除，原件和成品保留。');}catch(e){error(e);}finally{setBusy(false);$('clear-data-confirm').disabled=false;}
+ try{clearTimeout(saveTimer);saveTimer=null;clearTimeout(checkTimer);clearTimeout(previewTimer);previewRequest++;revision++;await saveChain.catch(()=>{});await api.ClearLocalDrafts();work={name:'',document:{blocks:[]},form:null,ignored:[],actions:[]};history=[];resumeTarget=null;inspection=null;queued='';saveFailed=false;observer?.disconnect();await pdfTask?.destroy();pdfTask=null;pdfDocument=null;previewRevision=-1;lastResult=[];$('export-success').hidden=true;$('compose-form').reset();$('pdf-pages').replaceChildren();$('blocks-editor').replaceChildren();$('clear-data-dialog').close();dismissError();screen('welcome');toast('本地草稿已清除，原件和成品保留。');}catch(e){error(e);}finally{setBusy(false);$('clear-data-confirm').disabled=false;}
 };
 $('settings-open').onclick=async()=>{
  $('pref-agency').value=prefs.agency;$('pref-reference').value=prefs.referencePrefix;$('pref-update').checked=prefs.autoUpdate;$('pref-format').value=prefs.outputFormat;$('settings-dialog').showModal();
@@ -305,10 +305,10 @@ export async function handleFileDrop(paths){
 }
 if(window.runtime){window.runtime.EventsOn('job:busy',()=>error('正在导出，请等待完成后再退出。'));window.runtime.OnFileDrop((x,y,paths)=>handleFileDrop(paths),false);window.runtime.EventsOn('app:closing',async()=>{try{await preferenceChain.catch(()=>{});await persist();await api.Close();}catch{error('保存尚未完成，窗口已保留，请重试保存。');}});}
 async function init(){
- setBusy(true);document.querySelector('main').inert=true;$('retry-start').hidden=true;
+ setBusy(true);document.querySelector('main').inert=true;$('retry-start').hidden=true;$('startup-restore').hidden=true;$('startup-backup').hidden=true;
  if(!api){error('文档引擎尚未就绪，请刷新后重试。');return;}
  try{
-  const [templates,settings,restored,fonts]=await Promise.all([api.Templates(),api.GetPreferences().catch(e=>{error(e);return prefs;}),api.GetWorkspace().catch(e=>{error(e);return {document:{blocks:[]}};}),api.Fonts()]);
+  const [templates,settings,restored,fonts]=await Promise.all([api.Templates(),api.GetPreferences().catch(e=>{error(e);return prefs;}),api.GetWorkspace(),api.Fonts()]);
   prefs=settings;$('field-kind').replaceChildren();for(const t of templates){const option=document.createElement('option');option.value=t.id;option.textContent=t.name;$('field-kind').append(option);}$('output-format').value=prefs.outputFormat;$('font-list').replaceChildren();
   for(const f of fonts){const line=document.createElement('p');line.textContent=`${f.name}：${f.available?'已安装':'使用内置备用字体'}`;$('font-list').append(line);}
   work={name:'',document:{blocks:[]},ignored:[],actions:[],...restored};work.document||={blocks:[]};work.document.blocks||=[];work.ignored||=[];work.actions||=[];
@@ -319,8 +319,8 @@ async function init(){
   if(currentScreen==='workspace')await preview();
   await api.MarkHealthy();document.querySelector('main').inert=false;setBusy(false);
   if(work.tableDraft&&work.document.blocks.length){screen('workspace');view(true);showTableDraft(work.tableDraft);}
-  window.appReady=true;$('offline-state').textContent='文档引擎已就绪，文件在本地处理';
- }catch(e){error(e);$('retry-start').hidden=false;}
+  const notices=api.Notices();if(notices.length){$('recovery-notice').textContent=notices.join(' ');$('recovery-notice').hidden=false;}window.appReady=true;$('offline-state').textContent='文档引擎已就绪，文件在本地处理';
+ }catch(e){error(e);$('retry-start').hidden=false;$('startup-restore').hidden=false;$('startup-backup').hidden=false;}
 }
 $('retry-start').onclick=()=>{dismissError();init();};
 
@@ -332,7 +332,7 @@ window.addEventListener('dragover',e=>{e.preventDefault();document.body.classLis
 window.addEventListener('dragleave',e=>{if(!e.relatedTarget)document.body.classList.remove('dragging')});
 window.addEventListener('drop',e=>{e.preventDefault();document.body.classList.remove('dragging');handleFileDrop([...e.dataTransfer.files])});
 document.querySelector('.drop-area').addEventListener('keydown',e=>{if(e.target===e.currentTarget&&(e.key==='Enter'||e.key===' ')){e.preventDefault();importFile()}});
-$('font-import').onclick=async()=>{const button=$('font-import');button.disabled=true;try{if(await api.InstallFont($('font-role').value)){$('font-install-state').textContent='字体已保存在此浏览器；返回文稿后将重新排版。';revision++;previewRevision=-1;const fonts=await api.Fonts();$('font-list').replaceChildren(...fonts.map(f=>{const p=document.createElement('p');p.textContent=f.name+'：'+(f.available?'已载入授权文件':'使用内置备用字体');return p}));}}catch(e){error(e)}finally{button.disabled=false}};
+$('font-import').onclick=async()=>{fontBusy(true);try{if(await api.InstallFont($('font-role').value)){showFontState(await api.Fonts());$('font-install-state').textContent='字体已保存在此浏览器，文稿将使用新字体重新排版。'}}catch(e){error(e)}finally{fontBusy(false)}};
 $('settings-dialog').addEventListener('close',()=>{if(currentScreen==='workspace'&&previewRevision!==revision)preview()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')persist().catch(()=>{})});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').then(async registration=>{await navigator.serviceWorker.ready;$('offline-state').textContent='已准备好，可离线使用';registration.addEventListener('updatefound',()=>{const update=registration.installing;update?.addEventListener('statechange',()=>{if(update.state==='installed'&&navigator.serviceWorker.controller)toast('新版本已准备好，下次打开时生效，当前编辑不受影响。')})})}).catch(()=>{$('offline-state').textContent='在线可用；浏览器尚未允许离线缓存'});
@@ -340,4 +340,18 @@ if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').then
 const fitPreview=()=>{const panel=$('preview-panel');panel.classList.toggle('fit-page',$('preview-size').value==='page');panel.style.setProperty('--page-width',Math.max(210,(panel.clientHeight-78)*210/297)+'px')};
 $('preview-size').onchange=fitPreview;new ResizeObserver(fitPreview).observe($('preview-panel'));
 window.addEventListener('popstate',()=>{if(busy){window.history.pushState({screen:currentScreen},'', '#'+currentScreen);return}historyNavigation=true;const destination=location.hash.slice(1);screen(destination==='workspace'&&work.document.blocks.length?'workspace':destination==='compose'&&work.form?'compose':'welcome');historyNavigation=false;persist().catch(()=>{});if(currentScreen==='workspace'&&previewRevision!==revision)preview()});
-window.addEventListener('beforeunload',e=>{if(saveFailed||$('save-state').textContent==='尚有更改待保存'||$('save-state').textContent==='正在保存…'){e.preventDefault();e.returnValue=''}});
+window.addEventListener('beforeunload',e=>{if(!skipUnloadWarning&&(busy||saveFailed||savesInFlight||preferencesInFlight||saveTimer)){e.preventDefault();e.returnValue=''}});
+
+function fontBusy(value){$('font-import').disabled=value;$('font-remove').disabled=value;}
+function showFontState(fonts){$('font-list').replaceChildren(...fonts.map(f=>{const p=document.createElement('p');p.textContent=f.name+'：'+(f.available?'已载入授权文件':'使用内置备用字体');return p}));revision++;previewRequest++;previewRevision=-1;$('font-ack').checked=false;updateButtons();if(currentScreen==='workspace'&&!$('settings-dialog').open)preview();}
+$('font-remove').onclick=async()=>{fontBusy(true);try{showFontState(await api.RemoveFont($('font-role').value));$('font-install-state').textContent='已恢复此用途的内置字体，返回文稿后重新排版。'}catch(e){error(e)}finally{fontBusy(false)}};
+
+let pendingBackup=null;
+function showBackup(){const w=pendingBackup.workspace;$('restore-summary').textContent='文稿：'+(w.name||w.form?.title||'未命名草稿')+'。'+(pendingBackup.preferences?'同时恢复单位设置。':'');$('restore-source').hidden=!pendingBackup.needsSource;$('restore-source-help').hidden=!pendingBackup.needsSource;$('restore-confirm').disabled=Boolean(pendingBackup.needsSource)}
+async function chooseBackup(){const wasBusy=busy;try{const backup=await api.ReadBackup();if(!backup)return;pendingBackup=backup;$('settings-dialog').close();showBackup();$('restore-dialog').showModal()}catch(e){error(e)}finally{if(!wasBusy)setBusy(false)}}
+$('restore-work').onclick=chooseBackup;$('startup-restore').onclick=chooseBackup;
+$('restore-cancel').onclick=()=>$('restore-dialog').close();$('restore-dialog').addEventListener('close',()=>{pendingBackup=null});
+$('restore-source').onclick=async()=>{const button=$('restore-source');button.disabled=true;try{pendingBackup=await api.AttachBackupSource(pendingBackup);showBackup()}catch(e){error(e)}finally{button.disabled=false}};
+$('restore-form').onsubmit=async e=>{e.preventDefault();if(!pendingBackup||pendingBackup.needsSource)return;const button=$('restore-confirm');button.disabled=true;try{clearTimeout(saveTimer);saveTimer=null;await saveChain.catch(()=>{});await preferenceChain.catch(()=>{});await api.RestoreBackup(pendingBackup);skipUnloadWarning=true;location.reload()}catch(e){error(e);button.disabled=false}};
+$('backup-work').onclick=async()=>{const button=$('backup-work');button.disabled=true;try{await persist();await preferenceChain;const name=await api.BackupWorkspace();$('backup-status').textContent='已准备下载 '+name+'，请将它保存在可靠的位置。'}catch(e){error(e)}finally{button.disabled=false}};
+$('startup-backup').onclick=()=>api.DownloadRecovery().catch(error);

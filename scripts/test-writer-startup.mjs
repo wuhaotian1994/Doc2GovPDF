@@ -1,5 +1,5 @@
 import {createRequire} from 'node:module';
-import {createServer} from 'node:http';
+import {startWebServer} from './browser-tests/server.mjs';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,extname,sep} from 'node:path';
 import assert from 'node:assert/strict';
@@ -8,10 +8,8 @@ const require=createRequire(new URL('./browser-tests/package.json',import.meta.u
 const {chromium,firefox,webkit}=require('playwright');
 const root=resolve(import.meta.dirname,'..'),webRoot=resolve(root,'build/qa/startup-web'),out=resolve(root,'build/qa/startup');
 await mkdir(out,{recursive:true});
-const server=createServer(async(req,res)=>{
- try{const path=resolve(webRoot,'.'+new URL(req.url,'http://localhost').pathname.replace(/\/$/,'/index.html'));if(!path.startsWith(webRoot+sep))throw Error('path');res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.js':'application/javascript','.mjs':'application/javascript','.css':'text/css','.wasm':'application/wasm'})[extname(path)]||'application/octet-stream');res.end(await readFile(path));}catch{res.writeHead(404).end();}
-});
-await new Promise(r=>server.listen(0,'127.0.0.1',r));const url='http://127.0.0.1:'+server.address().port;
+const server=await startWebServer(webRoot);
+const url=server.url;
 const profiles=[{name:'chrome',type:chromium,channel:'chrome'},{name:'firefox',type:firefox},{name:'webkit',type:webkit}].filter(p=>!process.env.STARTUP_BROWSER||p.name===process.env.STARTUP_BROWSER);
 const results=[];
 const title='启动保护测试稿',recipient='测试部门',reference='示例办〔2026〕0058号',body='这是用于启动保护验证的合成正文。';
@@ -28,7 +26,7 @@ try{
     try{
      if(scenario==='delayed-module')await page.route('**/write.js',async route=>{await gate;await route.continue();});
      if(scenario==='missing-module'||scenario==='pending-query-reload')await page.route('**/write.js',route=>route.abort());
-     if(scenario==='missing-preview')await page.route('**/vendor/pdfjs/pdf.mjs*',route=>route.abort());
+     if(scenario==='missing-preview')await page.route('**/vendor/pdfjs/pdf.js*',route=>route.abort());
      if(scenario==='delayed-storage'||scenario==='legacy-query'){
       await context.addInitScript(seed=>{localStorage.setItem('gongwen-writer-v1',JSON.stringify(seed));},draft({...blank(),title:'先前保存的测试稿',body:'先前正文需要保留'},0,'prior-draft'));
      }
@@ -98,9 +96,13 @@ try{
        assert.equal(await page.locator('#body').inputValue(),scenario==='delayed-storage'?'先前正文需要保留':body);
        if(scenario!=='delayed-storage')assert.equal(await page.locator('[data-panel="2"]').isVisible(),true);
        if(scenario==='missing-preview'){
-        await page.waitForFunction(()=>document.getElementById('global-error').textContent.includes('预览组件加载失败'),{},{timeout:120000});
+        await page.waitForFunction(()=>document.getElementById('global-error').textContent.includes('暂时无法显示预览'),{},{timeout:120000});
         await page.locator('[name=format][value=txt]').check();const waiting=page.waitForEvent('download');await page.locator('#export').click();const download=await waiting;
         const path=resolve(out,profile.name+'-without-preview.txt');await download.saveAs(path);assert.ok((await readFile(path,'utf8')).includes(body));
+        await page.unroute('**/vendor/pdfjs/pdf.js*');await page.locator('[data-back="1"]').click();await page.locator('#body').fill(body+'继续修改。');await page.locator('[data-next="2"]').click();
+        await page.locator('#pdf-pages canvas').waitFor({timeout:120000});assert.equal(await page.locator('#global-error').isVisible(),false);
+        await page.locator('[name=format][value=pdf]').check();for(const box of await page.locator('#check-list input[type=checkbox]').all())await box.check();
+        await page.locator('#export:not([disabled])').waitFor();const recovered=page.waitForEvent('download');await page.locator('#export').click();await (await recovered).saveAs(resolve(out,profile.name+'-recovered.pdf'));
        }
        const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));
        assert.equal(saved.fields.title,title);assert.equal(saved.fields.reference,reference);
@@ -113,6 +115,6 @@ try{
    }
   }finally{await browser.close();}
  }
-}finally{server.close();server.closeAllConnections();}
+}finally{await server.close();}
 console.log(JSON.stringify(results.map(({browser,scenario,passed})=>({browser,scenario,passed}))));
 if(results.some(result=>!result.passed))process.exitCode=1;

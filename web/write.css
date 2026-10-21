@@ -26,7 +26,7 @@ h3 { font-size: 17px; }
 .brand { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-size: 22px; font-weight: 700; white-space: nowrap; }
 .brand > svg { width: 30px; height: 34px; color: var(--blue); }
 .brand-caption { font-size: 13px; color: var(--muted); font-weight: 400; margin-left: 19px; }
-.header-actions { display: flex; align-items: center; gap: 8px; }
+.header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .header-actions button { padding-inline: 12px; }
 #save-status { color: var(--muted); font-size: 12px; margin-right: 18px; }
 .quiet { background: transparent; color: var(--muted); }

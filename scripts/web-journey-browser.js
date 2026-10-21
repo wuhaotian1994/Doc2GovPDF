@@ -1,0 +1,94 @@
+(async()=>{
+ const q=window.__qa, api=window.browserAPI, $=id=>document.getElementById(id);
+ const checks=[],exports=[],originals={...api};let latestExport=null;
+ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+ const assert=(value,message)=>{if(!value)throw Error(message)};
+ const until=async(fn,label)=>{const end=Date.now()+90000;while(Date.now()<end){if(await fn())return;await sleep(60)}throw Error('Timeout: '+label)};
+ const input=(id,value)=>{const e=$(id);e.value=value;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};
+ const idle=()=>until(()=>!document.body.classList.contains('busy'),'idle');
+ const result=async()=>{await idle();await until(()=>$('check-heading').textContent!=='正在检查…','inspection');};
+ const home=async()=>{if($('welcome').hidden){$('home-open').click();await until(()=>!$('welcome').hidden,'home');}};
+ async function acceptReplacement(){for(let i=0;i<100;i++){if($('replace-dialog').open){$('replace-dialog').querySelector('button[value=replace]').click();return;}if(!$('compose').hidden||!document.body.classList.contains('busy'))return;await sleep(30)}}
+ async function start(kind){await home();$('template-home').click();await sleep(50);await acceptReplacement();await until(()=>!$('compose').hidden,'compose');input('field-kind',kind);}
+ async function generate(){ $('compose-form').requestSubmit();await until(()=>!$('workspace').hidden,'generated');await result(); }
+ async function selectImport(path){await api.QAQueueDialog(path);$(currentHome()?'import-home':'import-work').click();await sleep(80);await acceptReplacement();await idle();}
+ function currentHome(){return !$('welcome').hidden}
+ async function exportTo(format,path){
+  latestExport=null;input('output-format',format);$('font-ack').checked=true;$('font-ack').dispatchEvent(new Event('change'));
+  await until(()=>!$('export-open').disabled,'export enabled');await api.QAQueueDialog(path);$('export-open').click();await idle();return latestExport;
+ }
+ function note(name){checks.push(name)}
+ api.ExportDocument=async(...args)=>{const r=await originals.ExportDocument(...args);latestExport=r;for(const path of r.paths||[])exports.push({path,source:args[0].sourceId||'',paragraphs:args[0].blocks.flatMap(b=>b.paragraph?[(b.paragraph.prefix||'')+b.paragraph.text]:[...(b.table.caption?[b.table.caption.text]:[]),...b.table.rows.flatMap(row=>row.cells.flatMap(cell=>cell.paragraphs.map(p=>(p.prefix||'')+p.text)))])});return r;};
+ try{
+  await until(()=>window.appReady,'startup');
+  if(q.phase==='1'){
+   assert(!$('welcome').hidden&&$('resume-section').hidden,'fresh start not empty');note('首次启动与空草稿');
+   $('settings-open').click();await until(()=>$('settings-dialog').open,'settings');input('pref-agency','验收测试办公室');input('pref-reference','测办发');input('pref-format','docx');$('settings-form').requestSubmit();await until(()=>!$('settings-dialog').open,'settings saved');
+   assert((await api.GetPreferences()).agency==='验收测试办公室','settings not persisted');
+   $('settings-open').click();input('pref-agency','取消不应保存');$('settings-close').click();assert((await api.GetPreferences()).agency==='验收测试办公室','cancel saved settings');note('设置保存与取消');
+   $('settings-open').click();input('pref-agency','失败不应生效');api.SavePreferences=async()=>{throw Error('测试保存失败')};$('settings-form').requestSubmit();await until(()=>$('settings-dialog').querySelector('.dialog-error'),'visible settings error');assert($('settings-dialog').open,'error closed dialog');api.SavePreferences=originals.SavePreferences;$('settings-close').click();$('dismiss-error').click();note('设置失败提示位于弹窗内且不污染已保存值');
+   let builds=0;api.BuildDocument=async f=>{builds++;await sleep(120);return originals.BuildDocument(f)};$('sample-home').click();$('sample-home').click();await until(()=>!$('workspace').hidden,'sample');await result();assert(builds===1,'double click generated twice');api.BuildDocument=originals.BuildDocument;note('示例重复点击保护');
+   await home();assert(!$('resume-section').hidden,'home lost draft');$('resume-work').click();await result();note('示例返回与继续');
+   $('settings-open').click();$('clear-data-open').click();$('clear-data-dialog').querySelector('button[value=cancel]').click();assert((await api.GetWorkspace()).document.blocks.length,'cancel clear deleted draft');
+   $('settings-open').click();$('clear-data-open').click();$('clear-data-confirm').click();await until(()=>!$('clear-data-dialog').open,'clear');await idle();assert(!$('welcome').hidden&&$('resume-section').hidden,'clear did not return empty home');assert(!(await api.GetWorkspace()).document.blocks?.length,'clear retained draft');assert((await api.GetPreferences()).agency==='验收测试办公室','clear erased settings');note('清理取消与确认、保留设置');
+   for(const kind of ['notice','report','request','letter','minutes','rules','plain']){
+    await start(kind);assert($('field-agency').value==='验收测试办公室','unit preset absent');input('field-title','验收测试办公室关于资料整理的'+kind);input('field-body','一、工作安排\n请各部门按照安排整理材料。\n二、有关要求\n请核对原始记录并妥善保存。');input('field-reference','测办发〔2026〕12号');input('field-recipient','各部门');input('field-date','2026-10-15');
+    assert($('field-signer').closest('label').hidden===!['report','request'].includes(kind),'signer visibility wrong');
+    if(['report','request'].includes(kind))input('field-signer','张三');
+    if(kind==='minutes'){assert(!$('roster-fields').hidden,'minutes roster hidden');input('field-attendees','张三、李四');}
+    if(kind==='request'){input('field-attachments','整理清单');$('field-annex-pages').checked=true;$('field-annex-pages').dispatchEvent(new Event('change',{bubbles:true}));}
+    await generate();
+    if(kind==='request'){
+     assert($('export-open').disabled,'empty annex export allowed');$('edit-tab').click();const field=[...document.querySelectorAll('.paragraph-editor')].find(n=>n.textContent.startsWith('附件正文')).querySelector('textarea');field.focus();field.value='一、整理文档。\n二、核对台账。';field.dispatchEvent(new Event('input',{bubbles:true}));await result();
+    }
+    const r=await exportTo('both',q.output);assert(r?.paths.length===1&&r.paths[0].endsWith('.zip'),'template ZIP export failed: '+kind);note('新建 '+kind+' 并导出实际 Word/PDF');
+   if(kind==='plain'){$('open-result').click();note('通过浏览器再次下载成品');}
+   }
+   // Table insertion, empty input, deletion, undo and edit-role controls.
+   $('edit-tab').click();const body=[...document.querySelectorAll('.paragraph-editor')].find(n=>n.textContent.startsWith('正文')).querySelector('textarea');body.focus();const bodyId=body.dataset.paragraph;
+   $('add-table').click();input('table-input','  \t ');$('table-form').requestSubmit();assert($('table-dialog').querySelector('.dialog-error'),'table error hidden behind dialog');
+   input('table-input','\t项目\t数量\n1\t资料\t2');$('table-form').requestSubmit();await result();await until(()=>$('save-state').textContent==='已保存到此浏览器','table saved');let saved=await api.GetWorkspace();const at=saved.document.blocks.findIndex(b=>b.paragraph?.id===bodyId);assert(saved.document.blocks[at+1]?.table,'table not after selected body');assert(saved.document.blocks[at+1].table.rows[0].cells[0].paragraphs[0].text==='','leading blank column lost');
+   [...document.querySelectorAll('.editor-table-wrap button')].find(b=>b.textContent==='删除此表格').click();assert(!document.querySelector('.editor-table'),'table not removed');$('undo').click();assert(document.querySelector('.editor-table'),'undo table removal failed');note('表格插入位置、空输入、空列、删除与撤销');
+   const editableBody=[...document.querySelectorAll('.paragraph-editor')].find(n=>n.textContent.startsWith('正文')).querySelector('textarea');editableBody.focus();$('add-paragraph').click();const added=document.activeElement;assert(added.tagName==='TEXTAREA','new paragraph not focused');added.value='补充说明。';added.dispatchEvent(new Event('input',{bubbles:true}));input('paragraph-role','heading');await idle();note('段落插入、编辑与角色切换');
+   const normalized=api.NormalizeDocument;api.NormalizeDocument=async m=>{await sleep(200);return normalized(m)};$('normalize-format').click();assert($('workspace').inert&&$('home-open').disabled,'mutation was not locked');await idle();api.NormalizeDocument=normalized;$('undo').click();note('统一格式、操作锁与撤销');
+   let r=await exportTo('docx',q.output+'/单独Word.docx');assert(r?.paths.length===1,'docx output missing');r=await exportTo('pdf',q.output+'/单独PDF.pdf');assert(r?.paths.length===1,'PDF output missing');note('单独 Word 和 PDF 下载');
+   await selectImport('');assert(!$('workspace').hidden,'cancel import changed workspace');await selectImport(q.bad);assert(!$('error').hidden&&!!(await api.GetWorkspace()).document.blocks.length,'bad import lost old document');$('dismiss-error').click();await selectImport(q.empty);assert(!$('error').hidden,'empty import accepted');$('dismiss-error').click();note('导入取消、损坏和空文件');
+   await selectImport(q.text);await result();assert([...document.querySelectorAll('textarea')].some(e=>e.value==='测试通知'),'TXT text missing');note('TXT 实际导入');
+   const {handleFileDrop}=await import('./workspace-ui.js');await handleFileDrop([q.text,q.files[0]]);assert(!$('error').hidden,'multiple dropped files accepted');$('dismiss-error').click();
+   $('settings-open').click();await handleFileDrop([q.text]);assert($('settings-dialog').querySelector('.dialog-error'),'drop bypassed open modal');$('settings-close').click();$('dismiss-error').click();
+   const dropped=handleFileDrop([q.text]);await sleep(80);await acceptReplacement();await dropped;await result();note('拖入处理路径、多个文件及弹窗保护（不使用鼠标）');
+   for(let i=0;i<q.files.length;i++){
+    await selectImport(q.files[i]);await result();assert(!document.querySelector('.issue-card'),'passing upstream flagged');$('track-changes').checked=true;const r=await exportTo('docx',q.output+'/原样-'+i+'.docx');assert(r?.paths.length===1,'source export failed');exports[exports.length-1].original=q.files[i];
+   }note('七份上游 DOCX 经界面导入并原样导出');
+   await selectImport(q.unsupported);await result();assert($('output-format').value==='docx','unsupported PDF did not offer Word');assert(!$('document-notice').hidden,'unsupported object not explained');await exportTo('docx',q.output+'/保留公式.docx');note('复杂对象保留与 Word 降级');
+   await selectImport(q.text);await result();const realPreview=api.PreviewDocument;api.PreviewDocument=async()=>{throw Error('测试 PDF 渲染失败')};$('refresh-preview').click();await until(()=>$('pdf-state').textContent.includes('渲染失败'),'preview error');input('output-format','pdf');assert($('export-open').disabled,'failed PDF export enabled');input('output-format','docx');await until(()=>!$('export-open').disabled,'Word fallback');api.PreviewDocument=realPreview;$('refresh-preview').click();await until(()=>$('pdf-state').hidden,'preview retry');note('PDF 失败后 Word 出稿及刷新恢复');
+   let call=0;api.PreviewDocument=async m=>{call++;if(call===1){await sleep(500);throw Error('过期预览错误');}return realPreview(m)};$('refresh-preview').click();await sleep(50);$('refresh-preview').click();await until(()=>$('pdf-state').hidden,'latest preview');await sleep(600);assert($('pdf-state').hidden,'stale preview replaced latest');api.PreviewDocument=realPreview;note('过期预览不覆盖最新结果');
+   api.PreviewDocument=async m=>{await sleep(350);return realPreview(m)};$('refresh-preview').click();$('cancel-preview').click();await sleep(500);assert($('pdf-state').textContent.includes('已取消'),'cancelled preview came back');api.PreviewDocument=realPreview;$('refresh-preview').click();await until(()=>$('pdf-state').hidden,'cancel then retry');note('取消排版与重新生成');
+   await start('plain');input('field-title','重新打开仍在的草稿');input('field-body','关闭前未等待自动保存的文字');
+   note('未生成表单进入自动保存路径');
+  }else if(q.phase==='2'){
+   assert(!$('compose').hidden&&$('field-title').value==='重新打开仍在的草稿'&&$('field-body').value==='关闭前未等待自动保存的文字','unfinished form lost across restart');note('浏览器重新加载恢复未生成表单');
+   input('field-title','恢复后的通知');input('field-reference','测办发【2026】第012号');await generate();await until(()=>document.querySelector('.issue-card .subtle'),'issue confirmation');document.querySelector('.issue-card .subtle').click();await home();note('确认保留写法后返回首页并退出');
+  }else if(q.phase==='3'){
+   assert(!$('welcome').hidden&&!$('resume-section').hidden,'home state not restored');$('resume-work').click();await result();assert(!document.querySelector('.issue-card'),'confirmed issues reappeared after restart');note('重启保留首页位置和已确认问题');
+   $('edit-tab').click();$('add-table').click();input('table-input','项目\t数量\n重启后仍保留\t2');note('表格弹窗草稿保存后重新加载');
+  }else if(q.phase==='4'){
+   assert($('table-dialog').open&&$('table-input').value.includes('重启后仍保留'),'unfinished table lost on restart');$('table-form').requestSubmit();await result();assert(document.querySelector('.editor-table'),'restored table not added');note('重新加载恢复未添加表格并继续');
+   $('settings-open').click();$('clear-data-open').click();$('clear-data-confirm').click();await until(()=>!$('clear-data-dialog').open,'final clear');await idle();assert(!(await api.GetWorkspace()).document.blocks?.length,'clear retained current document');note('最终清理不影响已导出成品');
+  }else if(q.phase==='5'){
+   await start('request');input('field-title','联合行文与批注验收');input('field-agency','示例市人民政府');input('field-agencies','示例市财政局');input('field-reference','示政发〔2026〕12号');input('field-signer','张三');input('field-signers','李四\n王五');input('field-copy-number','12');input('field-classification','秘密');input('field-secrecy-period','1年');input('field-urgency','加急');input('field-issuer','示例办公室');input('field-issue-date','2026-10-17');input('field-note','（联系人：张三。）');input('field-body','一、工作安排\n请核对资料。\n（一）核对范围\n保留原始资料。');input('field-attachments','核对清单');$('field-annex-pages').checked=true;$('field-annex-pages').dispatchEvent(new Event('change'));$('field-detached').checked=true;
+   await generate();$('edit-tab').click();const annex=[...document.querySelectorAll('.paragraph-editor')].find(n=>n.textContent.startsWith('附件正文')).querySelector('textarea');annex.focus();annex.value='附件内容必须保留。';annex.dispatchEvent(new Event('input',{bubbles:true}));await result();
+   const body=[...document.querySelectorAll('.paragraph-editor')].find(n=>n.textContent.startsWith('正文')).querySelector('textarea');body.focus();body.value+='正文编辑必须保留。';body.dispatchEvent(new Event('input',{bubbles:true}));
+   $('add-table').click();input('table-caption','表1 材料核对');input('table-alignment','numeric');input('table-input','项目\t数量\n材料\t2\n合计\t2');$('table-form').requestSubmit();await result();
+   await until(()=>$('save-state').textContent==='已保存到此浏览器','extended save');let saved=await api.GetWorkspace();assert(saved.document.blocks.some(b=>b.table?.role==='joint-mark'),'joint mark missing');assert(saved.document.blocks.some(b=>b.table?.caption?.text==='表1 材料核对'),'table caption missing');assert(saved.document.autoNumbering,'automatic numbering not enabled');note('联合行文、多签发人、份号密级、印发信息与表格标题');
+   $('edit-elements').click();await until(()=>!$('compose').hidden,'edit metadata');input('field-copy-number','13');$('compose-form').requestSubmit();await until(()=>!$('workspace').hidden,'updated metadata');await result();await until(()=>$('save-state').textContent==='已保存到此浏览器','metadata save');saved=await api.GetWorkspace();const json=JSON.stringify(saved.document);assert(json.includes('正文编辑必须保留')&&json.includes('附件内容必须保留')&&json.includes('表1 材料核对'),'metadata rebuild lost edited content');assert(json.includes('000013'),'copy number not updated');note('更新公文要素保留已编辑正文、表格和附件');
+   await exportTo('both',q.output);note('自动编号、联合行文与不装订附件实际 Word/PDF 导出');
+   $('add-paragraph').click();const metric=document.activeElement;metric.value='营业收入为100万元。营业收入为120万元。';metric.dispatchEvent(new Event('input',{bubbles:true}));await result();assert($('export-open').disabled,'unreviewed numeric issue allowed final output');$('include-comments').checked=true;$('include-comments').dispatchEvent(new Event('change'));assert($('export-open').disabled,'Word comments incorrectly unlocked PDF output');await exportTo('docx',q.output+'/数字核对批注.docx');exports[exports.length-1].expectComments=true;note('数字不改、待确认问题实际写入 Word 批注');
+   const before=JSON.stringify((await api.GetWorkspace()).document);await api.QAQueueDialog(q.pdf);$('review-pdf').click();await until(()=>$('pdf-review-dialog').open&&document.querySelector('#pdf-review-canvas canvas'),'PDF checker');assert($('pdf-review-fonts').textContent.includes('FangSong'),'actual PDF font identity missing');$('pdf-review-next').click();await until(()=>$('pdf-review-page').textContent.includes('第 2 页'),'PDF next page');input('pdf-review-allow','本单位其他字体');$('pdf-review-recheck').click();await until(()=>!$('pdf-review-recheck').disabled,'PDF recheck');$('pdf-review-close').click();await idle();assert(JSON.stringify((await api.GetWorkspace()).document)===before,'PDF review replaced Word draft');note('独立 PDF 实际字体与分页核对、翻页及返回草稿');
+   await api.QAQueueDialog(q.bad);$('review-pdf').click();await until(()=>!$('error').hidden,'bad PDF rejected');await idle();assert(!$('pdf-review-dialog').open,'bad PDF shown as valid');$('dismiss-error').click();await api.QAQueueDialog('');$('review-pdf').click();await idle();assert(JSON.stringify((await api.GetWorkspace()).document)===before,'cancelled PDF changed draft');note('损坏 PDF 拒绝、取消核对保留原工作');
+   $('add-paragraph').click();const common=document.activeElement;common.value='筹画项目，于2026年05月08日前报送。';common.dispatchEvent(new Event('input',{bubbles:true}));await result();$('editor-checks').open=true;$('repair-common').click();await until(()=>$('repair-dialog').open,'repair plan');assert($('repair-changes').textContent.includes('筹划项目'),'repair preview missing');$('repair-dialog').querySelector('button[value=cancel]').click();assert(common.value.includes('筹画'),'cancel repair changed text');$('repair-common').click();await until(()=>$('repair-dialog').open,'repair confirmation');$('repair-confirm').click();await result();await until(()=>$('save-state').textContent==='已保存到此浏览器','batch repair saved');const repaired=JSON.stringify((await api.GetWorkspace()).document);assert(repaired.includes('筹划项目，于2026年5月8日前报送。')&&repaired.includes('100万元。营业收入为120万元。'),'batch repair altered facts or missed corrections');await exportTo('docx',q.output+'/批量整理.docx');note('批量整理先预览、可取消与撤销、事实数字保留');
+
+  }
+  Object.assign(api,originals);window.__finishWebJourney({passed:true,phase:q.phase,checks,exports});
+ }catch(e){Object.assign(api,originals);window.__finishWebJourney({passed:false,phase:q.phase,checks,exports,error:String(e),visibleError:$('error-text')?.textContent,modal:document.querySelector('dialog[open]')?.id,stack:e.stack});}
+})();
