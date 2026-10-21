@@ -25,7 +25,7 @@
   try{const value=JSON.parse(sessionStorage.getItem(key));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.version===1&&value.fields&&Array.isArray(value.touched)){pending=value;value.touched.forEach(name=>{if(names.includes(name)||name==='letterhead')touched.add(name);});}}catch{}
   if(!pending){const latest=recoveries()[0];if(latest){pending={...latest.value,source:'durable-recovery'};pending.touched.forEach(name=>touched.add(name));}}
   let source=pending?.source || '',baseId=pending?.baseId || '';
-  try{const value=JSON.parse(localStorage.getItem('gongwen-writer-v1'));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.type==='gongwen-form'&&[1,2,3,4].includes(value.version)&&value.fields&&names.every(name=>typeof value.fields[name]==='string')&&typeof value.fields.letterhead==='boolean')savedDraft=value;if(!baseId)baseId=value?.id || '';}catch{}
+  try{const value=JSON.parse(localStorage.getItem('gongwen-writer-v1'));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.type==='gongwen-form'&&[1,2,3,4,5].includes(value.version)&&value.fields&&names.every(name=>typeof value.fields[name]==='string')&&typeof value.fields.letterhead==='boolean')savedDraft=value;if(!baseId)baseId=value?.id || '';}catch{}
   const query=new URLSearchParams(location.search);
   if(!pending&&query.has('title')&&query.has('body')&&query.has('recipient')&&query.has('format')){
     const fields={};for(const name of names){fields[name]=query.get(name)||'';touched.add(name);}fields.letterhead=query.has('letterhead');touched.add('letterhead');
@@ -108,7 +108,7 @@
     if(!window.writerReady&&event.target.closest?.('button')&&!event.target.closest?.('#startup-download,#startup-retry')){event.preventDefault();event.stopImmediatePropagation();status('页面正在恢复草稿，已填内容会保留。可以继续填写，或先下载填写草稿。');return;}
     if(event.target.closest?.('#startup-download')){
       const value=snapshot() || {fields:read(),step:0};
-      const blob=new Blob([JSON.stringify({type:'gongwen-form',version:contentSnapshot?4:value.fields.postscript?3:value.fields.sourceMaterial||value.fields.pendingMaterial?2:1,fields:value.fields,...(contentSnapshot?{content:contentSnapshot}:{}),step:value.step},null,2)],{type:'application/json'});
+      const blob=new Blob([JSON.stringify({type:'gongwen-form',version:contentSnapshot?.postscript?5:contentSnapshot?4:value.fields.postscript?3:value.fields.sourceMaterial||value.fields.pendingMaterial?2:1,fields:value.fields,...(contentSnapshot?{content:contentSnapshot}:{}),step:value.step},null,2)],{type:'application/json'});
       const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='未丢失的填写草稿.gongwen.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
     }
     if(event.target.closest?.('#startup-retry')){snapshot();if(stored)location.reload();else status('浏览器暂存失败，请先下载填写草稿，避免刷新时丢失。');}
@@ -126,7 +126,7 @@
       document.getElementById('agency').setAttribute('aria-required',String(initial.fields.letterhead));
       document.getElementById('letterhead').closest('details').open=Boolean(initial.fields.letterhead||initial.fields.reference);
       document.getElementById('body-count').textContent=initial.fields.body.length.toLocaleString('zh-CN')+' 字';
-      if(contentSnapshot){document.getElementById('body').readOnly=true;status('正在恢复当前稿的段落与表格，其他信息仍可填写。');}
+      if(contentSnapshot){document.getElementById('body').readOnly=true;if(contentSnapshot.postscript)document.getElementById('postscript').readOnly=true;status('正在恢复当前稿的段落与表格，其他信息仍可填写。');}
       const entry=document.getElementById('material-entry');if(entry&&initial.fields.pendingMaterial)entry.open=true;
       const original=document.getElementById('material-source');if(original)original.hidden=!initial.fields.sourceMaterial;
       const notes=document.getElementById('postscript');if(notes?.value)notes.closest('details').open=true;

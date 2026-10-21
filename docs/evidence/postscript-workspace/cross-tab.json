@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "primaryPreserved": true,
+  "newVersionSurvivesOtherTabCleanup": true,
+  "untouchedOldTabCannotBecomeNewest": true,
+  "closedTabsRecoverable": true,
+  "realPreview": true
+}

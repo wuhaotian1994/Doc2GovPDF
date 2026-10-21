@@ -1,8 +1,8 @@
-import {paragraph,table,contentFromText,contentText,validateContent,splitContentParagraph,mergeContentParagraph,moveContentBlock} from './write-content.js';
+import {paragraph,table,contentFromText,contentText,validateContent,splitContentParagraph,mergeContentParagraph,moveContentBlock,tabularContentAt} from './write-content.js';
 const labels={auto:'自动识别',body:'正文',title:'标题',heading:'一级标题',heading2:'二级标题',heading3:'三级标题',heading4:'四级标题',article:'条文正文',signature:'署名',date:'日期'};
-export function installContentEditor({getContent,onChange,onError,canEdit}){
-  const $=id=>document.getElementById(id),root=$('content-workspace'),blocks=$('content-blocks'),toolbar=$('content-toolbar'),body=$('body');
-  root.setAttribute('aria-describedby','body-hint body-error');
+export function installContentEditor({getContent,onChange,onError,canEdit,onSettled,region='body'}){
+  const $=id=>document.getElementById(region==='body'?id:id.startsWith('content-')?'postscript-'+id:id.replace(/^body/,'postscript')),root=$('content-workspace'),blocks=$('content-blocks'),toolbar=$('content-toolbar'),body=$('body');
+  root.setAttribute('aria-describedby',region==='body'?'body-hint body-error':'postscript-hint postscript-error');
   let selected=null,past=[],future=[],request=null,formatOpen=false,editSession=null;
   const snapshot=()=>{const input=inputFor(selected)||body;return {content:getContent()?structuredClone(getContent()):null,body:body.value,selected:selected?{...selected}:null,range:{start:input.selectionStart,end:input.selectionEnd}};};
   const status=text=>{$('content-status').textContent=text;};
@@ -31,8 +31,8 @@ export function installContentEditor({getContent,onChange,onError,canEdit}){
   function commit(next,{record=true,render=true,path=selected,range,message='',composing=false,before}={}){
     if(!canEdit())return false;
     try{
-      const checked=next?validateContent(next):null;
-      if(checked&&JSON.stringify(checked)===JSON.stringify(getContent()))return true;
+      const checked=next?validateContent(next,{postscript:region==='postscript'}):null;
+      if(checked&&JSON.stringify(checked)===JSON.stringify(getContent())){if(!composing)onSettled?.();return true;}
       if(record){past.push(before||snapshot());if(past.length>40)past.shift();future=[];}
       onChange(checked,checked?contentText(checked):before?.body??body.value,{composing});
       if(render){draw();if(path)focus(path,range);}historyButtons();if(message)status(message);return true;
@@ -89,7 +89,7 @@ export function installContentEditor({getContent,onChange,onError,canEdit}){
       const success=commit(next,{record:!session.recorded,before:session.before,render:Boolean(range),path:nextPath,range,composing:event.isComposing});
       if(success)session.recorded=true;else input.value=priorValue;editSession=session;
     };
-    input.oninput=apply;input.oncompositionend=event=>apply({...event,isComposing:false});
+    input.oninput=apply;input.addEventListener('compositionend',event=>apply({isComposing:false}));
     if(kind==='paragraph')input.onkeydown=event=>{if(event.key==='Enter'&&!event.isComposing&&!event.shiftKey){event.preventDefault();selected={block:block.id};split();}};
     wrap.append(title,input);return wrap;
   }
@@ -116,7 +116,11 @@ export function installContentEditor({getContent,onChange,onError,canEdit}){
     if(!canEdit())return;
     try{
       const content=getContent()?structuredClone(getContent()):contentFromText(body.value),index=getContent()?Math.max(0,content.blocks.findIndex(block=>block.id===selected?.block)):Math.min(content.blocks.length-1,body.value.slice(0,body.selectionStart).split('\n').length-1);
-      request={before:snapshot(),content,index,body:body.value,original:JSON.stringify(getContent())};$('content-table-form').reset();$('content-table-message').textContent='';$('content-table-dialog').showModal();$('content-table-rows').focus();
+      const conversion=tabularContentAt(content,index)||(content.blocks[index]?.type==='paragraph'?tabularContentAt(content,index+1):null);
+      request={before:snapshot(),content,index,body:body.value,original:JSON.stringify(getContent()),conversion};$('content-table-form').reset();$('content-table-message').textContent='';
+      $('content-table-conversion').hidden=!conversion;$('content-table-convert').checked=Boolean(conversion);$('content-table-source').value=conversion?conversion.rows.map(row=>row.join('\t')).join('\n'):'';
+      if(conversion){$('content-table-rows').value=conversion.rows.length;$('content-table-columns').value=conversion.rows[0].length;}
+      $('content-table-dialog').showModal();$('content-table-rows').focus();
     }catch(error){onError(error.message);}
   }
   function restore(from,to){if(!canEdit()||!from.length)return;const next=from.pop();to.push(snapshot());onChange(next.content,next.content?contentText(next.content):next.body,{});selected=next.selected;draw();historyButtons();if(next.content)focus(selected,next.range);else{body.focus({preventScroll:true});body.setSelectionRange(next.range?.start??body.value.length,next.range?.end??body.value.length);}status('正文调整已撤销或恢复。');}
@@ -127,7 +131,11 @@ export function installContentEditor({getContent,onChange,onError,canEdit}){
     try{
       if(request.body!==body.value||request.original!==JSON.stringify(getContent()))throw Error('正文已变化，请关闭表格窗口后重新选择位置。');
       const grid=table(Number($('content-table-rows').value),Number($('content-table-columns').value),$('content-table-caption').value),next=structuredClone(request.content);
-      if(next.blocks.length===1&&next.blocks[0].type==='paragraph'&&!next.blocks[0].text)next.blocks=[grid];else next.blocks.splice(request.index+1,0,grid);
+      if(request.conversion&&$('content-table-convert').checked){
+        const original=request.conversion;
+        if(grid.rows.length<original.rows.length||grid.rows[0].cells.length<original.rows[0].length)throw Error('所选行列不能完整容纳原文，请增加行列数，或取消转换。原内容未改变。');
+        original.rows.forEach((row,i)=>row.forEach((text,j)=>grid.rows[i].cells[j].text=text));next.blocks.splice(original.start,original.count,grid);
+      }else if(next.blocks.length===1&&next.blocks[0].type==='paragraph'&&!next.blocks[0].text)next.blocks=[grid];else next.blocks.splice(request.index+1,0,grid);
       if(commit(next,{before:request.before,path:null,message:'表格已加入当前稿，可直接填写单元格或调整行列。'})){request=null;$('content-table-dialog').close();$('content-table-message').textContent='';focus({block:grid.id,row:grid.rows[0].id,cell:grid.rows[0].cells[0].id});}
     }catch(error){$('content-table-message').textContent=error.message;}
   };

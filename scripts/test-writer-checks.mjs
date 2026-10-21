@@ -129,3 +129,11 @@ test('document-scoped rich decisions and malformed optional anchors cannot corru
   const saved=validateDraft(draft(f,2,'draft-a',ledger.snapshot('draft-a'),content));assert.ok(saved.review);assert.equal(saved.review.anchors,undefined);
   const damaged=validateDraft({...saved,review:{...saved.review,anchors:[{key:saved.review.keys[0],source:null}]}});assert.deepEqual(damaged.fields,f);assert.equal(damaged.review,undefined);
 });
+
+test('post-signature paragraph judgments restore precisely and do not transfer into cells',()=>{
+ const f={...fields(),postscript:'电池容量为10kg。'},content=contentFromText(f.body);content.postscript=contentFromText(f.postscript);
+ const build=c=>applyBodyContent({...model(f.body),blocks:[...model(f.body).blocks,{paragraph:{id:'writer-note-0',text:f.postscript,role:'note',font:'仿宋',size:16,line:10.21,align:'left',indent:11.29,before:0,after:0}}]},c);
+ const m=build(content),pid=m.blocks.find(b=>b.paragraph?.role==='note').paragraph.id,entries=reviewItems(m,inspection([issue('suffix',pid)]),f,'draft-a',content),ledger=new ReviewDecisions();assert.equal(entries[0].source.field,'postscript');ledger.set(entries[0],true);
+ const saved=validateDraft(draft(f,2,'draft-a',ledger.snapshot('draft-a'),content)),restored=new ReviewDecisions();restored.restore(saved.review,saved.fields,'draft-a',saved.content);assert.deepEqual([...restored.reconcile(entries)],['suffix']);
+ const next=structuredClone(content);next.blocks[0].text='无关正文';restored.retain({...f,body:'无关正文'},'draft-a',next);assert.equal(restored.reconcile(entries).size,1);next.postscript.blocks[0].align='center';restored.retain(f,'draft-a',next);assert.equal(restored.reconcile(entries).size,0);
+});

@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {contentFromText,contentText,validateContent,table,applyBodyContent,contentBodyForEngine,resolveContentSource,splitContentParagraph,mergeContentParagraph,moveContentBlock} from '../web/write-content.js';
+import {contentFromText,contentText,validateContent,table,applyBodyContent,contentBodyForEngine,resolveContentSource,splitContentParagraph,mergeContentParagraph,moveContentBlock,tabularContentAt} from '../web/write-content.js';
 import {blank,draft,validateDraft,fieldsForEngine,applySignature} from '../web/write-model.js';
 import {archiveDocument,validateLibrary} from '../web/write-library.js';
 const ids=()=>{let n=0;return()=>`id-${++n}`;};
@@ -51,4 +51,26 @@ test('blank tables are still authored structure and do not disappear from the li
 test('merging never silently joins numeric or Latin tokens and splitting preserves emoji boundaries',()=>{
  for(const [text,expected] of [['值为1\n00万元','值为1 00万元'],['Read\nOnly','Read Only']]){const content=contentFromText(text,ids());assert.equal(contentText(mergeContentParagraph(content,content.blocks[1].id)),expected);}
  const content=contentFromText('甲😀乙',ids()),split=splitContentParagraph(content,content.blocks[0].id,2,()=> 'emoji-split');assert.equal(split.blocks[0].text,'甲😀');assert.equal(split.blocks[1].text,'乙');
+});
+
+test('v5 retains body and post-signature structure in one draft and rejects mismatched shadows',()=>{
+ const content=contentFromText('正文'),postscript=contentFromText('公开说明\n回执\n区域\t姓名\n\t\n印发信息');content.postscript=postscript;
+ const stored=draft({...blank(),title:'通知',signature:'单位',date:'2024-06-28'},1,'same-id',undefined,content),restored=validateDraft(stored);
+ assert.equal(stored.version,5);assert.equal(restored.fields.body,'正文');assert.equal(restored.fields.postscript,contentText(postscript));assert.deepEqual(restored.content,content);
+ assert.throws(()=>validateDraft({...stored,fields:{...stored.fields,postscript:'不同的附注'}}));assert.equal(validateLibrary(archiveDocument({version:1,items:[]},'same-id',stored)).items[0].document.version,5);
+});
+test('suffix table is compiled after independent signing/date and before its following imprint prose',()=>{
+ const content=contentFromText('正文'),post=contentFromText('公开说明\n回执\n印发信息'),grid=table(3,4);grid.rows[0].cells.forEach((c,i)=>c.text=['区域','姓名','职务','电话'][i]);post.blocks.splice(2,0,grid);post.blocks[1].role='title';content.postscript=post;
+ const f=draft({...blank(),title:'通知',signature:'单位',date:'2024-06-28',copyTo:'相关单位'},1,'same-id',undefined,content).fields;
+ const m=base('正文');m.blocks.push({paragraph:{id:'copy',role:'imprint',text:'抄送：相关单位'}});const result=applyBodyContent(applySignature(m,f),content),order=result.blocks.map(b=>b.table?'TABLE':b.paragraph.text);
+ assert.deepEqual(order,['通知','各部门：','正文','单位','2026年10月21日','公开说明','回执','TABLE','印发信息','抄送：相关单位']);
+ const tableBlock=result.blocks.find(b=>b.table),cell=tableBlock.table.rows[0].cells[1].paragraphs[0],source=result._writerSources[cell.id];assert.equal(source.field,'postscript');assert.equal(resolveContentSource(source,content).column,2);
+ assert.equal(result.blocks.find(b=>b.paragraph?.text==='回执').paragraph.size,22);assert.equal(result.blocks.find(b=>b.paragraph?.text==='印发信息').paragraph.role,'note');
+});
+test('suffix validation enforces shared unique identities and its existing text limit',()=>{
+ const value=contentFromText('正文');value.postscript=contentFromText('说明');value.postscript.blocks[0].id=value.blocks[0].id;assert.throws(()=>validateContent(value));value.postscript=contentFromText('x'.repeat(4001));assert.throws(()=>validateContent(value));
+});
+test('explicit tab cells preserve blank receipt rows and stop before a different following imprint',()=>{
+ const value=contentFromText('附件\n参会回执\n区域\t姓名\t单位及职务\t联系电话\n\t\t\t\n\t\t\t\n办公室\t原日期印发'),found=tabularContentAt(value,2);
+ assert.equal(found.count,3);assert.deepEqual(found.rows,[['区域','姓名','单位及职务','联系电话'],['','','',''],['','','','']]);assert.equal(tabularContentAt(value,1),null);assert.equal(contentText(value).split('\n').at(-1),'办公室\t原日期印发');
 });

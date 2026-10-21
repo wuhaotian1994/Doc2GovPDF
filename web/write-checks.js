@@ -2,7 +2,7 @@
 // document-digest ID. Export still uses the latest engine IDs.
 import {resolveContentSource,paragraphContentSources} from './write-content.js';
 const bodyRoles = new Set(['body','article','heading','heading2','heading3','heading4']);
-const documentFields=(fields,content)=>({...Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key))),...(content?.blocks.some(block=>block.type==='table'||['role','align','indent','before','after'].some(key=>block[key]!=='auto'))?{bodyContent:content}:{})});
+const documentFields=(fields,content)=>({...Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key))),...([...(content?.blocks||[]),...(content?.postscript?.blocks||[])].some(block=>block.type==='table'||['role','align','indent','before','after'].some(key=>block[key]!=='auto'))?{bodyContent:content}:{})});
 export const fieldLabels = {title:'标题',body:'正文',recipient:'收文对象',agency:'发文单位',reference:'发文字号',signature:'落款',date:'日期',attachments:'附件名称',copyTo:'抄送单位',postscript:'落款后附注'};
 
 export function sourceLines(value) {
@@ -79,7 +79,7 @@ function receiptFromKey(key,documentId,anchor){
   }else if(scope!=='document')return null;
   if(anchor){
     const {content,contentStyle,...identity}=anchor;
-    if(scope!=='paragraph'||source.field!=='body'||!content||typeof content.block!=='string'||!/^[a-zA-Z0-9-]{1,80}$/.test(content.block)||content.cell||content.caption||!contentStyle||typeof contentStyle!=='object'||Array.isArray(contentStyle)||JSON.stringify(identity)!==JSON.stringify(source))return null;
+    if(scope!=='paragraph'||!['body','postscript'].includes(source.field)||!content||typeof content.block!=='string'||!/^[a-zA-Z0-9-]{1,80}$/.test(content.block)||content.cell||content.caption||!contentStyle||typeof contentStyle!=='object'||Array.isArray(contentStyle)||JSON.stringify(identity)!==JSON.stringify(source))return null;
     source={...identity,content:{block:content.block},contentStyle:structuredClone(contentStyle)};
   }
   return {key,documentId,scope,source:scope==='paragraph'?source:null,fields:scope==='document'?JSON.stringify(source):null,issue:{rule:parts[2],severity:'review'}};
@@ -102,9 +102,9 @@ export class ReviewDecisions {
   bindContent(fields,documentId,content){
     const sources=paragraphContentSources(content);
     for(const [key,item] of this.receipts){
-      if(item.documentId!==documentId||item.scope!=='paragraph'||item.source?.field!=='body')continue;
-      if(content&&!item.source.content){const match=sources.find(source=>{const {content,contentStyle,...identity}=source;return JSON.stringify(identity)===JSON.stringify(item.source);});if(match)this.receipts.set(key,{...item,source:match});}
-      else if(!content&&item.source.content&&!item.source.content.cell&&!item.source.content.caption){const {content,contentStyle,...identity}=item.source;if(resolveSource(identity,fields))this.receipts.set(key,{...item,source:identity});}
+      if(item.documentId!==documentId||item.scope!=='paragraph'||!['body','postscript'].includes(item.source?.field))continue;
+      if((item.source.field==='postscript'?content?.postscript:content)&&!item.source.content){const match=sources.find(source=>{const {content,contentStyle,...identity}=source;return JSON.stringify(identity)===JSON.stringify(item.source);});if(match)this.receipts.set(key,{...item,source:match});}
+      else if(!(item.source.field==='postscript'?content?.postscript:content)&&item.source.content&&!item.source.content.cell&&!item.source.content.caption){const {content,contentStyle,...identity}=item.source;if(resolveSource(identity,fields))this.receipts.set(key,{...item,source:identity});}
     }
   }
   restore(value,fields,documentId,content=null){

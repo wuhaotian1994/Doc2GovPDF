@@ -1,0 +1,25 @@
+{
+  "ceoCommit": "3dba41e4bc2459dc865b0cd9cd4ea14dd5d8345e",
+  "ceoFileBlob": "d25f89f4b592792a29b098125118c054eec8e310",
+  "nodeTests": 66,
+  "naturalReceiptChecks": 48,
+  "structuredIMEChecks": 30,
+  "v5RecoveryChecks": 18,
+  "inlineRegressionChecks": 87,
+  "previewRegressionChecks": 30,
+  "reminderRegressionChecks": 66,
+  "startupScenarios": 33,
+  "nativeWordVersion": "16.0",
+  "nativeWordPages": {
+    "education": 5,
+    "composition": 1
+  },
+  "directPDFPages": {
+    "education": 5,
+    "composition": 1
+  },
+  "visualPagesInspected": 12,
+  "nativeChineseIME": false,
+  "goProductionEngineChanged": false,
+  "notes": "Existing empty-cell suggestion noise and generic Word/PDF pagination remain outside this change."
+}

@@ -4,7 +4,7 @@ import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, fres
 import {fieldLabels, resolveSource, reviewItems, ReviewDecisions} from './write-checks.js';
 import {analyseMaterial,selectMaterialClosing,materialProposal} from './write-materials.js';
 import {referenceAdvice,sameReferenceFinding} from './write-reference.js';
-import {applyBodyContent,contentText,hasContent} from './write-content.js';
+import {applyBodyContent,contentText,hasContent,contentFromText} from './write-content.js';
 import {installContentEditor} from './write-content-editor.js';
 let pdfjsPromise, pdfjsAttempts=0, pdfjsWorker;
 function previewWorker(library){
@@ -53,15 +53,20 @@ const clearError = () => {
   $('global-error').hidden=true;
   if($('export-status').classList.contains('failed')){$('export-status').textContent='';$('export-status').classList.remove('failed');}
 };
-const contentEditor=installContentEditor({getContent:()=>bodyContent,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
-  bodyContent=next;$('body').value=text;readFields();decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
+const contentEditor=installContentEditor({getContent:()=>bodyContent?{version:1,blocks:bodyContent.blocks}:null,onSettled:schedulePreview,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
+  bodyContent=bodyContent?.postscript?{...(next||contentFromText(text)),postscript:bodyContent.postscript}:next;$('body').value=text;readFields();decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
+}});
+const postscriptEditor=installContentEditor({region:'postscript',getContent:()=>bodyContent?.postscript||null,onSettled:schedulePreview,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
+  const hadBody=Boolean(bodyContent);
+  if(next)bodyContent={...(bodyContent||contentFromText(fields.body)),postscript:next};else if(bodyContent){const {postscript,...body}=bodyContent;bodyContent=body;}
+  $('postscript').value=text;readFields();if(!hadBody&&bodyContent)contentEditor.set({version:1,blocks:bodyContent.blocks});decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
 }});
 function bodySummary(){
   if(!bodyContent)return fields.body.length.toLocaleString('zh-CN')+' 字';
   const text=bodyContent.blocks.reduce((count,block)=>count+(block.type==='paragraph'?block.text.length:block.caption.length+block.rows.reduce((n,row)=>n+row.cells.reduce((m,cell)=>m+cell.text.length,0),0)),0),tables=bodyContent.blocks.filter(block=>block.type==='table').length;
   return text.toLocaleString('zh-CN')+' 字'+(tables?'，'+tables+' 张表格':'');
 }
-function updateBodyCount(){$('body-count').textContent=bodySummary();}
+function updateBodyCount(){$('body-count').textContent=bodySummary();$('postscript-count').textContent=fields.postscript.length.toLocaleString('zh-CN')+' 字';}
 const bytes = data => Uint8Array.from(atob(data), c => c.charCodeAt(0));
 function base64(buffer) { let value = ''; for (let i=0;i<buffer.length;i+=32768) value += String.fromCharCode(...buffer.subarray(i,i+32768)); return btoa(value); }
 function download(name, data, type) {
@@ -72,6 +77,7 @@ function download(name, data, type) {
 }
 function readFields() {
   if(bodyContent)$('body').value=contentText(bodyContent);
+  if(bodyContent?.postscript)$('postscript').value=contentText(bodyContent.postscript);
   for (const name of names) fields[name] = $(name).value;
   fields.letterhead = $('letterhead').checked;
 }
@@ -82,7 +88,7 @@ function fillFields() {
   renderLetterheadState();
   $('letterhead').closest('details').open = Boolean(fields.letterhead || fields.reference);
   $('attachments').closest('details').open = Boolean(fields.attachments || fields.copyTo);
-  updateBodyCount();contentEditor.set(bodyContent);
+  updateBodyCount();contentEditor.set(bodyContent?{version:1,blocks:bodyContent.blocks}:null);postscriptEditor.set(bodyContent?.postscript||null);
   $('material-source').hidden=!fields.sourceMaterial;
   $('material-entry').open=Boolean(fields.pendingMaterial);
   $('postscript').closest('details').open=Boolean(fields.postscript);
@@ -192,7 +198,7 @@ function renderSummary() {
     const dt = document.createElement('dt'); dt.textContent = label;
     const dd = document.createElement('dd'); dd.textContent = value;
     const edit = document.createElement('button'); edit.type='button'; edit.className='quiet'; edit.textContent='修改';
-    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);if(id==='body'&&bodyContent){contentEditor.focusSource({block:bodyContent.blocks[0].id});return;}if($(id).closest('details'))$(id).closest('details').open=true;$(id).focus();};
+    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);if(id==='body'&&bodyContent){contentEditor.focusSource({block:bodyContent.blocks[0].id});return;}if(id==='postscript'&&bodyContent?.postscript){$('postscript').closest('details').open=true;postscriptEditor.focusSource({block:bodyContent.postscript.blocks[0].id});return;}if($(id).closest('details'))$(id).closest('details').open=true;$(id).focus();};
     row.append(dt,dd,edit); return row;
   }));
 }
@@ -200,10 +206,12 @@ function locateIssue(entry) {
   if(readyRevision!==revision)return;
   const field=entry.source?.field || 'body';
   showStep(['title','agency','reference','recipient'].includes(field)?0:1);
-  if(field==='body'&&bodyContent){
+  if((field==='body'&&bodyContent)||(field==='postscript'&&bodyContent?.postscript)){
+    if(field==='postscript')$('postscript').closest('details').open=true;
+    const region=field==='body'?bodyContent:bodyContent.postscript,editor=field==='body'?contentEditor:postscriptEditor;
     const line=resolveSource(entry.source,fields,bodyContent);$('issue-location').hidden=false;
     $('issue-location-text').textContent=line?'已定位到当前稿对应的段落或单元格，请核对选中的原文。':'这条提醒涉及整篇文档，请核对正文与相关内容。';
-    contentEditor.focusSource(entry.source?.content||{block:bodyContent.blocks[0].id},entry.issue.original||entry.source?.text);return;
+    editor.focusSource(entry.source?.content||{block:region.blocks[0].id},entry.issue.original||entry.source?.text);return;
   }
   const input=$(field),details=input.closest('details');if(details)details.open=true;
   // Textarea values normalize imported CRLF to LF; select using displayed offsets.
@@ -636,7 +644,7 @@ async function boot() {
     }catch{blockedSave=true;error('还有未整理的已保存文档。请先下载当前草稿，在“我的文档”腾出空间后重新打开。原内容仍保留。');}
   }
   if(pending?.fields&&Array.isArray(pending.touched)){
-    const plainOverStructure=Boolean(bodyContent&&pending.touched.includes('body')&&!pending.content);
+    const plainOverStructure=Boolean(bodyContent&&pending.touched.includes('body')&&!pending.content||bodyContent?.postscript&&pending.touched.includes('postscript')&&!pending.content?.postscript);
     const independent=pending.source==='legacy-submit'||pending.source==='durable-recovery'||pending.baseId&&pending.baseId!==currentId||plainOverStructure;
     if(independent){
       try{
@@ -651,7 +659,7 @@ async function boot() {
       if(name==='letterhead'&&typeof pending.fields[name]==='boolean')fields[name]=pending.fields[name];
     }
     if(pending.content){
-      try{const restored=validateDraft({type:'gongwen-form',version:4,fields,content:pending.content});bodyContent=restored.content;}
+      try{const restored=validateDraft({type:'gongwen-form',version:pending.content.postscript?5:4,fields,content:pending.content});bodyContent=restored.content;}
       catch{blockedSave=true;rawRecovery=JSON.stringify(pending);error('段落与表格恢复尚未完成，原始数据已保留。请先下载恢复数据。');$('rescue-draft').hidden=false;}
     }
     if(Number.isInteger(pending.step)&&pending.step>=0&&pending.step<=2)step=pending.step;
@@ -671,7 +679,7 @@ async function boot() {
 }
 
 function onWriterInput(event){
-  if(!window.writerReady || !hasLock || event.target.name==='format'||event.target.closest('#content-workspace'))return;
+  if(!window.writerReady || !hasLock || event.target.name==='format'||event.target.closest('.content-workspace'))return;
   readFields();$('agency-field').hidden=!fields.letterhead;
   if(['letterhead','agency'].includes(event.target.id))renderLetterheadState();
   if(materialNames.includes(event.target.id)){persist();return;}

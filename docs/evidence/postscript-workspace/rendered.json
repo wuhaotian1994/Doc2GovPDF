@@ -1,0 +1,22 @@
+[
+  {
+    "label": "education-pdf",
+    "pages": 5,
+    "pdfSHA256": "642404e846f25ac4e2741e110b1b72ebf14c92cc8fe679c2fcf4671ea7076eca"
+  },
+  {
+    "label": "education-word",
+    "pages": 5,
+    "pdfSHA256": "2f3fb1bc9a5f9e59bb0861a581d195743227efeada21155f43882276e37fa614"
+  },
+  {
+    "label": "composition-pdf",
+    "pages": 1,
+    "pdfSHA256": "fba095ee0ee482be6ed3427cd628649c3a123b12a5204e5fceeb9dec2ee288af"
+  },
+  {
+    "label": "composition-word",
+    "pages": 1,
+    "pdfSHA256": "fa3d1e6395b37ed6c6480347067c49ea4efc5966b65a9405d99b997b1fa1da52"
+  }
+]

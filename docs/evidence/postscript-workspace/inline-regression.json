@@ -1,0 +1,176 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "notice",
+    "checks": [
+      "cancelling table insertion retains the original same draft and content",
+      "table is inserted in the middle of this draft with title signing and date intact",
+      "row insertion is immediate in the same table",
+      "column insertion is immediate in every row",
+      "column deletion can be undone with authored cell text restored",
+      "row deletion can be undone without losing other cells",
+      "undo redo and row column edits leave the intended final table intact",
+      "splitting a paragraph retains every character",
+      "merging adjacent paragraphs restores the original text",
+      "paragraph order changes without retyping or moving its table data",
+      "paragraph type alignment indentation and spacing are explicit same-draft edits",
+      "cross-step basic edits preserve table and paragraph settings",
+      "save and reload restore the same complete table and paragraph document",
+      "closing and reopening continues the same document without file transfer",
+      "cell reminder is attached to the actual authored table row and column",
+      "reminder navigation focuses the exact table cell",
+      "the whole journey needs no file chooser popup or transport download",
+      "persistent step actions stay visible at 1366x768",
+      "last normal fields are reachable above the action dock",
+      "left and right surfaces have their own scrollports",
+      "persistent step actions stay visible at 1024x600",
+      "last normal fields are reachable above the action dock",
+      "left and right surfaces have their own scrollports",
+      "persistent step actions stay visible at 1024x480",
+      "last normal fields are reachable above the action dock",
+      "left and right surfaces have their own scrollports",
+      "last row and column remain reachable in a low-height viewport",
+      "long table keeps main step actions visible",
+      "browsing preview does not move the left editing position",
+      "field error is reachable without clipping or covering it with the action dock",
+      "long-table test can be fully undone without changing the intended draft",
+      "the document does not depend on outer-page scrolling",
+      "saved table-cell judgment survives reopening this structured draft",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "downloads": [
+      "资料归档最新安排-整理稿.docx",
+      "资料归档最新安排-整理稿.pdf",
+      "资料归档最新安排.txt"
+    ],
+    "fileChoosers": 0,
+    "passed": true
+  },
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "composite",
+    "checks": [
+      "composite relationship is edited inline in the same original draft",
+      "all composite prose remains in original business order",
+      "composite roles persist in this draft after reopening",
+      "composite relation needs no independent page file chooser or transport download",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "downloads": [
+      "国务院办公厅印发《关于进一步培育新增长点繁荣文化和旅游消费的若干措施》的通知-整理稿.docx",
+      "国务院办公厅印发《关于进一步培育新增长点繁荣文化和旅游消费的若干措施》的通知-整理稿.pdf"
+    ],
+    "fileChoosers": 0,
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "version": "157.0",
+    "scenario": "notice",
+    "checks": [
+      "cancelling table insertion retains the original same draft and content",
+      "table is inserted in the middle of this draft with title signing and date intact",
+      "row insertion is immediate in the same table",
+      "column insertion is immediate in every row",
+      "column deletion can be undone with authored cell text restored",
+      "row deletion can be undone without losing other cells",
+      "undo redo and row column edits leave the intended final table intact",
+      "splitting a paragraph retains every character",
+      "merging adjacent paragraphs restores the original text",
+      "paragraph order changes without retyping or moving its table data",
+      "paragraph type alignment indentation and spacing are explicit same-draft edits",
+      "cross-step basic edits preserve table and paragraph settings",
+      "save and reload restore the same complete table and paragraph document",
+      "closing and reopening continues the same document without file transfer",
+      "cell reminder is attached to the actual authored table row and column",
+      "reminder navigation focuses the exact table cell",
+      "the whole journey needs no file chooser popup or transport download",
+      "saved table-cell judgment survives reopening this structured draft",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "downloads": [
+      "资料归档最新安排-整理稿.docx",
+      "资料归档最新安排-整理稿.pdf",
+      "资料归档最新安排.txt"
+    ],
+    "fileChoosers": 0,
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "version": "157.0",
+    "scenario": "composite",
+    "checks": [
+      "composite relationship is edited inline in the same original draft",
+      "all composite prose remains in original business order",
+      "composite roles persist in this draft after reopening",
+      "composite relation needs no independent page file chooser or transport download",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "downloads": [
+      "国务院办公厅印发《关于进一步培育新增长点繁荣文化和旅游消费的若干措施》的通知-整理稿.docx",
+      "国务院办公厅印发《关于进一步培育新增长点繁荣文化和旅游消费的若干措施》的通知-整理稿.pdf"
+    ],
+    "fileChoosers": 0,
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "version": "27.2",
+    "scenario": "notice",
+    "checks": [
+      "cancelling table insertion retains the original same draft and content",
+      "table is inserted in the middle of this draft with title signing and date intact",
+      "row insertion is immediate in the same table",
+      "column insertion is immediate in every row",
+      "column deletion can be undone with authored cell text restored",
+      "row deletion can be undone without losing other cells",
+      "undo redo and row column edits leave the intended final table intact",
+      "splitting a paragraph retains every character",
+      "merging adjacent paragraphs restores the original text",
+      "paragraph order changes without retyping or moving its table data",
+      "paragraph type alignment indentation and spacing are explicit same-draft edits",
+      "cross-step basic edits preserve table and paragraph settings",
+      "save and reload restore the same complete table and paragraph document",
+      "closing and reopening continues the same document without file transfer",
+      "cell reminder is attached to the actual authored table row and column",
+      "reminder navigation focuses the exact table cell",
+      "the whole journey needs no file chooser popup or transport download",
+      "saved table-cell judgment survives reopening this structured draft",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "downloads": [
+      "资料归档最新安排-整理稿.docx",
+      "资料归档最新安排-整理稿.pdf",
+      "资料归档最新安排.txt"
+    ],
+    "fileChoosers": 0,
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "version": "27.2",
+    "scenario": "composite",
+    "checks": [
+      "composite relationship is edited inline in the same original draft",
+      "all composite prose remains in original business order",
+      "composite roles persist in this draft after reopening",
+      "composite relation needs no independent page file chooser or transport download",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "downloads": [
+      "国务院办公厅印发《关于进一步培育新增长点繁荣文化和旅游消费的若干措施》的通知-整理稿.docx",
+      "国务院办公厅印发《关于进一步培育新增长点繁荣文化和旅游消费的若干措施》的通知-整理稿.pdf"
+    ],
+    "fileChoosers": 0,
+    "passed": true
+  }
+]
