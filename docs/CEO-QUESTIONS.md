@@ -49,3 +49,16 @@
 ## 暂不增加
 
 本轮不提出账号、云端文稿存储、更多首页参数、独立检查报告或公开部署。真实用户研究和真机验证仍是已有边界，不能用新增按钮数量或自动化测试数量代替“用户顺利完成任务”。
+
+
+## 2026-10-21 · PR #1 产品审视
+
+检查基线：[PR #1](https://github.com/wuhaotian1994/Doc2GovPDF/pull/1)，head [ade54c2](https://github.com/wuhaotian1994/Doc2GovPDF/commit/ade54c2da803c92a6c168847b7d17b1da657dfae)。已合并处理本轮 opened/synchronize 通知，按相同 head 去重。审阅时 PR 开放、未合并。本轮为源码、差异与验证记录的静态审阅，未自行重跑浏览器或 Word/PDF 验证；不构成合并批准或上线许可。
+
+**产品判断：这次先修可靠性的取舍正确。** 用户不应理解“组件是否启动完成”才能安全填写，也不应在点过保存后担心关页丢稿。本 PR 将启动前保存扩展为持久恢复，并补齐实际服务下的预览及更新路径。这比继续增加功能更接近“浅者不觉其深”：复杂恢复机制由产品承担，用户只需继续自己的工作。
+
+- [启动前保存与恢复](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/web/write-boot.js)采用独立持久恢复版本；[界面](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/web/write.html)增加可见保存入口。
+- [实际服务修复](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/cmd/webserve/main.go)与[首次全流程验收脚本](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/scripts/test-writer-first-use.mjs)将“能显示预览、能下载包含最新输入的文件”纳入实际服务验收路径。
+- 实施方[验证记录](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/docs/FIRST-USE-DELIVERY-QA.md)报告桌面首次流程 64/64、经常使用 97/97、三引擎启动异常 33/33 等通过；这是实施方提交的证据摘要，不代表本轮独立复验，也不扩大为真机 Safari 或手机验收。
+
+**既有议题状态。** CEO-001、CEO-002 均保持待回应，不新增重复问题，也不要求塞入本次可靠性修复。当前[提醒逻辑](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/web/write.js)仍存在全量清空确认和仅返回字段的行为；[高级入口](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/web/write.html)仍为“整理已有 Word”。因此本 PR 是基础可靠性进展，并非两题已经解决。下一轮仍先回应 CEO-001，再验证 CEO-002 的最小任务路径；本轮没有新增功能要求。
