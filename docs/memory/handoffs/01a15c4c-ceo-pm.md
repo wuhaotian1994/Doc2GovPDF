@@ -1,21 +1,33 @@
 # CEO 与产品经理交接
 
-日期：2026-10-21（Asia/Shanghai）。会话：01a15c4c。状态：CEO-003 已交付 PR #4；CEO-004 待完整材料走查。CEO-001/002 继续监测集成。
+日期：2026-10-21（Asia/Shanghai）。会话：01a15c4c。状态：CEO-001/002/003 已交付并获范围肯定；CEO-004 已完成实现与验收，待本轮提交 PR。
 
-- 用户已授权本聊天实现 CEO 任务并创建/更新私有仓库 PR，按评价修订，不再等待逐次确认；不默认合并或公开发布。
-- heartbeat ceo-pr 已启用，每 15 分钟检查新任务与 PR 反馈并推进已有未完成事项，无变化且无工作时安静。
-- 已处理 CEO 评价：main 上 CEO-QUESTIONS.md blob `7fd403deb24516a07f5dee23a6b28590304a7386`，针对 PR #2/e53d97a。CEO 认可 CEO-001 方向和本轮边界，没有提出返工；要求下一步验证 CEO-002。不是合并授权，不代表主线已有该能力。
-- 当前任务 CEO-003。复用工作树 C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF，当前分支 codex/ceo-003-structure，基于本地 00cc0f8（相对 PR #3 的 9defb35 只多评价记录）。不在共享 checkout 切换分支；PR #1/#2/#3 仍未合并，新任务注明依赖。
-- 新文件 write-checks.js、针对性 Node 与真实浏览器测试归本聊天；write.js/html/css 与 office/check.go/test 的本分支改动也归本聊天。共享目录其他未提交源码仍归原开发会话。
-- 最终实现与验证见 [实施回应](../../CEO-001-RESPONSE.md) 和 [日志](../logs/2026-10-21-01a15c4c-ceo-001.md)：三引擎任务 66/66、Go 三包 test/vet、Node 19/19 通过。实际三格式正文一致，完整 Word/PDF 页面已查看；Word 本机 6 页、直接 PDF 5 页差异已记录。
-- 已交付 [PR #2](https://github.com/wuhaotian1994/Doc2GovPDF/pull/2)，base=codex/fix-writer-startup-preview，head=codex/ceo-001-actionable-checks；已验证实现提交 eac75b0c7099c2a947605b42464a65a02b97a0d7。此后仅补交接记录，不改产品源码；最新 head 以下次远端查询为准。
-- 创建后首次检查：评论/评审时间线为空，combined status 无条目，不能宣称远端 CI 全绿或 CEO 已批准。尚无已处理的本任务评价 ID。
-- CEO-002 的实测断点与最小改进见 [回应](../../CEO-002-RESPONSE.md)、[日志](../logs/2026-10-21-01a15c4c-ceo-002.md)。新草稿副本导入、就地引导及目的页简化归本聊天；没有携带共享目录网页移植未提交修改。三引擎 45/45、Node 19/19、最终首次填写回归 16/16；实际三行三列表格、文字与页面核验完成。
-- CEO-002 已交付 [PR #3](https://github.com/wuhaotian1994/Doc2GovPDF/pull/3)，base=codex/ceo-001-actionable-checks，head=codex/ceo-002-table-path；实际验收对应实现提交 `46d688941dabfd8d66105dd86a3e765409573171`，后续仅补交接。创建后首次评论/评审时间线为空，combined status 无条目，不是远端 CI 通过证据。
-- 最新已处理评价：main 上 CEO-QUESTIONS.md blob `7a8c12f8413ad4628c1c4616abc460a0b7f3f525`，审视 PR #3 的 `9defb35c7ac1b2e5d18da9fad9746d66c926bfd3`。接受单向副本路径及手动选文件成本，无返工/新增议题；明确两个议题已有 PR 回应，后续重点为集成后的完整任务路径。CEO 仍仅静态审阅，未独立复跑浏览器/Word/PDF，不是合并批准。
-- 最新任务来源 main 的 CEO-QUESTIONS blob `7a3c37673344f7f18fb17ad3b36098cadb909f1b`：CEO-003（P1）与 CEO-004（P2）。已完成 CEO-003：plain 条款正文、前导空白识别、不再额外编号，以及复用已有副本语义纠正路径；33/33 结构任务、45/45 表格回归、19 Node、16 首次回归和 Go 全量 test/vet 通过，18 个真实页面已查看。见 [回应](../../CEO-003-RESPONSE.md) 和 [日志](../logs/2026-10-21-01a15c4c-ceo-003.md)。
-- 本轮 Go、UI、测试、文档和合成页图片修改均归本聊天，未携带共享 checkout 的脏源码。上轮未单独推送的评价留档 00cc0f8 随此次实际产品任务交付，不单独推进 PR #3 head。
-- 下一步：提交 CEO-003 到新 PR 后，按优先级走查 CEO-004 的未经拆分通知和硬换行材料，先验证现有路径，再选择最小补足。同时检查新 PR 及 PR #2/#3 的反馈和集成状态；不自行合并/发布，不重复已交付任务。
-- CEO-003 已交付 [PR #4](https://github.com/wuhaotian1994/Doc2GovPDF/pull/4)，base=codex/ceo-002-table-path，head=codex/ceo-003-structure；实际实现提交 385864bef53a9db36b514c246056680ae34f16bc。首次评论时间线与 combined status 均为空，不是 CEO 评价或 CI 全绿证据。
-- 下一步先检查 CEO-004 当前界面从完整材料到实际文件的路径，并继续读取 PR #4 的评价；不把预拆字段的旧用例当作完整材料验收。
-- 已使用独立 worktree，原共享 checkout 和未提交修改保持原样。下一次不能把其他会话 PR #1 或备份分支当作本任务交付。
+## 工作区与授权
+
+- 用户授权实现 CEO 产品任务、验证、提交推送当前私有仓库并创建/更新 PR，随后按评价继续；不自行合并、公开部署或扩大账号权限。heartbeat ceo-pr 每15分钟继续检查，无变化且无可推进工作时安静。
+- 唯一实现工作树：C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF，当前分支 codex/ceo-004-materials，base aa76db16038436e9ed38da345dddea665e948590（PR4）。复用已附加工作树，不在共享 checkout 切换分支。
+- 共享 D:/Project/Doc2GovPDF 的未提交网页移植源码仍归其他会话，未带入本轮。此处自有交接/日志即使复制到共享目录，也不能连带暂存其他文件。
+- 独立工作树的当前未提交差异全部归本聊天 CEO-004：write-materials 与表单/草稿/启动保护元数据、UI字形、测试、回应、合成页证据、PRODUCT/DESIGN及小范围记忆入口更新。
+
+## 已交付与评价去重
+
+| 任务 | PR / 分支 | 实际实现与最近远端head | 已处理CEO文件blob与结论 |
+| --- | --- | --- | --- |
+| CEO-001 | #2 / codex/ceo-001-actionable-checks，base PR1 | 实现eac75b0c7099c2a947605b42464a65a02b97a0d7；head e53d97a5032f1a7325b093e12b6d3f18f57b3bbf | 7fd403deb24516a07f5dee23a6b28590304a7386，方向与本轮范围成立，无返工 |
+| CEO-002 | #3 / codex/ceo-002-table-path，base PR2 | 实现46d688941dabfd8d66105dd86a3e765409573171；head 9defb35c7ac1b2e5d18da9fad9746d66c926bfd3 | 7a8c12f8413ad4628c1c4616abc460a0b7f3f525，接受下载选文件的单向副本成本 |
+| CEO-003 | #4 / codex/ceo-003-structure，base PR3 | 实现385864bef53a9db36b514c246056680ae34f16bc；head aa76db16038436e9ed38da345dddea665e948590 | 271d71c7c3eb15a143a561b0e3d63475903a81af，接受条款及最小纠正路径，要求普通任务避免依赖高级出口 |
+
+- 2026-10-21 06:20 UTC 附近检查：PR1–4均开放未合并；PR2–4评论/评审/行内线程为空，Issues搜索为空。无已处理评论/评审ID。CEO反馈来自上表文件提交，不是GitHub批准评审，也不是合并授权。
+- 主线本地origin/main最近成功抓取为5a14302；后来失败的Git fetch不能当作同步成功。CEO最新内容通过GitHub插件读取，以blob为准。
+- 已交付的详细证据见 docs/CEO-001-RESPONSE.md、CEO-002-RESPONSE.md、CEO-003-RESPONSE.md 和各自独立日志。不要把PR1当本聊天交付，不重复旧任务或把旧验收冒充当前验收。
+
+## CEO-004 本轮结果
+
+- 先在PR4构建走完整材料现有路径，再补可选整篇粘贴/用途确认/主动合并硬换行。候选默认不采用，未选留正文；原文独立保留可下载，待整理材料不导出。保留v1、含原文草稿用v2；既有归档/容量/多标签保护继续生效。
+- 本轮验收：三浏览器两材料109项、Node28项、启动33项、Chrome普通首次16项、表格45项通过；两份v2实际导入新存储恢复全部字段。独立验证六组真实Word/PDF/TXT、原文下载及待采用9071句不混入；源码/字体与最终构建对应。跨标签恢复和旧缓存升级通过。
+- 两份新版及四份基线Word16.0隐藏打开均1页，基线/新版Word与PDF共12页已查看。六张代表页和两张核对界面随Git保存。说明和实际边界见 docs/CEO-004-RESPONSE.md 及 logs/2026-10-21-01a15c4c-ceo-004.md。
+- 未修改本轮Go文档生成或文档字体，不把上轮Go全量结果当作本轮新证据。不宣称真实用户完成率、手机、Safari真机或跨机器分页保证。
+
+## 下一步
+
+提交本轮明确归属文件并推送私有codex/ceo-004-materials，创建以codex/ceo-003-structure为base的PR并附加；记录实际提交SHA/PR。随后检查自动检查和CEO评价，执行可操作修订。没有新增任务或反馈时保留集成复核待办，不自行合并或堆功能。

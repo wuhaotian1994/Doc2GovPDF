@@ -1,6 +1,7 @@
 // Review identity belongs to the source and the decision, never to the engine's
 // document-digest ID. Export still uses the latest engine IDs.
 const bodyRoles = new Set(['body','heading','heading2','heading3','heading4']);
+const documentFields=fields=>Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key)));
 export const fieldLabels = {title:'标题',body:'正文',recipient:'收文对象',agency:'发文单位',reference:'发文字号',signature:'落款',date:'日期',attachments:'附件名称',copyTo:'抄送单位'};
 
 export function sourceLines(value) {
@@ -54,9 +55,9 @@ export function reviewItems(model,inspection,fields,documentId) {
     const p=model.blocks?.find(block=>block.paragraph?.id===issue.paragraphId)?.paragraph;
     const {id,...format}=p || {};
     const scope=source&&localRule(issue.rule)?'paragraph':'document';
-    const dependencies=scope==='paragraph'?source:fields;
+    const dependencies=scope==='paragraph'?source:documentFields(fields);
     const key=JSON.stringify([documentId,inspection.version,issue.rule,issue.severity,issue.message,issue.original,issue.replacement || '',issue.basis,dependencies,format,scope==='document'?model.page:null]);
-    return {issue,source,scope,key,documentId,fields:scope==='document'?JSON.stringify(fields):null};
+    return {issue,source,scope,key,documentId,fields:scope==='document'?JSON.stringify(documentFields(fields)):null};
   });
 }
 export class ReviewDecisions {
@@ -65,7 +66,7 @@ export class ReviewDecisions {
   has(item){return this.receipts.has(item.key);}
   retain(fields,documentId) {
     for(const [key,item] of this.receipts) {
-      if(item.documentId!==documentId || (item.scope==='paragraph'?!resolveSource(item.source,fields):item.fields!==JSON.stringify(fields)))this.receipts.delete(key);
+      if(item.documentId!==documentId || (item.scope==='paragraph'?!resolveSource(item.source,fields):item.fields!==JSON.stringify(documentFields(fields))))this.receipts.delete(key);
     }
   }
   reconcile(items){

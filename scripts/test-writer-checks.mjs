@@ -9,6 +9,15 @@ const model=(body='电池容量为10kg。')=>({page:{width:210,height:297},block
 const inspection=issues=>({version:'0.2.0',issues});
 function items(f=fields(),m=model(),issues=[issue('old','p1')],documentId='draft-a'){return reviewItems(m,inspection(issues),f,documentId);}
 
+test('unadopted source metadata does not revoke document-scoped decisions',()=>{
+  const ledger=new ReviewDecisions(),global=[issue('old','p1',{rule:'unknown.document-rule'})];
+  ledger.set(items(fields(),model(),global)[0],true);
+  const next={...fields(),sourceMaterial:'保留原文',pendingMaterial:'另一份尚未采用的材料'};
+  ledger.retain(next,'draft-a');
+  assert.deepEqual([...ledger.reconcile(items(next,model(),global))],['old']);
+  ledger.retain({...next,title:'修改实际标题'},'draft-a');assert.equal(ledger.receipts.size,0);
+});
+
 test('line offsets preserve CRLF, blank lines, emoji and identical occurrences',()=>{
   const body='😀开头\r\n\r\n电池容量为10kg。\r\n电池容量为10kg。';
   assert.deepEqual(sourceLines(body).map(p=>body.slice(p.start,p.end)),['😀开头','','电池容量为10kg。','电池容量为10kg。']);

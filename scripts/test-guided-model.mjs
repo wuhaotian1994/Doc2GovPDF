@@ -7,7 +7,7 @@ test('draft round trip preserves exact user text and rejects corrupt fields',()=
   assert.deepEqual(validateDraft(JSON.parse(JSON.stringify(draft(fields,1)))).fields,fields);
   assert.throws(()=>validateDraft({type:'gongwen-form',version:1,fields:{...fields,body:22}}));
   assert.throws(()=>validateDraft(draft({...fields,date:'2026-02-29'},0)));
-  assert.throws(()=>validateDraft({...draft(fields,0),version:2}));
+  assert.throws(()=>validateDraft({...draft(fields,0),version:99}));
 });
 test('preview placeholders never enter actual export fields',()=>{
   const fields=blank();

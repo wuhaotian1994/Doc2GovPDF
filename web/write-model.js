@@ -1,21 +1,23 @@
 export const DRAFT_KEY = 'gongwen-writer-v1';
-export const names = ['title', 'recipient', 'agency', 'reference', 'body', 'signature', 'date', 'attachments', 'copyTo'];
-const limits = {title:180, recipient:300, agency:120, reference:100, body:100000, signature:120, date:10, attachments:4000, copyTo:1000};
+export const materialNames = ['sourceMaterial','pendingMaterial'];
+export const names = ['title', 'recipient', 'agency', 'reference', 'body', 'signature', 'date', 'attachments', 'copyTo', ...materialNames];
+export const DRAFT_MAX_BYTES = 2*1024*1024;
+const limits = {title:180, recipient:300, agency:120, reference:100, body:100000, signature:120, date:10, attachments:4000, copyTo:1000,sourceMaterial:100000,pendingMaterial:100000};
 export function blank() {
-  return {title:'', recipient:'', agency:'', reference:'', body:'', signature:'', date:'', attachments:'', copyTo:'', letterhead:false};
+  return {title:'', recipient:'', agency:'', reference:'', body:'', signature:'', date:'', attachments:'', copyTo:'', sourceMaterial:'',pendingMaterial:'',letterhead:false};
 }
 export function validateDraft(value) {
-  if (!value || value.type !== 'gongwen-form' || value.version !== 1 || !value.fields || typeof value.fields !== 'object') throw Error('这不是支持的填写草稿文件，请选择本工具下载的草稿。');
+  if (!value || value.type !== 'gongwen-form' || ![1,2].includes(value.version) || !value.fields || typeof value.fields !== 'object') throw Error('这不是支持的填写草稿文件，请选择本工具下载的草稿。');
   const fields = blank();
   for (const name of names) {
-    const v = value.fields[name];
+    const v = value.fields[name]===undefined&&value.version===1&&materialNames.includes(name)?'':value.fields[name];
     if (typeof v !== 'string' || v.length > limits[name]) throw Error('草稿中的“'+name+'”无效或过长，原内容未被替换。');
-    fields[name] = v;
+    fields[name] = materialNames.includes(name)?v.replace(/\r\n?/g,'\n'):v;
   }
   if (typeof value.fields.letterhead !== 'boolean') throw Error('草稿的红头设置无效，原内容未被替换。');
   if (fields.date && !validDate(fields.date)) throw Error('草稿日期无效，原内容未被替换。');
   fields.letterhead = value.fields.letterhead;
-  return {type:'gongwen-form', version:1, fields, step:Number.isInteger(value.step) && value.step >= 0 && value.step <= 2 ? value.step : 0,
+  return {type:'gongwen-form', version:fields.sourceMaterial||fields.pendingMaterial?2:value.version, fields, step:Number.isInteger(value.step) && value.step >= 0 && value.step <= 2 ? value.step : 0,
     ...(typeof value.id==='string'&&/^[a-zA-Z0-9-]{1,80}$/.test(value.id)?{id:value.id}:{})};
 }
 export function validDate(value) {
@@ -24,7 +26,7 @@ export function validDate(value) {
   return !Number.isNaN(+date) && date.toISOString().slice(0,10) === value && value >= '1900-01-01';
 }
 export function draft(fields, step, id) {
-  return {type:'gongwen-form', version:1, updatedAt:new Date().toISOString(), fields:{...fields}, step,...(id?{id}:{})};
+  return {type:'gongwen-form', version:fields.sourceMaterial||fields.pendingMaterial?2:1, updatedAt:new Date().toISOString(), fields:{...blank(),...fields}, step,...(id?{id}:{})};
 }
 export function fieldsForEngine(fields, preview = false) {
   const date = fields.date ? fields.date.split('-').map(Number) : [];

@@ -36,7 +36,7 @@ try{
   try{
    await page.goto(server.url,{waitUntil:'commit'});
    await page.locator('#title').fill(title);result.readyAtFirstInput=await page.evaluate(()=>!!window.writerReady);
-   await page.locator('#recipient').fill(recipient);await page.locator('[data-panel="0"] summary').click();await page.locator('#reference').fill(reference);
+   await page.locator('#recipient').fill(recipient);await page.locator('[data-panel="0"] details:has(#reference) summary').click();await page.locator('#reference').fill(reference);
    await click('[data-next="1"]');await page.locator('#body').fill(body);await page.locator('#signature').fill('综合办公室');
    await click('[data-back="0"]');await expectFields({title,recipient,reference,body});check('next and back preserve all entered content',true);
    await click('[data-next="1"]');

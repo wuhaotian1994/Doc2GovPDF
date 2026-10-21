@@ -60,7 +60,7 @@ try{
       assert.equal(await page.evaluate(()=>location.search),'');
      }else{
       await page.locator('#title').fill(title);await page.locator('#recipient').fill(recipient);
-      await page.locator('[data-panel="0"] summary').click();await page.locator('#reference').fill(reference);
+      await page.locator('[data-panel="0"] details:has(#reference) summary').click();await page.locator('#reference').fill(reference);
       const before=requests.length;
       if(scenario==='enter-key')await page.locator('#reference').press('Enter');else await page.locator('[data-next="1"]').click();
       assert.equal(requests.length,before,'Next must not issue a document navigation');
