@@ -19,16 +19,18 @@ export class WriterEngine {
       catch (error) { reject(error); queueMicrotask(() => this.reset(error)); return; }
       this.rejectBoot = reject;
       this.timer = setTimeout(() => this.reset(Error('排版引擎加载超时，请点击刷新预览重试。')), 120000);
-      worker.onerror = () => this.reset(Error('排版暂时中断，填写内容仍保留。请点击刷新预览重试。'));
+      worker.onerror = () => {if(worker===this.worker)this.reset(Error('排版暂时中断，填写内容仍保留。请点击刷新预览重试。'));};
       worker.onmessage = async ({data}) => {
         if (worker !== this.worker) return;
         if (data.fatal) { this.reset(Error('排版引擎加载失败，请检查网络后刷新预览。')); return; }
         if (data.ready) {
           try {
             const fonts = await this.fonts();
-            for (const [role, value] of Object.entries(fonts)) await this.send('RegisterFont', [role, value]);
+            if(worker!==this.worker)return;
+            for (const [role, value] of Object.entries(fonts)){if(worker!==this.worker)return;await this.send('RegisterFont', [role, value]);}
+            if(worker!==this.worker)return;
             clearTimeout(this.timer); this.rejectBoot = null; resolve();
-          } catch (error) { this.reset(error); }
+          } catch (error) { if(worker===this.worker)this.reset(error); }
           return;
         }
         const request = this.pending.get(data.id);

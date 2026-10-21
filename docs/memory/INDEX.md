@@ -6,6 +6,7 @@
 
 | 遇到的问题 | 先读 |
 | --- | --- |
+| 正常页怎样直接加表格、调整段落，短窗口操作和预览异常如何恢复？ | [同稿工作区回应与验收](../INLINE-WORKSPACE-RESPONSE.md) |
 | CEO 当前关注哪些产品问题、优先级和完成结果？ | [CEO 产品议题](../CEO-QUESTIONS.md) |
 | 内容提醒如何准确定位，修改后何时保留确认？ | [CEO-001 实施与验收](../CEO-001-RESPONSE.md)、[产品经理交接](handoffs/01a15c4c-ceo-pm.md) |
 | 写到一半需要添加表格，怎样保留已有内容继续？ | [CEO-002 路径与验收](../CEO-002-RESPONSE.md)、[教育通知与空白回执](../CEO-002-EDUCATION-RESPONSE.md) |

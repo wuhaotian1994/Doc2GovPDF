@@ -1,4 +1,5 @@
 import {validateReviewState} from './write-checks.js';
+import {validateContent,contentText,contentBodyForEngine} from './write-content.js';
 export const DRAFT_KEY = 'gongwen-writer-v1';
 export const materialNames = ['sourceMaterial','pendingMaterial'];
 export const names = ['title', 'recipient', 'agency', 'reference', 'body', 'signature', 'date', 'attachments', 'copyTo', 'postscript', ...materialNames];
@@ -8,7 +9,7 @@ export function blank() {
   return {title:'', recipient:'', agency:'', reference:'', body:'', signature:'', date:'', attachments:'', copyTo:'', postscript:'',sourceMaterial:'',pendingMaterial:'',letterhead:false};
 }
 export function validateDraft(value) {
-  if (!value || value.type !== 'gongwen-form' || ![1,2,3].includes(value.version) || !value.fields || typeof value.fields !== 'object') throw Error('这不是支持的填写草稿文件，请选择本工具下载的草稿。');
+  if (!value || value.type !== 'gongwen-form' || ![1,2,3,4].includes(value.version) || !value.fields || typeof value.fields !== 'object') throw Error('这不是支持的填写草稿文件，请选择本工具下载的草稿。');
   const fields = blank();
   for (const name of names) {
     const optional=value.version===1&&materialNames.includes(name)||value.version<3&&name==='postscript';
@@ -21,7 +22,9 @@ export function validateDraft(value) {
   fields.letterhead = value.fields.letterhead;
   const id=typeof value.id==='string'&&/^[a-zA-Z0-9-]{1,80}$/.test(value.id)?value.id:null;
   const review=validateReviewState(value.review,id);
-  return {type:'gongwen-form', version:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:value.version, fields, step:Number.isInteger(value.step) && value.step >= 0 && value.step <= 2 ? value.step : 0,
+  const content=value.version===4?validateContent(value.content):null;
+  if(content&&contentText(content)!==fields.body)throw Error('正文结构与文字记录不一致，原始数据已保留。请先下载恢复数据。');
+  return {type:'gongwen-form', version:content?4:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:value.version, fields,...(content?{content}:{}),step:Number.isInteger(value.step) && value.step >= 0 && value.step <= 2 ? value.step : 0,
     ...(id?{id,...(review?{review}:{})}:{})};
 }
 export function validDate(value) {
@@ -29,16 +32,17 @@ export function validDate(value) {
   const date = new Date(value+'T12:00:00Z');
   return !Number.isNaN(+date) && date.toISOString().slice(0,10) === value && value >= '1900-01-01';
 }
-export function draft(fields, step, id, review) {
+export function draft(fields, step, id, review, content) {
   const checkedReview=validateReviewState(review,id);
-  return {type:'gongwen-form', version:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:1, updatedAt:new Date().toISOString(), fields:{...blank(),...fields}, step,...(id?{id,...(checkedReview?{review:checkedReview}:{})}:{})};
+  const checkedContent=content?validateContent(content):null;
+  return {type:'gongwen-form', version:checkedContent?4:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:1, updatedAt:new Date().toISOString(), fields:{...blank(),...fields,...(checkedContent?{body:contentText(checkedContent)}:{})},...(checkedContent?{content:checkedContent}:{}),step,...(id?{id,...(checkedReview?{review:checkedReview}:{})}:{})};
 }
-export function fieldsForEngine(fields, preview = false) {
+export function fieldsForEngine(fields, preview = false, content = null) {
   const date = fields.date ? fields.date.split('-').map(Number) : [];
   const hasLetterhead=fields.letterhead&&Boolean(fields.agency.trim());
   return {
     kind:'plain', title:fields.title.trim() || (preview?'待填写标题':''),
-    body:fields.body || (preview?'正文尚未填写':''),
+    body:content?contentBodyForEngine(content):fields.body || (preview?'正文尚未填写':''),
     // Build a single placeholder; applySignature creates the separately authored
     // lines after the engine's single-office input validation.
     agency:hasLetterhead ? fields.agency.trim() : (fields.signature.split(/\r?\n/).map(line=>line.trim()).find(Boolean)||''),

@@ -1,0 +1,22 @@
+[
+  {
+    "label": "notice-pdf",
+    "pages": 1,
+    "pdfSHA256": "b863b1575ef4782fdc702a4c19fa1fda690493e55edac19d8d65ee0dd0b8ffbc"
+  },
+  {
+    "label": "notice-word",
+    "pages": 1,
+    "pdfSHA256": "796f9e0e378e596722ece577d948724593e456fb4b8092cf81bd0b5303f1a97c"
+  },
+  {
+    "label": "composite-pdf",
+    "pages": 8,
+    "pdfSHA256": "fe36a58d4c88bb01e9727e79ecc09c63d09db0080fedbc1f13397f75b5ebdaf9"
+  },
+  {
+    "label": "composite-word",
+    "pages": 7,
+    "pdfSHA256": "5b49efb4955ce48bc16061fc3dd65ec32763198e504f157b5e2a95e271c357ff"
+  }
+]

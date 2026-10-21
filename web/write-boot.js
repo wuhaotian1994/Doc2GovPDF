@@ -25,12 +25,13 @@
   try{const value=JSON.parse(sessionStorage.getItem(key));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.version===1&&value.fields&&Array.isArray(value.touched)){pending=value;value.touched.forEach(name=>{if(names.includes(name)||name==='letterhead')touched.add(name);});}}catch{}
   if(!pending){const latest=recoveries()[0];if(latest){pending={...latest.value,source:'durable-recovery'};pending.touched.forEach(name=>touched.add(name));}}
   let source=pending?.source || '',baseId=pending?.baseId || '';
-  try{const value=JSON.parse(localStorage.getItem('gongwen-writer-v1'));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.type==='gongwen-form'&&[1,2,3].includes(value.version)&&value.fields&&names.every(name=>typeof value.fields[name]==='string')&&typeof value.fields.letterhead==='boolean')savedDraft=value;if(!baseId)baseId=value?.id || '';}catch{}
+  try{const value=JSON.parse(localStorage.getItem('gongwen-writer-v1'));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.type==='gongwen-form'&&[1,2,3,4].includes(value.version)&&value.fields&&names.every(name=>typeof value.fields[name]==='string')&&typeof value.fields.letterhead==='boolean')savedDraft=value;if(!baseId)baseId=value?.id || '';}catch{}
   const query=new URLSearchParams(location.search);
   if(!pending&&query.has('title')&&query.has('body')&&query.has('recipient')&&query.has('format')){
     const fields={};for(const name of names){fields[name]=query.get(name)||'';touched.add(name);}fields.letterhead=query.has('letterhead');touched.add('letterhead');
     source='legacy-submit';pending={version:1,fields,touched:[...touched],step:0,source,baseId};
   }
+  let contentSnapshot=pending?pending.content||null:savedDraft?.content||null;
   const read=()=>{
     const fields={};for(const name of names)fields[name]=document.getElementById(name)?.value || '';
     fields.letterhead=Boolean(document.getElementById('letterhead')?.checked);return fields;
@@ -46,7 +47,7 @@
     // Closing/reloading a tab must not make its unchanged, older text look newer
     // than content edited in another tab.
     const savedAt=pending&&JSON.stringify(pending.fields)===JSON.stringify(fields)?pending.savedAt||Date.now():Date.now();
-    pending={version:1,fields,touched:[...touched],step,source,baseId,savedAt,recoveryId};
+    pending={version:1,fields,touched:[...touched],step,source,baseId,savedAt,recoveryId,...(contentSnapshot?{content:contentSnapshot}:{})};
     const raw=JSON.stringify(pending);
     try{sessionStorage.setItem(key,raw);}catch{}
     // Versions are immutable: another tab can safely archive/delete an observed
@@ -59,17 +60,18 @@
     const notice=document.getElementById('startup-notice');if(!notice)return;
     notice.hidden=false;document.getElementById('startup-message').textContent=message;
   }
-  function fail(){failed=true;status('页面暂时没有完整打开。已填文字仍在，可以继续写或先下载一份草稿，再重新打开。');}
+  function fail(){failed=true;status(contentSnapshot?'段落与表格编辑暂未打开，当前稿已保留。可继续填写其他信息，或先下载草稿再重试。':'页面暂时没有完整打开。已填文字仍在，可以继续写或先下载一份草稿，再重新打开。');}
   function move(next,push=true){
     const current=Number(document.querySelector('[data-panel]:not([hidden])')?.dataset.panel || 0);
     const fields=read();let invalid='';
-    if(next>current){if(!fields.title.trim())invalid='title';else if(fields.letterhead&&!fields.agency.trim())invalid='agency';else if(next===2&&!fields.body.trim())invalid='body';}
+    if(next>current){if(!fields.title.trim())invalid='title';else if(fields.letterhead&&!fields.agency.trim())invalid='agency';else if(next===2&&!fields.body.trim()&&!contentSnapshot?.blocks?.some(block=>block.type==='table'))invalid='body';}
     if(invalid){
       const input=document.getElementById(invalid),message=document.getElementById(invalid+'-error');
       if(message){message.hidden=false;message.textContent=invalid==='body'?'请填写正文。':invalid==='agency'?'显示红头时，请填写发文单位。':'请填写一个文档标题。';}
       input?.setAttribute('aria-invalid','true');input?.focus();return;
     }
     document.querySelectorAll('[data-panel]').forEach(panel=>panel.hidden=Number(panel.dataset.panel)!==next);
+    document.querySelectorAll('[data-action-panel]').forEach(panel=>panel.hidden=Number(panel.dataset.actionPanel)!==next);
     document.querySelectorAll('[data-step]').forEach(button=>{if(Number(button.dataset.step)===next)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});
     if(push&&location.hash!=='#step-'+(next+1))history.pushState({writerStep:next},'', '#step-'+(next+1));
     snapshot();document.querySelector(`[data-panel="${next}"] h1`)?.focus();
@@ -106,7 +108,7 @@
     if(!window.writerReady&&event.target.closest?.('button')&&!event.target.closest?.('#startup-download,#startup-retry')){event.preventDefault();event.stopImmediatePropagation();status('页面正在恢复草稿，已填内容会保留。可以继续填写，或先下载填写草稿。');return;}
     if(event.target.closest?.('#startup-download')){
       const value=snapshot() || {fields:read(),step:0};
-      const blob=new Blob([JSON.stringify({type:'gongwen-form',version:value.fields.postscript?3:value.fields.sourceMaterial||value.fields.pendingMaterial?2:1,fields:value.fields,step:value.step},null,2)],{type:'application/json'});
+      const blob=new Blob([JSON.stringify({type:'gongwen-form',version:contentSnapshot?4:value.fields.postscript?3:value.fields.sourceMaterial||value.fields.pendingMaterial?2:1,fields:value.fields,...(contentSnapshot?{content:contentSnapshot}:{}),step:value.step},null,2)],{type:'application/json'});
       const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='未丢失的填写草稿.gongwen.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
     }
     if(event.target.closest?.('#startup-retry')){snapshot();if(stored)location.reload();else status('浏览器暂存失败，请先下载填写草稿，避免刷新时丢失。');}
@@ -124,15 +126,18 @@
       document.getElementById('agency').setAttribute('aria-required',String(initial.fields.letterhead));
       document.getElementById('letterhead').closest('details').open=Boolean(initial.fields.letterhead||initial.fields.reference);
       document.getElementById('body-count').textContent=initial.fields.body.length.toLocaleString('zh-CN')+' 字';
+      if(contentSnapshot){document.getElementById('body').readOnly=true;status('正在恢复当前稿的段落与表格，其他信息仍可填写。');}
       const entry=document.getElementById('material-entry');if(entry&&initial.fields.pendingMaterial)entry.open=true;
       const original=document.getElementById('material-source');if(original)original.hidden=!initial.fields.sourceMaterial;
       const notes=document.getElementById('postscript');if(notes?.value)notes.closest('details').open=true;
       const step=Number.isInteger(initial.step)&&initial.step>=0&&initial.step<=2?initial.step:0;
       document.querySelectorAll('[data-panel]').forEach(panel=>panel.hidden=Number(panel.dataset.panel)!==step);
+      document.querySelectorAll('[data-action-panel]').forEach(panel=>panel.hidden=Number(panel.dataset.actionPanel)!==step);
       document.querySelectorAll('[data-step]').forEach(button=>{if(Number(button.dataset.step)===step)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});
       if(pending)snapshot();
     },
-    saved(id){
+    saved(id,content){
+      contentSnapshot=content||null;
       pending=null;source='';baseId=id || baseId;touched.clear();
       try{sessionStorage.removeItem(key);localStorage.removeItem(recoveryKey);
         for(const record of acknowledgements)if(localStorage.getItem(record.key)===record.raw)localStorage.removeItem(record.key);

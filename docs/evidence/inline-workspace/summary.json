@@ -1,0 +1,26 @@
+{
+  "nodeTests": 61,
+  "inlineChecks": 87,
+  "previewChecks": 30,
+  "structuredRecoveryChecks": 18,
+  "compactKeyboardChecks": 12,
+  "startupScenarios": 33,
+  "legacyReminderChecks": 66,
+  "localServiceFirstUseChecks": 16,
+  "crossTab": true,
+  "legacyCachedUpgrade": true,
+  "nativeWordVersion": "16.0",
+  "nativeWordPages": {
+    "notice": 1,
+    "composite": 7
+  },
+  "directPDFPages": {
+    "notice": 1,
+    "composite": 8
+  },
+  "visualPagesInspected": 17,
+  "realChineseIME": false,
+  "imeEvidence": "compositionend event-contract simulation without a final input, not a native IME trial",
+  "observedCEOCommit": "616b492f450da94f548e7a15026a61825fbe4818",
+  "observedCEOFileBlob": "a03377cc2fab177a8dcb3ed644804504e7e59cea"
+}

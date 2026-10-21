@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {blank,draft,validateDraft} from '../web/write-model.js';
 import {sourceLines,reviewItems,ReviewDecisions,resolveSource} from '../web/write-checks.js';
+import {contentFromText,contentText,applyBodyContent,contentBodyForEngine,table} from '../web/write-content.js';
 const issue=(id,paragraphId,extra={})=>({id,paragraphId,rule:'number.unit-space',severity:'review',message:'数值与单位需要核对',original:'电池容量为10kg。',basis:'单位书写规范',...extra});
 const paragraph=(id,text,role='body')=>({paragraph:{id,text,role,size:16,font:'仿宋'}});
 const fields=(body='电池容量为10kg。')=>({...blank(),title:'测试标题',body});
@@ -110,4 +111,21 @@ test('restored source changes revoke immediately and malformed metadata never de
   for(const review of [{...saved,version:2},{...saved,documentId:'other'},{...saved,keys:['not JSON']},{...saved,keys:[JSON.stringify(['draft-a'])]}]){
     const recovered=validateDraft({...draft(fields(),2,'draft-a'),review});assert.deepEqual(recovered.fields,fields());assert.equal(recovered.review,undefined);
   }
+});
+test('opening same-draft paragraph editing preserves an unchanged decision and its saved source',()=>{
+  const f=fields(),ledger=new ReviewDecisions();ledger.set(items(f)[0],true);const content=contentFromText(f.body);ledger.bindContent(f,'draft-a',content);
+  const rich=applyBodyContent(model(contentBodyForEngine(content)),content),id=rich.blocks[1].paragraph.id,entries=reviewItems(rich,inspection([issue('rich-current',id)]),f,'draft-a',content);
+  assert.deepEqual([...ledger.reconcile(entries)],['rich-current']);
+  const saved=validateDraft(draft(f,2,'draft-a',ledger.snapshot('draft-a'),content));assert.equal(saved.review.anchors.length,1);
+  const restored=new ReviewDecisions();restored.restore(saved.review,saved.fields,'draft-a',saved.content);assert.deepEqual([...restored.reconcile(entries)],['rich-current']);
+  const changed=structuredClone(content);changed.blocks[0].align='center';restored.retain(f,'draft-a',changed);restored.retain(f,'draft-a',content);assert.equal(restored.reconcile(entries).size,0);
+});
+test('paragraph judgment never moves to a table cell containing the same words',()=>{
+  const f=fields(),ledger=new ReviewDecisions();ledger.set(items(f)[0],true);const grid=table(1,1);grid.rows[0].cells[0].text=f.body;const content={version:1,blocks:[grid]},rich=applyBodyContent(model('_table_'),content),id=rich.blocks.find(b=>b.table).table.rows[0].cells[0].paragraphs[0].id;
+  ledger.bindContent(f,'draft-a',content);ledger.retain(f,'draft-a',content);assert.equal(ledger.reconcile(reviewItems(rich,inspection([issue('cell',id)]),f,'draft-a',content)).size,0);
+});
+test('document-scoped rich decisions and malformed optional anchors cannot corrupt the draft',()=>{
+  const f=fields(),content=contentFromText(f.body),rich=applyBodyContent(model(f.body),content),id=rich.blocks[1].paragraph.id,entry=reviewItems(rich,inspection([issue('global',id,{rule:'unknown.document-rule'})]),f,'draft-a',content)[0],ledger=new ReviewDecisions();ledger.set(entry,true);
+  const saved=validateDraft(draft(f,2,'draft-a',ledger.snapshot('draft-a'),content));assert.ok(saved.review);assert.equal(saved.review.anchors,undefined);
+  const damaged=validateDraft({...saved,review:{...saved.review,anchors:[{key:saved.review.keys[0],source:null}]}});assert.deepEqual(damaged.fields,f);assert.equal(damaged.review,undefined);
 });

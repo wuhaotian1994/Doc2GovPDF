@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "profile": "chrome",
+      "scenario": "notice",
+      "exactContentAndOrder": true,
+      "tables": 1,
+      "pdfPages": 1,
+      "wordSHA256": "d4aae951b636056a723358cd6fe98ce713ca39312eb8efb6d5d1095c6cb3677f"
+    },
+    {
+      "profile": "chrome",
+      "scenario": "composite",
+      "exactContentAndOrder": true,
+      "tables": 0,
+      "pdfPages": 8,
+      "wordSHA256": "9faa34cfb89a501ae69a34aaf46d90cd49af09262d7c0a5be9d1226e110067bd"
+    },
+    {
+      "profile": "firefox",
+      "scenario": "notice",
+      "exactContentAndOrder": true,
+      "tables": 1,
+      "pdfPages": 1,
+      "wordSHA256": "d4aae951b636056a723358cd6fe98ce713ca39312eb8efb6d5d1095c6cb3677f"
+    },
+    {
+      "profile": "firefox",
+      "scenario": "composite",
+      "exactContentAndOrder": true,
+      "tables": 0,
+      "pdfPages": 8,
+      "wordSHA256": "9faa34cfb89a501ae69a34aaf46d90cd49af09262d7c0a5be9d1226e110067bd"
+    },
+    {
+      "profile": "webkit",
+      "scenario": "notice",
+      "exactContentAndOrder": true,
+      "tables": 1,
+      "pdfPages": 1,
+      "wordSHA256": "d4aae951b636056a723358cd6fe98ce713ca39312eb8efb6d5d1095c6cb3677f"
+    },
+    {
+      "profile": "webkit",
+      "scenario": "composite",
+      "exactContentAndOrder": true,
+      "tables": 0,
+      "pdfPages": 8,
+      "wordSHA256": "9faa34cfb89a501ae69a34aaf46d90cd49af09262d7c0a5be9d1226e110067bd"
+    }
+  ],
+  "sources": {
+    "web/write.js": "629d9ba1d0d3ae25a7a094c38671914fd20ece9f1ef8e9c8de826ed3ae0d1dac",
+    "web/write-engine.js": "bae98466cb51f192e52115092385fc4e8b9a0b8aa18b0d5cc0c82ea4af84b48b",
+    "web/write-content.js": "518822f17d5dddc92f0d212968303887e25e891c17b8f3910e97f96dabc67bb0",
+    "web/write-content-editor.js": "c00c16bfacd51da515af93d301f9a16463998375f4724b920f9a56ee0a08bb8c",
+    "web/write-model.js": "f804fc54b5c2f499b2859b1d571c320e916a2790f919f2721d9f856f0cf15b77",
+    "web/write-checks.js": "72b5f7df92b8c683b2d3f6d07f88757c855bcdadd921b417bcdbc5f767065afb",
+    "web/write-library.js": "478c6c5705951e0a2c49528162b56d5a16635e974c6bbccda43a89db2cf9568c",
+    "web/write-boot.js": "23a8d97502295c931ac13f77d722602420839b00f644848babee3da111f3724f",
+    "web/browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+    "web/write.css": "2a073e2b491c38e221bc596d0477f14a154db6fa803a315c3ddad09f56e85ec9",
+    "web/write-workspace.css": "1b899c638eb724a78a5f4dc450ce604f275b56198d3e5d41bdd5f1474a316436",
+    "web/fonts/ui-400.woff": "8f7e72de1d740c7764fb08b98f3e71f51a79b6cac540db1d8861b122237a3b87",
+    "web/fonts/ui-700.woff": "7086586c31815e394f96fe61e0047f1a7ea7d4618e50e2904ac9608a009d59a4",
+    "web/write.html": "d4f48c09e3f51f5c4a870b786a4a1dfe71eeb423f46284af2a950929e5ab7951"
+  }
+}

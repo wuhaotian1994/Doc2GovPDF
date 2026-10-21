@@ -4,6 +4,8 @@ import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, fres
 import {fieldLabels, resolveSource, reviewItems, ReviewDecisions} from './write-checks.js';
 import {analyseMaterial,selectMaterialClosing,materialProposal} from './write-materials.js';
 import {referenceAdvice,sameReferenceFinding} from './write-reference.js';
+import {applyBodyContent,contentText,hasContent} from './write-content.js';
+import {installContentEditor} from './write-content-editor.js';
 let pdfjsPromise, pdfjsAttempts=0, pdfjsWorker;
 function previewWorker(library){
   if(!pdfjsWorker||pdfjsWorker.destroyed)pdfjsWorker=new library.PDFWorker();
@@ -24,19 +26,22 @@ async function previewLibrary() {
 
 const $ = id => document.getElementById(id);
 let fields = blank(), step = 0, revision = 0, readyRevision = -1, lastEditAt=0;
-let model, inspection, pdf, pageNumber = 1, currentRender;
+let model, inspection, pdf, pageNumber = 1, currentRender,bodyContent=null;
 let previewTimer, rendering = false, repeatPreview = false, exporting = false, fontBusy = false, hasLock = false, blockedSave = false;
-let previewFailed=false,lastPreviewError='';
+let previewRun=0;
+const previewDeadlineMS=30000;
+let previewFailed=false,lastPreviewError='',lastSaveError='';
 let previous, replacement, rawRecovery, fontDB, fontStore = {}, engineFonts = [];
 let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId;
+const stepScrolls=[0,0,0];
 let materialAnalysis=null;
 let referenceChoice=null,referenceUndo=null,referenceDismissed=null,referencePointerTarget=null;
 const confirmed = new Set();
 const decisions = new ReviewDecisions();
 const engine = new WriterEngine(() => fontStore);
 function currentDraft(nextFields=fields){
-  decisions.retain(nextFields,currentId);
-  return draft(nextFields,step,currentId,decisions.snapshot(currentId));
+  decisions.retain(nextFields,currentId,bodyContent);
+  return draft(nextFields,step,currentId,decisions.snapshot(currentId),bodyContent);
 }
 const error = message => {
   $('global-error').textContent=message;$('global-error').hidden=false;
@@ -48,6 +53,15 @@ const clearError = () => {
   $('global-error').hidden=true;
   if($('export-status').classList.contains('failed')){$('export-status').textContent='';$('export-status').classList.remove('failed');}
 };
+const contentEditor=installContentEditor({getContent:()=>bodyContent,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
+  bodyContent=next;$('body').value=text;readFields();decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
+}});
+function bodySummary(){
+  if(!bodyContent)return fields.body.length.toLocaleString('zh-CN')+' 字';
+  const text=bodyContent.blocks.reduce((count,block)=>count+(block.type==='paragraph'?block.text.length:block.caption.length+block.rows.reduce((n,row)=>n+row.cells.reduce((m,cell)=>m+cell.text.length,0),0)),0),tables=bodyContent.blocks.filter(block=>block.type==='table').length;
+  return text.toLocaleString('zh-CN')+' 字'+(tables?'，'+tables+' 张表格':'');
+}
+function updateBodyCount(){$('body-count').textContent=bodySummary();}
 const bytes = data => Uint8Array.from(atob(data), c => c.charCodeAt(0));
 function base64(buffer) { let value = ''; for (let i=0;i<buffer.length;i+=32768) value += String.fromCharCode(...buffer.subarray(i,i+32768)); return btoa(value); }
 function download(name, data, type) {
@@ -57,6 +71,7 @@ function download(name, data, type) {
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 function readFields() {
+  if(bodyContent)$('body').value=contentText(bodyContent);
   for (const name of names) fields[name] = $(name).value;
   fields.letterhead = $('letterhead').checked;
 }
@@ -67,7 +82,7 @@ function fillFields() {
   renderLetterheadState();
   $('letterhead').closest('details').open = Boolean(fields.letterhead || fields.reference);
   $('attachments').closest('details').open = Boolean(fields.attachments || fields.copyTo);
-  $('body-count').textContent = fields.body.length.toLocaleString('zh-CN')+' 字';
+  updateBodyCount();contentEditor.set(bodyContent);
   $('material-source').hidden=!fields.sourceMaterial;
   $('material-entry').open=Boolean(fields.pendingMaterial);
   $('postscript').closest('details').open=Boolean(fields.postscript);
@@ -75,28 +90,29 @@ function fillFields() {
 }
 function persist() {
   if (!hasLock || blockedSave) return;
-  if (fields.date && !validDate(fields.date)) {
+  if (fields.date && !validDate(fields.date) || $('date').validity.badInput) {
     $('save-status').textContent = '日期待修正，其他内容已保存';
     // Keep the prior valid date while retaining all other edits.
     try {
       let priorDate = '';
       try { priorDate = validateDraft(JSON.parse(localStorage.getItem(DRAFT_KEY))).fields.date; } catch {}
       localStorage.setItem(DRAFT_KEY, JSON.stringify(currentDraft({...fields,date:priorDate})));
-    } catch { $('save-status').textContent = '自动保存失败'; error('浏览器未能保存最新内容，请下载草稿后再关闭页面。'); }
+    } catch { $('save-status').textContent = '自动保存失败';lastSaveError='浏览器未能保存最新内容，请下载草稿后再关闭页面。';error(lastSaveError); }
     return;
   }
   try {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(currentDraft()));
-    window.writerBoot?.saved(currentId);
+    window.writerBoot?.saved(currentId,bodyContent);
     $('save-status').textContent = '已保存到此浏览器';
+    if(lastSaveError&&$('global-error').textContent===lastSaveError)clearError();lastSaveError='';
   } catch {
     $('save-status').textContent = '自动保存失败';
-    error('浏览器未能保存最新内容。请打开“我的文档”下载草稿，避免关闭页面后丢失。');
+    lastSaveError='浏览器未能保存最新内容。请打开“我的文档”下载草稿，避免关闭页面后丢失。';error(lastSaveError);
   }
 }
 function invalidate() {
   previewFailed=false;
-  decisions.retain(fields,currentId);
+  decisions.retain(fields,currentId,bodyContent);
   revision++; readyRevision = -1; confirmed.clear();
   lastEditAt=performance.now();
   renderChecks();
@@ -111,38 +127,43 @@ function fieldError(name, message) {
   const node = $(name+'-error');
   if (node) { node.textContent = message; node.hidden = !message; }
   $(name).setAttribute('aria-invalid', String(Boolean(message)));
+  if(name==='body')$('content-workspace').setAttribute('aria-invalid',String(Boolean(message)));
 }
 function validate(target) {
   const errors = [];
   if (!fields.title.trim()) errors.push(['title','请填写一个文档标题。']);
   if (fields.letterhead && !fields.agency.trim()) errors.push(['agency','显示红头时，请填写发文单位。']);
-  if (target >= 1 && !fields.body.trim()) errors.push(['body','请填写正文，也可以粘贴已有内容。']);
+  if (target >= 1 && !(bodyContent?hasContent(bodyContent):fields.body.trim())) errors.push(['body','请填写正文，也可以粘贴已有内容。']);
   if (fields.date && !validDate(fields.date) || $('date').validity.badInput) errors.push(['date','请选择 1900 年及以后的有效日期，或清空日期。']);
   for (const name of ['title','agency','body','date']) fieldError(name, errors.find(e=>e[0]===name)?.[1] || '');
   if (errors.length) {
     const name = errors[0][0]; showStep(['body','date'].includes(name)?1:0, false);
     if (name==='agency') $('agency').closest('details').open = true;
-    $(name).focus(); return false;
+    if(name==='body'&&bodyContent)contentEditor.focusSource({block:bodyContent.blocks[0].id});else $(name).focus();return false;
   }
   return true;
 }
 function showStep(next, push = true) {
+  const scroll=document.querySelector('.form-scroll');if(scroll)stepScrolls[step]=scroll.scrollTop;
   step = next;
   if(step===2)$('issue-location').hidden=true;
   document.querySelectorAll('[data-panel]').forEach(node => node.hidden = Number(node.dataset.panel)!==step);
+  document.querySelectorAll('[data-action-panel]').forEach(node=>node.hidden=Number(node.dataset.actionPanel)!==step);
   document.querySelectorAll('[data-step]').forEach(node => {
     if (Number(node.dataset.step)===step) node.setAttribute('aria-current','step'); else node.removeAttribute('aria-current');
   });
   if (push && location.hash !== '#step-'+(step+1)) history.pushState({writerStep:step}, '', '#step-'+(step+1));
   if (step===2) { renderSummary(); renderChecks(); }
   renderReferenceFeedback();
+  if(scroll)scroll.scrollTop=stepScrolls[step];
   persist();
 }
 function navigate(next) {
   readFields();
   if (next > step && !validate(next===2?1:0)) return;
   showStep(next);
-  document.querySelector(`[data-panel="${step}"] h1`).focus();
+  document.querySelector('.app-main').classList.remove('preview-mode');
+  document.querySelector(`[data-panel="${step}"] h1`).focus({preventScroll:true});
   if (step===2) preview();
 }
 window.addEventListener('popstate', () => {
@@ -156,12 +177,13 @@ function updateExport() {
   $('export').textContent = exporting ? '正在生成文件…' : '下载 '+({docx:'Word',pdf:'PDF',txt:'纯文本'}[format]);
   const issues = inspection?.issues || [];
   const unresolved = issues.some(issue => issue.severity==='error' || (issue.severity==='review' && !confirmed.has(issue.id)));
-  $('export').disabled = exporting || fontBusy || !hasLock || (format!=='txt' && (readyRevision!==revision || unresolved));
-  $('export-guidance').textContent=exporting?'文件正在生成，请稍候。':fontBusy?'字体正在更新，完成预览后即可下载。':format!=='txt'&&previewFailed?'预览尚未完成，请点击“重新生成预览”。':format!=='txt'&&readyRevision!==revision?'预览正在更新，完成后即可下载。':format!=='txt'&&unresolved?'请先处理上方提醒，或确认保留原文，再下载文件。':'';
+  const dateBlocked=fields.date&&!validDate(fields.date)||$('date').validity.badInput;
+  $('export').disabled = exporting || fontBusy || !hasLock || dateBlocked || (format!=='txt' && (readyRevision!==revision || unresolved));
+  $('export-guidance').textContent=exporting?'文件正在生成，请稍候。':fontBusy?'字体正在更新，完成预览后即可下载。':dateBlocked?'请在“正文内容”中修正或清空日期，再继续预览与下载。':format!=='txt'&&previewFailed?'预览尚未完成，请点击“重新生成预览”。':format!=='txt'&&readyRevision!==revision?'预览正在更新，完成后即可下载。':format!=='txt'&&unresolved?'请先处理上方提醒，或确认保留原文，再下载文件。':'';
 }
 function renderSummary() {
   const rows = [
-    ['标题',fields.title,0,'title'],['正文',fields.body.length.toLocaleString('zh-CN')+' 字',1,'body'],
+    ['标题',fields.title,0,'title'],['正文',bodySummary(),1,'body'],
     ['落款',fields.signature || '未单独填写；如已在正文中保留，无需重复添加。',1,'signature'],['日期',fieldsForEngine(fields).date || '未单独填写；如已在正文中保留，无需重复添加。',1,'date'],
     ...(fields.postscript?[['附注',fields.postscript.split(/\r?\n/).filter(line=>line.trim()).length+' 段，排在日期后',1,'postscript']]:[])
   ];
@@ -170,7 +192,7 @@ function renderSummary() {
     const dt = document.createElement('dt'); dt.textContent = label;
     const dd = document.createElement('dd'); dd.textContent = value;
     const edit = document.createElement('button'); edit.type='button'; edit.className='quiet'; edit.textContent='修改';
-    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);if($(id).closest('details'))$(id).closest('details').open=true;$(id).focus();};
+    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);if(id==='body'&&bodyContent){contentEditor.focusSource({block:bodyContent.blocks[0].id});return;}if($(id).closest('details'))$(id).closest('details').open=true;$(id).focus();};
     row.append(dt,dd,edit); return row;
   }));
 }
@@ -178,6 +200,11 @@ function locateIssue(entry) {
   if(readyRevision!==revision)return;
   const field=entry.source?.field || 'body';
   showStep(['title','agency','reference','recipient'].includes(field)?0:1);
+  if(field==='body'&&bodyContent){
+    const line=resolveSource(entry.source,fields,bodyContent);$('issue-location').hidden=false;
+    $('issue-location-text').textContent=line?'已定位到当前稿对应的段落或单元格，请核对选中的原文。':'这条提醒涉及整篇文档，请核对正文与相关内容。';
+    contentEditor.focusSource(entry.source?.content||{block:bodyContent.blocks[0].id},entry.issue.original||entry.source?.text);return;
+  }
   const input=$(field),details=input.closest('details');if(details)details.open=true;
   // Textarea values normalize imported CRLF to LF; select using displayed offsets.
   const line=resolveSource(entry.source,{...fields,[field]:input.value});
@@ -202,7 +229,7 @@ function locateIssue(entry) {
 function renderChecks() {
   $('check-list').replaceChildren();
   if (readyRevision!==revision) { $('checks-status').textContent='内容更新后会重新核对。'; return; }
-  const entries=reviewItems(model,inspection,fields,currentId).sort((a,b)=>({error:0,review:1,suggestion:2}[a.issue.severity] ?? 3)-({error:0,review:1,suggestion:2}[b.issue.severity] ?? 3));
+  const entries=reviewItems(model,inspection,fields,currentId,bodyContent).sort((a,b)=>({error:0,review:1,suggestion:2}[a.issue.severity] ?? 3)-({error:0,review:1,suggestion:2}[b.issue.severity] ?? 3));
   if(referenceChoice&&(referenceChoice.documentId!==currentId||referenceChoice.value!==fields.reference))referenceChoice=null;
   if(referenceChoice&&!referenceChoice.seeded){
     const matching=entries.filter(entry=>sameReferenceFinding(entry,referenceChoice.value,referenceChoice.advice));
@@ -219,10 +246,11 @@ function renderChecks() {
   const count=severity=>entries.filter(entry=>entry.issue.severity===severity).length;
   $('checks-status').textContent = entries.length ? `必须修正 ${count('error')} 项，需要判断 ${count('review')} 项，建议 ${count('suggestion')} 项。事实、名称和数字仍需你核对。` : '未发现需要处理的格式问题。请自行核对事实、名称和数字。';
   for (const entry of entries) {
-    const {issue,source}=entry,line=resolveSource(source,fields);
+    const {issue,source}=entry,line=resolveSource(source,fields,bodyContent);
     const item = document.createElement('div'); item.className='review-issue';item.dataset.rule=issue.rule;item.dataset.severity=issue.severity;
     const heading=document.createElement('h3');heading.className='issue-heading';
-    heading.textContent=({error:'必须修正',review:'需要你判断',suggestion:'建议 · 不影响下载'}[issue.severity] || '内容提醒')+' · '+(source?fieldLabels[source.field]+(line&&['body','attachments'].includes(source.field)?'第 '+line.line+' 段':''):'整篇文档');
+    const location=source?.content?.cell&&line?'表格第 '+line.row+' 行，第 '+line.column+' 列':source?.content?.caption?'表格标题':source?fieldLabels[source.field]+(line&&['body','attachments'].includes(source.field)?'第 '+line.line+' 段':''):'整篇文档';
+    heading.textContent=({error:'必须修正',review:'需要你判断',suggestion:'建议 · 不影响下载'}[issue.severity] || '内容提醒')+' · '+location;
     const text = document.createElement('p'); text.textContent=issue.message;
     if(issue.message.startsWith('这处写法可按公文体例整理'))text.textContent='请对照原文与建议写法，核对是否需要调整。';
     item.append(heading,text);
@@ -255,7 +283,11 @@ function renderChecks() {
 }
 async function preview() {
   clearTimeout(previewTimer);
-  if (fontBusy || fields.date && !validDate(fields.date)) return;
+  if(fontBusy){$('preview-status').textContent='字体正在更新，完成后会继续预览';updateExport();return;}
+  if(fields.date&&!validDate(fields.date)||$('date').validity.badInput){
+    fieldError('date','请选择 1900 年及以后的有效日期，或清空日期。');
+    $('preview-status').textContent='日期尚未有效，请在“正文内容”中修正；下方仍为上一版';updateExport();return;
+  }
   if (!fields.title.trim()) {
     $('preview-status').textContent='填写标题后自动更新';
     if (pdf) $('preview-status').textContent='标题尚未填写，下方为上一版';
@@ -263,42 +295,57 @@ async function preview() {
   }
   if (readyRevision===revision) return;
   if (rendering) { repeatPreview=true; return; }
-  rendering=true;previewFailed=false;updateExport(); const requested=revision; const snapshot={...fields};
+  rendering=true;previewFailed=false;updateExport(); const requested=revision,run=++previewRun; const snapshot={...fields},snapshotContent=bodyContent?structuredClone(bodyContent):null;
+  let loading,worker,deadlineTimer,expired=false;
+  const stale=()=>{if(run!==previewRun)return true;if(requested!==revision){repeatPreview=true;return true;}return false;};
+  const deadline=new Promise((_,reject)=>{deadlineTimer=setTimeout(()=>{
+    expired=true;previewRun++;
+    const failure=Error('这次预览未完成，内容已保留。可继续修改，或点击“重新生成预览”重试。');
+    engine.reset(failure);currentRender?.cancel();loading?.destroy().catch(()=>{});
+    try{worker?.destroy();}catch{}if(pdfjsWorker===worker)pdfjsWorker=null;
+    reject(failure);
+  },previewDeadlineMS);});
   $('preview-canvas').setAttribute('aria-busy','true'); $('preview-status').textContent=pdf?'正在更新成品…':'首次准备排版与预览，可继续填写…';
   try {
-    const nextModel=applySignature(await engine.call('BuildDocument',fieldsForEngine(snapshot,true)),snapshot);
-    if(requested!==revision){repeatPreview=true;return;}
+    await Promise.race([deadline,(async()=>{
+    const nextModel=applyBodyContent(applySignature(await engine.call('BuildDocument',fieldsForEngine(snapshot,true,snapshotContent)),snapshot),snapshotContent);
+    if(stale())return;
     const result=await engine.call('PreviewDocument',nextModel);
-    if(requested!==revision) {repeatPreview=true;return;}
+    if(stale())return;
     const pdfjs=await previewLibrary();
-    if(requested!==revision){repeatPreview=true;return;}
+    if(stale())return;
     const checking=engine.call('InspectDocument',nextModel);
-    const loading=pdfjs.getDocument({data:bytes(result.pdf),worker:previewWorker(pdfjs),isEvalSupported:false,useSystemFonts:false});
+    worker=previewWorker(pdfjs);
+    loading=pdfjs.getDocument({data:bytes(result.pdf),worker,isEvalSupported:false,useSystemFonts:false});
     let checked,nextPDF;
     try{[checked,nextPDF]=await Promise.all([checking,loading.promise]);}
-    catch(e){await loading.destroy().catch(()=>{});pdfjsWorker?.destroy();pdfjsWorker=null;throw e;}
-    if(requested!==revision){await nextPDF.destroy();repeatPreview=true;return;}
-    currentRender?.cancel(); await pdf?.destroy().catch(()=>{}); pdf=nextPDF; model=nextModel; inspection=checked;
+    catch(e){loading.destroy().catch(()=>{});worker.destroy();if(pdfjsWorker===worker)pdfjsWorker=null;throw e;}
+    if(stale()){await nextPDF.destroy();return;}
+    currentRender?.cancel();await pdf?.destroy().catch(()=>{});
+    if(stale()){await nextPDF.destroy();return;}
+    pdf=nextPDF; model=nextModel; inspection=checked;
     pageNumber=Math.min(pageNumber,pdf.numPages);
-    await renderPage(requested);
-    if(requested!==revision){repeatPreview=true;return;}
+    await renderPage(requested,run);
+    if(stale())return;
     readyRevision=requested;
     if(lastPreviewError&&$('global-error').textContent===lastPreviewError)clearError();lastPreviewError='';
-    const incomplete=!snapshot.body.trim() || (snapshot.letterhead&&!snapshot.agency.trim());
+    const incomplete=!(snapshotContent?hasContent(snapshotContent):snapshot.body.trim()) || (snapshot.letterhead&&!snapshot.agency.trim());
     $('preview-status').textContent=incomplete?'填写中 · 待填内容仅用于预览':'已更新 · '+pdf.numPages+' 页';
     renderChecks(); updateExport();
+    })()]);
   } catch(e) {
     if(requested===revision) {
       previewFailed=true;lastPreviewError=e.message;
       $('preview-status').textContent=pdf?'更新失败，下方为上一版':'预览暂未生成';
       error(e.message);
-    }
+    }else if(expired)repeatPreview=true;
   } finally {
+    clearTimeout(deadlineTimer);
     rendering=false;updateExport(); $('preview-canvas').setAttribute('aria-busy','false');
     if(repeatPreview){repeatPreview=false;schedulePreview();}
   }
 }
-async function renderPage(expectedRevision) {
+async function renderPage(expectedRevision,expectedRun) {
   if(!pdf)return;
   currentRender?.cancel();
   const source=pdf, number=pageNumber;
@@ -310,7 +357,7 @@ async function renderPage(expectedRevision) {
   wrapper.append(canvas);
   const render=currentRender=page.render({canvasContext:canvas.getContext('2d'),viewport});
   try{await render.promise;}catch(e){if(e.name==='RenderingCancelledException')return;throw e;}
-  if(source!==pdf||number!==pageNumber||expectedRevision!==undefined&&expectedRevision!==revision)return;
+  if(source!==pdf||number!==pageNumber||expectedRevision!==undefined&&expectedRevision!==revision||expectedRun!==undefined&&expectedRun!==previewRun)return;
   $('pdf-pages').replaceChildren(wrapper);$('preview-empty').hidden=true;
   $('page-count').textContent=`${number} / ${pdf.numPages} 页`;
   $('prev-page').disabled=number<=1;$('next-page').disabled=number>=pdf.numPages;
@@ -333,7 +380,7 @@ async function exportFile() {
 }
 function saveDraft() {
   readFields();
-  if(fields.date&&!validDate(fields.date)){error('请先修正日期，再下载可继续填写的草稿。');return;}
+  if(fields.date&&!validDate(fields.date)||$('date').validity.badInput){error('请先修正日期，再下载可继续填写的草稿。');return;}
   download(safeName(fields.title)+'.gongwen.json',JSON.stringify(currentDraft(),null,2),'application/json');
   $('draft-status').textContent='草稿已开始下载。打开这份文件即可继续填写。';
 }
@@ -453,8 +500,8 @@ function replace(next) {
   catch(e){error(e.name==='QuotaExceededError'?'浏览器空间不足，切换已取消。请先下载当前草稿并清理不再需要的旧稿。':e.message);return;}
   previous=prior;currentId=next.id;
   referenceChoice=null;referenceUndo=null;referenceDismissed=null;
-  fields={...next.fields}; blockedSave=false;rawRecovery=null;
-  decisions.restore(next.review,fields,currentId);
+  fields={...next.fields};bodyContent=next.content||null;blockedSave=false;rawRecovery=null;
+  decisions.restore(next.review,fields,currentId,bodyContent);
   for(const name of ['title','agency','body','date'])fieldError(name,'');
   currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;pageNumber=1;
   $('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='A4 纸张';
@@ -557,7 +604,7 @@ async function boot() {
     if(savedLibrary)try{library=validateLibrary(JSON.parse(savedLibrary));}catch(e){libraryBroken=true;error(e.message);$('rescue-draft').hidden=false;}
     const raw=localStorage.getItem(DRAFT_KEY);
     if(raw) {
-      try {const restored=validateDraft(JSON.parse(raw));fields=restored.fields;step=restored.step;currentId=restored.id || currentId;decisions.restore(restored.review,fields,currentId);}
+      try {const restored=validateDraft(JSON.parse(raw));fields=restored.fields;bodyContent=restored.content||null;step=restored.step;currentId=restored.id || currentId;decisions.restore(restored.review,fields,currentId,bodyContent);}
       catch {rawRecovery=raw;blockedSave=true;error('保存的草稿无法读取，原始数据已保留。请在“我的文档”下载原始恢复数据，或新写一份文档。');$('rescue-draft').hidden=false;}
     }else fields=freshFields(common);
     const old=localStorage.getItem(DRAFT_KEY+'-previous');
@@ -582,27 +629,33 @@ async function boot() {
       for(const record of recoveries){
         if(seen.has(record.id))continue;seen.add(record.id);
         if(pending&&JSON.stringify(record.value.fields)===JSON.stringify(pending.fields))continue;
-        archived=archiveDocument(archived,record.id,draft(record.value.fields,record.value.step,record.id));
+        archived=archiveDocument(archived,record.id,draft(record.value.fields,record.value.step,record.id,undefined,record.value.content));
       }
       localStorage.setItem(LIBRARY_KEY,JSON.stringify(archived));library=archived;
       window.writerBoot.acknowledge(recoveries);
     }catch{blockedSave=true;error('还有未整理的已保存文档。请先下载当前草稿，在“我的文档”腾出空间后重新打开。原内容仍保留。');}
   }
   if(pending?.fields&&Array.isArray(pending.touched)){
-    const independent=pending.source==='legacy-submit'||pending.source==='durable-recovery'||pending.baseId&&pending.baseId!==currentId;
+    const plainOverStructure=Boolean(bodyContent&&pending.touched.includes('body')&&!pending.content);
+    const independent=pending.source==='legacy-submit'||pending.source==='durable-recovery'||pending.baseId&&pending.baseId!==currentId||plainOverStructure;
     if(independent){
       try{
         if(!hasLock||libraryBroken||blockedSave)throw Error('recovery archive unavailable');
         const archived=archiveDocument(library,currentId,currentDraft());
         localStorage.setItem(LIBRARY_KEY,JSON.stringify(archived));library=archived;
       }catch{blockedSave=true;error('未完成的填写已恢复在此页，原有草稿没有覆盖。请先下载当前草稿，再处理本地存储问题。');}
-      fields=blank();currentId=crypto.randomUUID();
+      fields=blank();bodyContent=null;currentId=crypto.randomUUID();
     }
     for(const name of independent?[...names,'letterhead']:pending.touched){
       if(names.includes(name)&&typeof pending.fields[name]==='string')fields[name]=pending.fields[name];
       if(name==='letterhead'&&typeof pending.fields[name]==='boolean')fields[name]=pending.fields[name];
     }
+    if(pending.content){
+      try{const restored=validateDraft({type:'gongwen-form',version:4,fields,content:pending.content});bodyContent=restored.content;}
+      catch{blockedSave=true;rawRecovery=JSON.stringify(pending);error('段落与表格恢复尚未完成，原始数据已保留。请先下载恢复数据。');$('rescue-draft').hidden=false;}
+    }
     if(Number.isInteger(pending.step)&&pending.step>=0&&pending.step<=2)step=pending.step;
+    if(plainOverStructure){$('reuse-status').textContent='已恢复本次输入，原有段落与表格稿保留在“我的文档”。';$('reuse-status').hidden=false;}
   }
   fillFields();showStep(step,false);
   document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();
@@ -617,8 +670,8 @@ async function boot() {
   if(fields.title.trim())preview();
 }
 
-$('writer-form').addEventListener('input',event=>{
-  if(!window.writerReady || !hasLock || event.target.name==='format')return;
+function onWriterInput(event){
+  if(!window.writerReady || !hasLock || event.target.name==='format'||event.target.closest('#content-workspace'))return;
   readFields();$('agency-field').hidden=!fields.letterhead;
   if(['letterhead','agency'].includes(event.target.id))renderLetterheadState();
   if(materialNames.includes(event.target.id)){persist();return;}
@@ -628,14 +681,17 @@ $('writer-form').addEventListener('input',event=>{
     referenceDismissed=null;renderReferenceFeedback();
   }
   if(!$('issue-location').hidden)$('issue-location-text').textContent='内容已修改，返回内容提醒查看核对结果。';
-  $('body-count').textContent=fields.body.length.toLocaleString('zh-CN')+' 字';
+  updateBodyCount();
   if(event.target.id==='title'&&fields.title.trim())fieldError('title','');
   if(event.target.id==='body'&&fields.body.trim())fieldError('body','');
   if(event.target.id==='agency'&&fields.agency.trim())fieldError('agency','');
   if(event.target.id==='date')fieldError('date',fields.date&&!validDate(fields.date)?'请选择 1900 年及以后的有效日期，或清空日期。':'');
   invalidate();persist();if(!event.isComposing)schedulePreview();
-});
-$('body').addEventListener('compositionend',()=>{if(window.writerReady){readFields();persist();schedulePreview();}});
+}
+$('writer-form').addEventListener('input',onWriterInput);
+// Chinese IME may finish without a final non-composing input. Every field
+// needs the same final read, invalidation, save and latest-preview scheduling.
+$('writer-form').addEventListener('compositionend',onWriterInput);
 $('writer-form').addEventListener('submit',event=>{event.preventDefault();if(step<2)navigate(step+1);});
 document.querySelectorAll('[data-next]').forEach(button=>button.onclick=()=>navigate(Number(button.dataset.next)));
 document.querySelectorAll('[data-step]').forEach(button=>button.onclick=()=>navigate(Number(button.dataset.step)));
@@ -680,15 +736,11 @@ $('postscript').addEventListener('paste',event=>{
   const input=event.target;
   if(input.value.length-(input.selectionEnd-input.selectionStart)+pasted.replace(/\r\n?/g,'\n').length>4000){event.preventDefault();error('附注超过 4000 字符，未替换当前输入。请先保留原文，再分份整理。');}
 });
-$('table-copy').onclick=()=>{
-  readFields();if(!validate(1))return;
-  saveDraft();$('table-copy-status').textContent='填写草稿已开始下载。打开高级编辑，选择刚下载的草稿，再点击“编辑正文”继续。';
-};
 if($('save-document'))$('save-document').onclick=()=>{readFields();persist();};
 $('load-draft-open').onclick=()=>$('load-draft').click();
 $('backup-before-replace').onclick=saveDraft;
 $('new-document').onclick=newDocument;
-$('copy-current').onclick=()=>requestReplace({...draft(copyFields(fields),0),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true);
+$('copy-current').onclick=()=>requestReplace({...draft(copyFields(fields),0,undefined,undefined,bodyContent),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true);
 $('confirm-replace').onclick=()=>replace(replacement);
 $('undo-replace').onclick=()=>{if(previous)requestReplace(previous);};
 $('rescue-draft').onclick=()=>download('公文-恢复数据.json',JSON.stringify({current:rawRecovery || localStorage.getItem(DRAFT_KEY),previous:localStorage.getItem(DRAFT_KEY+'-previous'),library:localStorage.getItem(LIBRARY_KEY),common:localStorage.getItem(COMMON_KEY)},null,2),'application/json');
@@ -717,8 +769,8 @@ $('use-today').onclick=()=>{
   const now=new Date();$('date').value=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
   $('date').dispatchEvent(new Event('input',{bubbles:true}));
 };
-$('jump-preview').onclick=()=>{$('preview-heading').scrollIntoView({block:'start'});$('preview-heading').focus({preventScroll:true});};
-$('back-writing').onclick=()=>{const heading=document.querySelector(`[data-panel="${step}"] h1`);heading.scrollIntoView({block:'start'});heading.focus({preventScroll:true});};
+$('jump-preview').onclick=()=>{document.querySelector('.app-main').classList.add('preview-mode');$('preview-heading').focus({preventScroll:true});};
+$('back-writing').onclick=()=>{document.querySelector('.app-main').classList.remove('preview-mode');document.querySelector(`[data-panel="${step}"] h1`).focus({preventScroll:true});};
 $('zoom-preview').onclick=()=>{const zoomed=$('preview-canvas').classList.toggle('zoomed');$('zoom-preview').setAttribute('aria-pressed',String(zoomed));$('zoom-preview').textContent=zoomed?'适合屏幕':'放大预览';};
 new MutationObserver(()=>$('mobile-save').textContent=$('save-status').textContent).observe($('save-status'),{childList:true,subtree:true,characterData:true});
 $('load-draft').onchange=async event=>{
@@ -736,7 +788,7 @@ $('font-file').onchange=event=>changeFont(event.target.files[0]);
 $('font-file-open').onclick=()=>$('font-file').click();
 $('font-reset').onclick=()=>changeFont(null,true);
 window.addEventListener('beforeunload',event=>{
-  if($('save-status').textContent==='自动保存失败' || blockedSave&&names.some(name=>fields[name]) || fields.date&&!validDate(fields.date)){event.preventDefault();event.returnValue='';}
+  if($('save-status').textContent==='自动保存失败' || blockedSave&&names.some(name=>fields[name]) || fields.date&&!validDate(fields.date)||$('date').validity.badInput){event.preventDefault();event.returnValue='';}
 });
 document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='s'){event.preventDefault();if(window.writerReady)persist();}});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});

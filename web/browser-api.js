@@ -1,4 +1,5 @@
 import {DRAFT_MAX_BYTES,validateDraft, fieldsForEngine, applySignature, safeName} from './write-model.js';
+import {applyBodyContent,hasContent} from './write-content.js';
 const storeName='gongwen-web-v1';
 let ownsDraft=false,acquiring;
 async function ensureOwner(){
@@ -32,8 +33,8 @@ export function createBrowserAPI(){
   if(file.name.toLowerCase().endsWith('.json')){
    if(file.size>DRAFT_MAX_BYTES)throw Error('填写草稿超过 2 MB，请选择本工具下载的草稿。');
    let draft;try{draft=validateDraft(JSON.parse(await file.text()));}catch{throw Error('这不是支持的填写草稿，当前文稿未改变。');}
-   if(!draft.fields.title.trim()||!draft.fields.body.trim())throw Error('请先在填写页面补上标题与正文，再下载草稿继续编辑。当前文稿未改变。');
-   const model=applySignature(await call('BuildDocument',fieldsForEngine(draft.fields)),draft.fields);
+   if(!draft.fields.title.trim()||!(draft.content?hasContent(draft.content):draft.fields.body.trim()))throw Error('请先在填写页面补上标题与正文，再下载草稿继续编辑。当前文稿未改变。');
+   const model=applyBodyContent(applySignature(await call('BuildDocument',fieldsForEngine(draft.fields,false,draft.content)),draft.fields),draft.content);
    // A native editable copy has no imported DOCX source to preserve. Keep the
    // original writer draft untouched and do not imply a reverse conversion.
    return {name:safeName(draft.fields.title)+' · 编辑副本',document:model,ignored:[],actions:[]};
