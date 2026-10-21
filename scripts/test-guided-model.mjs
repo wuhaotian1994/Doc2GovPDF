@@ -29,6 +29,18 @@ test('date validation uses actual calendar days',()=>{
   assert.equal(validDate('2026-04-31'),false);
   assert.equal(validDate('2024-02-29'),true);
 });
+
+test('joint signatures become separate right-aligned model paragraphs in plain and red-header paths',()=>{
+  for(const letterhead of [false,true]){
+    const fields={...blank(),letterhead,agency:'独立发文单位',signature:'甲单位\n乙单位'};
+    assert.equal(fieldsForEngine(fields).agency,letterhead?'独立发文单位':'甲单位');
+    const model={blocks:[{paragraph:{id:'sig',role:'signature',text:'placeholder',align:'right',before:10,keepNext:true}},{paragraph:{id:'date',role:'date',text:'2024年5月15日'}}]};
+    const once=structuredClone(applySignature(model,fields));
+    assert.deepEqual(once.blocks.map(block=>block.paragraph.text),['甲单位','乙单位','2024年5月15日']);
+    assert.equal(once.blocks[1].paragraph.before,0);assert.ok(once.blocks.slice(0,2).every(block=>block.paragraph.align==='right'));
+    assert.deepEqual(applySignature(model,fields),once);
+  }
+});
 test('generic writer never invents printing office or printing date',()=>{
   const model={blocks:[
     {paragraph:{role:'agency',text:'测试单位文件',before:35}},

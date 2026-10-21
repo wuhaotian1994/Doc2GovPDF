@@ -17,8 +17,13 @@ export function analyseMaterial(raw){
   if(recipient)candidates.recipient={...recipient,value:recipient.text.trim().replace(/[：:]+$/,'')};
   if(last&&sourceDate(last.text)){
     candidates.date={...last,value:sourceDate(last.text)};
-    const before=meaningful.at(-2);
-    if(before&&before.text.trim().length<=120&&!/[。！？；：:!?;]$/.test(before.text.trim())&&!heading.test(before.text.trim()))candidates.signature={...before,value:before.text.trim()};
+    const tail=[];
+    for(let i=meaningful.length-2;i>=0;i--){
+      const line=meaningful[i],text=line.text.trim();
+      if(/[。！？；：:!?;]$/.test(text)||heading.test(text)||[text,...tail.map(row=>row.text.trim())].join('\n').length>120)break;
+      tail.unshift(line);
+    }
+    if(tail.length)candidates.signature={...tail[0],indices:tail.map(row=>row.index),text:tail.map(row=>row.text).join('\n'),value:tail.map(row=>row.text.trim()).join('\n')};
   }
   return {source,lines,candidates};
 }
@@ -37,8 +42,11 @@ export function materialProposal(analysis,selected={},mergeWrapped=false,current
   if(selected.keepTitle&&!selected.title&&analysis.candidates.title?.value===currentTitle.trim())conflicts.push('原文首行与已填标题相同，请选择提取首行，避免在正文中重复标题。');
   for(const name of ['title','recipient','signature','date']){
     const candidate=analysis.candidates[name];if(!candidate||!selected[name])continue;
-    if(used.has(candidate.index))conflicts.push('同一行不能同时作为两个要素，请取消其中一个选择。');
-    used.set(candidate.index,name);fields[name]=candidate.value;
+    for(const index of candidate.indices||[candidate.index]){
+      if(used.has(index))conflicts.push('同一行不能同时作为两个要素，请取消其中一个选择。');
+      used.set(index,name);
+    }
+    fields[name]=candidate.value;
   }
   const remaining=analysis.lines.filter((line,index)=>!used.has(index));
   while(remaining.length&&!remaining[0].trim())remaining.shift();

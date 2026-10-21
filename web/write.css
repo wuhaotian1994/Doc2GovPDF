@@ -88,7 +88,7 @@ input[type=checkbox], input[type=radio] { accent-color: var(--blue); width: 18px
 .review-summary { margin: 26px 0; }
 .review-row { display: grid; grid-template-columns: 68px 1fr auto; gap: 10px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
 .review-row dt { color: var(--muted); }
-.review-row dd { margin: 0; overflow-wrap: anywhere; }
+.review-row dd { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
 .review-row button { font-size: 12px; color: var(--blue); padding: 4px 7px; }
 #checks { margin: 26px 0; }
 #checks h2 { font-size: 14px; margin-bottom: 5px; }
@@ -108,7 +108,7 @@ input[type=checkbox], input[type=radio] { accent-color: var(--blue); width: 18px
 #material-dialog { width: min(620px, calc(100% - 32px)); }
 .material-choice { margin-bottom: 18px; }
 .material-choice strong, .material-choice span span, .material-choice small { display: block; }
-.material-choice span span { overflow-wrap: anywhere; margin: 5px 0; }
+.material-choice span span { overflow-wrap: anywhere; white-space: pre-line; margin: 5px 0; }
 .material-choice small { color: var(--muted); font-size: 12px; }
 #material-body-preview, #sourceMaterial { margin: 8px 0 16px; }
 .format-picker { margin-top: 30px; }

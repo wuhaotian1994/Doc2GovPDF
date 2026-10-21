@@ -4,6 +4,14 @@ import {analyseMaterial,materialProposal} from '../web/write-materials.js';
 import {blank,draft,validateDraft,fieldsForEngine,textContent,DRAFT_MAX_BYTES} from '../web/write-model.js';
 import {archiveDocument,validateLibrary,commonFrom,freshFields} from '../web/write-library.js';
 import {materials} from './fixtures/writer-materials.mjs';
+import {jointNotice,jointSignatures} from './fixtures/writer-joint-notice.mjs';
+
+test('public joint notice requires confirmation and preserves both signatories before the authored date',()=>{
+  const a=analyseMaterial(jointNotice);assert.equal(a.candidates.signature.value,jointSignatures.join('\n'));
+  assert.equal(a.candidates.date.value,'2024-05-15');
+  const plain=materialProposal(a,{title:true});assert.ok(jointSignatures.every(name=>plain.fields.body.includes(name)));assert.equal(plain.fields.signature,'');
+  const p=materialProposal(a,{title:true,signature:true,date:true});assert.equal(p.fields.signature,jointSignatures.join('\n'));assert.ok(jointSignatures.every(name=>!p.fields.body.includes(name)));assert.ok(p.fields.body.includes('2024年5月18日0：00——5月22日23：00'));
+});
 
 test('whole source is only a proposal: no roles are extracted without author selections',()=>{
   const analysis=analyseMaterial(materials[0].raw),proposal=materialProposal(analysis);

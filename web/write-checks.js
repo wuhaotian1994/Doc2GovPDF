@@ -1,6 +1,6 @@
 // Review identity belongs to the source and the decision, never to the engine's
 // document-digest ID. Export still uses the latest engine IDs.
-const bodyRoles = new Set(['body','heading','heading2','heading3','heading4']);
+const bodyRoles = new Set(['body','article','heading','heading2','heading3','heading4']);
 const documentFields=fields=>Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key)));
 export const fieldLabels = {title:'标题',body:'正文',recipient:'收文对象',agency:'发文单位',reference:'发文字号',signature:'落款',date:'日期',attachments:'附件名称',copyTo:'抄送单位'};
 
@@ -29,12 +29,14 @@ export function resolveSource(source, fields) {
 }
 function paragraphSources(model,fields) {
   const result=new Map(),body=sourceLines(fields.body),attachments=sourceLines(fields.attachments).filter(line=>line.text.trim());
-  let bodyIndex=0,attachmentIndex=0;
+  const signatures=sourceLines(fields.signature).filter(line=>line.text.trim());
+  let bodyIndex=0,attachmentIndex=0,signatureIndex=0;
   for(const block of model.blocks || []) {
     const p=block.paragraph;if(!p)continue;
     let field=p.role,line;
     if(bodyRoles.has(p.role)){field='body';line=body[bodyIndex++];}
     else if(p.role==='attachment-description'){field='attachments';line=attachments[attachmentIndex++];}
+    else if(p.role==='signature')line=signatures[signatureIndex++];
     else if(p.role==='imprint'&&p.text.startsWith('抄送：'))field='copyTo';
     if(!fieldLabels[field])continue;
     line ||= {text:fields[field],line:1};

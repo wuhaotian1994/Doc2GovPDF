@@ -9,6 +9,14 @@ const model=(body='电池容量为10kg。')=>({page:{width:210,height:297},block
 const inspection=issues=>({version:'0.2.0',issues});
 function items(f=fields(),m=model(),issues=[issue('old','p1')],documentId='draft-a'){return reviewItems(m,inspection(issues),f,documentId);}
 
+test('article paragraphs and multiple signature lines keep subsequent reminders at the correct source line',()=>{
+  const f={...fields('第一条 保留条款。\n电池容量为10kg。'),signature:'甲单位\n乙单位10kg'};
+  const m={blocks:[paragraph('a','第一条 保留条款。','article'),paragraph('b','电池容量为10kg。'),paragraph('s1','甲单位','signature'),paragraph('s2','乙单位10kg','signature')]};
+  const entries=items(f,m,[issue('body','b'),issue('sign','s2')]);
+  assert.equal(resolveSource(entries[0].source,f).line,2);
+  assert.equal(entries[1].source.field,'signature');assert.equal(resolveSource(entries[1].source,f).line,2);
+});
+
 test('unadopted source metadata does not revoke document-scoped decisions',()=>{
   const ledger=new ReviewDecisions(),global=[issue('old','p1',{rule:'unknown.document-rule'})];
   ledger.set(items(fields(),model(),global)[0],true);

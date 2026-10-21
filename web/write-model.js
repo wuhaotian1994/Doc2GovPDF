@@ -33,7 +33,9 @@ export function fieldsForEngine(fields, preview = false) {
   return {
     kind:'plain', title:fields.title.trim() || (preview?'待填写标题':''),
     body:fields.body || (preview?'正文尚未填写':''),
-    agency:fields.letterhead ? fields.agency.trim() : fields.signature.trim(),
+    // Build a single placeholder; applySignature creates the separately authored
+    // lines after the engine's single-office input validation.
+    agency:fields.letterhead ? fields.agency.trim() : (fields.signature.split(/\r?\n/).map(line=>line.trim()).find(Boolean)||''),
     recipient:fields.recipient.trim(), reference:fields.reference.trim(),
     date:date.length ? `${date[0]}年${date[1]}月${date[2]}日` : '',
     letterhead:fields.letterhead && Boolean(fields.agency.trim()),
@@ -44,10 +46,15 @@ export function applySignature(model, fields) {
   // The generic writer does not collect an issuing office or printing date.
   // Never infer them from the independently authored header/signature/date.
   model.blocks = model.blocks.filter(block => block.paragraph?.role !== 'imprint' || block.paragraph.text.startsWith('抄送：'));
+  const signatures=fields.signature.split(/\r?\n/).map(line=>line.trim()).filter(Boolean);
+  let signatureSeen=false;
+  model.blocks=model.blocks.flatMap(block=>{
+    if(block.paragraph?.role!=='signature')return [block];
+    if(signatureSeen)return [];signatureSeen=true;
+    return signatures.map((text,index)=>({...block,paragraph:{...block.paragraph,text,...(index?{id:block.paragraph.id+'-signature-'+index,before:0}:{})}}));
+  });
   if (fields.letterhead) {
-    model.blocks = model.blocks.filter(block => block.paragraph?.role !== 'signature' || fields.signature.trim());
     for (const block of model.blocks) {
-      if (block.paragraph?.role === 'signature') block.paragraph.text = fields.signature.trim();
       // PDF suppresses before-spacing on the first paragraph; match Word to it.
       if (block.paragraph?.role === 'agency') block.paragraph.before = 0;
     }

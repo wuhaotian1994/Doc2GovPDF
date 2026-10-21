@@ -147,7 +147,7 @@ function updateExport() {
 function renderSummary() {
   const rows = [
     ['标题',fields.title,0,'title'],['正文',fields.body.length.toLocaleString('zh-CN')+' 字',1,'body'],
-    ['落款',fields.signature || '未填写',1,'signature'],['日期',fieldsForEngine(fields).date || '未填写',1,'date']
+    ['落款',fields.signature || '未单独填写；如已在正文中保留，无需重复添加。',1,'signature'],['日期',fieldsForEngine(fields).date || '未单独填写；如已在正文中保留，无需重复添加。',1,'date']
   ];
   $('review-summary').replaceChildren(...rows.map(([label,value,target,id])=>{
     const row = document.createElement('div'); row.className = 'review-row';
@@ -324,7 +324,7 @@ function openMaterial(){
     const labels={title:'作为文档标题',recipient:'作为收文对象',signature:'作为落款',date:'作为日期'};
     for(const name of ['title','recipient','signature','date']){
       const candidate=materialAnalysis.candidates[name];
-      if(candidate)add(name,labels[name],candidate.text.trim(),'原文第 '+(candidate.index+1)+' 行；请确认用途，不会默认提取。');
+      if(candidate)add(name,name==='signature'&&candidate.indices?.length>1?'作为联合落款（保留原顺序）':labels[name],candidate.text.trim(),'原文第 '+(candidate.indices||[candidate.index]).map(index=>index+1).join('、')+' 行；请确认用途，不会默认提取。');
     }
     if(fields.title.trim())add('keepTitle','不提取首行，沿用已填标题',fields.title,'原文首行会保留在正文中，请检查是否重复。');
     $('material-candidates').replaceChildren(...options);$('material-join').checked=false;
