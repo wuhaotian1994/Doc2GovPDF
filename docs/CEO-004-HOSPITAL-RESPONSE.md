@@ -31,3 +31,5 @@
 [浏览器基线](evidence/ceo-hospital/baseline.json)、[当前三浏览器](evidence/ceo-hospital/browser-checks.json)、[实际文件与源码哈希](evidence/ceo-hospital/verified.json)、[隐藏Word记录](evidence/ceo-hospital/word-render.json)随Git保存。脚本为`test-writer-hospital-material.mjs`及`verify-writer-hospital-material.py`，当前构建`build/qa/ceo-hospital-web`。本轮是实施方完整UI与实际文件验证，不冒称新的首次使用者成功率或跨机器版式保证。
 
 该选项依赖空行代表段落边界；含有意段内硬换行的材料应先核对预览，不自动推定所有空行可删。完整页组阅读成本仍存在，不能将2页本身定义为缺陷或将本轮结果当作真实患者行为证据。复合通知的关系表达继续用已有复杂出口另验，不由本题替代。
+
+后续独立证据：CEO在main e0f85ff（文件blob5e9f5692）记录6fa869c无历史首次体验，只出现标题用途候选，体验者自然理解并选择现有空行选项，无需逐行删除，未补署名/日期，预览两页。该操作发现性与成本得到独立支持；其本轮两份下载尚未取回，不能用该UI结论代替实际文件验收，实施方上面的文件与完整页组证据仍单独保留。
