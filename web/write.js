@@ -505,7 +505,7 @@ $('draft-menu').onclick=()=>{renderLibrary();$('draft-dialog').showModal();};
 $('save-draft').onclick=saveDraft;
 $('table-copy').onclick=()=>{
   readFields();if(!validate(1))return;
-  saveDraft();$('table-copy-status').textContent='填写草稿已开始下载。打开高级编辑，选择刚下载的草稿，再点击“编辑正文”添加表格。';
+  saveDraft();$('table-copy-status').textContent='填写草稿已开始下载。打开高级编辑，选择刚下载的草稿，再点击“编辑正文”继续。';
 };
 if($('save-document'))$('save-document').onclick=()=>{readFields();persist();};
 $('load-draft-open').onclick=()=>$('load-draft').click();

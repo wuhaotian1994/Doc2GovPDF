@@ -215,18 +215,27 @@ func NewDocument(f Fields) (Model, error) {
 		add(strings.TrimRight(f.Recipient, "：:")+"：", "recipient")
 	}
 	for _, line := range strings.Split(strings.ReplaceAll(f.Body, "\r\n", "\n"), "\n") {
+		roleText := line
+		if f.Kind == "plain" {
+			// Recognize pasted indentation without rewriting authored text.
+			roleText = strings.TrimSpace(line)
+		}
 		role := "body"
-		if h1.MatchString(line) || article.MatchString(line) {
+		if h1.MatchString(roleText) || article.MatchString(roleText) {
 			role = "heading"
 		}
-		if h2.MatchString(line) {
+		if h2.MatchString(roleText) {
 			role = "heading2"
 		}
-		if h3.MatchString(line) {
+		if h3.MatchString(roleText) {
 			role = "heading3"
 		}
-		if h4.MatchString(line) {
+		if h4.MatchString(roleText) {
 			role = "heading4"
+		}
+		if f.Kind == "plain" && articleLabel.MatchString(roleText) {
+			// A numbered article carries prose; it is not a heading paragraph.
+			role = "article"
 		}
 		p := add(line, role)
 		if role == "heading3" || role == "heading4" {

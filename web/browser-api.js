@@ -36,7 +36,7 @@ export function createBrowserAPI(){
    const model=applySignature(await call('BuildDocument',fieldsForEngine(draft.fields)),draft.fields);
    // A native editable copy has no imported DOCX source to preserve. Keep the
    // original writer draft untouched and do not imply a reverse conversion.
-   return {name:safeName(draft.fields.title)+' · 表格编辑副本',document:model,ignored:[],actions:[]};
+   return {name:safeName(draft.fields.title)+' · 编辑副本',document:model,ignored:[],actions:[]};
   }
   if(file.size>50*1024*1024)throw Error('文件超过 50 MB');const data=base64(new Uint8Array(await file.arrayBuffer()));const model=await call('Import',file.name,data);if(model.sourceId)await stored('source:'+model.sourceId,data);return {name:file.name,document:model,ignored:[],actions:[]};
  };
