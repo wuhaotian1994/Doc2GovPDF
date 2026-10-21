@@ -1,5 +1,33 @@
 # CEO-003：跨页阅读质量的本轮改进
 
+## 补证：CEO本人保存的两份原稿（2026-10-22）
+
+main82b84c6/3e75fade补交了[教育原稿](evidence/ceo-readability-20261022/education.gongwen.json)与[复合原稿](evidence/ceo-readability-20261022/composite.gongwen.json)。本轮原样恢复这两份草稿到隔离浏览器，在冻结7ddb资产和此前已交付f68f008引擎下分别通过正常下载按钮取得成品；ID、字段和完整结构逐项相等。**没有再改产品源码，也没有用新输入覆盖下方历史证据。**
+
+| CEO原稿 | 旧构建 | 已交付修复 |
+| --- | --- | --- |
+| 复合PDF | 9页，第5/6/7页的四/五/六节孤立 | 8页，仍在第5/6/7页，但其所属正文开头同页；六节全部连续 |
+| 教育PDF | 5页，第3页末“单”/第4页首“独通知。”，日期与公开说明跨页 | 仍5页，第3页完整收束，第4页活动要求及首段、日期及公开说明连续 |
+| 原生Word16.0 | 教育5页、复合8页；教育第三章标题3/正文4 | 教育5页、复合8页；教育第三章4/4、日期与说明5/5，复合六节均同页 |
+
+复合原稿有30个空白正文段，本轮全部保留；六节的后文查找跳过这些空段，不能用“标题和一个空段在同页”冒充完成。原稿文字含模拟校阅后缀共3185个非空白字符，教育1540；全部文字与顺序一致。两稿整个Word document.xml除keepNext外完全相同，作者空白、字号、行距、缩进、表格和独立署名日期均未改。实际Word逻辑文本SHA与XML相等，Find物理页码及每页图片也核对。
+
+三浏览器新旧两题共六组配对、24份实际文件，81页直接PDF全文验证；三浏览器Word字节与原生Word代表文件相同。四份直接PDF27页、四份Word转PDF26页，共53页，43个不同像素页全部查看，11张页组随Git保存。未见裁切、重叠、缺字或表线缺失。复合Word前后8页图像相同；直接PDF仍有正常段落跨页和较短末页，不把“9→8”当作唯一验收结果。
+
+[独立完整核验与引擎/输入指纹](evidence/readability-ceo-originals/verified.json)、[原生Word页码](evidence/readability-ceo-originals/native-word-pagination.json)、[全部页组清单](evidence/readability-ceo-originals/rendered.json)、[环境与结论](evidence/readability-ceo-originals/summary.json)。此前“未取得CEO9页原稿”的限制现已补齐；下方8→6仍仅属于不同的本机固定稿，不混淆两份输入。
+
+复现沿用下方冻结资产，给test-writer-readability.mjs与verify-writer-readability.py增加--ceo-drafts；输出独立build/qa/readability-ceo。Word脚本使用-Folder build/qa/readability-ceo，渲染脚本以该目录作参数。先完成全部四份Word导出再运行独立核验；首轮并行核验误读到尚未写完的单项元数据，完成导出后全量复核通过，这是测试编排问题。既有Windows/Word与PDF解析边界、真实IME/手机未验范围不变。本地4173仍使用同一已验引擎，不因纯证据提交重建资产。
+
+![CEO原稿的三个孤立标题](evidence/readability-ceo-originals/unique-9.jpg)
+
+![CEO原稿修复后的四五节与正文](evidence/readability-ceo-originals/unique-33.jpg)
+
+![CEO原稿修复后的第六节与保留短末页](evidence/readability-ceo-originals/unique-37.jpg)
+
+CEO最新mainc040b45b/38f7b665已独立核验原保存稿的新成品，确认教育短尾、署名说明及复合六节连续的具体P2目标获得支持；其Word仅XML，未替代本轮原生Word验证。CEO明确不新增功能议题，后续保持主链、版本与新反馈收敛；仍未批准合并或公开部署。
+
+## 下方为首轮本机固定稿的历史验证
+
 2026-10-22；回应mainb99c894f的P2，沿用同一codex/ceo-004-materials/PR5，不合并或公开部署。最新小时评价补齐了7ddb医院采购任务，未新增规则任务；本轮继续聚焦教育/复合稿跨页问题。
 
 ## 同一稿件前后有什么变化

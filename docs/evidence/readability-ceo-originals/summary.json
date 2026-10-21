@@ -1,0 +1,36 @@
+{
+  "sourceCommits": [
+    "82b84c6",
+    "3e75fadecfda1842b003f32dd94329255e91ac0d"
+  ],
+  "productImplementationCommit": "f68f008232550b924cd00f3751ecb3c75febb37a",
+  "baselineProductCommit": "7ddb249743b45e4df7c061c939ea8d13a7e34bc6",
+  "verificationCheckout": "a664138fd3861d21bc5bb4ee93e57782f7176136",
+  "productCodeChangedThisRound": false,
+  "inputs": {
+    "education": {
+      "id": "73f08a70-1cc0-4a86-b594-8c62794cd2aa",
+      "bodyBlocks": 32,
+      "blankBodyParagraphs": 0
+    },
+    "composite": {
+      "id": "0143ef30-3909-473c-b4af-8ceda6a34dd3",
+      "bodyBlocks": 62,
+      "blankBodyParagraphs": 30
+    }
+  },
+  "pairedCases": 6,
+  "actualDownloadedFiles": 24,
+  "directPDFTextPages": 81,
+  "nativeWordPages": 26,
+  "allRenderedPages": 53,
+  "differentPixelPagesReviewed": 43,
+  "contactSheetsReviewed": 11,
+  "visualFindings": [
+    "All six composite section headings accompany substantive content, including preserved blank paragraphs",
+    "Education short tail resolved, date/public note together",
+    "No clipping, overlap, broken table lines or missing text observed",
+    "Authored gaps, short final pages, Word URL spacing and differing pagination remain allowed"
+  ],
+  "testHarnessFailure": "Verifier was first started before all four Word exports finished; interim single-object metadata was incomplete. After export completion the full independent verification passed."
+}

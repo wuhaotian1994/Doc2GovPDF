@@ -1,0 +1,20 @@
+[
+  {
+    "name": "education",
+    "profile": "firefox",
+    "baseline": false,
+    "engineSHA256": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6",
+    "sameIdentityAndContent": true,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "composite",
+    "profile": "firefox",
+    "baseline": false,
+    "engineSHA256": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6",
+    "sameIdentityAndContent": true,
+    "errors": [],
+    "passed": true
+  }
+]

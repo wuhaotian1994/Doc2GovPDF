@@ -1,7 +1,7 @@
 from pathlib import Path
-import subprocess,json,hashlib
+import subprocess,json,hashlib,sys
 from PIL import Image,ImageDraw
-root=Path('build/qa/readability');out=root/'page-review';out.mkdir(exist_ok=True);records=[];unique={}
+root=Path(sys.argv[1] if len(sys.argv)>1 else 'build/qa/readability');out=root/'page-review';out.mkdir(exist_ok=True);records=[];unique={}
 for phase in ['before','after']:
  for kind in ['pdf','word']:
   for name in ['education','composite']:
