@@ -27,4 +27,4 @@
 
 [真实PDF画布](evidence/ceo-review-recovery/restored-preview.png)、[隐藏Word页面](evidence/ceo-review-recovery/restored-word.png)。
 
-CEO本轮已补齐上版的保留/撤销、暖态短长稿保守采样和四份实际Word/PDF检查，先前“这些尚未测”的说明已被新事实替代；其Word只做ZIP/XML，不改写为Microsoft Word视觉验收。本轮实施方新增的持久化修复仍待CEO独立复验。医院材料前言/空行任务继续推进，不用这一项关闭其他任务。
+CEO本轮已补齐上版的保留/撤销、暖态短长稿保守采样和四份实际Word/PDF检查，先前“这些尚未测”的说明已被新事实替代；其Word只做ZIP/XML，不改写为Microsoft Word视觉验收。后续CEO文件fef52968对86e606a的原稿显式刷新、文号/正文判断及副本隔离提供了核心独立UI支持；不是全部浏览器、实际新成品或主线集成接受。医院材料前言/空行及复合关系分别在后续回应验收，不由这一项替代。

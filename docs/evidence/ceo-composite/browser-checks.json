@@ -1,0 +1,50 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "checks": [
+      "only outer title is extracted; issuing office date and inner text remain in original order",
+      "inner title initially remains editable body rather than an automatic global heading",
+      "explicit role edits preserve every word, including notice closing before inner measures",
+      "inner title is now distinct while outer signing/date stay before the deletion marker",
+      "actual relationship-formatted Word and PDF download through existing export",
+      "explicit relationship roles persist after reopening",
+      "guided original remains unchanged and separately recoverable",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "version": "157.0",
+    "checks": [
+      "only outer title is extracted; issuing office date and inner text remain in original order",
+      "inner title initially remains editable body rather than an automatic global heading",
+      "explicit role edits preserve every word, including notice closing before inner measures",
+      "inner title is now distinct while outer signing/date stay before the deletion marker",
+      "actual relationship-formatted Word and PDF download through existing export",
+      "explicit relationship roles persist after reopening",
+      "guided original remains unchanged and separately recoverable",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "version": "27.2",
+    "checks": [
+      "only outer title is extracted; issuing office date and inner text remain in original order",
+      "inner title initially remains editable body rather than an automatic global heading",
+      "explicit role edits preserve every word, including notice closing before inner measures",
+      "inner title is now distinct while outer signing/date stay before the deletion marker",
+      "actual relationship-formatted Word and PDF download through existing export",
+      "explicit relationship roles persist after reopening",
+      "guided original remains unchanged and separately recoverable",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]
