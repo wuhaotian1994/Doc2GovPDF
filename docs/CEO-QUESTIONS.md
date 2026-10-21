@@ -12,7 +12,7 @@
 
 ## CEO-001 · P1 · 内容提醒能否让用户真正完成一次判断？
 
-状态：待回应。
+状态：已回应，PR #2 已提供实现与验证记录；产品方向和本轮范围成立，待集成后核对，不代表主线已完成或批准合并。
 
 **观察。** 当前主流程逐条展示提醒文案，“返回修改”通常只把焦点放回整个正文框。引擎已有问题原文、建议文本与依据，但这些信息没有随提醒展示；部分提醒只说“这处写法可按公文体例整理”。任何字段变化还会清空全部已确认项。以上是源码事实，尚无真实用户耗时证据。
 
@@ -62,3 +62,17 @@
 - 实施方[验证记录](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/docs/FIRST-USE-DELIVERY-QA.md)报告桌面首次流程 64/64、经常使用 97/97、三引擎启动异常 33/33 等通过；这是实施方提交的证据摘要，不代表本轮独立复验，也不扩大为真机 Safari 或手机验收。
 
 **既有议题状态。** CEO-001、CEO-002 均保持待回应，不新增重复问题，也不要求塞入本次可靠性修复。当前[提醒逻辑](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/web/write.js)仍存在全量清空确认和仅返回字段的行为；[高级入口](https://github.com/wuhaotian1994/Doc2GovPDF/blob/ade54c2da803c92a6c168847b7d17b1da657dfae/web/write.html)仍为“整理已有 Word”。因此本 PR 是基础可靠性进展，并非两题已经解决。下一轮仍先回应 CEO-001，再验证 CEO-002 的最小任务路径；本轮没有新增功能要求。
+
+
+## 2026-10-21 · PR #2 产品审视
+
+检查基线：[PR #2](https://github.com/wuhaotian1994/Doc2GovPDF/pull/2)，head [e53d97a](https://github.com/wuhaotian1994/Doc2GovPDF/commit/e53d97a5032f1a7325b093e12b6d3f18f57b3bbf)。本轮 opened/synchronize 通知合并审视，按 PR/head 去重。静态核对源码、差异、测试用例及实施记录，未独立重跑浏览器或 Word/PDF 验收；不构成合并批准或上线许可。
+
+**CEO-001 已获得实质回应。** 改进仍留在原有提醒区：先让用户看见问题原文、严重程度和定位入口，再按需展开依据及建议，没有增加独立报告或复杂设置。这符合“简单的操作，足够深的解释”。
+
+- [定位与提醒界面](https://github.com/wuhaotian1994/Doc2GovPDF/blob/e53d97a5032f1a7325b093e12b6d3f18f57b3bbf/web/write.js)支持返回并选中对应字段/段落，重复表达不只寻找全文第一次命中；修改后可以回到提醒继续处理。
+- [判断保留逻辑](https://github.com/wuhaotian1994/Doc2GovPDF/blob/e53d97a5032f1a7325b093e12b6d3f18f57b3bbf/web/write-checks.js)及[针对性用例](https://github.com/wuhaotian1994/Doc2GovPDF/blob/e53d97a5032f1a7325b093e12b6d3f18f57b3bbf/scripts/test-writer-checks.mjs)覆盖改标题/增加无关段落后保留局部确认、重复段落独立判断、原文或依据改变后重新核对，并将有效判断映射到最新导出问题 ID。这不是仅增加几个说明控件。
+- 接受本轮明确边界：最小判断上下文是段落；同段修改、跨段规则、重复身份不明时保守重新核对；确认不跨刷新保存。当前不要求为追求“永不重复确认”引入更复杂机制，也不增加自动替换数字事实。
+- [实施回应](https://github.com/wuhaotian1994/Doc2GovPDF/blob/e53d97a5032f1a7325b093e12b6d3f18f57b3bbf/docs/CEO-001-RESPONSE.md)报告三浏览器任务 66/66、实际 Word/PDF/TXT 一致及页面检查。这些是实施方记录，不是本轮独立复验；不扩大为真机 Safari、手机或跨机器 Word 分页保证。
+
+**后续取舍。** CEO-001 不再标记为“无人回应”，但 PR #2 仍依赖未合并的 PR #1，不能写成主线已具备该能力。集成基线变化后应保留这条真实任务路径的核对。CEO-002 仍待回应；下一步围绕“给当前稿增加一张表格”的现有路径做最小验证，不扩建功能清单。本轮没有新增产品议题。
