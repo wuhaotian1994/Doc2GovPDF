@@ -91,7 +91,7 @@
     if(!event.target.closest?.('#writer-form'))return;
     const name=event.target.id;if(!names.includes(name)&&name!=='letterhead')return;
     touched.add(name);snapshot();
-    if(name==='letterhead')document.getElementById('agency-field').hidden=!event.target.checked;
+    if(name==='letterhead'){document.getElementById('agency-field').hidden=!event.target.checked;document.getElementById('agency').setAttribute('aria-required',String(event.target.checked));}
   },true);
   document.addEventListener('paste',event=>{
     if(window.writerReady||!['pendingMaterial','postscript'].includes(event.target.id))return;
@@ -121,6 +121,7 @@
       for(const name of names){const input=document.getElementById(name);if(input&&typeof initial.fields[name]==='string')input.value=initial.fields[name].slice(0,input.maxLength>0?input.maxLength:100000);}
       document.getElementById('letterhead').checked=initial.fields.letterhead===true;
       document.getElementById('agency-field').hidden=!initial.fields.letterhead;
+      document.getElementById('agency').setAttribute('aria-required',String(initial.fields.letterhead));
       document.getElementById('letterhead').closest('details').open=Boolean(initial.fields.letterhead||initial.fields.reference);
       document.getElementById('body-count').textContent=initial.fields.body.length.toLocaleString('zh-CN')+' 字';
       const entry=document.getElementById('material-entry');if(entry&&initial.fields.pendingMaterial)entry.open=true;

@@ -3,7 +3,12 @@ import {DRAFT_KEY,DRAFT_MAX_BYTES,materialNames, names, blank, draft, validateDr
 import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, freshFields, copyFields, validateLibrary, archiveDocument} from './write-library.js';
 import {fieldLabels, resolveSource, reviewItems, ReviewDecisions} from './write-checks.js';
 import {analyseMaterial,selectMaterialClosing,materialProposal} from './write-materials.js';
-let pdfjsPromise, pdfjsAttempts=0;
+import {referenceAdvice,sameReferenceFinding} from './write-reference.js';
+let pdfjsPromise, pdfjsAttempts=0, pdfjsWorker;
+function previewWorker(library){
+  if(!pdfjsWorker||pdfjsWorker.destroyed)pdfjsWorker=new library.PDFWorker();
+  return pdfjsWorker;
+}
 async function previewLibrary() {
   if(!pdfjsPromise){
     pdfjsPromise=(async()=>{
@@ -18,13 +23,14 @@ async function previewLibrary() {
 }
 
 const $ = id => document.getElementById(id);
-let fields = blank(), step = 0, revision = 0, readyRevision = -1;
+let fields = blank(), step = 0, revision = 0, readyRevision = -1, lastEditAt=0;
 let model, inspection, pdf, pageNumber = 1, currentRender;
 let previewTimer, rendering = false, repeatPreview = false, exporting = false, fontBusy = false, hasLock = false, blockedSave = false;
 let previewFailed=false,lastPreviewError='';
 let previous, replacement, rawRecovery, fontDB, fontStore = {}, engineFonts = [];
 let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId;
 let materialAnalysis=null;
+let referenceChoice=null,referenceUndo=null,referenceDismissed=null,referencePointerTarget=null;
 const confirmed = new Set();
 const decisions = new ReviewDecisions();
 const engine = new WriterEngine(() => fontStore);
@@ -54,12 +60,14 @@ function fillFields() {
   for (const name of names) $(name).value = fields[name];
   $('letterhead').checked = fields.letterhead;
   $('agency-field').hidden = !fields.letterhead;
+  renderLetterheadState();
   $('letterhead').closest('details').open = Boolean(fields.letterhead || fields.reference);
   $('attachments').closest('details').open = Boolean(fields.attachments || fields.copyTo);
   $('body-count').textContent = fields.body.length.toLocaleString('zh-CN')+' 字';
   $('material-source').hidden=!fields.sourceMaterial;
   $('material-entry').open=Boolean(fields.pendingMaterial);
   $('postscript').closest('details').open=Boolean(fields.postscript);
+  renderReferenceFeedback();
 }
 function persist() {
   if (!hasLock || blockedSave) return;
@@ -86,13 +94,14 @@ function invalidate() {
   previewFailed=false;
   decisions.retain(fields,currentId);
   revision++; readyRevision = -1; confirmed.clear();
+  lastEditAt=performance.now();
   renderChecks();
   $('export-status').textContent = ''; updateExport();
-  $('preview-status').textContent = pdf ? '内容已修改，正在更新预览…' : '正在准备预览…';
+  $('preview-status').textContent = pdf ? '内容已修改，正在更新预览；下方仍为上一版…' : '正在准备预览…';
 }
 function schedulePreview() {
   clearTimeout(previewTimer);
-  previewTimer = setTimeout(() => preview(), 650);
+  previewTimer = setTimeout(() => preview(), Math.max(0,120-(performance.now()-lastEditAt)));
 }
 function fieldError(name, message) {
   const node = $(name+'-error');
@@ -122,6 +131,7 @@ function showStep(next, push = true) {
   });
   if (push && location.hash !== '#step-'+(step+1)) history.pushState({writerStep:step}, '', '#step-'+(step+1));
   if (step===2) { renderSummary(); renderChecks(); }
+  renderReferenceFeedback();
   persist();
 }
 function navigate(next) {
@@ -189,7 +199,15 @@ function renderChecks() {
   $('check-list').replaceChildren();
   if (readyRevision!==revision) { $('checks-status').textContent='内容更新后会重新核对。'; return; }
   const entries=reviewItems(model,inspection,fields,currentId).sort((a,b)=>({error:0,review:1,suggestion:2}[a.issue.severity] ?? 3)-({error:0,review:1,suggestion:2}[b.issue.severity] ?? 3));
+  if(referenceChoice&&(referenceChoice.documentId!==currentId||referenceChoice.value!==fields.reference))referenceChoice=null;
+  if(referenceChoice&&!referenceChoice.seeded){
+    const matching=entries.filter(entry=>sameReferenceFinding(entry,referenceChoice.value,referenceChoice.advice));
+    for(const entry of matching)decisions.set(entry,true);
+    if(matching.length)referenceChoice.seeded=true;
+  }
   const latest=decisions.reconcile(entries);confirmed.clear();for(const id of latest)confirmed.add(id);
+  if(referenceChoice?.seeded&&entries.some(entry=>sameReferenceFinding(entry,referenceChoice.value,referenceChoice.advice)&&!decisions.has(entry)))referenceChoice=null;
+  renderReferenceFeedback();
   const count=severity=>entries.filter(entry=>entry.issue.severity===severity).length;
   $('checks-status').textContent = entries.length ? `必须修正 ${count('error')} 项，需要判断 ${count('review')} 项，建议 ${count('suggestion')} 项。事实、名称和数字仍需你核对。` : '未发现需要处理的格式问题。请自行核对事实、名称和数字。';
   for (const entry of entries) {
@@ -212,7 +230,15 @@ function renderChecks() {
     if (issue.severity==='review') {
       const label=document.createElement('label'); label.className='check';
       const check=document.createElement('input'); check.type='checkbox'; check.checked=confirmed.has(issue.id);
-      check.onchange=()=>{decisions.set(entry,check.checked);check.checked?confirmed.add(issue.id):confirmed.delete(issue.id);updateExport();};
+      check.onchange=()=>{
+        decisions.set(entry,check.checked);check.checked?confirmed.add(issue.id):confirmed.delete(issue.id);
+        if(source?.field==='reference'&&issue.rule==='reference.format'){
+          const advice=referenceAdvice(fields.reference);
+          referenceChoice=check.checked&&advice&&sameReferenceFinding(entry,fields.reference,advice)?{documentId:currentId,value:fields.reference,advice,seeded:true}:null;
+          renderReferenceFeedback();
+        }
+        updateExport();
+      };
       label.append(check,document.createTextNode('我已核对，此处保留原文')); item.append(label);
     }
     $('check-list').append(item);
@@ -230,18 +256,23 @@ async function preview() {
   if (readyRevision===revision) return;
   if (rendering) { repeatPreview=true; return; }
   rendering=true;previewFailed=false;updateExport(); const requested=revision; const snapshot={...fields};
-  $('preview-canvas').setAttribute('aria-busy','true'); $('preview-status').textContent='正在排版…';
+  $('preview-canvas').setAttribute('aria-busy','true'); $('preview-status').textContent=pdf?'正在更新成品…':'首次准备排版与预览，可继续填写…';
   try {
     const nextModel=applySignature(await engine.call('BuildDocument',fieldsForEngine(snapshot,true)),snapshot);
+    if(requested!==revision){repeatPreview=true;return;}
     const result=await engine.call('PreviewDocument',nextModel);
-    const checked=await engine.call('InspectDocument',nextModel);
     if(requested!==revision) {repeatPreview=true;return;}
     const pdfjs=await previewLibrary();
-    const nextPDF=await pdfjs.getDocument({data:bytes(result.pdf),isEvalSupported:false,useSystemFonts:false}).promise;
+    if(requested!==revision){repeatPreview=true;return;}
+    const checking=engine.call('InspectDocument',nextModel);
+    const loading=pdfjs.getDocument({data:bytes(result.pdf),worker:previewWorker(pdfjs),isEvalSupported:false,useSystemFonts:false});
+    let checked,nextPDF;
+    try{[checked,nextPDF]=await Promise.all([checking,loading.promise]);}
+    catch(e){await loading.destroy().catch(()=>{});pdfjsWorker?.destroy();pdfjsWorker=null;throw e;}
     if(requested!==revision){await nextPDF.destroy();repeatPreview=true;return;}
-    currentRender?.cancel(); await pdf?.destroy(); pdf=nextPDF; model=nextModel; inspection=checked;
+    currentRender?.cancel(); await pdf?.destroy().catch(()=>{}); pdf=nextPDF; model=nextModel; inspection=checked;
     pageNumber=Math.min(pageNumber,pdf.numPages);
-    await renderPage();
+    await renderPage(requested);
     if(requested!==revision){repeatPreview=true;return;}
     readyRevision=requested;
     if(lastPreviewError&&$('global-error').textContent===lastPreviewError)clearError();lastPreviewError='';
@@ -259,7 +290,7 @@ async function preview() {
     if(repeatPreview){repeatPreview=false;schedulePreview();}
   }
 }
-async function renderPage() {
+async function renderPage(expectedRevision) {
   if(!pdf)return;
   currentRender?.cancel();
   const source=pdf, number=pageNumber;
@@ -271,7 +302,7 @@ async function renderPage() {
   wrapper.append(canvas);
   const render=currentRender=page.render({canvasContext:canvas.getContext('2d'),viewport});
   try{await render.promise;}catch(e){if(e.name==='RenderingCancelledException')return;throw e;}
-  if(source!==pdf||number!==pageNumber)return;
+  if(source!==pdf||number!==pageNumber||expectedRevision!==undefined&&expectedRevision!==revision)return;
   $('pdf-pages').replaceChildren(wrapper);$('preview-empty').hidden=true;
   $('page-count').textContent=`${number} / ${pdf.numPages} 页`;
   $('prev-page').disabled=number<=1;$('next-page').disabled=number>=pdf.numPages;
@@ -299,6 +330,38 @@ function saveDraft() {
   $('draft-status').textContent='草稿已开始下载。打开这份文件即可继续填写。';
 }
 function selectedMaterial(){return Object.fromEntries([...document.querySelectorAll('#material-candidates input')].map(input=>[input.dataset.materialField,input.checked]));}
+function renderLetterheadState(){
+  $('agency').setAttribute('aria-required',String(fields.letterhead));
+  $('letterhead-state').textContent=fields.letterhead?(fields.agency.trim()?'发文单位已有内容，请在预览更新后核对红头与单位名称。':'还需填写发文单位。填写前不会生成红头，不会用收文对象或落款代填。'):(fields.agency.trim()?'当前不显示红头，已填发文单位仍保留。':'勾选红头后还需填写发文单位；未填写前不会生成红头。');
+}
+function renderReferenceFeedback(force=false){
+  const value=$('reference').value,advice=referenceAdvice(value);
+  if(referenceChoice&&(referenceChoice.documentId!==currentId||referenceChoice.value!==value))referenceChoice=null;
+  const kept=Boolean(referenceChoice),undo=referenceUndo?.documentId===currentId&&referenceUndo.after===value;
+  $('reference-undo').hidden=!undo;$('reference-original').hidden=!undo;
+  $('reference-original').textContent=undo?'原输入：'+referenceUndo.before:'';
+  $('reference-reopen').hidden=!advice||kept||referenceDismissed!==value;
+  $('reference-feedback').hidden=!advice||!force&&referenceDismissed===value;
+  $('reference-body-note').hidden=!advice||kept||step!==1;
+  if(!advice)return;
+  $('reference-message').textContent=kept?'已选择保留原文；同一处未改变的格式问题会沿用这次判断。':'如果这是发文字号：'+advice.reasons.map(reason=>reason.text).join(' ');
+  $('reference-proposal').textContent=advice.proposal;
+  $('reference-spacing').hidden=!advice.compactSpacing;
+  $('reference-keep').textContent=kept?'撤销保留':'保留原文／其他编号';
+  $('reference-later').hidden=kept;
+}
+function changeReference(value){
+  $('reference').value=value;$('reference').dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertReplacementText',data:value}));
+  renderReferenceFeedback(true);$('reference').focus();
+}
+function keepReference(){
+  readFields();const advice=referenceAdvice(fields.reference);if(!advice||!hasLock)return;
+  if(referenceChoice){
+    referenceChoice=null;
+    decisions.forgetField('reference',currentId,'reference.format');
+  }else referenceChoice={documentId:currentId,value:fields.reference,advice,seeded:false};
+  referenceDismissed=null;renderChecks();renderReferenceFeedback(true);
+}
 function renderMaterialPreview(){
   if(!materialAnalysis)return;
   const next=materialProposal(materialAnalysis,selectedMaterial(),$('material-join').checked,fields.title);
@@ -381,6 +444,7 @@ function replace(next) {
   }
   catch(e){error(e.name==='QuotaExceededError'?'浏览器空间不足，切换已取消。请先下载当前草稿并清理不再需要的旧稿。':e.message);return;}
   previous=prior;currentId=next.id;
+  referenceChoice=null;referenceUndo=null;referenceDismissed=null;
   fields={...next.fields}; blockedSave=false;rawRecovery=null;
   for(const name of ['title','agency','body','date'])fieldError(name,'');
   currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;pageNumber=1;
@@ -537,13 +601,23 @@ async function boot() {
   history.replaceState({writerStep:step},'', location.pathname+(restoredSubmission?'':location.search)+'#step-'+(step+1));
   window.writerReady=true;
   window.writerBoot?.complete();
+  // Warm the actual engines while the author starts writing, without blocking
+  // input or showing an approximate document. These promises retry on use.
+  engine.call('Fonts').catch(()=>{});
+  previewLibrary().then(library=>previewWorker(library).promise).catch(()=>{});
   if(fields.title.trim())preview();
 }
 
 $('writer-form').addEventListener('input',event=>{
   if(!window.writerReady || !hasLock || event.target.name==='format')return;
   readFields();$('agency-field').hidden=!fields.letterhead;
+  if(['letterhead','agency'].includes(event.target.id))renderLetterheadState();
   if(materialNames.includes(event.target.id)){persist();return;}
+  if(event.target.id==='reference'){
+    if(referenceChoice?.value!==fields.reference)referenceChoice=null;
+    if(referenceUndo?.after!==fields.reference)referenceUndo=null;
+    referenceDismissed=null;renderReferenceFeedback();
+  }
   if(!$('issue-location').hidden)$('issue-location-text').textContent='内容已修改，返回内容提醒查看核对结果。';
   $('body-count').textContent=fields.body.length.toLocaleString('zh-CN')+' 字';
   if(event.target.id==='title'&&fields.title.trim())fieldError('title','');
@@ -566,6 +640,22 @@ $('prev-page').onclick=()=>{if(pageNumber>1){pageNumber--;renderPage().catch(e=>
 $('next-page').onclick=()=>{if(pdf&&pageNumber<pdf.numPages){pageNumber++;renderPage().catch(e=>error(e.message));}};
 $('draft-menu').onclick=()=>{renderLibrary();$('draft-dialog').showModal();};
 $('save-draft').onclick=saveDraft;
+document.addEventListener('pointerdown',event=>{referencePointerTarget=event.target.closest?.('button')||null;},true);
+document.addEventListener('keydown',()=>{referencePointerTarget=null;},true);
+$('reference').addEventListener('blur',event=>{
+  referenceDismissed=null;
+  if(!window.writerReady)return;
+  // Do not move a button between pointer-down focus and its click. Navigation
+  // and the advice actions refresh this same field help after the click lands.
+  if(event.relatedTarget===referencePointerTarget&&referencePointerTarget&&($('reference').compareDocumentPosition(referencePointerTarget)&Node.DOCUMENT_POSITION_FOLLOWING))return;
+  renderReferenceFeedback(true);
+});
+$('reference-apply').onclick=()=>{const value=$('reference').value,advice=referenceAdvice(value);if(!advice||!hasLock)return;if($('reference-proposal').textContent!==advice.proposal){renderReferenceFeedback(true);return;}referenceUndo={documentId:currentId,before:value,after:advice.proposal};referenceChoice=null;changeReference(advice.proposal);};
+$('reference-undo').onclick=()=>{if(!referenceUndo||referenceUndo.documentId!==currentId||!hasLock)return;const value=referenceUndo.before;referenceUndo=null;referenceChoice=null;changeReference(value);};
+$('reference-keep').onclick=keepReference;
+$('reference-later').onclick=()=>{referenceDismissed=$('reference').value;renderReferenceFeedback();};
+$('reference-reopen').onclick=()=>{referenceDismissed=null;renderReferenceFeedback(true);};
+$('reference-return').onclick=()=>{showStep(0);$('reference').closest('details').open=true;referenceDismissed=null;renderReferenceFeedback(true);$('reference').focus();};
 $('material-open').onclick=openMaterial;
 $('material-apply').onclick=applyMaterial;
 $('material-join').onchange=renderMaterialPreview;

@@ -31,15 +31,16 @@ export function draft(fields, step, id) {
 }
 export function fieldsForEngine(fields, preview = false) {
   const date = fields.date ? fields.date.split('-').map(Number) : [];
+  const hasLetterhead=fields.letterhead&&Boolean(fields.agency.trim());
   return {
     kind:'plain', title:fields.title.trim() || (preview?'待填写标题':''),
     body:fields.body || (preview?'正文尚未填写':''),
     // Build a single placeholder; applySignature creates the separately authored
     // lines after the engine's single-office input validation.
-    agency:fields.letterhead ? fields.agency.trim() : (fields.signature.split(/\r?\n/).map(line=>line.trim()).find(Boolean)||''),
+    agency:hasLetterhead ? fields.agency.trim() : (fields.signature.split(/\r?\n/).map(line=>line.trim()).find(Boolean)||''),
     recipient:fields.recipient.trim(), reference:fields.reference.trim(),
     date:date.length ? `${date[0]}年${date[1]}月${date[2]}日` : '',
-    letterhead:fields.letterhead && Boolean(fields.agency.trim()),
+    letterhead:hasLetterhead,
     copyTo:fields.copyTo.trim(), attachments:fields.attachments.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)
   };
 }

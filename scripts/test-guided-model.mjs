@@ -29,6 +29,9 @@ test('date validation uses actual calendar days',()=>{
   assert.equal(validDate('2026-04-31'),false);
   assert.equal(validDate('2024-02-29'),true);
 });
+test('missing letterhead agency never borrows a recipient or signature into a red heading',()=>{
+ const fields={...blank(),letterhead:true,recipient:'收文单位',signature:'独立落款'};const engine=fieldsForEngine(fields,true);assert.equal(engine.letterhead,false);assert.equal(engine.agency,'独立落款');assert.equal(fields.agency,'');
+});
 
 test('joint signatures become separate right-aligned model paragraphs in plain and red-header paths',()=>{
   for(const letterhead of [false,true]){

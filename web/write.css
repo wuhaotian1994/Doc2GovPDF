@@ -89,6 +89,9 @@ input[type=checkbox], input[type=radio] { accent-color: var(--blue); width: 18px
 .review-row { display: grid; grid-template-columns: 68px 1fr auto; gap: 10px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
 .review-row dt { color: var(--muted); }
 .review-row dd { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.reference-feedback { margin-top: 12px; }
+.reference-feedback .dialog-actions { margin-top: 12px; }
+.reference-feedback strong { overflow-wrap: anywhere; }
 .review-row button { font-size: 12px; color: var(--blue); padding: 4px 7px; }
 #checks { margin: 26px 0; }
 #checks h2 { font-size: 14px; margin-bottom: 5px; }

@@ -1,0 +1,50 @@
+[
+  {
+    "profile": "chrome",
+    "checks": [
+      "checking with an empty agency immediately explains why no letterhead exists",
+      "existing navigation protection remains and no recipient/signature is substituted",
+      "filled agency feedback updates without claiming unchecked facts",
+      "clearing the agency immediately returns to missing-information feedback",
+      "clearing the required information cannot bypass the original navigation guard",
+      "cancel keeps the authored agency but marks it optional and inactive",
+      "rechecking restores the same authored agency rather than a fabricated value",
+      "saved setting and agency survive reopening",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "checks": [
+      "checking with an empty agency immediately explains why no letterhead exists",
+      "existing navigation protection remains and no recipient/signature is substituted",
+      "filled agency feedback updates without claiming unchecked facts",
+      "clearing the agency immediately returns to missing-information feedback",
+      "clearing the required information cannot bypass the original navigation guard",
+      "cancel keeps the authored agency but marks it optional and inactive",
+      "rechecking restores the same authored agency rather than a fabricated value",
+      "saved setting and agency survive reopening",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "checks": [
+      "checking with an empty agency immediately explains why no letterhead exists",
+      "existing navigation protection remains and no recipient/signature is substituted",
+      "filled agency feedback updates without claiming unchecked facts",
+      "clearing the agency immediately returns to missing-information feedback",
+      "clearing the required information cannot bypass the original navigation guard",
+      "cancel keeps the authored agency but marks it optional and inactive",
+      "rechecking restores the same authored agency rather than a fabricated value",
+      "saved setting and agency survive reopening",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

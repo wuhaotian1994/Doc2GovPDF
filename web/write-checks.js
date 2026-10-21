@@ -65,6 +65,7 @@ export function reviewItems(model,inspection,fields,documentId) {
   });
 }
 export class ReviewDecisions {
+  forgetField(field,documentId,rule){for(const [key,item] of this.receipts)if(item.documentId===documentId&&item.source?.field===field&&item.issue.rule===rule)this.receipts.delete(key);}
   constructor(){this.receipts=new Map();}
   set(item,checked){if(checked)this.receipts.set(item.key,item);else this.receipts.delete(item.key);}
   has(item){return this.receipts.has(item.key);}
