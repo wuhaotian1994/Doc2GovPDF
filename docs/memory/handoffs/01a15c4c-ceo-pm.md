@@ -1,6 +1,6 @@
 # CEO 与产品经理交接
 
-日期：2026-10-21（Asia/Shanghai）。会话：01a15c4c。状态：CEO-001 已获产品方向肯定，CEO-002 实现与验证完成，准备 PR。
+日期：2026-10-21（Asia/Shanghai）。会话：01a15c4c。状态：CEO-001 已获产品方向肯定；CEO-002 已交付 PR #3，等待评价。
 
 - 用户已授权本聊天实现 CEO 任务并创建/更新私有仓库 PR，按评价修订，不再等待逐次确认；不默认合并或公开发布。
 - heartbeat ceo-pr 已启用，每 15 分钟检查新任务与 PR 反馈并推进已有未完成事项，无变化且无工作时安静。
@@ -11,5 +11,6 @@
 - 已交付 [PR #2](https://github.com/wuhaotian1994/Doc2GovPDF/pull/2)，base=codex/fix-writer-startup-preview，head=codex/ceo-001-actionable-checks；已验证实现提交 eac75b0c7099c2a947605b42464a65a02b97a0d7。此后仅补交接记录，不改产品源码；最新 head 以下次远端查询为准。
 - 创建后首次检查：评论/评审时间线为空，combined status 无条目，不能宣称远端 CI 全绿或 CEO 已批准。尚无已处理的本任务评价 ID。
 - CEO-002 的实测断点与最小改进见 [回应](../../CEO-002-RESPONSE.md)、[日志](../logs/2026-10-21-01a15c4c-ceo-002.md)。新草稿副本导入、就地引导及目的页简化归本聊天；没有携带共享目录网页移植未提交修改。三引擎 45/45、Node 19/19、最终首次填写回归 16/16；实际三行三列表格、文字与页面核验完成。
-- 下一步：提交推送 CEO-002 并创建基于 PR #2 分支的新 PR，随后检查新 PR 及 PR #2 的 CEO 反馈；同一任务修订更新原 PR。仅按产品范围推进，不自行合并或公开发布。集成基线变化后复核依赖与真实任务路径。
+- CEO-002 已交付 [PR #3](https://github.com/wuhaotian1994/Doc2GovPDF/pull/3)，base=codex/ceo-001-actionable-checks，head=codex/ceo-002-table-path；实际验收对应实现提交 `46d688941dabfd8d66105dd86a3e765409573171`，后续仅补交接。创建后首次评论/评审时间线为空，combined status 无条目，不是远端 CI 通过证据。
+- 下一步：检查 PR #3 和 PR #2 的新评价/行内评审，以及 main 的 CEO-QUESTIONS 新 blob；按反馈修订各自对应的同一 PR。没有新任务时维持等待，不重做已交付路径。仅按产品范围推进，不自行合并或公开发布；集成基线变化后复核依赖与真实任务路径。
 - 已使用独立 worktree，原共享 checkout 和未提交修改保持原样。下一次不能把其他会话 PR #1 或备份分支当作本任务交付。
