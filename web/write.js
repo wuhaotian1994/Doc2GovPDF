@@ -1,6 +1,7 @@
 import {WriterEngine} from './write-engine.js';
 import {DRAFT_KEY, names, blank, draft, validateDraft, validDate, fieldsForEngine, applySignature, textContent, safeName} from './write-model.js';
 import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, freshFields, copyFields, validateLibrary, archiveDocument} from './write-library.js';
+import {fieldLabels, resolveSource, reviewItems, ReviewDecisions} from './write-checks.js';
 let pdfjsPromise, pdfjsAttempts=0;
 async function previewLibrary() {
   if(!pdfjsPromise){
@@ -23,6 +24,7 @@ let previewFailed=false,lastPreviewError='';
 let previous, replacement, rawRecovery, fontDB, fontStore = {}, engineFonts = [];
 let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId;
 const confirmed = new Set();
+const decisions = new ReviewDecisions();
 const engine = new WriterEngine(() => fontStore);
 const error = message => {
   $('global-error').textContent=message;$('global-error').hidden=false;
@@ -76,7 +78,9 @@ function persist() {
 }
 function invalidate() {
   previewFailed=false;
+  decisions.retain(fields,currentId);
   revision++; readyRevision = -1; confirmed.clear();
+  renderChecks();
   $('export-status').textContent = ''; updateExport();
   $('preview-status').textContent = pdf ? '内容已修改，正在更新预览…' : '正在准备预览…';
 }
@@ -105,6 +109,7 @@ function validate(target) {
 }
 function showStep(next, push = true) {
   step = next;
+  if(step===2)$('issue-location').hidden=true;
   document.querySelectorAll('[data-panel]').forEach(node => node.hidden = Number(node.dataset.panel)!==step);
   document.querySelectorAll('[data-step]').forEach(node => {
     if (Number(node.dataset.step)===step) node.setAttribute('aria-current','step'); else node.removeAttribute('aria-current');
@@ -148,26 +153,59 @@ function renderSummary() {
     row.append(dt,dd,edit); return row;
   }));
 }
-function issueTarget(issue) {
-  const paragraph = model?.blocks?.find(block => block.paragraph?.id === issue.paragraphId)?.paragraph;
-  const targets = {title:'title',agency:'agency',reference:'reference',recipient:'recipient',signature:'signature',date:'date'};
-  return targets[paragraph?.role] || 'body';
+function locateIssue(entry) {
+  if(readyRevision!==revision)return;
+  const field=entry.source?.field || 'body';
+  showStep(['title','agency','reference','recipient'].includes(field)?0:1);
+  const input=$(field),details=input.closest('details');if(details)details.open=true;
+  // Textarea values normalize imported CRLF to LF; select using displayed offsets.
+  const line=resolveSource(entry.source,{...fields,[field]:input.value});
+  $('issue-location').hidden=false;
+  $('issue-location-text').textContent=line?`已定位到${fieldLabels[field]}${['body','attachments'].includes(field)?'第 '+line.line+' 段':''}，请核对选中的原文。`:'这条提醒涉及整篇文档，请核对正文与相关内容。';
+  input.focus();
+  if(line&&input.type!=='date') {
+    input.setSelectionRange(line.start,line.end);
+    if(input.tagName==='TEXTAREA') {
+      // Match wrapping and typography so a late paragraph is visible even when
+      // earlier paragraphs wrap across many display lines.
+      const mirror=document.createElement('div'),style=getComputedStyle(input);
+      for(const property of ['font','lineHeight','letterSpacing','padding','boxSizing','tabSize'])mirror.style[property]=style[property];
+      Object.assign(mirror.style,{position:'fixed',left:'-10000px',top:'0',width:input.clientWidth+'px',whiteSpace:'pre-wrap',overflowWrap:'break-word',visibility:'hidden'});
+      mirror.append(document.createTextNode(input.value.slice(0,line.start)));
+      const marker=document.createElement('span');marker.textContent='\u200b';mirror.append(marker);document.body.append(mirror);
+      input.scrollTop=Math.max(0,marker.offsetTop-input.clientHeight/3);mirror.remove();
+    }
+  }
+  input.scrollIntoView({block:'center'});
 }
 function renderChecks() {
   $('check-list').replaceChildren();
   if (readyRevision!==revision) { $('checks-status').textContent='内容更新后会重新核对。'; return; }
-  const issues = inspection?.issues || [];
-  $('checks-status').textContent = issues.length ? '请逐项核对提醒；事实、名称和数字仍需你确认。' : '未发现需要处理的格式问题。请自行核对事实、名称和数字。';
-  for (const issue of issues) {
-    const item = document.createElement('div'); item.className='review-issue';
+  const entries=reviewItems(model,inspection,fields,currentId).sort((a,b)=>({error:0,review:1,suggestion:2}[a.issue.severity] ?? 3)-({error:0,review:1,suggestion:2}[b.issue.severity] ?? 3));
+  const latest=decisions.reconcile(entries);confirmed.clear();for(const id of latest)confirmed.add(id);
+  const count=severity=>entries.filter(entry=>entry.issue.severity===severity).length;
+  $('checks-status').textContent = entries.length ? `必须修正 ${count('error')} 项，需要判断 ${count('review')} 项，建议 ${count('suggestion')} 项。事实、名称和数字仍需你核对。` : '未发现需要处理的格式问题。请自行核对事实、名称和数字。';
+  for (const entry of entries) {
+    const {issue,source}=entry,line=resolveSource(source,fields);
+    const item = document.createElement('div'); item.className='review-issue';item.dataset.rule=issue.rule;item.dataset.severity=issue.severity;
+    const heading=document.createElement('h3');heading.className='issue-heading';
+    heading.textContent=({error:'必须修正',review:'需要你判断',suggestion:'建议 · 不影响下载'}[issue.severity] || '内容提醒')+' · '+(source?fieldLabels[source.field]+(line&&['body','attachments'].includes(source.field)?'第 '+line.line+' 段':''):'整篇文档');
     const text = document.createElement('p'); text.textContent=issue.message;
-    const edit = document.createElement('button'); edit.type='button'; edit.className='secondary'; edit.textContent='返回修改';
-    edit.onclick=()=>{const target=issueTarget(issue);showStep(['title','agency','reference','recipient'].includes(target)?0:1);const details=$(target).closest('details');if(details)details.open=true;$(target).focus();};
-    item.append(text,edit);
+    if(issue.message.startsWith('这处写法可按公文体例整理'))text.textContent='请对照原文与建议写法，核对是否需要调整。';
+    item.append(heading,text);
+    if(issue.original){const quote=document.createElement('blockquote');quote.className='issue-original';quote.textContent=issue.original;quote.setAttribute('aria-label','提醒对应的原文');item.append(quote);}
+    const help=document.createElement('details'),summary=document.createElement('summary');summary.textContent='查看依据与处理方法';help.className='issue-help';help.append(summary);
+    const basis=document.createElement('p');basis.textContent='提醒依据：'+issue.basis;
+    const action=document.createElement('p');action.textContent=issue.severity==='error'?'请依据原始材料修改，再返回这里核对。':issue.severity==='suggestion'?'可结合语境自行修改；保留现有写法也可以直接下载。':'请核对语境和原始材料。需要调整时定位修改；有意保留时，勾选下方确认。';
+    help.append(basis,action);
+    if(issue.replacement){const label=document.createElement('p');label.textContent='建议写法（仅供对照，不会自动替换）：';const next=document.createElement('blockquote');next.className='issue-proposed';next.textContent=issue.replacement;help.append(label,next);}
+    item.append(help);
+    const edit = document.createElement('button'); edit.type='button'; edit.className='secondary'; edit.textContent=source?'定位到原文':'查看正文';
+    edit.setAttribute('aria-label',edit.textContent+'：'+heading.textContent);edit.onclick=()=>locateIssue(entry);item.append(edit);
     if (issue.severity==='review') {
       const label=document.createElement('label'); label.className='check';
       const check=document.createElement('input'); check.type='checkbox'; check.checked=confirmed.has(issue.id);
-      check.onchange=()=>{check.checked?confirmed.add(issue.id):confirmed.delete(issue.id);updateExport();};
+      check.onchange=()=>{decisions.set(entry,check.checked);check.checked?confirmed.add(issue.id):confirmed.delete(issue.id);updateExport();};
       label.append(check,document.createTextNode('我已核对，此处保留原文')); item.append(label);
     }
     $('check-list').append(item);
@@ -443,6 +481,7 @@ async function boot() {
 $('writer-form').addEventListener('input',event=>{
   if(!window.writerReady || !hasLock || event.target.name==='format')return;
   readFields();$('agency-field').hidden=!fields.letterhead;
+  if(!$('issue-location').hidden)$('issue-location-text').textContent='内容已修改，返回内容提醒查看核对结果。';
   $('body-count').textContent=fields.body.length.toLocaleString('zh-CN')+' 字';
   if(event.target.id==='title'&&fields.title.trim())fieldError('title','');
   if(event.target.id==='body'&&fields.body.trim())fieldError('body','');
@@ -458,6 +497,7 @@ document.querySelectorAll('[data-back]').forEach(button=>button.onclick=()=>navi
 document.querySelectorAll('[name=format]').forEach(input=>input.onchange=updateExport);
 document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>$(button.dataset.close).close());
 $('export').onclick=exportFile;
+$('return-checks').onclick=()=>{navigate(2);$('checks').scrollIntoView({block:'start'});};
 $('refresh-preview').onclick=()=>{clearError();readyRevision=-1;preview();};
 $('prev-page').onclick=()=>{if(pageNumber>1){pageNumber--;renderPage().catch(e=>error(e.message));}};
 $('next-page').onclick=()=>{if(pdf&&pageNumber<pdf.numPages){pageNumber++;renderPage().catch(e=>error(e.message));}};

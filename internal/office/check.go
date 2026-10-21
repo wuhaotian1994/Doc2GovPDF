@@ -187,7 +187,8 @@ func Inspect(m Model) (Inspection, error) {
 					}
 				}
 				if !duplicate {
-					add(p, rule, "review", "这处写法可按公文体例整理，请对照原文确认修改。", next, "对应上游体例修正规则；引用、网址、数字事实保留")
+					message, basis := correctionExplanation(rule)
+					add(p, rule, "review", message, next, basis)
 				}
 			}
 		}
@@ -214,6 +215,26 @@ func Inspect(m Model) (Inspection, error) {
 		r.Unchecked = append(r.Unchecked, "问题超过 500 条，其余问题请分段处理")
 	}
 	return r, nil
+}
+
+// Share the existing rule explanations when a proposed correction is found
+// before the convention pass. Otherwise it would hide the actionable message.
+func correctionExplanation(rule string) (string, string) {
+	for _, c := range conventions {
+		if c.id == rule {
+			return c.message, c.basis
+		}
+	}
+	switch rule {
+	case "reference.format":
+		return "若这是发文字号，请核对年份括号、序号中的“第”和前导零；编号或引用请保留。", "发文字号体例核对；不核实或改写文号事实"
+	case "punctuation.half":
+		return "中文语句中有半角标点，请对照建议写法核对；代码、网址和引用保留原样。", "中英文标点体例核对；受保护的引用与网址不自动替换"
+	case "format.duplicate-number":
+		return "这一段可能重复写入了层次编号，请对照原文与建议写法核对。", "段落结构校验"
+	default:
+		return "请对照原文与建议写法，核对是否需要调整。", "对应体例修正规则；引用、网址和数字事实仍需核对"
+	}
 }
 func hasHan(s string) bool {
 	for _, r := range s {
