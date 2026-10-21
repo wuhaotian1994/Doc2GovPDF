@@ -1,8 +1,18 @@
 import {WriterEngine} from './write-engine.js';
 import {DRAFT_KEY, names, blank, draft, validateDraft, validDate, fieldsForEngine, applySignature, textContent, safeName} from './write-model.js';
 import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, freshFields, copyFields, validateLibrary, archiveDocument} from './write-library.js';
-import * as pdfjs from './vendor/pdfjs/pdf.mjs';
-pdfjs.GlobalWorkerOptions.workerSrc = new URL('./vendor/pdfjs/pdf.worker.mjs', import.meta.url).href;
+let pdfjsPromise, pdfjsAttempts=0;
+async function previewLibrary() {
+  if(!pdfjsPromise){
+    const url=new URL('./vendor/pdfjs/pdf.mjs',import.meta.url);
+    if(pdfjsAttempts++)url.searchParams.set('retry',String(pdfjsAttempts));
+    pdfjsPromise=import(url.href).then(library=>{
+      library.GlobalWorkerOptions.workerSrc=new URL('./vendor/pdfjs/pdf.worker.mjs',import.meta.url).href;
+      return library;
+    }).catch(()=>{pdfjsPromise=null;throw Error('预览组件加载失败，填写内容仍保留。可以继续填写、下载草稿，或点击“刷新预览”重试。');});
+  }
+  return pdfjsPromise;
+}
 
 const $ = id => document.getElementById(id);
 let fields = blank(), step = 0, revision = 0, readyRevision = -1;
@@ -55,6 +65,7 @@ function persist() {
   }
   try {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(draft(fields,step,currentId)));
+    window.writerBoot?.saved(currentId);
     $('save-status').textContent = '已保存到此浏览器';
   } catch {
     $('save-status').textContent = '自动保存失败';
@@ -107,6 +118,7 @@ function navigate(next) {
   if (step===2) preview();
 }
 window.addEventListener('popstate', () => {
+  if(!window.writerReady)return;
   const next = Number(location.hash.match(/^#step-([123])$/)?.[1] || 1)-1;
   if (next===2 && !validate(1)) return;
   showStep(next, false);
@@ -176,6 +188,7 @@ async function preview() {
     const result=await engine.call('PreviewDocument',nextModel);
     const checked=await engine.call('InspectDocument',nextModel);
     if(requested!==revision) {repeatPreview=true;return;}
+    const pdfjs=await previewLibrary();
     const nextPDF=await pdfjs.getDocument({data:bytes(result.pdf),isEvalSupported:false,useSystemFonts:false}).promise;
     if(requested!==revision){await nextPDF.destroy();repeatPreview=true;return;}
     currentRender?.cancel(); await pdf?.destroy(); pdf=nextPDF; model=nextModel; inspection=checked;
@@ -237,6 +250,7 @@ function saveDraft() {
 }
 function requestReplace(next, direct=false) {
   if(!hasLock){error('另一标签页正在编辑，请关闭它后刷新本页。');return;}
+  if(blockedSave&&!rawRecovery){error('原有文档尚未成功归档，切换已取消。请先下载当前草稿，腾出本地空间后刷新此页重试恢复。');return;}
   if(exporting||fontBusy){error('请等待当前文件或字体处理完成，再切换文档。');return;}
   if(fields.date&&!validDate(fields.date) || $('date').validity.badInput) {
     $('draft-dialog').close();$('replace-dialog').close();
@@ -380,15 +394,36 @@ async function boot() {
       request.onsuccess=()=>resolve(request.result || {});request.onerror=()=>reject(request.error);
     });
   }catch{error('字体存储不可用，当前使用内置字体。文档仍可填写与导出。');}
+  // Inputs may arrive while module imports or IndexedDB are still loading.
+  // Merge only the fields actually edited, rather than hydrating over them.
+  const pending=window.writerBoot?.pending();
+  if(pending?.fields&&Array.isArray(pending.touched)){
+    const independent=pending.source==='legacy-submit'||pending.baseId&&pending.baseId!==currentId;
+    if(independent){
+      try{
+        if(!hasLock||libraryBroken||blockedSave)throw Error('recovery archive unavailable');
+        const archived=archiveDocument(library,currentId,draft(fields,step,currentId));
+        localStorage.setItem(LIBRARY_KEY,JSON.stringify(archived));library=archived;
+      }catch{blockedSave=true;error('未完成的填写已恢复在此页，原有草稿没有覆盖。请先下载当前草稿，再处理本地存储问题。');}
+      fields=blank();currentId=crypto.randomUUID();
+    }
+    for(const name of independent?[...names,'letterhead']:pending.touched){
+      if(names.includes(name)&&typeof pending.fields[name]==='string')fields[name]=pending.fields[name];
+      if(name==='letterhead'&&typeof pending.fields[name]==='boolean')fields[name]=pending.fields[name];
+    }
+    if(Number.isInteger(pending.step)&&pending.step>=0&&pending.step<=2)step=pending.step;
+  }
   fillFields();showStep(step,false);
   document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();
-  history.replaceState({writerStep:step},'', '#step-'+(step+1));
+  const restoredSubmission=pending?.source==='legacy-submit'&&!window.writerBoot?.pending();
+  history.replaceState({writerStep:step},'', location.pathname+(restoredSubmission?'':location.search)+'#step-'+(step+1));
   window.writerReady=true;
+  window.writerBoot?.complete();
   if(fields.title.trim())preview();
 }
 
 $('writer-form').addEventListener('input',event=>{
-  if(!hasLock || event.target.name==='format')return;
+  if(!window.writerReady || !hasLock || event.target.name==='format')return;
   readFields();$('agency-field').hidden=!fields.letterhead;
   $('body-count').textContent=fields.body.length.toLocaleString('zh-CN')+' 字';
   if(event.target.id==='title'&&fields.title.trim())fieldError('title','');
@@ -397,8 +432,9 @@ $('writer-form').addEventListener('input',event=>{
   if(event.target.id==='date')fieldError('date',fields.date&&!validDate(fields.date)?'请选择 1900 年及以后的有效日期，或清空日期。':'');
   invalidate();persist();if(!event.isComposing)schedulePreview();
 });
-$('body').addEventListener('compositionend',()=>{readFields();persist();schedulePreview();});
+$('body').addEventListener('compositionend',()=>{if(window.writerReady){readFields();persist();schedulePreview();}});
 $('writer-form').addEventListener('submit',event=>{event.preventDefault();if(step<2)navigate(step+1);});
+document.querySelectorAll('[data-next]').forEach(button=>button.onclick=()=>navigate(Number(button.dataset.next)));
 document.querySelectorAll('[data-step]').forEach(button=>button.onclick=()=>navigate(Number(button.dataset.step)));
 document.querySelectorAll('[data-back]').forEach(button=>button.onclick=()=>navigate(Number(button.dataset.back)));
 document.querySelectorAll('[name=format]').forEach(input=>input.onchange=updateExport);
@@ -462,6 +498,6 @@ $('font-reset').onclick=()=>changeFont(null,true);
 window.addEventListener('beforeunload',event=>{
   if($('save-status').textContent==='自动保存失败' || blockedSave&&names.some(name=>fields[name]) || fields.date&&!validDate(fields.date)){event.preventDefault();event.returnValue='';}
 });
-document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='s'){event.preventDefault();persist();}});
+document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='s'){event.preventDefault();if(window.writerReady)persist();}});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 boot().catch(e=>error(e.message));

@@ -1,0 +1,95 @@
+// This small classic script is inlined into the delivered HTML before the form.
+// Protect typing and navigation even if any application module cannot load.
+(() => {
+  const key='gongwen-writer-pending-v1';
+  const names=['title','recipient','agency','reference','body','signature','date','attachments','copyTo'];
+  const touched=new Set();let pending=null,failed=false,stored=true;
+  try{const value=JSON.parse(sessionStorage.getItem(key));if(value?.version===1&&value.fields&&Array.isArray(value.touched)){pending=value;value.touched.forEach(name=>{if(names.includes(name)||name==='letterhead')touched.add(name);});}}catch{}
+  let source=pending?.source==='legacy-submit'?'legacy-submit':'',baseId=pending?.baseId || '';
+  if(!baseId)try{baseId=JSON.parse(localStorage.getItem('gongwen-writer-v1'))?.id || '';}catch{}
+  const query=new URLSearchParams(location.search);
+  if(!pending&&query.has('title')&&query.has('body')&&query.has('recipient')&&query.has('format')){
+    const fields={};for(const name of names){fields[name]=query.get(name)||'';touched.add(name);}fields.letterhead=query.has('letterhead');touched.add('letterhead');
+    source='legacy-submit';pending={version:1,fields,touched:[...touched],step:0,source,baseId};
+  }
+  const read=()=>{
+    const fields={};for(const name of names)fields[name]=document.getElementById(name)?.value || '';
+    fields.letterhead=Boolean(document.getElementById('letterhead')?.checked);return fields;
+  };
+  function snapshot(){
+    const fields=read();const step=Number(document.querySelector('[data-panel]:not([hidden])')?.dataset.panel || 0);
+    const count=document.getElementById('body-count');if(count)count.textContent=fields.body.length.toLocaleString('zh-CN')+' 字';
+    if(!touched.size){for(const name of names)if(fields[name])touched.add(name);if(fields.letterhead)touched.add('letterhead');}
+    if(!touched.size)return pending;
+    pending={version:1,fields,touched:[...touched],step,source,baseId};
+    try{sessionStorage.setItem(key,JSON.stringify(pending));stored=true;}catch{stored=false;}
+    return pending;
+  }
+  function status(message){
+    const notice=document.getElementById('startup-notice');if(!notice)return;
+    notice.hidden=false;document.getElementById('startup-message').textContent=message;
+  }
+  function fail(){failed=true;status('页面组件未能就绪。已填内容仍保留，可以继续填写或先下载草稿，再重试加载。');}
+  function move(next){
+    const fields=read();let invalid='';
+    if(!fields.title.trim())invalid='title';
+    else if(fields.letterhead&&!fields.agency.trim())invalid='agency';
+    else if(next===2&&!fields.body.trim())invalid='body';
+    if(invalid){
+      const input=document.getElementById(invalid),message=document.getElementById(invalid+'-error');
+      if(message){message.hidden=false;message.textContent=invalid==='body'?'请填写正文。':invalid==='agency'?'显示红头时，请填写发文单位。':'请填写一个文档标题。';}
+      input?.setAttribute('aria-invalid','true');input?.focus();return;
+    }
+    document.querySelectorAll('[data-panel]').forEach(panel=>panel.hidden=Number(panel.dataset.panel)!==next);
+    document.querySelectorAll('[data-step]').forEach(button=>{if(Number(button.dataset.step)===next)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});
+    snapshot();document.querySelector(`[data-panel="${next}"] h1`)?.focus();
+    if(next===2)status('正文已保留。预览与下载组件仍在加载，可先下载填写草稿。');
+  }
+  document.addEventListener('submit',event=>{
+    if(!['writer-form','common-form'].includes(event.target.id))return;
+    event.preventDefault();
+    if(!window.writerReady){event.stopImmediatePropagation();snapshot();if(event.target.id==='writer-form'){const step=Number(document.querySelector('[data-panel]:not([hidden])')?.dataset.panel || 0);if(step<2)move(step+1);}}
+  },true);
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Enter'||event.isComposing||event.keyCode===229||event.target.tagName!=='INPUT'||event.target.type==='date'||!names.includes(event.target.id)||!event.target.closest('#writer-form'))return;
+    event.preventDefault();document.getElementById('writer-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
+  },true);
+  document.addEventListener('input',event=>{
+    if(!event.target.closest?.('#writer-form'))return;
+    const name=event.target.id;if(!names.includes(name)&&name!=='letterhead')return;
+    touched.add(name);snapshot();
+    if(name==='letterhead')document.getElementById('agency-field').hidden=!event.target.checked;
+  },true);
+  document.addEventListener('click',event=>{
+    const button=event.target.closest?.('[data-next],[data-back],[data-step]');
+    if(button&&!window.writerReady){event.preventDefault();event.stopImmediatePropagation();snapshot();move(Number(button.dataset.next ?? button.dataset.back ?? button.dataset.step));return;}
+    if(!window.writerReady&&event.target.closest?.('button')&&!event.target.closest?.('#startup-download,#startup-retry')){event.preventDefault();event.stopImmediatePropagation();status('页面正在恢复草稿，已填内容会保留。可以继续填写，或先下载填写草稿。');return;}
+    if(event.target.closest?.('#startup-download')){
+      const value=snapshot() || {fields:read(),step:0};
+      const blob=new Blob([JSON.stringify({type:'gongwen-form',version:1,fields:value.fields,step:value.step},null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='未丢失的填写草稿.gongwen.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
+    }
+    if(event.target.closest?.('#startup-retry')){snapshot();if(stored)location.reload();else status('浏览器暂存失败，请先下载填写草稿，避免刷新时丢失。');}
+  },true);
+  window.addEventListener('pagehide',()=>{if(!window.writerReady)snapshot();});
+  window.addEventListener('beforeunload',event=>{if(!window.writerReady&&pending&&!stored){event.preventDefault();event.returnValue='';}});
+  window.writerBoot={
+    pending:()=>pending,fail,
+    hydrate(){
+      if(!pending)return;
+      for(const name of names){const input=document.getElementById(name);if(input&&typeof pending.fields[name]==='string')input.value=pending.fields[name].slice(0,input.maxLength>0?input.maxLength:100000);}
+      document.getElementById('letterhead').checked=pending.fields.letterhead===true;
+      document.getElementById('agency-field').hidden=!pending.fields.letterhead;
+      const step=Number.isInteger(pending.step)&&pending.step>=0&&pending.step<=2?pending.step:0;
+      document.querySelectorAll('[data-panel]').forEach(panel=>panel.hidden=Number(panel.dataset.panel)!==step);
+      document.querySelectorAll('[data-step]').forEach(button=>{if(Number(button.dataset.step)===step)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});
+      snapshot();
+    },
+    saved(id){pending=null;source='';baseId=id || baseId;touched.clear();try{sessionStorage.removeItem(key);}catch{}},
+    complete(){document.getElementById('startup-notice').hidden=true;},
+  };
+  document.addEventListener('DOMContentLoaded',()=>{
+    if(failed)fail();
+  });
+  setTimeout(()=>{if(!window.writerReady)fail();},8000);
+})();

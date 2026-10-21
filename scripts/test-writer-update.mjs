@@ -1,0 +1,32 @@
+import {createRequire} from 'node:module';
+import {execFileSync} from 'node:child_process';
+import {createServer} from 'node:http';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {resolve,extname,sep} from 'node:path';
+import assert from 'node:assert/strict';
+const require=createRequire(new URL('./browser-tests/package.json',import.meta.url));const {chromium}=require('playwright');
+const root=resolve(import.meta.dirname,'..'),build=resolve(root,'build/qa/returning-web'),out=resolve(root,'build/qa/startup');await mkdir(out,{recursive:true});
+const files=['write.js','write-model.js','write-engine.js','write-library.js','write.css'];
+const legacy=new Map(files.map(name=>['/'+name,execFileSync('git',['show','2838a7e:web/'+name],{cwd:root,windowsHide:true})]));
+legacy.set('/index.html',execFileSync('git',['show','2838a7e:web/write.html'],{cwd:root,windowsHide:true}));
+const cached=['./index.html',...files.map(name=>'./'+name),'./vendor/pdfjs/pdf.mjs','./vendor/pdfjs/pdf.worker.mjs','./engine-worker.js','./wasm_exec.js','./document-engine.wasm'];
+legacy.set('/sw.js',Buffer.from(`const CACHE='writer-update-before',FILES=${JSON.stringify(cached)};self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES))));self.addEventListener('fetch',e=>e.respondWith(caches.open(CACHE).then(async c=>(await c.match(e.request))||(e.request.mode==='navigate'?await c.match('./index.html'):null)||fetch(e.request))));`));
+let upgraded=false;
+const server=createServer(async(req,res)=>{try{let path=new URL(req.url,'http://localhost').pathname;if(path==='/')path='/index.html';const file=resolve(build,'.'+path);if(!file.startsWith(build+sep))throw Error('path');const data=!upgraded&&legacy.has(path)?legacy.get(path):await readFile(file);res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.js':'application/javascript','.mjs':'application/javascript','.css':'text/css','.wasm':'application/wasm'})[extname(path)]||'application/octet-stream');res.end(data);}catch{res.writeHead(404).end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const url='http://127.0.0.1:'+server.address().port;
+const browser=await chromium.launch({headless:true,channel:'chrome'});
+const context=await browser.newContext();const page=await context.newPage();
+try{
+ await page.goto(url);await page.waitForFunction(()=>window.writerReady);
+ await page.locator('#title').fill('缓存升级保护测试');await page.locator('[data-panel="0"] [type=submit]').click();await page.locator('#body').fill('更新时必须保留的合成正文。');
+ await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();await page.waitForFunction(()=>window.writerReady);
+ assert.equal(await page.evaluate(()=>Boolean(navigator.serviceWorker.controller)),true);
+ assert.equal(await page.locator('[data-next="1"]').count(),0);
+ upgraded=true;await page.evaluate(async()=>{const registration=await navigator.serviceWorker.getRegistration();await registration.update();});
+ const cdp=await context.newCDPSession(page);await cdp.send('Page.reload',{ignoreCache:true});
+ await page.waitForFunction(()=>window.writerReady&&window.writerBoot);
+ assert.equal(await page.locator('#title').inputValue(),'缓存升级保护测试');assert.equal(await page.locator('#body').inputValue(),'更新时必须保留的合成正文。');
+ await page.locator('[data-step="0"]').click();await page.locator('[data-next="1"]').click();assert.equal(await page.locator('[data-panel="1"]').isVisible(),true);
+ await writeFile(resolve(out,'cached-upgrade.json'),JSON.stringify({passed:true,legacyCommit:'2838a7e',method:'Chrome Page.reload ignoreCache (Shift+reload)',preservedTitle:true,preservedBody:true,nextWorks:true},null,2));
+ console.log('PASS: cached old page upgrades by hard reload; draft preserved and Next works.');
+}finally{await context.close();await browser.close();server.close();server.closeAllConnections();}

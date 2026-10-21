@@ -1,8 +1,10 @@
 # 填写式重写交接
 
-记录日期：2026-10-20，Asia/Shanghai。会话：01a158b0。
+记录日期：2026-10-21，Asia/Shanghai。会话：01a158b0。
 
 状态：本轮重写完成、本地验证与交付完成；未公开上线。
+
+最新：2026-10-21 用户报告“下一步清空”，旧的正常流程验证存在启动盲区。已增加内联启动防护、独立填写导航、预览懒加载、应急快照恢复；33项故障用例及七配置176项正常流程最终通过。具体见 [启动保护](../../STARTUP-PROTECTION.md) 与 [10月21日日志](../logs/2026-10-21-01a158b0-startup-loss.md)。未确认找回实际已清空内容；用户拒绝历史读取后没有绕路访问。
 
 2026-10-20 后续追加“经常使用与跨浏览器”已完成本地实现和模拟验证：常用信息、最近文档、复制与独立文件导入、手机预览操作。最新验收见 [经常使用与跨浏览器](../../RETURNING-USERS-QA.md)，过程见日志 E05–E07；下文初轮验证保留其历史范围。
 
@@ -20,6 +22,7 @@
 - `web/write-model.js`：字段/草稿约束、TXT、独立落款与红头、新流程模型适配。避免把落款日期推断为印发日期，红头首段 before=0 对齐 Word/PDF。
 - `web/write-engine.js`：独立 Worker 队列、超时与重启，未依赖其他会话未提交的 engine-client.js。
 - 后续 `web/write-library.js`：常用信息/文档库校验与归档，不静默淘汰旧稿。
+- 10月21日 `web/write-boot.js`：构建内联到首页，任何模块之前保护输入与提交；`scripts/test-writer-startup.mjs`、`test-writer-update.mjs` 覆盖启动故障和旧缓存更新。
 - `scripts/build-web.ps1`：write.html 构建为 index.html，旧 web/index.html 构建为 advanced.html。
 - `scripts/test-guided-model.mjs`、`test-guided-web.mjs`、`verify-guided-word.ps1`：本轮测试。
 - 后续 `scripts/test-writer-library.mjs`、`test-writer-browsers.mjs`、`verify-writer-outputs.py`：复用与七配置验证；`scripts/browser-tests/` 固定 Playwright 1.64.1，node_modules 忽略。

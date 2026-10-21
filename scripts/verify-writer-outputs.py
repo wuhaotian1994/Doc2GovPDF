@@ -47,16 +47,19 @@ for case in cases:
                     "docxDocumentSHA256": hashlib.sha256(xml).hexdigest(),
                     "pdf": str(pdf.relative_to(root)), "docx": str(docx.relative_to(root))})
 source_files = ["write.html", "write.css", "write.js", "write-model.js",
-                "write-library.js", "write-engine.js"]
+                "write-library.js", "write-engine.js", "write-boot.js"]
 hashes = {}
 for name in source_files:
     source = (root / "web" / name).read_bytes()
     built = (root / "build/qa/returning-web" / name).read_bytes()
     assert source == built, f"QA build is stale: {name}"
     hashes[name] = hashlib.sha256(source).hexdigest()
+entry = (root / "build/qa/returning-web/index.html").read_text(encoding="utf-8")
+assert (root / "web/write-boot.js").read_text(encoding="utf-8") in entry
+assert '<script src="write-boot.js"></script>' not in entry
 summary = {"passed": True, "checks": sum(len(case["checks"]) for case in cases),
            "profiles": cases, "outputs": outputs, "sourceHashes": hashes,
-           "physicalDevicesTested": False,
+           "physicalDevicesTested": False, "entrySHA256": hashlib.sha256((root / "build/qa/returning-web/index.html").read_bytes()).hexdigest(),
            "evidence": ["matrix.json"] + ([args.rerun] if args.rerun else [])}
 (folder / "verified-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
 print(f"PASS: {len(cases)} configurations, {summary['checks']} checks; "

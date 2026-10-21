@@ -62,11 +62,11 @@ try {
         assert.equal(await download.failure(),null);return path;
       };
       check('opens directly into blank title form',await page.locator('#title').inputValue()==='' && await page.locator('[name=kind]').count()===0);
-      await click('[data-panel="0"] [type=submit]');
+      await click('[data-next="1"]');
       check('first-use validation explains missing title',await page.locator('#title-error').isVisible());
       await page.getByLabel('文档标题',{exact:true}).fill('关于资料整理的通知');
       await page.locator('#recipient').fill('各部门');
-      await click('[data-panel="0"] [type=submit]');
+      await click('[data-next="1"]');
       await page.locator('#body').fill(body);
       await page.locator('#signature').fill('综合办公室');
       await click('#use-today');
@@ -81,14 +81,14 @@ try {
         check('mobile paper can be enlarged',await page.locator('#preview-canvas').evaluate(el=>el.scrollWidth>el.clientWidth));
         await click('#zoom-preview');await click('#back-writing');
       }
-      await click('[data-panel="1"] [type=submit]');await preview();
+      await click('[data-next="2"]');await preview();
       const docx=await exportFile('docx'),pdf=await exportFile('pdf'),txt=await exportFile('txt');
       check('Word PDF TXT download real files',(await readFile(docx)).subarray(0,2).toString()==='PK'&&(await readFile(pdf)).subarray(0,4).toString()==='%PDF'&&(await readFile(txt,'utf8')).includes(body));
       await screenshot('export');
       await click('#new-document');
       check('new document reuses stable details without carrying facts',await page.locator('#recipient').inputValue()==='各部门'&&await page.locator('#signature').inputValue()==='综合办公室'&&await page.locator('#title').inputValue()===''&&await page.locator('#body').inputValue()===''&&await page.locator('#date').inputValue()===''&&await page.locator('#reference').inputValue()==='');
       check('new document has no destructive confirmation',!await page.locator('#replace-dialog').isVisible());
-      await page.locator('#title').fill('第二份文档');await click('[data-panel="0"] [type=submit]');
+      await page.locator('#title').fill('第二份文档');await click('[data-next="1"]');
       await page.locator('#body').fill('这是第二份文档的正文。');await preview();
       await click('#draft-menu');
       const first=page.locator('.recent-document').filter({has:page.getByRole('heading',{name:'关于资料整理的通知',exact:true})});

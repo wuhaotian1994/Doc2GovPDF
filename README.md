@@ -37,7 +37,11 @@ node --test scripts/test-guided-model.mjs
 ./scripts/build-web.ps1 -Output build/qa/guided-web
 node scripts/test-guided-web.mjs
 node --test scripts/test-writer-library.mjs
+./scripts/build-web.ps1 -Output build/qa/startup-web
+node scripts/test-writer-startup.mjs
 ```
+
+“下一步清空”的旧启动漏洞、修复及缓存更新步骤见 [启动保护](docs/STARTUP-PROTECTION.md)。验证不能只等待页面就绪后操作；必须覆盖依赖加载失败和恢复期间的输入。
 
 跨浏览器及手机触控模拟（本机需已有 Chrome、Edge）：
 
