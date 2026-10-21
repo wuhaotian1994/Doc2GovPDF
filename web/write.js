@@ -4,12 +4,13 @@ import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, fres
 let pdfjsPromise, pdfjsAttempts=0;
 async function previewLibrary() {
   if(!pdfjsPromise){
-    const url=new URL('./vendor/pdfjs/pdf.mjs',import.meta.url);
-    if(pdfjsAttempts++)url.searchParams.set('retry',String(pdfjsAttempts));
-    pdfjsPromise=import(url.href).then(library=>{
-      library.GlobalWorkerOptions.workerSrc=new URL('./vendor/pdfjs/pdf.worker.mjs',import.meta.url).href;
-      return library;
-    }).catch(()=>{pdfjsPromise=null;throw Error('预览组件加载失败，填写内容仍保留。可以继续填写、下载草稿，或点击“刷新预览”重试。');});
+    pdfjsPromise=(async()=>{
+      for(let attempt=0;attempt<2;attempt++){
+        const url=new URL('./vendor/pdfjs/pdf.js',import.meta.url);
+        if(pdfjsAttempts++)url.searchParams.set('retry',String(pdfjsAttempts));
+        try{const library=await import(url.href);library.GlobalWorkerOptions.workerSrc=new URL('./vendor/pdfjs/pdf.worker.js',import.meta.url).href;return library;}catch(error){if(attempt===1)throw error;}
+      }
+    })().catch(()=>{pdfjsPromise=null;throw Error('暂时无法显示预览。请点击“重新生成预览”；已填写的内容不会改变。');});
   }
   return pdfjsPromise;
 }
@@ -18,6 +19,7 @@ const $ = id => document.getElementById(id);
 let fields = blank(), step = 0, revision = 0, readyRevision = -1;
 let model, inspection, pdf, pageNumber = 1, currentRender;
 let previewTimer, rendering = false, repeatPreview = false, exporting = false, fontBusy = false, hasLock = false, blockedSave = false;
+let previewFailed=false,lastPreviewError='';
 let previous, replacement, rawRecovery, fontDB, fontStore = {}, engineFonts = [];
 let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId;
 const confirmed = new Set();
@@ -73,6 +75,7 @@ function persist() {
   }
 }
 function invalidate() {
+  previewFailed=false;
   revision++; readyRevision = -1; confirmed.clear();
   $('export-status').textContent = ''; updateExport();
   $('preview-status').textContent = pdf ? '内容已修改，正在更新预览…' : '正在准备预览…';
@@ -129,7 +132,7 @@ function updateExport() {
   const issues = inspection?.issues || [];
   const unresolved = issues.some(issue => issue.severity==='error' || (issue.severity==='review' && !confirmed.has(issue.id)));
   $('export').disabled = exporting || fontBusy || !hasLock || (format!=='txt' && (readyRevision!==revision || unresolved));
-  $('export-guidance').textContent=exporting?'文件正在生成，请稍候。':fontBusy?'字体正在更新，完成预览后即可下载。':format!=='txt'&&readyRevision!==revision?'预览正在更新，完成后即可下载。':format!=='txt'&&unresolved?'请先处理上方提醒，或确认保留原文，再下载文件。':'';
+  $('export-guidance').textContent=exporting?'文件正在生成，请稍候。':fontBusy?'字体正在更新，完成预览后即可下载。':format!=='txt'&&previewFailed?'预览尚未完成，请点击“重新生成预览”。':format!=='txt'&&readyRevision!==revision?'预览正在更新，完成后即可下载。':format!=='txt'&&unresolved?'请先处理上方提醒，或确认保留原文，再下载文件。':'';
 }
 function renderSummary() {
   const rows = [
@@ -181,7 +184,7 @@ async function preview() {
   }
   if (readyRevision===revision) return;
   if (rendering) { repeatPreview=true; return; }
-  rendering=true; const requested=revision; const snapshot={...fields};
+  rendering=true;previewFailed=false;updateExport(); const requested=revision; const snapshot={...fields};
   $('preview-canvas').setAttribute('aria-busy','true'); $('preview-status').textContent='正在排版…';
   try {
     const nextModel=applySignature(await engine.call('BuildDocument',fieldsForEngine(snapshot,true)),snapshot);
@@ -196,16 +199,18 @@ async function preview() {
     await renderPage();
     if(requested!==revision){repeatPreview=true;return;}
     readyRevision=requested;
+    if(lastPreviewError&&$('global-error').textContent===lastPreviewError)clearError();lastPreviewError='';
     const incomplete=!snapshot.body.trim() || (snapshot.letterhead&&!snapshot.agency.trim());
     $('preview-status').textContent=incomplete?'填写中 · 待填内容仅用于预览':'已更新 · '+pdf.numPages+' 页';
     renderChecks(); updateExport();
   } catch(e) {
     if(requested===revision) {
+      previewFailed=true;lastPreviewError=e.message;
       $('preview-status').textContent=pdf?'更新失败，下方为上一版':'预览暂未生成';
       error(e.message);
     }
   } finally {
-    rendering=false; $('preview-canvas').setAttribute('aria-busy','false');
+    rendering=false;updateExport(); $('preview-canvas').setAttribute('aria-busy','false');
     if(repeatPreview){repeatPreview=false;schedulePreview();}
   }
 }
@@ -397,8 +402,21 @@ async function boot() {
   // Inputs may arrive while module imports or IndexedDB are still loading.
   // Merge only the fields actually edited, rather than hydrating over them.
   const pending=window.writerBoot?.pending();
+  const recoveries=window.writerBoot?.recoveries?.() || [];
+  if(recoveries.length&&hasLock&&!libraryBroken&&!blockedSave){
+    try{
+      let archived=library;const seen=new Set();
+      for(const record of recoveries){
+        if(seen.has(record.id))continue;seen.add(record.id);
+        if(pending&&JSON.stringify(record.value.fields)===JSON.stringify(pending.fields))continue;
+        archived=archiveDocument(archived,record.id,draft(record.value.fields,record.value.step,record.id));
+      }
+      localStorage.setItem(LIBRARY_KEY,JSON.stringify(archived));library=archived;
+      window.writerBoot.acknowledge(recoveries);
+    }catch{blockedSave=true;error('还有未整理的已保存文档。请先下载当前草稿，在“我的文档”腾出空间后重新打开。原内容仍保留。');}
+  }
   if(pending?.fields&&Array.isArray(pending.touched)){
-    const independent=pending.source==='legacy-submit'||pending.baseId&&pending.baseId!==currentId;
+    const independent=pending.source==='legacy-submit'||pending.source==='durable-recovery'||pending.baseId&&pending.baseId!==currentId;
     if(independent){
       try{
         if(!hasLock||libraryBroken||blockedSave)throw Error('recovery archive unavailable');
@@ -445,6 +463,7 @@ $('prev-page').onclick=()=>{if(pageNumber>1){pageNumber--;renderPage().catch(e=>
 $('next-page').onclick=()=>{if(pdf&&pageNumber<pdf.numPages){pageNumber++;renderPage().catch(e=>error(e.message));}};
 $('draft-menu').onclick=()=>{renderLibrary();$('draft-dialog').showModal();};
 $('save-draft').onclick=saveDraft;
+if($('save-document'))$('save-document').onclick=()=>{readFields();persist();};
 $('load-draft-open').onclick=()=>$('load-draft').click();
 $('backup-before-replace').onclick=saveDraft;
 $('new-document').onclick=newDocument;

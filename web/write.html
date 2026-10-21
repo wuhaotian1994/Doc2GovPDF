@@ -8,6 +8,7 @@
   <meta name="description" content="填写标题和正文，在线预览并导出 Word、PDF。文档在浏览器本地处理。">
   <title>公文 · 把内容写好，格式交给我们</title>
   <link rel="stylesheet" href="write.css">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <!-- WRITER_BOOT -->
   <script src="write-boot.js"></script>
 </head>
@@ -15,7 +16,7 @@
   <a class="skip" href="#writing">跳到文档填写</a>
   <header class="app-header">
     <a class="brand" href="./" aria-label="公文首页"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M7 3h10l5 5v17H7zM17 3v6h5M11 14h7M11 18h7" /></svg><span>公文<span class="brand-caption">简单写，规范排</span></span></a>
-    <div class="header-actions"><span id="save-status" role="status">内容仅保存在此浏览器</span><button id="new-document" class="quiet" type="button">新建文档</button><button id="draft-menu" class="quiet" type="button">我的文档</button><button id="common-open" class="quiet" type="button">常用设置</button><button id="settings-open" class="quiet" type="button">字体设置</button></div>
+    <div class="header-actions"><span id="save-status" role="status">内容仅保存在此浏览器</span><button id="save-document" class="quiet" type="button" title="保存到此浏览器">保存</button><button id="new-document" class="quiet" type="button">新建文档</button><button id="draft-menu" class="quiet" type="button">我的文档</button><button id="common-open" class="quiet" type="button">常用设置</button><button id="settings-open" class="quiet" type="button">字体设置</button></div>
   </header>
   <div id="global-error" class="global-message" role="alert" hidden></div>
   <div id="startup-notice" class="global-message" role="status" hidden><span id="startup-message"></span><button type="button" id="startup-download" class="secondary">下载填写草稿</button><button type="button" id="startup-retry" class="secondary">重试加载</button></div>
@@ -71,7 +72,7 @@
       <footer class="writing-footer"><span>内容由你决定，格式交给我们</span><a href="./advanced.html">整理已有 Word</a></footer>
     </section>
     <aside class="preview" aria-label="文档实时预览">
-      <div class="preview-toolbar"><div><h2 tabindex="-1" id="preview-heading">成品预览</h2><span id="preview-status" role="status">填写后自动更新</span></div><div class="preview-actions"><button id="back-writing" class="quiet mobile-only" type="button">返回填写</button><button id="zoom-preview" class="quiet" type="button" aria-pressed="false">放大预览</button><button id="refresh-preview" class="quiet" type="button">刷新预览</button></div></div>
+      <div class="preview-toolbar"><div><h2 tabindex="-1" id="preview-heading">成品预览</h2><span id="preview-status" role="status">填写后自动更新</span></div><div class="preview-actions"><button id="back-writing" class="quiet mobile-only" type="button">返回填写</button><button id="zoom-preview" class="quiet" type="button" aria-pressed="false">放大预览</button><button id="refresh-preview" class="quiet" type="button">重新生成预览</button></div></div>
       <div class="preview-canvas" id="preview-canvas" aria-busy="false"><div id="pdf-pages"></div><div id="preview-empty"><svg viewBox="0 0 48 56" aria-hidden="true"><path d="M8 2h23l10 11v40H8zM30 2v12h11M15 25h19M15 32h19M15 39h12"/></svg><h3>你的内容，会在这里成为文档</h3><p>填写标题后即可看到排版效果。<br>正文、落款和日期会随填写自动更新。</p></div></div>
       <div class="preview-footer"><div class="pagination"><button id="prev-page" class="quiet" type="button" disabled aria-label="上一页">上一页</button><span id="page-count">A4 纸张</span><button id="next-page" class="quiet" type="button" disabled aria-label="下一页">下一页</button></div><span>浏览器本地排版</span></div>
     </aside>

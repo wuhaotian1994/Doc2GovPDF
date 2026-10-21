@@ -53,7 +53,7 @@ node scripts/browser-tests/node_modules/playwright/cli.js install firefox webkit
 node scripts/test-writer-browsers.mjs
 ```
 
-该矩阵使用 Chrome、Edge、Firefox 测试构建、WebKit 测试引擎，以及 Android/iPhone/iPad 触控模拟。它不等于真实手机、macOS Safari 或系统软键盘已验证。具体环境、证据和边界见 [经常使用与跨浏览器验收](docs/RETURNING-USERS-QA.md)。
+该矩阵支持 Chrome、Edge、Firefox 测试构建、WebKit 测试引擎，以及 Android/iPhone/iPad 触控模拟。当前用户要求先验证桌面，可设置 `$env:WRITER_PROFILE='chrome-desktop,edge-desktop,firefox-desktop,webkit-desktop'`。首次打开即填写、保存关页重开和真实 Go 服务验收命令见 [首次填写与真实服务验收](docs/FIRST-USE-DELIVERY-QA.md)。模拟不等于真实手机、macOS Safari 或系统软键盘已验证。
 
 浏览器测试使用独立无头 Edge、真实 Wasm 引擎和实际下载。文档测试另用隐藏 Word/Poppler 对照成品，不操作鼠标键盘。最新证据与边界见 [填写式重写交接](docs/memory/handoffs/01a158b0-guided-writing.md)。[旧网页版验收](docs/WEB-2.0.md)、[上游功能映射](docs/UPSTREAM-PARITY.md)、[原始测试样例](testdata/upstream/gongwen-kit/README.md) 和 [新增负例](testdata/upstream/parity/README.md) 保留。
 

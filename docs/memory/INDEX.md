@@ -15,6 +15,7 @@
 | 为什么不选文种、改为填写式首页？ | [填写式重写](handoffs/01a158b0-guided-writing.md)、[产品方案](../GUIDED-WRITING.md) |
 | 常用信息、旧稿保护、浏览器和手机验证到哪一步？ | [经常使用与跨浏览器验收](../RETURNING-USERS-QA.md) |
 | 为什么点下一步会清空，启动异常如何保护输入？ | [启动保护](../STARTUP-PROTECTION.md)、[10月21日故障日志](logs/2026-10-21-01a158b0-startup-loss.md) |
+| 测试通过却预览失败、保存刷新打不开？ | [首次填写与真实服务验收](../FIRST-USE-DELIVERY-QA.md) |
 
 ## 当前进行中的任务
 

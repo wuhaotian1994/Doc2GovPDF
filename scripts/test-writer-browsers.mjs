@@ -1,22 +1,14 @@
 import {createRequire} from 'node:module';
-import {createServer} from 'node:http';
+import {startWebServer} from './browser-tests/server.mjs';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
-import {resolve,extname,sep} from 'node:path';
+import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
 const require=createRequire(new URL('./browser-tests/package.json',import.meta.url));
 const {chromium,firefox,webkit,devices}=require(process.env.PLAYWRIGHT_MODULE_PATH || 'playwright');
-const root=resolve(import.meta.dirname,'..'), webRoot=resolve(root,'build/qa/returning-web'), out=resolve(root,'build/qa/returning');
+const root=resolve(import.meta.dirname,'..'), webRoot=resolve(root,process.env.WRITER_WEB_ROOT||'build/qa/returning-web'), out=resolve(root,'build/qa/returning');
 await mkdir(out,{recursive:true});
-const server=createServer(async(req,res)=>{
-  try {
-    const target=resolve(webRoot,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname).replace(/\/$/,'/index.html'));
-    if(!target.startsWith(webRoot+sep)){res.writeHead(403).end();return;}
-    res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.js':'application/javascript','.mjs':'application/javascript','.wasm':'application/wasm','.css':'text/css'})[extname(target)]||'application/octet-stream');
-    res.end(await readFile(target));
-  }catch{res.writeHead(404).end();}
-});
-await new Promise(r=>server.listen(0,'127.0.0.1',r));
-const url='http://127.0.0.1:'+server.address().port;
+const server=await startWebServer(webRoot);
+const url=server.url;
 const profiles=[
   {id:'chrome-desktop',engine:chromium,channel:'chrome',viewport:{width:1366,height:900}},
   {id:'edge-desktop',engine:chromium,channel:'msedge',viewport:{width:1440,height:960}},
@@ -185,6 +177,6 @@ try {
     finally{await boundedClose(context);await boundedClose(browser);}
     results.push(result);await writeFile(resolve(out,process.env.WRITER_RESULT_FILE || 'matrix.json'),JSON.stringify(results,null,2));
   }
-}finally{server.close();server.closeAllConnections();}
+}finally{await server.close();}
 if(results.some(r=>!r.passed))process.exitCode=1;
 console.log(JSON.stringify(results.map(r=>({profile:r.profile,passed:r.passed,checks:r.checks.length,version:r.engineVersion})),null,2));
