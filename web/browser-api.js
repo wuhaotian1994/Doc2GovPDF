@@ -1,3 +1,4 @@
+import {validateDraft, fieldsForEngine, applySignature, safeName} from './write-model.js';
 const storeName='gongwen-web-v1';
 let ownsDraft=false,acquiring;
 async function ensureOwner(){
@@ -26,8 +27,20 @@ export function createBrowserAPI(){
  api.GetPreferences=async()=>await stored('preferences')||{agency:'',referencePrefix:'',outputFormat:'both',autoUpdate:false};
  api.SavePreferences=async p=>{await ensureOwner();return stored('preferences',p)};
  api.ClearLocalDrafts=async()=>{await ensureOwner();const db=await dbPromise;await new Promise((resolve,reject)=>{const tx=db.transaction('files','readwrite');const cursor=tx.objectStore('files').openCursor();cursor.onsuccess=()=>{const c=cursor.result;if(c){if(c.key==='workspace'||String(c.key).startsWith('source:'))c.delete();c.continue()}};tx.oncomplete=resolve;tx.onerror=()=>reject(Error('清除未完成，请重试'))});};
- api.OpenWorkspacePath=async file=>{if(!(file instanceof File))throw Error('请重新选择文件');if(file.size>50*1024*1024)throw Error('文件超过 50 MB');const data=base64(new Uint8Array(await file.arrayBuffer()));const model=await call('Import',file.name,data);if(model.sourceId)await stored('source:'+model.sourceId,data);return {name:file.name,document:model,ignored:[],actions:[]}};
- api.ImportWorkspace=async()=>{const file=await choose('.docx,.txt');return file?api.OpenWorkspacePath(file):null};
+ api.OpenWorkspacePath=async file=>{
+  if(!(file instanceof File))throw Error('请重新选择文件');
+  if(file.name.toLowerCase().endsWith('.json')){
+   if(file.size>1024*1024)throw Error('填写草稿超过 1 MB，请选择本工具下载的草稿。');
+   let draft;try{draft=validateDraft(JSON.parse(await file.text()));}catch{throw Error('这不是支持的填写草稿，当前文稿未改变。');}
+   if(!draft.fields.title.trim()||!draft.fields.body.trim())throw Error('请先在填写页面补上标题与正文，再下载草稿继续编辑。当前文稿未改变。');
+   const model=applySignature(await call('BuildDocument',fieldsForEngine(draft.fields)),draft.fields);
+   // A native editable copy has no imported DOCX source to preserve. Keep the
+   // original writer draft untouched and do not imply a reverse conversion.
+   return {name:safeName(draft.fields.title)+' · 表格编辑副本',document:model,ignored:[],actions:[]};
+  }
+  if(file.size>50*1024*1024)throw Error('文件超过 50 MB');const data=base64(new Uint8Array(await file.arrayBuffer()));const model=await call('Import',file.name,data);if(model.sourceId)await stored('source:'+model.sourceId,data);return {name:file.name,document:model,ignored:[],actions:[]};
+ };
+ api.ImportWorkspace=async()=>{const file=await choose('.docx,.txt,.gongwen.json');return file?api.OpenWorkspacePath(file):null};
  api.ExportDocument=async(model,format,tracked)=>{const original=model.sourceId?await stored('source:'+model.sourceId):null;const file=await call('ExportDocument',model,format,tracked,original);download(file.name,new Blob([bytes(file.data)],{type:format==='both'?'application/zip':format==='pdf'?'application/pdf':'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}));return {paths:[file.name]}};
  api.OpenResult=async name=>{const url=downloads.get(name);if(!url)throw Error('下载已过期，请重新生成');const a=document.createElement('a');a.href=url;a.download=name;a.click()};
  api.ReviewPDFFile=async()=>{const file=await choose('.pdf');if(!file)return {};if(file.size>32*1024*1024)throw Error('PDF 超过 32 MB');const pdf=base64(new Uint8Array(await file.arrayBuffer()));return {name:file.name,pdf,inspection:await call('InspectPDF',pdf,[])}};
