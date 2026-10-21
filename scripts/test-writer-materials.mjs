@@ -61,6 +61,6 @@ test('source and pending material survive archives and do not contaminate reusab
   const fresh=freshFields(commonFrom(fields));assert.equal(fresh.sourceMaterial,'');assert.equal(fresh.pendingMaterial,'');
 });
 test('draft byte limit accommodates preserved source, working body and pending source even with escaped controls',()=>{
-  const text='\u0001'.repeat(100000),fields={...blank(),body:text,sourceMaterial:text,pendingMaterial:text};
+  const text='\u0001'.repeat(100000),fields={...blank(),body:text,postscript:'\u0001'.repeat(4000),sourceMaterial:text,pendingMaterial:text};
   assert.ok(Buffer.byteLength(JSON.stringify(draft(fields,0),null,2),'utf8')<DRAFT_MAX_BYTES);
 });

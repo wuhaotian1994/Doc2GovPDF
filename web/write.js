@@ -2,7 +2,7 @@ import {WriterEngine} from './write-engine.js';
 import {DRAFT_KEY,DRAFT_MAX_BYTES,materialNames, names, blank, draft, validateDraft, validDate, fieldsForEngine, applySignature, textContent, safeName} from './write-model.js';
 import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, freshFields, copyFields, validateLibrary, archiveDocument} from './write-library.js';
 import {fieldLabels, resolveSource, reviewItems, ReviewDecisions} from './write-checks.js';
-import {analyseMaterial,materialProposal} from './write-materials.js';
+import {analyseMaterial,selectMaterialClosing,materialProposal} from './write-materials.js';
 let pdfjsPromise, pdfjsAttempts=0;
 async function previewLibrary() {
   if(!pdfjsPromise){
@@ -59,6 +59,7 @@ function fillFields() {
   $('body-count').textContent = fields.body.length.toLocaleString('zh-CN')+' 字';
   $('material-source').hidden=!fields.sourceMaterial;
   $('material-entry').open=Boolean(fields.pendingMaterial);
+  $('postscript').closest('details').open=Boolean(fields.postscript);
 }
 function persist() {
   if (!hasLock || blockedSave) return;
@@ -147,14 +148,15 @@ function updateExport() {
 function renderSummary() {
   const rows = [
     ['标题',fields.title,0,'title'],['正文',fields.body.length.toLocaleString('zh-CN')+' 字',1,'body'],
-    ['落款',fields.signature || '未单独填写；如已在正文中保留，无需重复添加。',1,'signature'],['日期',fieldsForEngine(fields).date || '未单独填写；如已在正文中保留，无需重复添加。',1,'date']
+    ['落款',fields.signature || '未单独填写；如已在正文中保留，无需重复添加。',1,'signature'],['日期',fieldsForEngine(fields).date || '未单独填写；如已在正文中保留，无需重复添加。',1,'date'],
+    ...(fields.postscript?[['附注',fields.postscript.split(/\r?\n/).filter(line=>line.trim()).length+' 段，排在日期后',1,'postscript']]:[])
   ];
   $('review-summary').replaceChildren(...rows.map(([label,value,target,id])=>{
     const row = document.createElement('div'); row.className = 'review-row';
     const dt = document.createElement('dt'); dt.textContent = label;
     const dd = document.createElement('dd'); dd.textContent = value;
     const edit = document.createElement('button'); edit.type='button'; edit.className='quiet'; edit.textContent='修改';
-    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);$(id).focus();};
+    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);if($(id).closest('details'))$(id).closest('details').open=true;$(id).focus();};
     row.append(dt,dd,edit); return row;
   }));
 }
@@ -301,6 +303,8 @@ function renderMaterialPreview(){
   if(!materialAnalysis)return;
   const next=materialProposal(materialAnalysis,selectedMaterial(),$('material-join').checked,fields.title);
   $('material-body-preview').value=next.fields.body;
+  $('material-postscript-preview').value=next.fields.postscript;
+  $('material-postscript-result').hidden=!materialAnalysis.candidates.postscript;
   $('material-title-preview').textContent=next.fields.title?'整理后的标题：'+next.fields.title:'尚未选择标题。请选择原文首行，或取消后先填写标题再核对。';
   const problems=[...next.conflicts];
   if(!next.fields.title.trim())problems.push('请先确认标题的来源。');
@@ -309,11 +313,8 @@ function renderMaterialPreview(){
   $('material-message').textContent=problems.join(' ');
   $('material-apply').disabled=problems.length>0||!hasLock||exporting||fontBusy||blockedSave;
 }
-function openMaterial(){
-  readFields();persist();
-  try{
-    if(!fields.pendingMaterial.trim())throw Error('请先整篇粘贴原始材料。现有文档不会改变。');
-    materialAnalysis=analyseMaterial(fields.pendingMaterial);
+function renderMaterialCandidates(preserveBasic=false){
+    const prior=preserveBasic?selectedMaterial():{};
     const options=[];
     const add=(name,label,value,note)=>{
       const row=document.createElement('label');row.className='check material-choice';
@@ -321,13 +322,25 @@ function openMaterial(){
       const copy=document.createElement('span'),heading=document.createElement('strong'),source=document.createElement('span'),hint=document.createElement('small');
       heading.textContent=label;source.textContent=value;hint.textContent=note;copy.append(heading,source,hint);row.append(input,copy);options.push(row);
     };
-    const labels={title:'作为文档标题',recipient:'作为收文对象',signature:'作为落款',date:'作为日期'};
-    for(const name of ['title','recipient','signature','date']){
+    const labels={title:'作为文档标题',recipient:'作为收文对象',signature:'作为落款',date:'作为日期',postscript:'后面的内容作为落款后附注（保留原顺序）'};
+    for(const name of ['title','recipient','signature','date','postscript']){
       const candidate=materialAnalysis.candidates[name];
       if(candidate)add(name,name==='signature'&&candidate.indices?.length>1?'作为联合落款（保留原顺序）':labels[name],candidate.text.trim(),'原文第 '+(candidate.indices||[candidate.index]).map(index=>index+1).join('、')+' 行；请确认用途，不会默认提取。');
     }
     if(fields.title.trim())add('keepTitle','不提取首行，沿用已填标题',fields.title,'原文首行会保留在正文中，请检查是否重复。');
-    $('material-candidates').replaceChildren(...options);$('material-join').checked=false;
+    $('material-candidates').replaceChildren(...options);
+    for(const name of ['title','recipient','keepTitle']){const input=document.querySelector(`[data-material-field=${name}]`);if(input)input.checked=Boolean(prior[name]);}
+}
+function openMaterial(){
+  readFields();persist();
+  try{
+    if(!fields.pendingMaterial.trim())throw Error('请先整篇粘贴原始材料。现有文档不会改变。');
+    materialAnalysis=analyseMaterial(fields.pendingMaterial);
+    $('material-date-choice').hidden=materialAnalysis.closings.length<=1;
+    const placeholder=document.createElement('option');placeholder.value='-1';placeholder.textContent='请先选择属于落款的日期';
+    $('material-date-source').replaceChildren(placeholder,...materialAnalysis.closings.map((closing,index)=>{const option=document.createElement('option');option.value=String(index);option.textContent='原文第 '+(closing.date.index+1)+' 行：'+closing.date.text+'；前一行：'+(materialAnalysis.lines[closing.date.index-1]||'（空行）');return option;}));
+    $('material-date-source').value=String(materialAnalysis.closingIndex);
+    renderMaterialCandidates();$('material-join').checked=false;
     clearError();$('material-dialog').showModal();renderMaterialPreview();
   }catch(e){error(e.message);}
 }
@@ -556,11 +569,17 @@ $('save-draft').onclick=saveDraft;
 $('material-open').onclick=openMaterial;
 $('material-apply').onclick=applyMaterial;
 $('material-join').onchange=renderMaterialPreview;
+$('material-date-source').onchange=()=>{materialAnalysis=selectMaterialClosing(materialAnalysis,Number($('material-date-source').value));renderMaterialCandidates(true);renderMaterialPreview();};
 $('material-download-original').onclick=()=>{readFields();if(fields.sourceMaterial)download(safeName(fields.title)+'-原始材料.txt',fields.sourceMaterial,'text/plain;charset=utf-8');};
 $('pendingMaterial').addEventListener('paste',event=>{
   const pasted=event.clipboardData?.getData('text/plain');if(typeof pasted!=='string')return;
   const input=event.target;
   if(input.value.length-(input.selectionEnd-input.selectionStart)+pasted.replace(/\r\n?/g,'\n').length>100000){event.preventDefault();error('这份材料超过 100000 字符，未替换当前输入。请拆成两份整理。');}
+});
+$('postscript').addEventListener('paste',event=>{
+  const pasted=event.clipboardData?.getData('text/plain');if(typeof pasted!=='string')return;
+  const input=event.target;
+  if(input.value.length-(input.selectionEnd-input.selectionStart)+pasted.replace(/\r\n?/g,'\n').length>4000){event.preventDefault();error('附注超过 4000 字符，未替换当前输入。请先保留原文，再分份整理。');}
 });
 $('table-copy').onclick=()=>{
   readFields();if(!validate(1))return;

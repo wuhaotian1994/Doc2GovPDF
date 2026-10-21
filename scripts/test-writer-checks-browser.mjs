@@ -6,7 +6,7 @@ import {startWebServer} from './browser-tests/server.mjs';
 const require=createRequire(new URL('./browser-tests/package.json',import.meta.url));
 const {chromium,firefox,webkit}=require('playwright');
 const root=resolve(import.meta.dirname,'..'),out=resolve(root,'build/qa/ceo-001');await mkdir(out,{recursive:true});
-const server=await startWebServer(resolve(root,'build/qa/ceo-001-web'));
+const server=await startWebServer(resolve(root,process.env.WRITER_WEB_ROOT||'build/qa/ceo-001-web'));
 const profiles=[{id:'chrome',engine:chromium,channel:'chrome'},{id:'firefox',engine:firefox},{id:'webkit',engine:webkit}].filter(p=>!process.env.CHECKS_PROFILE||process.env.CHECKS_PROFILE.split(',').includes(p.id));
 const repeated='设备重量为10kg，请按原始记录核对型号。';
 const lines=Array.from({length:42},(_,i)=>`第${i+1}组资料已完成归档，请保留原始记录并核对附件名称。工作安排由各部门依次落实，形成记录后统一存档，便于后续查询。`);
@@ -71,7 +71,7 @@ try{
     await unit().first().locator('input').check();
     await page.locator('[data-step="0"]').click();
     // Reference field lives in the existing optional section; use its summary.
-    if(!await page.locator('#reference').isVisible())await page.locator('[data-panel="0"] details summary').click();
+    if(!await page.locator('#reference').isVisible())await page.locator('[data-panel="0"] details:has(#reference) summary').click();
     await page.locator('#reference').fill('综办[2026]0008号');await page.locator('[data-step="2"]').click();await ready();
     const reference=page.locator('.review-issue[data-rule="reference.format"]').first();await reference.getByText('查看依据与处理方法').click();
     check('proposed wording is explicit and never applied automatically',(await reference.innerText()).includes('建议写法')&&(await page.locator('#reference').inputValue())==='综办[2026]0008号');

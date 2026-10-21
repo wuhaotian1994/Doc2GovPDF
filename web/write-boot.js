@@ -6,10 +6,10 @@
   let recoveryKey='';
   let acknowledgements=[];
   const materialNames=['sourceMaterial','pendingMaterial'];
-  const names=['title','recipient','agency','reference','body','signature','date','attachments','copyTo',...materialNames];
+  const names=['title','recipient','agency','reference','body','signature','date','attachments','copyTo','postscript',...materialNames];
   function normalizeFields(fields){
     if(!fields||typeof fields!=='object')return fields;
-    const next={};for(const name of names){const value=fields[name]===undefined&&materialNames.includes(name)?'':fields[name];next[name]=materialNames.includes(name)&&typeof value==='string'?value.replace(/\r\n?/g,'\n'):value;}
+    const next={};for(const name of names){const value=fields[name]===undefined&&(materialNames.includes(name)||name==='postscript')?'':fields[name];next[name]=materialNames.includes(name)&&typeof value==='string'?value.replace(/\r\n?/g,'\n'):value;}
     next.letterhead=fields.letterhead;return next;
   }
   const touched=new Set();let pending=null,failed=false,stored=true,savedDraft=null;
@@ -25,7 +25,7 @@
   try{const value=JSON.parse(sessionStorage.getItem(key));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.version===1&&value.fields&&Array.isArray(value.touched)){pending=value;value.touched.forEach(name=>{if(names.includes(name)||name==='letterhead')touched.add(name);});}}catch{}
   if(!pending){const latest=recoveries()[0];if(latest){pending={...latest.value,source:'durable-recovery'};pending.touched.forEach(name=>touched.add(name));}}
   let source=pending?.source || '',baseId=pending?.baseId || '';
-  try{const value=JSON.parse(localStorage.getItem('gongwen-writer-v1'));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.type==='gongwen-form'&&[1,2].includes(value.version)&&value.fields&&names.every(name=>typeof value.fields[name]==='string')&&typeof value.fields.letterhead==='boolean')savedDraft=value;if(!baseId)baseId=value?.id || '';}catch{}
+  try{const value=JSON.parse(localStorage.getItem('gongwen-writer-v1'));if(value?.fields)value.fields=normalizeFields(value.fields);if(value?.type==='gongwen-form'&&[1,2,3].includes(value.version)&&value.fields&&names.every(name=>typeof value.fields[name]==='string')&&typeof value.fields.letterhead==='boolean')savedDraft=value;if(!baseId)baseId=value?.id || '';}catch{}
   const query=new URLSearchParams(location.search);
   if(!pending&&query.has('title')&&query.has('body')&&query.has('recipient')&&query.has('format')){
     const fields={};for(const name of names){fields[name]=query.get(name)||'';touched.add(name);}fields.letterhead=query.has('letterhead');touched.add('letterhead');
@@ -94,10 +94,10 @@
     if(name==='letterhead')document.getElementById('agency-field').hidden=!event.target.checked;
   },true);
   document.addEventListener('paste',event=>{
-    if(window.writerReady||event.target.id!=='pendingMaterial')return;
+    if(window.writerReady||!['pendingMaterial','postscript'].includes(event.target.id))return;
     const pasted=event.clipboardData?.getData('text/plain');if(typeof pasted!=='string')return;
     const input=event.target;
-    if(input.value.length-(input.selectionEnd-input.selectionStart)+pasted.replace(/\r\n?/g,'\n').length>100000){event.preventDefault();status('材料超过 100000 字符，未替换当前输入。请拆成两份整理。');}
+    if(input.value.length-(input.selectionEnd-input.selectionStart)+pasted.replace(/\r\n?/g,'\n').length>input.maxLength){event.preventDefault();status('输入超过 '+input.maxLength+' 字符，未替换当前输入。请拆成两份整理。');}
   },true);
   document.addEventListener('click',event=>{
     const button=event.target.closest?.('[data-next],[data-back],[data-step]');
@@ -106,7 +106,7 @@
     if(!window.writerReady&&event.target.closest?.('button')&&!event.target.closest?.('#startup-download,#startup-retry')){event.preventDefault();event.stopImmediatePropagation();status('页面正在恢复草稿，已填内容会保留。可以继续填写，或先下载填写草稿。');return;}
     if(event.target.closest?.('#startup-download')){
       const value=snapshot() || {fields:read(),step:0};
-      const blob=new Blob([JSON.stringify({type:'gongwen-form',version:value.fields.sourceMaterial||value.fields.pendingMaterial?2:1,fields:value.fields,step:value.step},null,2)],{type:'application/json'});
+      const blob=new Blob([JSON.stringify({type:'gongwen-form',version:value.fields.postscript?3:value.fields.sourceMaterial||value.fields.pendingMaterial?2:1,fields:value.fields,step:value.step},null,2)],{type:'application/json'});
       const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='未丢失的填写草稿.gongwen.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
     }
     if(event.target.closest?.('#startup-retry')){snapshot();if(stored)location.reload();else status('浏览器暂存失败，请先下载填写草稿，避免刷新时丢失。');}
@@ -125,6 +125,7 @@
       document.getElementById('body-count').textContent=initial.fields.body.length.toLocaleString('zh-CN')+' 字';
       const entry=document.getElementById('material-entry');if(entry&&initial.fields.pendingMaterial)entry.open=true;
       const original=document.getElementById('material-source');if(original)original.hidden=!initial.fields.sourceMaterial;
+      const notes=document.getElementById('postscript');if(notes?.value)notes.closest('details').open=true;
       const step=Number.isInteger(initial.step)&&initial.step>=0&&initial.step<=2?initial.step:0;
       document.querySelectorAll('[data-panel]').forEach(panel=>panel.hidden=Number(panel.dataset.panel)!==step);
       document.querySelectorAll('[data-step]').forEach(button=>{if(Number(button.dataset.step)===step)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});

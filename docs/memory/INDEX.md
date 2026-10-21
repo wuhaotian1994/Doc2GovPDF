@@ -10,7 +10,7 @@
 | 内容提醒如何准确定位，修改后何时保留确认？ | [CEO-001 实施与验收](../CEO-001-RESPONSE.md)、[产品经理交接](handoffs/01a15c4c-ceo-pm.md) |
 | 写到一半需要添加表格，怎样保留已有内容继续？ | [CEO-002 路径与验收](../CEO-002-RESPONSE.md) |
 | 长条款被当成标题、复制空格影响标题识别怎么办？ | [CEO-003 源文、识别及真实页面](../CEO-003-RESPONSE.md) |
-| 已有整篇文字怎样整理，原文与未采用材料如何恢复？ | [CEO-004 完整材料路径与验收](../CEO-004-RESPONSE.md) |
+| 已有整篇文字怎样整理，原文与未采用材料如何恢复？ | [CEO-004 完整材料路径与验收](../CEO-004-RESPONSE.md)、[落款后附注](../CEO-004-POSTSCRIPT-RESPONSE.md) |
 | 当前是网页还是 EXE？为什么不上传文稿？ | [产品与架构](topics/product-and-architecture.md) |
 | 能否换 UI、恢复报告中心或公开发布？ | [长期约定](../../AGENTS.md#已确认的长期约定) |
 | 哪些测试算通过，Word/PDF 如何验收？ | [验证与故障经验](topics/verification-and-pitfalls.md) |
