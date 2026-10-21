@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 from zipfile import ZipFile
 from xml.etree import ElementTree
@@ -10,6 +11,7 @@ from pypdf import PdfReader
 parser = argparse.ArgumentParser()
 parser.add_argument('--build', default='build/qa/final-desktop-web')
 parser.add_argument('--results', default='desktop-final.json')
+parser.add_argument('--source-commit', help='Compare an archived release to exact Git blobs, avoiding working-tree CRLF conversion')
 args = parser.parse_args()
 root = Path(__file__).resolve().parent.parent
 folder = root / 'build/qa/first-use'
@@ -48,11 +50,20 @@ for case in cases:
 assert len({item['docxXmlSHA256'] for item in outputs}) == 1
 build = root / args.build
 hashes = {}
+build_hashes = {}
+def source_bytes(name):
+    if args.source_commit:
+        return subprocess.check_output(['git', 'show', f'{args.source_commit}:web/{name}'], cwd=root)
+    return (root / 'web' / name).read_bytes()
 for name in ['write.html', 'write.css', 'write.js', 'write-boot.js', 'write-engine.js', 'write-model.js', 'write-library.js', 'favicon.svg']:
-    source = (root / 'web' / name).read_bytes()
-    assert source == (build / name).read_bytes(), 'Stale build: '+name
+    source = source_bytes(name)
+    built = (build / name).read_bytes()
+    # Git archive also applies core.autocrlf on Windows. Compare all content
+    # after this one conversion, while recording both exact byte hashes.
+    assert source.replace(b'\r\n', b'\n') == built.replace(b'\r\n', b'\n'), 'Stale build: '+name
     hashes[name] = hashlib.sha256(source).hexdigest()
-assert (root / 'web/write-boot.js').read_text(encoding='utf-8') in (build / 'index.html').read_text(encoding='utf-8')
-summary = {'passed': True, 'desktopOnly': True, 'results': args.results, 'checks': sum(len(case['checks']) for case in cases), 'outputs': outputs, 'sourceHashes': hashes}
+    build_hashes[name] = hashlib.sha256(built).hexdigest()
+assert source_bytes('write-boot.js').decode('utf-8').replace('\r\n','\n') in (build / 'index.html').read_text(encoding='utf-8')
+summary = {'passed': True, 'desktopOnly': True, 'sourceCommit': args.source_commit, 'results': args.results, 'checks': sum(len(case['checks']) for case in cases), 'outputs': outputs, 'sourceHashes': hashes, 'buildHashes': build_hashes, 'lineEndingsNormalizedForComparison': True}
 (folder / 'verified-desktop.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf-8')
 print('PASS: four desktop browsers; actual Word/PDF/TXT content and newest edits match; delivered UI source matches.')
