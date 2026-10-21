@@ -30,7 +30,7 @@
 
 ## CEO-002 · P2 · 写到一半需要更深能力，能否继续同一份工作？
 
-状态：待回应，先验证任务路径，不扩建功能清单。
+状态：已回应，PR #3 已提供最小路径实现与验证记录；接受本轮单向副本方案，待集成后核对，不代表主线已完成或批准合并。
 
 **观察。** 新主流程只有正文文本框，页脚入口叫“整理已有 Word”；表格等能力存在于独立高级界面。产品文档明确两边是不同模型，不能声称无损互换。这保住了首页简单，却留下一个产品断点：从空白写起的人，未必知道自己写到一半也可以使用这些能力。
 
@@ -76,3 +76,17 @@
 - [实施回应](https://github.com/wuhaotian1994/Doc2GovPDF/blob/e53d97a5032f1a7325b093e12b6d3f18f57b3bbf/docs/CEO-001-RESPONSE.md)报告三浏览器任务 66/66、实际 Word/PDF/TXT 一致及页面检查。这些是实施方记录，不是本轮独立复验；不扩大为真机 Safari、手机或跨机器 Word 分页保证。
 
 **后续取舍。** CEO-001 不再标记为“无人回应”，但 PR #2 仍依赖未合并的 PR #1，不能写成主线已具备该能力。集成基线变化后应保留这条真实任务路径的核对。CEO-002 仍待回应；下一步围绕“给当前稿增加一张表格”的现有路径做最小验证，不扩建功能清单。本轮没有新增产品议题。
+
+
+## 2026-10-21 · PR #3 产品审视
+
+检查基线：[PR #3](https://github.com/wuhaotian1994/Doc2GovPDF/pull/3)，head [9defb35](https://github.com/wuhaotian1994/Doc2GovPDF/commit/9defb35c7ac1b2e5d18da9fad9746d66c926bfd3)。实现与实施方验收对应 [46d6889](https://github.com/wuhaotian1994/Doc2GovPDF/commit/46d688941dabfd8d66105dd86a3e765409573171)，后续提交仅补交接及日志。本轮 opened/synchronize 通知合并审视，按 PR/head 去重。静态核对源码、差异、测试用例与实施记录，未独立运行浏览器或 Word/PDF 验收；不构成合并批准或上线许可。
+
+**CEO-002 已获得实质回应，接受本轮最小方案。** 实施者先验证了“下载 Word 再导入”的断点：原件保护模式不允许新增表格。因此本次不是只改入口文案，而是让填写草稿成为高级编辑中的独立可编辑副本，同时保留 Word 原件保护。
+
+- [正文旁入口](https://github.com/wuhaotian1994/Doc2GovPDF/blob/46d688941dabfd8d66105dd86a3e765409573171/web/write.html)按需展开，操作前明确下载草稿、原稿保留和不会自动同步；无需让所有用户先学习高级模式。
+- [草稿导入](https://github.com/wuhaotian1994/Doc2GovPDF/blob/46d688941dabfd8d66105dd86a3e765409573171/web/browser-api.js)复用填写字段与独立落款处理，形成可编辑副本；[目标页面](https://github.com/wuhaotian1994/Doc2GovPDF/blob/46d688941dabfd8d66105dd86a3e765409573171/web/index.html)说明选择草稿、进入编辑、添加表格及在此导出。它提供了“不重录已有内容”的任务路径，并未承诺双向无损转换。
+- [路径用例](https://github.com/wuhaotian1994/Doc2GovPDF/blob/46d688941dabfd8d66105dd86a3e765409573171/scripts/test-writer-table-path.mjs)覆盖原稿保留、取消与撤销、无效/取消导入、刷新恢复、缓存控制下的正确入口和实际下载；[文件核验](https://github.com/wuhaotian1994/Doc2GovPDF/blob/46d688941dabfd8d66105dd86a3e765409573171/scripts/verify-writer-table-outputs.py)检查原文字段、表格每个单元格，以及正文—表格—落款顺序，不以“页面出现表格按钮”代替任务完成。
+- [实施回应](https://github.com/wuhaotian1994/Doc2GovPDF/blob/46d688941dabfd8d66105dd86a3e765409573171/docs/CEO-002-RESPONSE.md)报告三浏览器任务 45/45、实际 Word/PDF 内容及页面检查。这是实施方证据，不是本轮独立复验，不扩大为手机、真机 Safari 或跨机器分页保证。
+
+**边界与后续。** 用户仍需下载后手动选择草稿文件，高级副本修改不回传三步填写。这是明确告知的本轮成本，可以接受，不为消除这一步立即建设双向同步或搬入全部高级功能。CEO-001、CEO-002 均已有 PR 回应，接下来重点是集成后保持两条完整任务路径，而非继续堆功能。PR #3 叠加在 PR #2 上，当前不能宣称主线已具备这些能力；本轮不新增产品议题。
