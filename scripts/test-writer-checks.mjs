@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {blank} from '../web/write-model.js';
+import {blank,draft,validateDraft} from '../web/write-model.js';
 import {sourceLines,reviewItems,ReviewDecisions,resolveSource} from '../web/write-checks.js';
 const issue=(id,paragraphId,extra={})=>({id,paragraphId,rule:'number.unit-space',severity:'review',message:'数值与单位需要核对',original:'电池容量为10kg。',basis:'单位书写规范',...extra});
 const paragraph=(id,text,role='body')=>({paragraph:{id,text,role,size:16,font:'仿宋'}});
@@ -82,4 +82,32 @@ test('reference, signature, attachment and copy-to findings resolve to the autho
   const entries=items(f,m,['r','s','b','c'].map((id)=>issue(id,id)));
   assert.deepEqual(entries.map(e=>e.source.field),['reference','signature','attachments','copyTo']);
   assert.equal(resolveSource(entries[2].source,f).start,f.attachments.indexOf('  第二份'));
+});
+
+test('saved review keys restore only after matching a fresh inspection for the same draft',()=>{
+  const ledger=new ReviewDecisions();ledger.set(items()[0],true);
+  const saved=validateDraft(JSON.parse(JSON.stringify(draft(fields(),2,'draft-a',ledger.snapshot('draft-a')))));
+  const restored=new ReviewDecisions();restored.restore(saved.review,saved.fields,saved.id);
+  assert.deepEqual([...restored.reconcile(items(fields(),model(),[issue('fresh-engine-id','p1')]))],['fresh-engine-id']);
+  restored.restore(saved.review,saved.fields,'draft-b');assert.equal(restored.receipts.size,0);
+  assert.equal(draft(fields(),0,'new-copy').review,undefined);
+});
+
+test('restored decisions revoke for rule, basis, severity, formatting and version changes',()=>{
+  const original=new ReviewDecisions();original.set(items()[0],true);const saved=original.snapshot('draft-a');
+  for(const change of [{basis:'新依据'},{replacement:'新建议'},{severity:'error'},{rule:'number.new-rule'},{message:'新提醒'}]){
+    const restored=new ReviewDecisions();restored.restore(saved,fields(),'draft-a');assert.equal(restored.reconcile(items(fields(),model(),[issue('new','p1',change)])).size,0);
+  }
+  for(const format of [true,false]){
+    const restored=new ReviewDecisions();restored.restore(saved,fields(),'draft-a');const m=model();if(format)m.blocks[1].paragraph.role='heading';
+    assert.equal(restored.reconcile(reviewItems(m,{version:format?'0.2.0':'new-version',issues:[issue('new','p1')]},fields(),'draft-a')).size,0);
+  }
+});
+
+test('restored source changes revoke immediately and malformed metadata never destroys the draft text',()=>{
+  const original=new ReviewDecisions();original.set(items()[0],true);const saved=original.snapshot('draft-a');
+  const restored=new ReviewDecisions();restored.restore(saved,fields(),'draft-a');restored.retain(fields('电池容量为11kg。'),'draft-a');restored.retain(fields(),'draft-a');assert.equal(restored.reconcile(items()).size,0);
+  for(const review of [{...saved,version:2},{...saved,documentId:'other'},{...saved,keys:['not JSON']},{...saved,keys:[JSON.stringify(['draft-a'])]}]){
+    const recovered=validateDraft({...draft(fields(),2,'draft-a'),review});assert.deepEqual(recovered.fields,fields());assert.equal(recovered.review,undefined);
+  }
 });

@@ -1,3 +1,4 @@
+import {validateReviewState} from './write-checks.js';
 export const DRAFT_KEY = 'gongwen-writer-v1';
 export const materialNames = ['sourceMaterial','pendingMaterial'];
 export const names = ['title', 'recipient', 'agency', 'reference', 'body', 'signature', 'date', 'attachments', 'copyTo', 'postscript', ...materialNames];
@@ -18,16 +19,19 @@ export function validateDraft(value) {
   if (typeof value.fields.letterhead !== 'boolean') throw Error('草稿的红头设置无效，原内容未被替换。');
   if (fields.date && !validDate(fields.date)) throw Error('草稿日期无效，原内容未被替换。');
   fields.letterhead = value.fields.letterhead;
+  const id=typeof value.id==='string'&&/^[a-zA-Z0-9-]{1,80}$/.test(value.id)?value.id:null;
+  const review=validateReviewState(value.review,id);
   return {type:'gongwen-form', version:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:value.version, fields, step:Number.isInteger(value.step) && value.step >= 0 && value.step <= 2 ? value.step : 0,
-    ...(typeof value.id==='string'&&/^[a-zA-Z0-9-]{1,80}$/.test(value.id)?{id:value.id}:{})};
+    ...(id?{id,...(review?{review}:{})}:{})};
 }
 export function validDate(value) {
   if (!/^[1-9]\d{3}-\d{2}-\d{2}$/.test(value)) return false;
   const date = new Date(value+'T12:00:00Z');
   return !Number.isNaN(+date) && date.toISOString().slice(0,10) === value && value >= '1900-01-01';
 }
-export function draft(fields, step, id) {
-  return {type:'gongwen-form', version:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:1, updatedAt:new Date().toISOString(), fields:{...blank(),...fields}, step,...(id?{id}:{})};
+export function draft(fields, step, id, review) {
+  const checkedReview=validateReviewState(review,id);
+  return {type:'gongwen-form', version:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:1, updatedAt:new Date().toISOString(), fields:{...blank(),...fields}, step,...(id?{id,...(checkedReview?{review:checkedReview}:{})}:{})};
 }
 export function fieldsForEngine(fields, preview = false) {
   const date = fields.date ? fields.date.split('-').map(Number) : [];

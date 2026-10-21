@@ -1,0 +1,71 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "baseline": false,
+    "checks": [
+      "explicit retention is applied to the current finding",
+      "save and reload restore the same original decision after current inspection",
+      "restored field help reflects the same retained decision",
+      "unrelated title edits retain judgment across another reload",
+      "closing and reopening the original tab retains its decision",
+      "explicit uncheck stays revoked after reload",
+      "related sequence change remains unconfirmed after reload",
+      "editing then restoring old text does not revive its revoked decision",
+      "copying a new document does not inherit the original decision",
+      "continuing the archived original restores its own judgment",
+      "imported snapshot is a new local copy and does not inherit approval",
+      "independent body and reference judgments both recover",
+      "revoking reference does not erase the saved unrelated body judgment",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "version": "157.0",
+    "baseline": false,
+    "checks": [
+      "explicit retention is applied to the current finding",
+      "save and reload restore the same original decision after current inspection",
+      "restored field help reflects the same retained decision",
+      "unrelated title edits retain judgment across another reload",
+      "closing and reopening the original tab retains its decision",
+      "explicit uncheck stays revoked after reload",
+      "related sequence change remains unconfirmed after reload",
+      "editing then restoring old text does not revive its revoked decision",
+      "copying a new document does not inherit the original decision",
+      "continuing the archived original restores its own judgment",
+      "imported snapshot is a new local copy and does not inherit approval",
+      "independent body and reference judgments both recover",
+      "revoking reference does not erase the saved unrelated body judgment",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "version": "27.2",
+    "baseline": false,
+    "checks": [
+      "explicit retention is applied to the current finding",
+      "save and reload restore the same original decision after current inspection",
+      "restored field help reflects the same retained decision",
+      "unrelated title edits retain judgment across another reload",
+      "closing and reopening the original tab retains its decision",
+      "explicit uncheck stays revoked after reload",
+      "related sequence change remains unconfirmed after reload",
+      "editing then restoring old text does not revive its revoked decision",
+      "copying a new document does not inherit the original decision",
+      "continuing the archived original restores its own judgment",
+      "imported snapshot is a new local copy and does not inherit approval",
+      "independent body and reference judgments both recover",
+      "revoking reference does not erase the saved unrelated body judgment",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

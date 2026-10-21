@@ -1,0 +1,30 @@
+{
+  "cases": [
+    {
+      "profile": "chrome",
+      "originalReferenceRetained": true,
+      "latestTitleAndBodyExact": true,
+      "pdfPages": 1
+    },
+    {
+      "profile": "firefox",
+      "originalReferenceRetained": true,
+      "latestTitleAndBodyExact": true,
+      "pdfPages": 1
+    },
+    {
+      "profile": "webkit",
+      "originalReferenceRetained": true,
+      "latestTitleAndBodyExact": true,
+      "pdfPages": 1
+    }
+  ],
+  "sources": {
+    "web/write-model.js": "9e4698ffb277ea58cd55b3b2f11cf095f1128c33e94d5f41decc3c4ed0a004b8",
+    "web/write-checks.js": "403bf300775f32d93505d693f66efc9fce1dac6eb63002e6263e75e5de7d6d8d",
+    "web/write.js": "eaa5ab8ef5b671d688351a3a1a5a8c5f59f6369536f6f8341581163f6bdc3a66",
+    "web/write-boot.js": "350627ae84375a70bdf6343c34a333a1c1fe21237cd517318bd7aca6f2de63f0",
+    "web/fonts/ui-400.woff": "d596b4f0a0dc00685a6e5c900337580c896917ff65465abc0faec6bd00910369",
+    "web/fonts/ui-700.woff": "a1e5654a5c7329dec13ddf365db7c58bf754cbfe2737d18e1621f3ded2773efa"
+  }
+}

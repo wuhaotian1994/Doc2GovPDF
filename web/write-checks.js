@@ -60,13 +60,36 @@ export function reviewItems(model,inspection,fields,documentId) {
     const {id,...format}=p || {};
     const scope=source&&localRule(issue.rule)?'paragraph':'document';
     const dependencies=scope==='paragraph'?source:documentFields(fields);
-    const key=JSON.stringify([documentId,inspection.version,issue.rule,issue.severity,issue.message,issue.original,issue.replacement || '',issue.basis,dependencies,format,scope==='document'?model.page:null]);
+    const key=JSON.stringify([documentId,inspection.version,issue.rule,issue.severity,issue.message,issue.original,issue.replacement || '',issue.basis,dependencies,format,scope==='document'?model.page:null,scope]);
     return {issue,source,scope,key,documentId,fields:scope==='document'?JSON.stringify(documentFields(fields)):null};
   });
+}
+function receiptFromKey(key,documentId){
+  if(typeof key!=='string')return null;
+  let parts;try{parts=JSON.parse(key);}catch{return null;}
+  if(!Array.isArray(parts)||parts.length!==12||parts[0]!==documentId||parts[3]!=='review'||typeof parts[1]!=='string'||typeof parts[2]!=='string')return null;
+  const scope=parts[11],source=parts[8];
+  if(!source||Array.isArray(source)||typeof source!=='object')return null;
+  if(scope==='paragraph'){
+    if(!Object.hasOwn(fieldLabels,source.field)||typeof source.text!=='string'||!Number.isInteger(source.count)||!Number.isInteger(source.occurrence)||source.occurrence<1||source.occurrence>source.count)return null;
+  }else if(scope!=='document')return null;
+  return {key,documentId,scope,source:scope==='paragraph'?source:null,fields:scope==='document'?JSON.stringify(source):null,issue:{rule:parts[2],severity:'review'}};
+}
+// Optional draft metadata is never allowed to make authored text unreadable.
+// Exact keys must match a newly generated inspection before export uses them.
+export function validateReviewState(value,documentId){
+  if(!documentId||!value||value.version!==1||value.documentId!==documentId||!Array.isArray(value.keys)||!value.keys.length||!value.keys.every(key=>receiptFromKey(key,documentId)))return undefined;
+  return {version:1,documentId,keys:[...new Set(value.keys)]};
 }
 export class ReviewDecisions {
   forgetField(field,documentId,rule){for(const [key,item] of this.receipts)if(item.documentId===documentId&&item.source?.field===field&&item.issue.rule===rule)this.receipts.delete(key);}
   constructor(){this.receipts=new Map();}
+  snapshot(documentId){const keys=[...this.receipts].filter(([,item])=>item.documentId===documentId&&item.issue.severity==='review').map(([key])=>key);return keys.length?{version:1,documentId,keys}:undefined;}
+  restore(value,fields,documentId){
+    this.receipts.clear();
+    for(const key of validateReviewState(value,documentId)?.keys||[])this.receipts.set(key,receiptFromKey(key,documentId));
+    this.retain(fields,documentId);
+  }
   set(item,checked){if(checked)this.receipts.set(item.key,item);else this.receipts.delete(item.key);}
   has(item){return this.receipts.has(item.key);}
   retain(fields,documentId) {

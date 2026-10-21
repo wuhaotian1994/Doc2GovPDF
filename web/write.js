@@ -34,6 +34,10 @@ let referenceChoice=null,referenceUndo=null,referenceDismissed=null,referencePoi
 const confirmed = new Set();
 const decisions = new ReviewDecisions();
 const engine = new WriterEngine(() => fontStore);
+function currentDraft(nextFields=fields){
+  decisions.retain(nextFields,currentId);
+  return draft(nextFields,step,currentId,decisions.snapshot(currentId));
+}
 const error = message => {
   $('global-error').textContent=message;$('global-error').hidden=false;
   if($('draft-dialog').open)$('draft-status').textContent=message;
@@ -77,12 +81,12 @@ function persist() {
     try {
       let priorDate = '';
       try { priorDate = validateDraft(JSON.parse(localStorage.getItem(DRAFT_KEY))).fields.date; } catch {}
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft({...fields,date:priorDate},step,currentId)));
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(currentDraft({...fields,date:priorDate})));
     } catch { $('save-status').textContent = '自动保存失败'; error('浏览器未能保存最新内容，请下载草稿后再关闭页面。'); }
     return;
   }
   try {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft(fields,step,currentId)));
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(currentDraft()));
     window.writerBoot?.saved(currentId);
     $('save-status').textContent = '已保存到此浏览器';
   } catch {
@@ -207,6 +211,10 @@ function renderChecks() {
   }
   const latest=decisions.reconcile(entries);confirmed.clear();for(const id of latest)confirmed.add(id);
   if(referenceChoice?.seeded&&entries.some(entry=>sameReferenceFinding(entry,referenceChoice.value,referenceChoice.advice)&&!decisions.has(entry)))referenceChoice=null;
+  if(!referenceChoice){
+    const advice=referenceAdvice(fields.reference);
+    if(advice&&entries.some(entry=>decisions.has(entry)&&sameReferenceFinding(entry,fields.reference,advice)))referenceChoice={documentId:currentId,value:fields.reference,advice,seeded:true};
+  }
   renderReferenceFeedback();
   const count=severity=>entries.filter(entry=>entry.issue.severity===severity).length;
   $('checks-status').textContent = entries.length ? `必须修正 ${count('error')} 项，需要判断 ${count('review')} 项，建议 ${count('suggestion')} 项。事实、名称和数字仍需你核对。` : '未发现需要处理的格式问题。请自行核对事实、名称和数字。';
@@ -237,13 +245,13 @@ function renderChecks() {
           referenceChoice=check.checked&&advice&&sameReferenceFinding(entry,fields.reference,advice)?{documentId:currentId,value:fields.reference,advice,seeded:true}:null;
           renderReferenceFeedback();
         }
-        updateExport();
+        updateExport();persist();
       };
       label.append(check,document.createTextNode('我已核对，此处保留原文')); item.append(label);
     }
     $('check-list').append(item);
   }
-  updateExport();
+  updateExport();persist();
 }
 async function preview() {
   clearTimeout(previewTimer);
@@ -326,7 +334,7 @@ async function exportFile() {
 function saveDraft() {
   readFields();
   if(fields.date&&!validDate(fields.date)){error('请先修正日期，再下载可继续填写的草稿。');return;}
-  download(safeName(fields.title)+'.gongwen.json',JSON.stringify(draft(fields,step,currentId),null,2),'application/json');
+  download(safeName(fields.title)+'.gongwen.json',JSON.stringify(currentDraft(),null,2),'application/json');
   $('draft-status').textContent='草稿已开始下载。打开这份文件即可继续填写。';
 }
 function selectedMaterial(){return Object.fromEntries([...document.querySelectorAll('#material-candidates input')].map(input=>[input.dataset.materialField,input.checked]));}
@@ -344,7 +352,7 @@ function renderReferenceFeedback(force=false){
   $('reference-feedback').hidden=!advice||!force&&referenceDismissed===value;
   $('reference-body-note').hidden=!advice||kept||step!==1;
   if(!advice)return;
-  $('reference-message').textContent=kept?'已选择保留原文；同一处未改变的格式问题会沿用这次判断。':'如果这是发文字号：'+advice.reasons.map(reason=>reason.text).join(' ');
+  $('reference-message').textContent=kept?(referenceChoice.seeded?'已选择保留原文；同一处未改变的格式问题会沿用这次判断。':'已选择保留原文；排版核对后会保存这次判断。'):'如果这是发文字号：'+advice.reasons.map(reason=>reason.text).join(' ');
   $('reference-proposal').textContent=advice.proposal;
   $('reference-spacing').hidden=!advice.compactSpacing;
   $('reference-keep').textContent=kept?'撤销保留':'保留原文／其他编号';
@@ -360,7 +368,7 @@ function keepReference(){
     referenceChoice=null;
     decisions.forgetField('reference',currentId,'reference.format');
   }else referenceChoice={documentId:currentId,value:fields.reference,advice,seeded:false};
-  referenceDismissed=null;renderChecks();renderReferenceFeedback(true);
+  referenceDismissed=null;renderChecks();renderReferenceFeedback(true);persist();
 }
 function renderMaterialPreview(){
   if(!materialAnalysis)return;
@@ -430,7 +438,7 @@ function requestReplace(next, direct=false) {
   if(names.some(name=>fields[name]) || rawRecovery) $('replace-dialog').showModal(); else replace(next);
 }
 function replace(next) {
-  const prior=draft(fields,step,currentId);
+  const prior=currentDraft();
   try{
     if(libraryBroken)throw Error('最近文档列表无法读取，切换已取消。请在“我的文档”下载恢复数据和当前草稿。');
     const defaults=freshFields(common);
@@ -446,6 +454,7 @@ function replace(next) {
   previous=prior;currentId=next.id;
   referenceChoice=null;referenceUndo=null;referenceDismissed=null;
   fields={...next.fields}; blockedSave=false;rawRecovery=null;
+  decisions.restore(next.review,fields,currentId);
   for(const name of ['title','agency','body','date'])fieldError(name,'');
   currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;pageNumber=1;
   $('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='A4 纸张';
@@ -548,7 +557,7 @@ async function boot() {
     if(savedLibrary)try{library=validateLibrary(JSON.parse(savedLibrary));}catch(e){libraryBroken=true;error(e.message);$('rescue-draft').hidden=false;}
     const raw=localStorage.getItem(DRAFT_KEY);
     if(raw) {
-      try {const restored=validateDraft(JSON.parse(raw));fields=restored.fields;step=restored.step;currentId=restored.id || currentId;}
+      try {const restored=validateDraft(JSON.parse(raw));fields=restored.fields;step=restored.step;currentId=restored.id || currentId;decisions.restore(restored.review,fields,currentId);}
       catch {rawRecovery=raw;blockedSave=true;error('保存的草稿无法读取，原始数据已保留。请在“我的文档”下载原始恢复数据，或新写一份文档。');$('rescue-draft').hidden=false;}
     }else fields=freshFields(common);
     const old=localStorage.getItem(DRAFT_KEY+'-previous');
@@ -584,7 +593,7 @@ async function boot() {
     if(independent){
       try{
         if(!hasLock||libraryBroken||blockedSave)throw Error('recovery archive unavailable');
-        const archived=archiveDocument(library,currentId,draft(fields,step,currentId));
+        const archived=archiveDocument(library,currentId,currentDraft());
         localStorage.setItem(LIBRARY_KEY,JSON.stringify(archived));library=archived;
       }catch{blockedSave=true;error('未完成的填写已恢复在此页，原有草稿没有覆盖。请先下载当前草稿，再处理本地存储问题。');}
       fields=blank();currentId=crypto.randomUUID();
@@ -647,7 +656,7 @@ $('reference').addEventListener('blur',event=>{
   if(!window.writerReady)return;
   // Do not move a button between pointer-down focus and its click. Navigation
   // and the advice actions refresh this same field help after the click lands.
-  if(event.relatedTarget===referencePointerTarget&&referencePointerTarget&&($('reference').compareDocumentPosition(referencePointerTarget)&Node.DOCUMENT_POSITION_FOLLOWING))return;
+  if(referencePointerTarget&&($('reference').compareDocumentPosition(referencePointerTarget)&Node.DOCUMENT_POSITION_FOLLOWING))return;
   renderReferenceFeedback(true);
 });
 $('reference-apply').onclick=()=>{const value=$('reference').value,advice=referenceAdvice(value);if(!advice||!hasLock)return;if($('reference-proposal').textContent!==advice.proposal){renderReferenceFeedback(true);return;}referenceUndo={documentId:currentId,before:value,after:advice.proposal};referenceChoice=null;changeReference(advice.proposal);};
@@ -719,7 +728,7 @@ $('load-draft').onchange=async event=>{
     const next=validateDraft(JSON.parse(await file.text()));
     // A downloaded snapshot is a new local copy. Reusing its ID can hide and later
     // overwrite a newer version that is already archived in this browser.
-    requestReplace({...next,id:crypto.randomUUID()});
+    requestReplace({...next,id:crypto.randomUUID(),review:undefined,reuseMessage:'已打开草稿副本，请重新核对内容提醒。原稿保留在“我的文档”。'});
   }catch(e){$('draft-status').textContent=e instanceof SyntaxError?'草稿不是有效的 JSON 文件，当前内容未改变。':e.message;}
 };
 $('settings-open').onclick=()=>{$('settings-dialog').showModal();showFonts().catch(e=>$('font-message').textContent=e.message);};
