@@ -11,6 +11,7 @@
 | 写到一半需要添加表格，怎样保留已有内容继续？ | [CEO-002 路径与验收](../CEO-002-RESPONSE.md)、[教育通知与空白回执](../CEO-002-EDUCATION-RESPONSE.md) |
 | 长条款被当成标题、复制空格影响标题识别怎么办？ | [CEO-003 源文、识别及真实页面](../CEO-003-RESPONSE.md) |
 | 已有整篇文字怎样整理，原文与未采用材料如何恢复？ | [CEO-004 完整材料路径与验收](../CEO-004-RESPONSE.md)、[落款后附注](../CEO-004-POSTSCRIPT-RESPONSE.md) |
+| 说明性前言为何不是收文对象，复制空行怎样主动整理？ | [医院通知完整页组](../CEO-004-HOSPITAL-RESPONSE.md) |
 | 预览为何等待、文号提示何时出现，实测和判断如何复用？ | [CEO-005/006 响应及即时帮助](../CEO-005-006-RESPONSE.md) |
 | 保存刷新或重开后，已核对的判断是否仍适用？ | [同稿判断恢复](../CEO-001-006-REVIEW-RECOVERY.md) |
 | 当前是网页还是 EXE？为什么不上传文稿？ | [产品与架构](topics/product-and-architecture.md) |

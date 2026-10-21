@@ -1,0 +1,23 @@
+[
+  {
+    "file": "as-copied.docx",
+    "pdf": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\build\\qa\\ceo-hospital-word\\as-copied.word.pdf",
+    "pages": 3,
+    "wordVersion": "16.0",
+    "sha256": "093C6C1737A5C5DD4E5CC595BECC9139502E1B4762D6D1286B4C07C82D4B84D3"
+  },
+  {
+    "file": "existing-tidied.docx",
+    "pdf": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\build\\qa\\ceo-hospital-word\\existing-tidied.word.pdf",
+    "pages": 2,
+    "wordVersion": "16.0",
+    "sha256": "7B0D400BAE26604CE8AF79E678463679EAB7D78FFE91AF507BFDC6498C2F55D0"
+  },
+  {
+    "file": "final.docx",
+    "pdf": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\build\\qa\\ceo-hospital-word\\final.word.pdf",
+    "pages": 2,
+    "wordVersion": "16.0",
+    "sha256": "7B0D400BAE26604CE8AF79E678463679EAB7D78FFE91AF507BFDC6498C2F55D0"
+  }
+]

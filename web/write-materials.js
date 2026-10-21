@@ -6,6 +6,14 @@ function sourceDate(text){
   if(match)value=`${match[1]}-${match[2].padStart(2,'0')}-${match[3].padStart(2,'0')}`;
   return validDate(value)?value:null;
 }
+function recipientLine(value){
+  const text=value.trim();
+  if(text.length>300||!/[：:]$/.test(text)||/[。！？；!?;]/.test(text))return false;
+  // A colon can introduce a narrative or a list. Offer only recognisable
+  // addressees; leave explanatory preambles in the body without a decision.
+  if(/^(?:根据|依据|按照|结合|现将|经研究|为了|为进一步|为贯彻|为落实|为做好|为加强|为确保)/.test(text)||/(?:如下|提示|说明)[：:]$/.test(text))return false;
+  return /^(?:各|全体|有关|相关|广大|尊敬的|亲爱的|敬爱的|诸位)/.test(text)||/(?:人民政府|委员会|单位|部门|公司|学校|中心|同志们?|朋友们|同学们|先生|女士|[局院所处科组室])[：:]$/.test(text);
+}
 export function analyseMaterial(raw){
   if(typeof raw!=='string'||raw.length>100000)throw Error('原始材料最多支持 100000 字，请拆成两份整理。');
   const source=raw.replace(/\r\n?/g,'\n'),lines=source.split('\n');
@@ -13,7 +21,7 @@ export function analyseMaterial(raw){
   const candidates={};
   const first=meaningful[0];
   if(first&&first.text.trim().length<=180&&!sourceDate(first.text)&&!/[：:]$/.test(first.text.trim()))candidates.title={...first,value:first.text.trim()};
-  const recipient=meaningful.slice(0,2).find(line=>/[：:]$/.test(line.text.trim())&&line.text.trim().length<=300);
+  const recipient=meaningful.slice(0,2).find(line=>recipientLine(line.text));
   if(recipient)candidates.recipient={...recipient,value:recipient.text.trim().replace(/[：:]+$/,'')};
   const closings=[];
   for(let dateIndex=0;dateIndex<meaningful.length;dateIndex++){

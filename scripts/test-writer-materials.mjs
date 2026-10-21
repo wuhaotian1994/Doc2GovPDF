@@ -5,6 +5,22 @@ import {blank,draft,validateDraft,fieldsForEngine,textContent,DRAFT_MAX_BYTES} f
 import {archiveDocument,validateLibrary,commonFrom,freshFields} from '../web/write-library.js';
 import {materials} from './fixtures/writer-materials.mjs';
 import {jointNotice,jointSignatures} from './fixtures/writer-joint-notice.mjs';
+import {readFileSync} from 'node:fs';
+const hospital=JSON.parse(readFileSync(new URL('./fixtures/writer-hospital-notice.json',import.meta.url),'utf8'));
+
+test('hospital preamble stays body while genuine addressees remain optional candidates',()=>{
+  assert.equal(analyseMaterial(hospital.raw).candidates.recipient,undefined);
+  for(const address of ['各部门：','尊敬的各位患者及家属：','肇庆市卫生健康局：','全体同学：','读者朋友们：','相关部门：'])assert.equal(analyseMaterial('工作安排\n'+address+'\n请核对原文。').candidates.recipient.value,address.replace(/[：:]$/,''));
+  for(const introduction of ['根据医院情况，现将工作安排如下：','温馨提示：','各部门应当按本通知执行，具体要求如下：'])assert.equal(analyseMaterial('工作安排\n'+introduction+'\n保留原文。').candidates.recipient,undefined);
+});
+
+test('existing opt-in hospital cleanup retains each paragraph and all facts in order',()=>{
+  const analysis=analyseMaterial(hospital.raw),plain=materialProposal(analysis,{title:true}),tidied=materialProposal(analysis,{title:true},true);
+  assert.equal(plain.fields.body,hospital.paragraphs.join('\n\n'));
+  assert.equal(tidied.fields.body,hospital.paragraphs.join('\n'));
+  assert.equal(tidied.fields.sourceMaterial,hospital.raw);
+  assert.equal(tidied.fields.date,'');assert.equal(tidied.fields.signature,'');
+});
 
 test('public joint notice requires confirmation and preserves both signatories before the authored date',()=>{
   const a=analyseMaterial(jointNotice);assert.equal(a.candidates.signature.value,jointSignatures.join('\n'));
