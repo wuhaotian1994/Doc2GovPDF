@@ -1,0 +1,114 @@
+[
+  {
+    "logicalCharacters": 1540,
+    "logicalTextSHA256": "3ABB666007B0684DC059986E4404B1660F0C70C82C966B98812DA3055A85BD2F",
+    "file": "before-education.docx",
+    "wordVersion": "16.0",
+    "pages": 5,
+    "sourceSHA256": "4CC55C20150C40B6BEBABDDBF20F5C93C20CDA08AEDC3F3ACCA976D13DD3B0B7",
+    "pageMap": {
+      "mainHeading": 3,
+      "firstBody": 4,
+      "date": 4,
+      "publicNote": 4
+    }
+  },
+  {
+    "logicalCharacters": 3179,
+    "logicalTextSHA256": "203CE46397E84D23685F1848A9AF7798A069D013419A5B3208741416DE36145D",
+    "file": "before-composite.docx",
+    "wordVersion": "16.0",
+    "pages": 7,
+    "sourceSHA256": "9FAA34CFB89A501AE69A34AAF46D90CD49AF09262D7C0A5BE9D1226E110067BD",
+    "pageMap": {
+      "sections": [
+        {
+          "heading": "一、丰富消费惠民举措",
+          "headingPage": 1,
+          "contentPage": 1
+        },
+        {
+          "heading": "二、满足不同年龄群体消费需求",
+          "headingPage": 2,
+          "contentPage": 2
+        },
+        {
+          "heading": "三、扩大特色优质产品供给",
+          "headingPage": 3,
+          "contentPage": 3
+        },
+        {
+          "heading": "四、培育消费场景",
+          "headingPage": 4,
+          "contentPage": 4
+        },
+        {
+          "heading": "五、创新产业政策",
+          "headingPage": 5,
+          "contentPage": 5
+        },
+        {
+          "heading": "六、优化消费环境",
+          "headingPage": 6,
+          "contentPage": 6
+        }
+      ]
+    }
+  },
+  {
+    "logicalCharacters": 1540,
+    "logicalTextSHA256": "3ABB666007B0684DC059986E4404B1660F0C70C82C966B98812DA3055A85BD2F",
+    "file": "after-education.docx",
+    "wordVersion": "16.0",
+    "pages": 5,
+    "sourceSHA256": "BC958396361A2DB7988ADD0683ED89CFA84B74D66FF602211B1A4E67DADDEB4A",
+    "pageMap": {
+      "mainHeading": 4,
+      "firstBody": 4,
+      "date": 5,
+      "publicNote": 5
+    }
+  },
+  {
+    "logicalCharacters": 3179,
+    "logicalTextSHA256": "203CE46397E84D23685F1848A9AF7798A069D013419A5B3208741416DE36145D",
+    "file": "after-composite.docx",
+    "wordVersion": "16.0",
+    "pages": 7,
+    "sourceSHA256": "E73E63BE5B26DC6AD3BA2929783A079F0DCA31E89D40EC0EAF31D7D0E2AE3F06",
+    "pageMap": {
+      "sections": [
+        {
+          "heading": "一、丰富消费惠民举措",
+          "headingPage": 1,
+          "contentPage": 1
+        },
+        {
+          "heading": "二、满足不同年龄群体消费需求",
+          "headingPage": 2,
+          "contentPage": 2
+        },
+        {
+          "heading": "三、扩大特色优质产品供给",
+          "headingPage": 3,
+          "contentPage": 3
+        },
+        {
+          "heading": "四、培育消费场景",
+          "headingPage": 4,
+          "contentPage": 4
+        },
+        {
+          "heading": "五、创新产业政策",
+          "headingPage": 5,
+          "contentPage": 5
+        },
+        {
+          "heading": "六、优化消费环境",
+          "headingPage": 6,
+          "contentPage": 6
+        }
+      ]
+    }
+  }
+]

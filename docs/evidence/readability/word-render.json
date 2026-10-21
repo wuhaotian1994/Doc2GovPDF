@@ -1,0 +1,26 @@
+[
+  {
+    "file": "before-education.docx",
+    "pages": 5,
+    "wordVersion": "16.0",
+    "sha256": "4CC55C20150C40B6BEBABDDBF20F5C93C20CDA08AEDC3F3ACCA976D13DD3B0B7"
+  },
+  {
+    "file": "before-composite.docx",
+    "pages": 7,
+    "wordVersion": "16.0",
+    "sha256": "9FAA34CFB89A501AE69A34AAF46D90CD49AF09262D7C0A5BE9D1226E110067BD"
+  },
+  {
+    "file": "after-education.docx",
+    "pages": 5,
+    "wordVersion": "16.0",
+    "sha256": "BC958396361A2DB7988ADD0683ED89CFA84B74D66FF602211B1A4E67DADDEB4A"
+  },
+  {
+    "file": "after-composite.docx",
+    "pages": 7,
+    "wordVersion": "16.0",
+    "sha256": "E73E63BE5B26DC6AD3BA2929783A079F0DCA31E89D40EC0EAF31D7D0E2AE3F06"
+  }
+]

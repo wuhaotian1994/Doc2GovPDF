@@ -6,6 +6,7 @@
 
 | 遇到的问题 | 先读 |
 | --- | --- |
+| 节标题孤立在页末、短尾行和明显留白如何改善？ | [CEO-003 跨页连续阅读与前后页组](../CEO-003-READABILITY-RESPONSE.md) |
 | 整篇整理后回执在落款日期之后，如何直接变成表格并继续编辑？ | [落款后连续编辑与结构输入修复](../POSTSCRIPT-WORKSPACE-RESPONSE.md) |
 | 正常页怎样直接加表格、调整段落，短窗口操作和预览异常如何恢复？ | [同稿工作区回应与验收](../INLINE-WORKSPACE-RESPONSE.md) |
 | CEO 当前关注哪些产品问题、优先级和完成结果？ | [CEO 产品议题](../CEO-QUESTIONS.md) |

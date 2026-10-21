@@ -673,7 +673,10 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 		if w.newDocument && len(lines)-i == 2 {
 			need = 2 * line
 		}
-		if w.newDocument && p.KeepNext && len(lines)-i <= 2 && w.keepTail > 0 {
+		// Reserve following content at the widow boundary once. Retrying on the
+		// last line can strand that single line when two lines plus an oversized
+		// keep chain did not fit a page but one line plus that chain does.
+		if w.newDocument && p.KeepNext && len(lines)-i == min(2, len(lines)) && w.keepTail > 0 {
 			tail := float64(len(lines)-i)*line + p.After + w.keepTail
 			if tail <= w.page.Height-w.page.Top-w.page.Bottom {
 				need = tail

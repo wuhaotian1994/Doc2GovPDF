@@ -28,7 +28,7 @@ try {
         try{$previewResponse=Invoke-WebRequest -Uri ($previewURL+'/') -NoProxy -TimeoutSec 3;break}catch{if($previewAttempt -eq 9){throw};Start-Sleep -Milliseconds 200}
     }
     if($previewResponse.StatusCode -ne 200){throw 'Local preview is not healthy'}
-    $previewState=[ordered]@{url=$previewURL;pid=$previewProcess.Id;startedAt=$previewProcess.StartTime.ToUniversalTime().ToString('o');binary=$previewBinary;assets=$previewAssets;headAtCheck=(& git rev-parse HEAD);writeJSSHA256=(Get-FileHash -LiteralPath (Join-Path $previewAssets 'write.js')).Hash;checkedAt=[DateTime]::UtcNow.ToString('o')}
+    $previewState=[ordered]@{url=$previewURL;pid=$previewProcess.Id;startedAt=$previewProcess.StartTime.ToUniversalTime().ToString('o');binary=$previewBinary;assets=$previewAssets;headAtCheck=(& git rev-parse HEAD);writeJSSHA256=(Get-FileHash -LiteralPath (Join-Path $previewAssets 'write.js')).Hash;engineWASMSHA256=(Get-FileHash -LiteralPath (Join-Path $previewAssets 'document-engine.wasm')).Hash;checkedAt=[DateTime]::UtcNow.ToString('o')}
     $previewState | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $previewRuntime 'state.json')
     Write-Output "Local preview ready: $previewURL (PID $($previewProcess.Id))"
 } finally { Pop-Location }
