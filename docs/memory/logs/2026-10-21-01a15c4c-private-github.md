@@ -17,3 +17,5 @@
 - 上传策略：已有 `9a8bb66` 及祖先历史到远端 main；用独立 Git index 创建当前明确归属源码快照到 `codex/workspace-backup-20261021`。不切换本地分支、不改变共享暂存区、不替其他会话宣布验收完成。后续正在发生的改动不属于这份时间点快照。
 - 验证：三个 Go 包 cmd/webserve、internal/webengine、internal/office 测试通过；模型、文档库和 Worker 共 16 项 Node 测试通过。历史常见凭据特征扫描未命中。未重新进行 Word/PDF 页面验收，本次是私有源码备份。
 - 构建产物、缓存、本地用户文稿按现有 .gitignore 排除；跟踪中的公开上游测试文档与开源字体保留。
+- 上传完成并用 ls-remote 核实：main 为 `9a8bb666e71a3865eef1dfff49454d3ec47154de`；源码快照为 `954a77c060fcb5b46640a1270c6e145da14326da`，位于 `codex/workspace-backup-20261021`。GitHub 元数据再次确认 private。独立 index 操作前后共享 index 哈希一致，本地仍为 main。
+- 本条交付记录作为备份分支的后续文档提交上传；不重新捕获正在发生的其他会话源码修改。未公开部署，未推送无关分支或标签。
