@@ -18,6 +18,7 @@
 | 说明性前言为何不是收文对象，复制空行怎样主动整理？ | [医院通知完整页组](../CEO-004-HOSPITAL-RESPONSE.md) |
 | 预览为何等待、文号提示何时出现，实测和判断如何复用？ | [CEO-005/006 响应及即时帮助](../CEO-005-006-RESPONSE.md) |
 | 保存刷新或重开后，已核对的判断是否仍适用？ | [同稿判断恢复](../CEO-001-006-REVIEW-RECOVERY.md) |
+| 如何让用户表达使用需求，同时明确上传、脱敏、回执与删除？ | [反馈产品方案（待实现）](../FEEDBACK-PRODUCT.md) |
 | 当前是网页还是 EXE？为什么不上传文稿？ | [产品与架构](topics/product-and-architecture.md) |
 | 能否换 UI、恢复报告中心或公开发布？ | [长期约定](../../AGENTS.md#已确认的长期约定) |
 | 哪些测试算通过，Word/PDF 如何验收？ | [验证与故障经验](topics/verification-and-pitfalls.md) |
