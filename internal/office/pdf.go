@@ -36,6 +36,7 @@ var fontMaps map[string]*sfnt.Font
 func fontCatalog() {
 	fontOnce.Do(func() {
 		fonts = map[string]fontData{}
+		fallbackComplete = map[string]bool{"Noto Serif SC": len(assets.FallbackFont) > 0, "Noto Serif SC Black": len(assets.FallbackBlackFont) > 0}
 		root := filepath.Join(os.Getenv("WINDIR"), "Fonts")
 		if root == "Fonts" {
 			root = `C:\Windows\Fonts`
@@ -191,6 +192,9 @@ type pdfWriter struct {
 }
 
 func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
+	if len(RequiredFallbackFonts(m, false)) > 0 {
+		return PDFResult{}, fmt.Errorf("字体资源尚未准备完成，请联网后重试")
+	}
 	var fitErr error
 	m, fitErr = fitMarks(m)
 	if fitErr != nil {

@@ -131,3 +131,5 @@ Word 用于继续编辑，PDF 用于固定版式打印和分享，TXT 用于文�
 
 
 整篇暂排本分支实现与真实Word/PDF见[CEO-004结果优先回应](docs/DRAFT-FIRST-PASTE-RESPONSE.md)。完整反馈/PostgreSQL已接单为其后下一开发工作包，仍未交付可用功能；[实际状态与关口估时](docs/FEEDBACK-IMPLEMENTATION-PLAN.md)不代表上线授权。
+
+2026-10-22 用户确认保留直接下载 PDF，并接入主动授权的本机字体。浏览器引擎与备用字库拆分、常用字按需加载、罕字补完整同字重；已采用且覆盖文字的本机字体可省去备用下载。文稿和所选字体仍只在本机处理，实际验证与公网边界见[性能记录](docs/memory/logs/2026-10-22-01a16258-startup-performance.md)。

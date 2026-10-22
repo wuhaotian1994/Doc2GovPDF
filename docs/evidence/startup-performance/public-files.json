@@ -1,0 +1,41 @@
+{
+  "pdfs": [
+    {
+      "file": "common.pdf",
+      "pages": 1,
+      "sha256": "f78559cc8863e492ea34d37b61de53714d8ae11c57acbd6d9128a85ec58cc810",
+      "expectedTextPresent": true
+    },
+    {
+      "file": "rare.pdf",
+      "pages": 1,
+      "sha256": "c13ee03a7001c68ecdfd7fe7a05d21f7fba48e7f92963dfedd70832bf4590db0",
+      "expectedTextPresent": true
+    },
+    {
+      "file": "offline.pdf",
+      "pages": 1,
+      "sha256": "998664ec5d610347460b99e96b34331a69bb09fa932a62d6c1c8a5e3fdb612fc",
+      "expectedTextPresent": true
+    },
+    {
+      "file": "selected-fonts.pdf",
+      "pages": 1,
+      "sha256": "fd64053f55356f18fad7da31e8b70c019a2730eb97abb92cc4aa4269990448b1",
+      "expectedTextPresent": true
+    }
+  ],
+  "completeWordFaces": [
+    {
+      "name": "Noto Serif SC",
+      "bytes": 14854712,
+      "exactCompleteSource": true
+    },
+    {
+      "name": "Noto Serif SC Black",
+      "bytes": 14854760,
+      "exactCompleteSource": true
+    }
+  ],
+  "originalPDFPages": 5
+}

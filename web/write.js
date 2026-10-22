@@ -47,6 +47,7 @@ let referenceChoice=null,referenceUndo=null,referenceDismissed=null,referencePoi
 const confirmed = new Set();
 const decisions = new ReviewDecisions();
 const engine = new WriterEngine(() => wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore);
+engine.onResource=kind=>{const message=kind==='full-font'?'正在加载此稿所需的完整字体…':'正在准备此稿所需的字体…';if(exporting)$('export-status').textContent=message;else if(rendering)$('preview-status').textContent=message+'可继续填写';};
 let wordWorkspace,pdfReadyRevision=-1,wordDisabled=[],outputWarnings=[];
 function currentDraft(nextFields=fields){
   decisions.retain(nextFields,currentId,bodyContent);
@@ -339,21 +340,24 @@ async function preview() {
   if (readyRevision===revision&&(!wordWorkspace?.active||pdfReadyRevision===revision||wordWorkspace.document.pdfUnsupported)) return;
   if (rendering) { repeatPreview=true; return; }
   rendering=true;previewFailed=false;updateExport(); const requested=revision,run=++previewRun; const snapshot={...fields},snapshotContent=bodyContent?structuredClone(bodyContent):null,wordSnapshot=wordWorkspace?.active?structuredClone(wordWorkspace.document):null;
-  let loading,worker,deadlineTimer,expired=false;
+  let loading,worker,deadlineTimer,startDeadline,expired=false;
   const stale=()=>{if(run!==previewRun)return true;if(requested!==revision){repeatPreview=true;return true;}return false;};
-  // Worker startup has its own bounded download timeout. Count the shorter
+  // Engine and font loading have their own bounded timeouts. Count the shorter
   // rendering deadline only after the engine can actually process the draft.
-  const deadline=new Promise((_,reject)=>{engine.start().then(()=>{deadlineTimer=setTimeout(()=>{
+  const deadline=new Promise((_,reject)=>{startDeadline=()=>{deadlineTimer=setTimeout(()=>{
     expired=true;previewRun++;
     const failure=Error('这次预览未完成，内容已保留。可继续修改，或点击“重新生成预览”重试。');
     engine.reset(failure);currentRender?.cancel();loading?.destroy().catch(()=>{});
     try{worker?.destroy();}catch{}if(pdfjsWorker===worker)pdfjsWorker=null;
     reject(failure);
-  },previewDeadlineMS);},reject);});
+  },previewDeadlineMS);};});
   $('preview-canvas').setAttribute('aria-busy','true'); $('preview-status').textContent=pdf?'正在更新成品…':'首次准备排版与预览，可继续填写…';
   try {
     await Promise.race([deadline,(async()=>{
     const nextModel=wordSnapshot||applyBodyContent(applySignature(await engine.call('BuildDocument',fieldsForEngine(snapshot,true,snapshotContent)),snapshot),snapshotContent);
+    await engine.call('PrepareFonts',nextModel,false);
+    if(stale())return;
+    startDeadline();
     if(wordSnapshot){
       const checked=await engine.call('InspectDocument',nextModel);if(stale())return;model=nextModel;inspection=checked;readyRevision=requested;renderChecks();updateExport();
       if(nextModel.pdfUnsupported){$('preview-status').textContent='原文结构暂不支持PDF；可继续编辑并另存Word';$('preview-empty').querySelector('h3').textContent='这份Word暂不能生成PDF';$('preview-empty').querySelector('p').textContent='原件及Word另存可用；具体受影响结构见左侧说明。';return;}

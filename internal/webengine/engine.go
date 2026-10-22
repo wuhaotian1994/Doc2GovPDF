@@ -62,6 +62,19 @@ func dispatch(r Request) (any, error) {
 		return office.Templates(), nil
 	case "Fonts":
 		return office.FontStatus(), nil
+	case "RegisterFallbackFont":
+		var b []byte
+		var complete bool
+		if e := arg(0, &text); e != nil {
+			return nil, e
+		}
+		if e := arg(1, &b); e != nil {
+			return nil, e
+		}
+		if e := arg(2, &complete); e != nil {
+			return nil, e
+		}
+		return nil, office.RegisterFallbackFont(text, b, complete)
 	case "RegisterFont":
 		var b []byte
 		if e := arg(0, &text); e != nil {
@@ -122,6 +135,12 @@ func dispatch(r Request) (any, error) {
 		return nil, e
 	}
 	switch r.Method {
+	case "RequiredFallbackFonts":
+		var complete bool
+		if e := arg(1, &complete); e != nil {
+			return nil, e
+		}
+		return office.RequiredFallbackFonts(m, complete), nil
 	case "InspectDocument":
 		return office.Inspect(m)
 	case "ApplyDocumentFix":
