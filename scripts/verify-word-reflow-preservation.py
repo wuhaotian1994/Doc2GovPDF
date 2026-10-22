@@ -92,7 +92,7 @@ def resources_signature(reader):
                                          'geometrySHA256': digest([str(item.get('/BBox')), str(item.get('/Matrix'))])})
                     visit(item.get('/Resources', {}), chain+[str(resource)])
         visit(page.get('/Resources', {}), [])
-    return {'fonts': font_records, 'images': image_records, 'forms': form_records}
+    return {kind: sorted(records, key=lambda value: (value['page'], value['resourceIdentitySHA256'], digest(value))) for kind, records in [('fonts', font_records), ('images', image_records), ('forms', form_records)]}
 
 
 def measure_pdf(path):

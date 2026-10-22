@@ -1,5 +1,15 @@
 # CEO 与产品经理交接
 
+## 最新：页码实际字形与Word/LO动态字号已完成本机验收（优先于历史）
+
+- 同PR5/ceo-001/codex/ceo-004-materials，基线7c04bfc；CEOa1b2/mainb0ae无新评价，shared他人不碰。当前实现/交付SHA由后续交付条目和checkpoint记录，不合并/部署。
+- PDF页码实际字符串进入字体选择与实际面定位；缺字原因区分已读/未知/歧义，首例U码/短原文/整段或页码范围有界，不把测量次数当影响数，不要求改删原字。pdf40e91。原7dbd+Go A-only是同稿配置控制，旧21非空页码GID0→新21真OFL14；真实ST/Kai源稿本来全覆盖，不冒称实字体已缺字。
+- 实际Word和LO数字曾继承正文16而dash14；mark-only/仅MERGE都被接收端拦下，最后局部style-only两端有效。pagefooter c819/templates f7b/专项4386冻结，仅新CreateDOCX用生成helper/样式，原base/source normalization无新style引用；Normal16/原PAGE不动。最终full39.516/.962+vet/交叉审过，不拿中间e620/43d6当最后。
+- 当前准确联合/原卫生各新原生Word+LO，共18页/54非空页码轮廓符合源面和约14；正文文字/字位/字号/字族对各旧件相同，Word81格29空白，卫生标题表开头6、完整尾注来源7。11对35产品PDF像素全同，8原Word原字节、3新Docx仅两引用/一局部style；12PDF26程序严格过，27独立当前页和7失败页脚带已看。详见FONT-COVERAGE-FOOTER-RESPONSE与去正文evidence。
+- 当前4173原PID65964，冻结font-coverage-release-web/eaf4d9ab0a3d779bbea9/Wasm cc18c15cd6ec991569c871058b804d9e1e756a44e285d7e82ca8803b05a25798/cache18b034de，64HTTP资源、新样式原Word服务6/4和18footer轮廓过，真实收集关闭，提交不重建。此前e9cd已替代；4188/PG不变。
+- 四本机face通过正常文件路径登记/恢复，不是实际OS授权弹窗；联合未证明SimHei实际使用，标题缺真实小标宋仍备用。全文类别/覆盖/许可/特殊页/打印、原件显式规范化仍有边界；准确CEO变体不代签，无529不再问。下一按新评价和全文P0真实条件推进，保持同PR。
+
+
 ## 最新：Word有效孤行控制已完成本机语义/实稿回归（优先于历史）
 
 - **已实际交付**：实现feeaf95f5f20424e6dce439b73b59dd2476c1134已推送同分支，main b0ae已是祖先；PR5最终标题/正文重写并重新附加，open/unmerged/mergeable=true。该head评论/评审/行内/statuses/Actions均空，不称CI绿或CEO接受。只补文档记录，最终head见checkpoint，已验d21d/e9cd资产不重建。

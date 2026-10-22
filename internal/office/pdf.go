@@ -183,26 +183,27 @@ type PDFResult struct {
 	Warnings []string
 }
 type pdfWriter struct {
-	pageFormats   map[int]Page
-	charSpacing   float64
-	firstFooter   []Paragraph
-	f             *fpdf.Fpdf
-	ctx           context.Context
-	page          Page
-	y             float64
-	loaded        map[string]string
-	warnings      map[string]bool
-	pages         int
-	hideFirst     bool
-	header        []Paragraph
-	firstHeader   []Paragraph
-	lastInkBottom float64
-	newDocument   bool
-	faceName      string
-	pointSize     float64
-	keepTail      float64
-	tableTail     float64
-	hiddenInk     bool
+	pageFormats      map[int]Page
+	charSpacing      float64
+	firstFooter      []Paragraph
+	f                *fpdf.Fpdf
+	ctx              context.Context
+	page             Page
+	y                float64
+	loaded           map[string]string
+	warnings         map[string]bool
+	coverageWarnings map[string]bool
+	pages            int
+	hideFirst        bool
+	header           []Paragraph
+	firstHeader      []Paragraph
+	lastInkBottom    float64
+	newDocument      bool
+	faceName         string
+	pointSize        float64
+	keepTail         float64
+	tableTail        float64
+	hiddenInk        bool
 }
 
 func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
@@ -249,14 +250,15 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 		if w.hideFirst && w.f.PageNo() == 1 {
 			return
 		}
-		w.setFont(Paragraph{Font: "宋体", Size: 14})
+		footerText := fmt.Sprintf("— %d —", w.f.PageNo())
+		w.setFont(Paragraph{Font: "宋体", Size: 14, Text: footerText, Role: "page-number"})
 		w.f.SetTextColor(0, 0, 0)
 		footerY := page.Height - page.Bottom + 7 - 3 - .3*14*25.4/72
 		// Glyph bounds include non-inking font padding. Calibrated against the
 		// rendered SimSun dash at 144 dpi on Windows; keep ink about 7 mm below
 		// the text area instead of positioning the footer by an arbitrary edge.
 		footerY += .22
-		face := fontMaps[resolveFont("宋体").name]
+		face := fontMaps[w.faceName]
 		if face != nil {
 			if glyph, e := face.GlyphIndex(nil, '—'); e == nil {
 				if bounds, _, e := face.GlyphBounds(nil, glyph, fixed.I(14), font.HintingNone); e == nil {
@@ -270,7 +272,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 		if w.f.PageNo()%2 == 0 {
 			alignment = "L"
 		}
-		w.f.CellFormat(page.Width-page.Left-page.Right-2*footerIndent, 6, fmt.Sprintf("— %d —", w.f.PageNo()), "", 0, alignment, false, 0, "")
+		w.f.CellFormat(page.Width-page.Left-page.Right-2*footerIndent, 6, footerText, "", 0, alignment, false, 0, "")
 	})
 	w.newPage()
 	var anchored []Paragraph
@@ -366,12 +368,38 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 func (w *pdfWriter) setFont(p Paragraph) {
 	w.hiddenInk = p.HiddenInk
 	fd := resolveFont(p.Font)
+	coverageFallback := false
 	if r := missingGlyph(fd.name, p.Prefix+p.Text); r != 0 {
+		// A loaded face with incomplete coverage is a different cause from an
+		// unavailable family. The existing renderer replaces this whole unit.
+		coverageFallback = !fallbackName(fd.name)
+		coverageKey := p.Font + "\x00" + fd.name
+		if p.Role == "page-number" {
+			coverageKey += "\x00page-number"
+		}
+		name := p.Font
+		if family, ok := legacyWordFamily(fd.name); ok {
+			name = family
+		}
 		fd = fonts["Noto Serif SC"]
-		w.warnings["部分字符在原字体中缺失，已使用 Noto Serif SC 显示，请核对字形。"] = true
 		if missing := missingGlyph(fd.name, p.Prefix+p.Text); missing != 0 {
-			w.f.SetError(fmt.Errorf("字体无法显示字符 %U，请调整该字符后重试；Word 原件仍保留", missing))
+			w.f.SetError(fmt.Errorf("当前字体及备用字体未能覆盖全部原文；备用字体仍缺少字符 %U（原文“%s”）。请选择可覆盖原文的字体后重试；原文未修改，Word 原件仍保留", missing, missingGlyphContext(p.Prefix+p.Text, missing)))
 			return
+		}
+		scope := "当前段落整体"
+		if p.Role == "page-number" {
+			scope = "当前页码整体"
+		}
+		cause := "当前字体"
+		if coverageFallback {
+			cause = "已读取的字体"
+		}
+		if w.coverageWarnings == nil {
+			w.coverageWarnings = map[string]bool{}
+		}
+		if !w.coverageWarnings[coverageKey] {
+			w.warnings[fmt.Sprintf("%s“%s”缺少字符 %U（例如“%s”）；%s使用 Noto Serif SC 备用字体，可改选覆盖原文的字体。", cause, name, r, missingGlyphContext(p.Prefix+p.Text, r), scope)] = true
+			w.coverageWarnings[coverageKey] = true
 		}
 	}
 	sum := fd.name
@@ -387,7 +415,7 @@ func (w *pdfWriter) setFont(p Paragraph) {
 	}
 	if fallbackName(fd.name) && ambiguousFamily {
 		w.warnings["已登记的字族“"+p.Font+"”对应多个不同字体面，原声明不能唯一确定字重或样式；PDF 使用 "+fd.name+" 备用字体草拟，请重新核对字体。"] = true
-	} else if original, derived := derivedFallbackSource(p.Font); strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name && (!derived || original != fd.name) {
+	} else if original, derived := derivedFallbackSource(p.Font); !coverageFallback && strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name && (!derived || original != fd.name) {
 		w.warnings["当前排版引擎未取得可用字体“"+p.Font+"”，PDF 使用已嵌入的 "+fd.name+" 备用字体，仅供草拟，不代表全文国标检查通过。"] = true
 	}
 	w.f.SetFont(family, "", p.Size)
@@ -411,6 +439,30 @@ func (w *pdfWriter) setFont(p Paragraph) {
 		w.f.SetLineWidth(p.Size * 25.4 / 72 * .015)
 		w.f.RawWriteStr("BT 2 Tr ET")
 	}
+}
+
+// Keep a bounded, exact rune window; never rewrite the author's spelling or spaces.
+func missingGlyphContext(text string, missing rune) string {
+	runes := []rune(text)
+	at := -1
+	for i, r := range runes {
+		if r == missing {
+			at = i
+			break
+		}
+	}
+	if at < 0 {
+		return ""
+	}
+	start, end := max(0, at-8), min(len(runes), at+9)
+	snippet := string(runes[start:end])
+	if start > 0 {
+		snippet = "…" + snippet
+	}
+	if end < len(runes) {
+		snippet += "…"
+	}
+	return snippet
 }
 
 func missingGlyph(name, text string) rune {
