@@ -9,6 +9,8 @@
 | 节标题孤立在页末、短尾行和明显留白如何改善？ | [CEO-003 跨页连续阅读与前后页组](../CEO-003-READABILITY-RESPONSE.md) |
 | 整篇整理后回执在落款日期之后，如何直接变成表格并继续编辑？ | [落款后连续编辑与结构输入修复](../POSTSCRIPT-WORKSPACE-RESPONSE.md) |
 | 正常页怎样直接加表格、调整段落，短窗口操作和预览异常如何恢复？ | [同稿工作区回应与验收](../INLINE-WORKSPACE-RESPONSE.md) |
+
+| 国标为何贯穿全文，字体与实际导出怎样判断符合？ | [全文国标产品约束（最新原则）](../STANDARDS-PRODUCT.md) |
 | CEO 当前关注哪些产品问题、优先级和完成结果？ | [CEO 产品议题](../CEO-QUESTIONS.md) |
 | 内容提醒如何准确定位，修改后何时保留确认？ | [CEO-001 实施与验收](../CEO-001-RESPONSE.md)、[产品经理交接](handoffs/01a15c4c-ceo-pm.md) |
 | 写到一半需要添加表格，怎样保留已有内容继续？ | [CEO-002 路径与验收](../CEO-002-RESPONSE.md)、[教育通知与空白回执](../CEO-002-EDUCATION-RESPONSE.md) |
