@@ -1,5 +1,45 @@
 # CEO 与产品经理交接
 
+## 新CEO反馈接续（本轮交付之后）
+
+- 最新已读blob b42a0b276562dc3977f1854e5f2af03645e97d6a，CEO另用8c6ce8a下415字真实节选保存刷新后两次Chromium Error9，未导出；第二次无输入也发生。此稿不是已验收39块三表原稿，精确原保存状态在其云端，尚未取得；不得重编节选或用本轮通过反驳。下一P1先诊断该有界恢复/字体实例，再接完整反馈前端工作包。
+- receipt_pagination只读审查未证根因：资源pending持有完成ArrayBuffer；并行字体经binary/base64/JSON/Go解码峰值重叠；RegisterFallbackFont先sfnt.Parse再复制数据，sfnt保留原切片，每完整面存在两份常驻字节。是可观测内存风险，不等于已证OOM。Worker文档请求串行，无明确重入。U+759F在coreCoverage内，不能猜是该字触发完整字体；8c故障早于本轮分页测量器。下一轮取得精确源/记录字体注册内存与renderer退出原因，针对性A/B，不无限重载或宣称已修复。
+- 最终PR推送/正文/附加完成，9bab37c时mergeable=true/open/unmerged；评论/评审/行内/状态/Actions空。recent issues API本轮ReadTimeout，不能说当前Issues空。4173已最终健康检查，44资产/Wasm1d046278保持，不重建。
+
+
+## 最终当前版（优先于下面阶段记录）
+
+- 已提交粘贴f2b4eae、同一原稿分页34b89d0；远端并发字体8c6ce8a/4d386e5正常合并3911d0d，主线评价5d2485f合入00c4e702。交付head看checkpoint，原PR5，无强推/合并PR。
+- 最终已验证资产为health-office-integrated-web，实际4173原PID65964服务同字节；44HTTP资产含字体，Wasm1d0462788c64856b9acd3745bdf54db0e265908776d54bf41f4c77e882afc57b，当前原稿QA+服务恢复/保存刷新/导出精确保持。DOCX0103c65e同已审Word16代表字节；PDF全部7页内容流和PNG同已审最终实页。小表全3行/标题/注同4，回执完整关系同6，长表5–6，余注/来源7。当前连续31和office/webengine/webserve全量test/vet通过。不要重建最终服务，也不拿旧41cdb/36资产当当前版本。
+- CEO最新blob87938cc24aa4fc8800ac2cd9f9bab5e514429cb5（main5d2485f）已独立确认原Word两次整格撤销，撤销待审批已替代；真实中文字体实际覆盖/Word策略/失败就近说明与全文P0仍开。
+- 当前唯一dirty为本聊天已完成后台子任务的go.mod/sum、internal/feedback/**、cmd/feedbackd/**、scripts/feedback-development.ps1与test-feedback-http.py，归属明确勿丢弃。接下按同一完整反馈工作包实现前端、证据本地脱敏制作、处理UI并整体验收后同PR提交；不是让用户确认，不以无新CEO消息停工。独立PG55440/开发4187仅虚构，真实收集关闭。
+
+
+## 最新：同一原稿分页已验收，后台反馈待集成
+
+- 用户复现包源SHA7dbde2fe，正常UI恢复/save/reload/导出精确保持39块/三表。最终小表标题/全3行/注同第4；回执标题/单位/说明/全表同第6；产品和Word16各7页，全部14页父代理已看，无裁切。仅keepNext改变，字号/边距/列宽/正文及所有其他DOCX成员不变。初候选拆小表退化已修，不交付初版。具体docs/HEALTH-OFFICE-ORIGINAL-RESPONSE.md；原稿与图片仅shared tmp/health-office-original。
+- f2b4eae为已提交粘贴增量；本轮分页源码/必要测试/无正文证据另提交推送同PR5，最后SHA见checkpoint。不要用旧Wasm41cdb的粘贴实页替代本轮新引擎，最终服务用已验收资产原样同步且不再构建。
+- 反馈后台backend_agent已冻结：internal/feedback/**、cmd/feedbackd/**、scripts/feedback-development.ps1、scripts/test-feedback-http.py、go.mod/sum归本聊天未提交。PG13.21隔离55440、独立反馈开发4187（当前真实收集默认禁用）；55439早期实例已停。独立Agent安全审查发现并修复并发解码、静态链接/..private路径、PNG透明隐藏RGB、通知误开。PG/3虚构岗位HTTP由backend验证，独立审查单测/vet通过，父代理未将其冒充完整功能。后续接反馈前端、本地脱敏证据与处理UI，按同一完整交付关口推进；不上传本次原稿。
+
+
+## 当前接续：原始卫生通知复现包与并行研发（2026-10-22）
+
+- 用户明确授权子Agent并行研发，并提供 D:/Temp/Doc2GovPDF-卫生通知复现包.zip，要求用同稿复现回执标题/表格跨页，不另编样本、不删内容或缩字号。原稿仅本地，禁止纳入公开证据。
+- 本轮从正常“打开Word或草稿”入口恢复原JSON，SHA256 7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c。原稿39块/三表3×2、9×5、5×6，空白0/9/20；当前服务导出DOCX同包内原件逐字节一致c9f686ec…，PDF6页已全看：回执标题5页底，单位/说明/表6页；小核对表3页、后注4页。局部证据位于shared tmp/health-office-original/baseline，不公开原文。
+- receipt_pagination子Agent独占web/write-content.js、office/pdf.go与独立回归；parent正常UI真实成品验收。反馈backend子Agent独占internal/feedback、cmd/feedbackd、go.mod/sum；PG13.21隔离集群本地55439已报告生命周期测试通过，父代理尚未复核，不称完整反馈交付。尚未启用真实收集。
+- 粘贴增量冻结旧Wasm41cdb版本经独立收口复核：47模型、75三浏览器、25服务、31连续服务；8页像素哈希全部与已审页相同，36资产绑定。此证明不替代正在进行的原稿分页变更验收。
+
+
+## 最新：整篇输入先给可编辑暂排稿／下一工作包反馈PG（2026-10-22，优先读）
+
+- 同一ceo-001树/codex/ceo-004-materials/PR5。合入5747b17/dbf0438的用户粘贴P1，DESIGN尾部冲突保留双方追加内容。主入口/TXT不再调用模态用途问卷，先回连续可编辑稿/真实预览；高置信标题去重、收文/干净署名日期及明确TSV先暂排，真正冲突原位显示当前值/拟结果，编号/年份不猜改。原文与前稿保留，局部结构/暂排可撤销，失败不换可见稿。
+- 原位待核从原文+当前稿派生，既有review保存；无关编辑/关页恢复保持，相关内容重核。格式交付仍需必要判断，但合成ID不转引擎通过。附件/后表可改/撤销，纯数值矩阵不猜表头；已有附件/后结构时不强行切分、容量不截断。旧关闭问卷代码未删除，但正常入口/TXT均不调用，不是折叠旧墙。
+- 冻结源Node47、三浏览器75、实际服务25/连续31、提醒66、启动33、v4/v5各18；18实际Word/PDF、Word16三代表1/1/2页及8实页全部查看。36HTTP/源/实际Wasm41cdb、七组Word/PDF绑定。docs/DRAFT-FIRST-PASTE-RESPONSE.md / evidence/draft-first-paste，日志2026-10-22-01a15c4c-draft-first-paste.md。仅虚构等价材料，未用用户原正文/截图，尚待独立用户评价，未称所有文章/全标准通过。
+- 最新main709145f/fa335e5、CEO blob1fa7d57e09af7ab8dffba0afab65221693444231：完整反馈/PostgreSQL已接单为当前粘贴交付后下一开发工作包，不再只排远期，不等全部编辑器和国标完成。实际反馈代码尚未开工/功能未交付；Docker CLI存在但本轮未能连接本机引擎，psql未在PATH，PG/账号/私有附件未建，Go未有驱动。依赖和初估A4–8h/B8–16h/C配置后2–4h见docs/FEEDBACK-IMPLEMENTATION-PLAN.md，非具体日期承诺，开工后需更新实际估时。
+- 下一轮优先开始反馈关口A本地PG/迁移/接口/私密回执/补充回复状态与处理端，虚构数据走通，附件/脱敏/删除为同一完整交付关口B；运营信息只挡真实启用，不挡本地开发。未获本聊天外部DB/服务/公网收集授权，不收用户稿/字体，不默认日志/当前稿上传。
+- CEO-003原卫生办稿阅读关系仍需可读完整源复现；字体类别/覆盖/Word映射与全文P0继续，不以短样本关闭。当前4173原隐藏PID65964已原样同步本轮验收资产，提交后不重建。实际提交/推送、评论评审和去重看checkpoint；PR只讲产品/代码/验证，不含基础设施说明，不合并或部署。
+
+
 ## 最新：CEO-001空白表单范围增量（2026-10-22，优先读）
 
 - 实现8d7e571已推送同PR5，标题/正文与本轮范围/边界/证据已更新并附加。推送后评论/评审/线程/CI结果为空，不称远端CI绿或新UI独立签收。CEO仍54aebd38/03b4ac2；原稿阅读关系仍待复现。最终文档head与去重看checkpoint。

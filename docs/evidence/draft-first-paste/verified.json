@@ -1,0 +1,208 @@
+{
+  "profiles": [
+    {
+      "profile": "chrome",
+      "checks": 25
+    },
+    {
+      "profile": "firefox",
+      "checks": 25
+    },
+    {
+      "profile": "webkit",
+      "checks": 25
+    }
+  ],
+  "files": [
+    {
+      "profile": "chrome",
+      "file": "safe",
+      "docxSHA256": "663bb08ea2d92c6117b51c96fc91265f9f7175d19e2771a7cfa481344b844027",
+      "pdfSHA256": "6d46dd6bb545e9fd404759d08ac5af66c6de0a5d670764e4f6381b02e15c4872",
+      "pages": 1,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "mixed",
+      "docxSHA256": "7f09950bec6bba1e62fe749307c52285b8a43a973f53ae844efb1cfa929317f7",
+      "pdfSHA256": "429eb2c54af57556e4024ecf15f4f2b73e2ad9540a46f708260028681b1ec699",
+      "pages": 1,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "annex",
+      "docxSHA256": "d3c0b30b3adf92bf3af2c069b877c3fc1c3bc982fa4cc168e51315d9505e6df5",
+      "pdfSHA256": "30641ad05a7c24b50acabffa987fb125ea7054fcc8a34e196bf3f60485e507b5",
+      "pages": 2,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "safe",
+      "docxSHA256": "663bb08ea2d92c6117b51c96fc91265f9f7175d19e2771a7cfa481344b844027",
+      "pdfSHA256": "fecbf16eefb13d6b7b6b9fd5cb832dcdf7b8510d38f228aa14d43665568d1ef0",
+      "pages": 1,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "mixed",
+      "docxSHA256": "7f09950bec6bba1e62fe749307c52285b8a43a973f53ae844efb1cfa929317f7",
+      "pdfSHA256": "ff9c56633035db1f0eea45d93f8cd01339f37760174536064ca1b3033c0d8915",
+      "pages": 1,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "annex",
+      "docxSHA256": "d3c0b30b3adf92bf3af2c069b877c3fc1c3bc982fa4cc168e51315d9505e6df5",
+      "pdfSHA256": "bb71bb60b063f33e08e0579fdd3f1824c29969ab0fbff0b0accf2b51c0d23274",
+      "pages": 2,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "safe",
+      "docxSHA256": "663bb08ea2d92c6117b51c96fc91265f9f7175d19e2771a7cfa481344b844027",
+      "pdfSHA256": "8440c14355eebfc9e8293af85d3e7f68837ee236f4a64bccd0fbf14e38ff6d4c",
+      "pages": 1,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "mixed",
+      "docxSHA256": "7f09950bec6bba1e62fe749307c52285b8a43a973f53ae844efb1cfa929317f7",
+      "pdfSHA256": "d6d0fffc873c4afbc387106845f84490a822247a3c40577f09e5ef5e0120878c",
+      "pages": 1,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "annex",
+      "docxSHA256": "d3c0b30b3adf92bf3af2c069b877c3fc1c3bc982fa4cc168e51315d9505e6df5",
+      "pdfSHA256": "2fc1c8e3b9526a45e2dc758ca0405c1413d1dc5e3cacbd97df845522b4af1822",
+      "pages": 2,
+      "table": [
+        [
+          "项目",
+          "数量"
+        ],
+        [
+          "口罩",
+          "12箱"
+        ],
+        [
+          "手套",
+          ""
+        ]
+      ]
+    }
+  ],
+  "inputBoundary": "Fictional equivalents, not the user screenshot or private original."
+}

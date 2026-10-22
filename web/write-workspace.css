@@ -101,3 +101,8 @@ body { position: fixed; inset: 0; width: 100%; height: 100dvh; display: flex; fl
 .body-writing-actions,.postscript-writing-actions{gap:8px}
 #postscript-content-blocks.continuous-editor{min-height:160px}
 @media(max-width:760px){.continuous-editor{padding:12px;min-height:220px}.content-toolbar{position:static}.word-selection-format>label{max-width:140px}}
+
+/* Material questions remain beside their original text, outside editable data. */
+.assembly-note{margin:10px 0 18px;padding:10px 12px;background:#f3f6fc;border:1px solid #dce2ea;border-radius:6px;white-space:normal;font-size:14px;line-height:1.65;cursor:default}
+.assembly-note p{margin:0 0 8px}.assembly-note .dialog-actions{justify-content:flex-start;gap:8px}.assembly-note details{font-size:13px}.assembly-note blockquote{white-space:pre-wrap;margin:8px 0}.assembly-note button{min-height:36px;font-size:14px}
+#assembly-status{margin:0 0 14px}#assembly-status>p{margin:0 0 6px}

@@ -1,3 +1,4 @@
+import {assemblyInspection} from './write-assembly.js';
 import {blankTableState,validBlankState,groupBlankTables} from './write-table-blanks.js';
 import {hasAnnexes} from './write-annexes.js';
 // Review identity belongs to the source and the decision, never to the engine's
@@ -53,11 +54,12 @@ function paragraphSources(model,fields) {
 }
 function localRule(rule) {
   // Unknown and cross-paragraph rules conservatively depend on the whole draft.
-  return /^(word\.|date\.|reference\.|punctuation\.)/.test(rule) ||
+  return /^(word\.|date\.|reference\.|punctuation\.|writer\.material\.)/.test(rule) ||
     ['number.unit-space','number.range-unit','number.bare-decimal','number.short-year','number.fullwidth','number.mixed-place',
       'style.word','style.self-reference','style.modal-stack','style.latin','style.tool-marker','style.nominalization'].includes(rule);
 }
 export function reviewItems(model,inspection,fields,documentId,content=null) {
+  inspection=assemblyInspection(model,inspection,fields,content);
   const sources=paragraphSources(model,fields);
   const entries=(inspection?.issues || []).map(issue=>{
     const source=sources.get(issue.paragraphId) || null;
@@ -132,6 +134,6 @@ export class ReviewDecisions {
     const present=new Set(items.map(item=>item.key));
     for(const [key,old] of this.receipts)if(!present.has(key)){if(old.scope==='table-blanks'&&items.some(item=>item.blankState?.table.id===old.blankState.table.id))this.blankRechecks.add(old.blankState.table.id);this.receipts.delete(key);}
     for(const item of items)if(this.receipts.has(item.key))this.receipts.set(item.key,item);
-    return new Set(items.filter(item=>this.has(item)&&item.issue.severity==='review').map(item=>item.issue.id));
+    return new Set(items.filter(item=>this.has(item)&&item.issue.severity==='review'&&!item.issue.rule.startsWith('writer.material.')).map(item=>item.issue.id));
   }
 }

@@ -108,6 +108,34 @@ function formatParagraph(base,block){
   for(const side of ['before','after'])if(block[side]!=='auto')p[side]={none:0,half:5.105,one:10.21}[block[side]];
   return p;
 }
+// Keep a table's authored lead-in together without changing its text or style.
+// A prose explanation may sit between an explicit table/annex heading and the
+// grid. Requiring every line to be a short punctuation-free label loses that
+// relationship. Bound the search so an unrelated chapter cannot pull a long
+// narrative into one keep chain; explicit breaks and signing remain barriers.
+function keepTableReadingFlow(compiled){
+  const barrier=p=>!p||p.pageBreak||p.anchorBottom||p.protected||p.formatLocked||['signature','date'].includes(p.role);
+  const heading=p=>['title','heading','heading2','heading3','heading4','attachment-title','caption'].includes(p.role)||/^(?:附件\s*[0-9一二三四五六七八九十]*[（(][^）)]*[）)]\s*[：:]|附件\s*[0-9一二三四五六七八九十]*\s*[：:])/.test(p.text.trim())||(!/[。！？!?]/.test(p.text)&&/(?:表|回执|清单|流程|安排)(?:[（(][^）)]*[）)])?$/.test(p.text.trim()));
+  for(let i=0;i<compiled.length;i++){
+    const t=compiled[i].table;if(!t)continue;
+    let anchor=-1,characters=0,nonempty=0;
+    for(let j=i-1;j>=0&&i-j<=5;j--){
+      const p=compiled[j].paragraph;if(barrier(p))break;
+      const text=p.text.trim();characters+=text.length;if(text)nonempty++;
+      if(characters>300||text.length>180||nonempty>3)break;
+      if(text&&heading(p)){anchor=j;break;}
+    }
+    if(anchor>=0){for(let j=anchor;j<i;j++)compiled[j].paragraph.keepNext=true;}
+    else{
+      // Preserve the existing adjacent-label behavior for unlabelled tables.
+      let labels=0;for(let j=i-1;j>=0&&labels<2;j--){const p=compiled[j].paragraph;if(barrier(p))break;const text=p.text.trim();if(!text){p.keepNext=true;continue;}if(text.length>60||/[。！？!?]/.test(text))break;p.keepNext=true;labels++;}
+    }
+    const note=compiled[i+1]?.paragraph,text=note?.text.trim()||'';
+    if(!barrier(note)&&text.length<=160&&/^(?:注[：:]|说明[：:]|上述(?:核对)?表|本表|以上表格)/.test(text)){
+      for(const cell of t.rows.at(-1)?.cells||[])for(const p of cell.paragraphs)p.keepNext=true;
+    }
+  }
+}
 export function applyBodyContent(model,value){
   if(!value)return model;
   const content=validateContent(value),original=model.blocks.filter(block=>bodyRoles.has(block.paragraph?.role)).map(block=>block.paragraph),sources={};
@@ -120,14 +148,13 @@ export function applyBodyContent(model,value){
     const result={widths,borders:true,borderStyle:'grid',rows:block.rows.map((row,index)=>({header:index===0&&block.header,cells:row.cells.map(cell=>({span:1,paragraphs:cell.text.split('\n').map((text,line)=>{
       const p={id:'writer-cell-'+cell.id+'-'+line,text,role:'body',font:'仿宋',size:14,line:8,indent:0,align:'left',before:0,after:0};sources[p.id]=source(block,{row:row.id,cell:cell.id,line},text,section,field);return p;
     })}))}))};
-    for(const [index,row] of result.rows.entries())if(row.header||index===result.rows.length-2&&isSummaryRow(block.rows.at(-1)))for(const cell of row.cells)for(const p of cell.paragraphs)p.keepNext=true;
+    for(const [index,row] of result.rows.entries())if(row.header&&index+1<result.rows.length||index===result.rows.length-2&&isSummaryRow(block.rows.at(-1)))for(const cell of row.cells)for(const p of cell.paragraphs)p.keepNext=true;
     if(block.caption){result.caption={id:'writer-caption-'+block.id,text:block.caption,role:'caption',font:'黑体',size:14,line:8,align:'center',indent:0,before:0,after:2,keepNext:true};sources[result.caption.id]=source(block,{caption:true},block.caption,section,field);}
     return {table:result};
   });
-  for(let i=0;i<compiled.length;i++)if(compiled[i].table){
-    let labels=0;for(let j=i-1;j>=0&&labels<2;j--){const p=compiled[j].paragraph;if(!p||['signature','date'].includes(p.role))break;const text=p.text.trim();if(!text){p.keepNext=true;continue;}if(text.length>60||/[。！？!?]/.test(text))break;p.keepNext=true;labels++;}
-  }
-  return compileAnnexes(section,compiled,model.page.width-model.page.left-model.page.right);};
+  const arranged=compileAnnexes(section,compiled,model.page.width-model.page.left-model.page.right);
+  keepTableReadingFlow(arranged);
+  return arranged;};
   const allBody=compile(content,original,'body'),annexIndex=allBody.findIndex(b=>b.paragraph?.role==='attachment-label'),body=annexIndex<0?allBody:allBody.slice(0,annexIndex),bodyAnnex=annexIndex<0?[]:allBody.slice(annexIndex);
   const blocks=[];let inserted=false;
   for(const block of model.blocks){if(bodyRoles.has(block.paragraph?.role)){if(!inserted){blocks.push(...body);inserted=true;}}else blocks.push(block);}

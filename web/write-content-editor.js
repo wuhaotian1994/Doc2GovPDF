@@ -2,7 +2,7 @@ import {continuousField,mountContinuous,editorCaret} from './write-continuous.js
 import {setAnnex,annexAt} from './write-annexes.js';
 import {paragraph,table,contentFromText,contentText,validateContent,splitContentParagraph,mergeContentParagraph,moveContentBlock,tabularContentAt} from './write-content.js';
 const labels={auto:'自动识别',body:'正文',title:'标题',heading:'一级标题',heading2:'二级标题',heading3:'三级标题',heading4:'四级标题',article:'条文正文',signature:'署名',date:'日期'};
-export function installContentEditor({getContent:readContent,onChange,onError,canEdit,onSettled,onPending,region='body'}){
+export function installContentEditor({getContent:readContent,onChange,onError,canEdit,onSettled,onPending,onRender,region='body'}){
   const $=id=>document.getElementById(region==='body'?id:id.startsWith('content-')?'postscript-'+id:id.replace(/^body/,'postscript')),root=$('content-workspace'),blocks=$('content-blocks'),toolbar=$('content-toolbar'),body=$('body');
   blocks.setAttribute('aria-label',region==='body'?'正文文稿':'落款后的文稿');blocks.setAttribute('aria-describedby',region==='body'?'body-hint body-error':'postscript-hint postscript-error');
   root.setAttribute('aria-describedby',region==='body'?'body-hint body-error':'postscript-hint postscript-error');
@@ -99,7 +99,7 @@ export function installContentEditor({getContent:readContent,onChange,onError,ca
         block.rows.forEach((row,i)=>{const tr=document.createElement('tr');row.cells.forEach((cell,j)=>{const td=document.createElement(i===0&&block.header?'th':'td');td.append(field(block,{row:row.id,cell:cell.id},cell.text,`第 ${i+1} 行，第 ${j+1} 列`,'cell'));tr.append(td);});grid.append(tr);});scroll.append(grid);section.append(scroll);
       }
       blocks.append(section);
-    });renderToolbar();historyButtons();
+    });renderToolbar();historyButtons();onRender?.();
   }
   function entries(){return (getContent()||displayContent)?.blocks.flatMap(block=>block.type==='paragraph'?[{key:block.id,text:block.text,path:{block:block.id},kind:'paragraph'}]:[...(block.caption||blocks.querySelector(`[data-block="${block.id}"][data-caption]`)?[{key:block.id+':caption',text:block.caption,path:{block:block.id,caption:true},kind:'caption'}]:[]),...block.rows.flatMap(row=>row.cells.map(cell=>({key:cell.id,text:cell.text,path:{block:block.id,row:row.id,cell:cell.id},kind:'cell'})))])||[];}
   function ensure(){if(!getContent()){onChange(displayContent,contentText(displayContent),{});}return getContent();}
