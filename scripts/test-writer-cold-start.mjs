@@ -14,7 +14,7 @@ await context.route('**/document-engine.wasm',async route=>{await downloading;aw
 await context.addInitScript(()=>{const Native=Worker;window.coldStartFault={drop:false,dropped:0,terminations:0};window.Worker=class extends Native{postMessage(value,...args){if(coldStartFault.drop&&value?.request?.method==='PreviewDocument'){coldStartFault.drop=false;coldStartFault.dropped++;return;}return super.postMessage(value,...args);}terminate(){coldStartFault.terminations++;return super.terminate();}};});
 const check=(name,value)=>{assert.ok(value,name);report.checks.push(name);console.log(name);};
 const bodyEditor=async()=>await page.locator('#body').isVisible()?page.locator('#body'):page.locator('#content-blocks');
-const fillBody=async value=>(await bodyEditor()).fill(value);
+const fillBody=async value=>{const input=await bodyEditor();if(await page.locator('#body').isVisible())await input.fill(value);else{await input.click();await page.keyboard.press('Control+A');await page.keyboard.insertText(value);}};
 const ready=()=>page.waitForFunction(()=>document.getElementById('preview-status').textContent.startsWith('已更新'),{},{timeout:30000});
 try{
   await page.clock.install();await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);

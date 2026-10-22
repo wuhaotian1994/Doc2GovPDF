@@ -46,7 +46,7 @@
     {
       "name": "clinic.pdf",
       "bytes": 30017,
-      "sha256": "487e93197c0a7644c72b5f60091bb74118a3cb6fac667ddb088f67d31b15d434"
+      "sha256": "2cb40c2acfd1f8f363f14ee83dde9ae1cedff6844fcd713585d17f70801f39a1"
     },
     {
       "name": "admissions.docx",
@@ -56,7 +56,7 @@
     {
       "name": "admissions.pdf",
       "bytes": 52926,
-      "sha256": "d587f5f780c14ff88a52419d9993f38cd1da8a813dbdf4f72837fdec62a89629"
+      "sha256": "38f101354de8937242b409a0796f94f5a4ff3940478f897e5e30e3a4d38a5c87"
     },
     {
       "name": "native-untouched.docx",
@@ -66,7 +66,7 @@
     {
       "name": "native-untouched.pdf",
       "bytes": 109201,
-      "sha256": "941c662845ac970d8843c52192515a4b244a1109789328826b42e3bd51eb6f4b"
+      "sha256": "30a92b9efb42c0a0ff72f447daf892bc45fe67562affd59fcc493cb530afe652"
     },
     {
       "name": "native-edited.docx",
@@ -76,12 +76,12 @@
     {
       "name": "native-edited.pdf",
       "bytes": 109903,
-      "sha256": "064e1cb40b5b4ee5153baad3cf4bd81bec102aba46c83b5bbd33a29adece1771"
+      "sha256": "8636e827532e06600fa82ee3efb9d34a3e920ca04fd7edf98fa85e3d8295ff1c"
     },
     {
       "name": "native.gongwen-word.json",
       "bytes": 567397,
-      "sha256": "90d8b919d9f0f69fe420d6355bf9637874a38c6fd490daeeb64e9b7191d6ef1c"
+      "sha256": "5a24b18da1075627f89b5d8714ff69b21d24eb285ca2f1c9bc69066c65c8328e"
     }
   ],
   "wasm": [

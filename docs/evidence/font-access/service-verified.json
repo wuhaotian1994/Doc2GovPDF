@@ -8,7 +8,7 @@
     "engine-worker.js": "e9a386a9deadb3889f2f3ee912e559b903747d65e83dc0d5aec474336f6b9ba8",
     "index.html": "43452239aa5002b57356e357abd261ac865e4daceb8be8273629a530be11a89f",
     "pdf-review.js": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
-    "sw.js": "a0c2f72f4650ff06e42ad16321a034190c260d815f244114e7c26085cc97da27",
+    "sw.js": "610c193d32a1fa22a57323e16e09d0cf8db7771f819d9976032a3bae58595919",
     "wasm_exec.js": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
     "web.css": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
     "workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
@@ -33,10 +33,10 @@
     "write-workspace.css": "95db22ce9fb710796179aaa3421dad4f80c3bcb992a49f89c54612cbaac2070a",
     "write.css": "9c040ed7003b6520a0967d84e7bbe89c47b0b921067894bf6ed56dbe00f35fa3",
     "write.html": "ea645b5c40514ba9f3dda51f8cd8cc60d3f3811b682863a831e20bff9b431ea3",
-    "write.js": "0cdaf6d525904cc4da4ddacfac2bc81ac7397746400c23bc93ba15515c0cf1ba"
+    "write.js": "7e9163033dd79c48a55ebe0b19fb12d8f8ebb4ba7cf43c858dde6f28915b42a7"
   },
   "source": {
-    "write.js": "0cdaf6d525904cc4da4ddacfac2bc81ac7397746400c23bc93ba15515c0cf1ba",
+    "write.js": "7e9163033dd79c48a55ebe0b19fb12d8f8ebb4ba7cf43c858dde6f28915b42a7",
     "write.html": "ea645b5c40514ba9f3dda51f8cd8cc60d3f3811b682863a831e20bff9b431ea3",
     "write-font-source.js": "cc0fae0985b828491dc193c344482137faa2f74b54600f971e88e4e604b8574d",
     "write-font-picker.js": "2c5386863abfd6ff7fb8842fdb53d7f4ece68a332b1a256881b4586e79e36d57"
