@@ -2,6 +2,8 @@
 
 ## 最新：接收端版位/版记与原卫生尾注已完成本机验收（优先于历史）
 
+- **已实际交付**：实现bc4cfea6a23489cc7ab45e17a42d77cb1ad3e585已推送原分支，main b0ae480是祖先无需重复merge；同PR5标题/正文按本轮最终行为重写并重新附加，open/unmerged/mergeable=true。该head状态/Actions/评论/评审/行内均空，不称CI绿或CEO接受。只补文档交付记录，最终head见checkpoint，冻结资产不重建。
+
 - 同PR5/codex/ceo-004-materials/ceo-001，起点595247c；本轮生产文件和测试归本聊天及明确Agent，shared他人不碰。完成提交/推送及PR状态见后续交付条目和checkpoint，不合并/部署。
 - 原LO三行由标签恰64pt到stop触发，留0.3mm且两姓名列/16pt不动；基本3段版记仅Word精确门控成一个页底双边框frame，自定义/CopyTo/来源不动；回开Word绘制上边框。原卫生短表注既有关系保持全段，Word/PDF KeepLines有界且硬分页优先；不是通用widow或准确61458验收。
 - 真实Word16与本地LO26.8.1.1各默认/所选字体三人稿14项，镇两模拟日期各7版记项；用户7dbd39块81格29空白和原文字号不变，Wordf533仅两keepLines差异，三成品7页/标题表开头6/末行及完整尾注来源7。正常Word回开保存刷新各6项，卫生回导PDF6页单列。四native输入字节不变复用本轮实际渲染如实标明，不冒称全部重调软件。

@@ -28,3 +28,7 @@
 - Word/LO五真实输入已按最终下载SHA绑定，四份同字节复用本轮原生输出如实记录，卫生f533新原生Word/LO7页；原稿81格29空白/所有段落保持，只有两处keepLines，尾注/来源完整7，标题/表开头6。Word回导PDF6页单列，不等同原生7页。
 - v4四多人原生14项、四单签版记专检7项、两回开product14项通过。16产品PDF37程序严格有效；备用33/33轮廓、0images。17PDF53页/50独立像素页已逐页目视（13sheet），未见裁切遮挡。
 - 4173原PID65964同步冻结final，不构建；真实Chrome16/4及64HTTP资源过、真实收集未开。fetch main仍b0ae480且已是ancestor，评论/评审/行内/Issues无新反馈，不称CEO已接受。详见RECEIVER-LAYOUT-RESPONSE及去正文evidence。
+
+## 已实际交付
+
+实现bc4cfea6a23489cc7ab45e17a42d77cb1ad3e585已推送原分支，PR5最终正文/标题及附加完成，open/unmerged/mergeable=true。最终head评论/评审/行内/statuses/Actions空，不称CI或CEO已通过。main b0ae已在祖先。常驻服务实际DOCX与已验35731逐字节相同；PDF容器哈希因生成时间不同未逐字节相等，因此拦截“相同字节”声明，进一步核每页内容流/内嵌字体程序/ToUnicode/页框/全部字符及矩阵精确相等。无新原生Word声明。后续只补本条文档，不重建资产。
