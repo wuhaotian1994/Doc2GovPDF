@@ -681,6 +681,9 @@ func applyProps(p *Paragraph, pp, rp *etree.Element) {
 		if value := child(pp, "keepNext"); value != nil {
 			p.KeepNext = enabled(value)
 		}
+		if value := child(pp, "keepLines"); value != nil {
+			p.KeepLines = enabled(value)
+		}
 		p.BorderBottom = child(child(pp, "pBdr"), "bottom") != nil
 		if border := child(child(pp, "pBdr"), "bottom"); border != nil {
 			p.BorderColor = attr(border, "color")

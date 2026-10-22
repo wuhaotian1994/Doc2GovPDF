@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"reflect"
 	"regexp"
 	"sort"
 	"strings"
@@ -407,6 +408,9 @@ func paragraphXML(p Paragraph) string {
 	if p.KeepNext {
 		props.WriteString(`<w:keepNext/>`)
 	}
+	if p.KeepLines {
+		props.WriteString(`<w:keepLines/>`)
+	}
 	if p.AutoNumbered {
 		fmt.Fprintf(&props, `<w:numPr><w:ilvl w:val="%d"/><w:numId w:val="1"/></w:numPr>`, p.OutlineLevel-1)
 	}
@@ -434,10 +438,6 @@ func paragraphXML(p Paragraph) string {
 		if color == "" {
 			color = "000000"
 		}
-		side := "bottom"
-		if p.BorderTop {
-			side = "top"
-		}
 		width := 12
 		if strings.Contains(strings.ToLower(style), "thick") {
 			width = 18
@@ -445,7 +445,16 @@ func paragraphXML(p Paragraph) string {
 		if p.BorderWidth > 0 {
 			width = int(p.BorderWidth*72/25.4*8 + .5)
 		}
-		fmt.Fprintf(&props, `<w:pBdr><w:%s w:val="%s" w:sz="%d" w:space="0" w:color="%s"/></w:pBdr>`, side, xmlText(style), width, xmlText(color))
+		props.WriteString(`<w:pBdr>`)
+		for _, edge := range []struct {
+			name string
+			on   bool
+		}{{"top", p.BorderTop}, {"bottom", p.BorderBottom}} {
+			if edge.on {
+				fmt.Fprintf(&props, `<w:%s w:val="%s" w:sz="%d" w:space="0" w:color="%s"/>`, edge.name, xmlText(style), width, xmlText(color))
+			}
+		}
+		props.WriteString(`</w:pBdr>`)
 	}
 	var run strings.Builder
 	visiblePrefix := p.Prefix
@@ -519,6 +528,66 @@ func formattedRun(text, font string, size float64, color string) string {
 	out.WriteString(`</w:r>`)
 	return out.String()
 }
+
+// basicImprintWordXML folds only the generated, three-paragraph basic imprint.
+// A single bottom frame with both rules survives Word and LibreOffice; adjacent
+// rule-only frames lose their borders in LibreOffice. The author model and the
+// direct PDF path retain their original paragraphs. Other layouts stay untouched.
+func basicImprintWordXML(m Model, start int) (string, bool) {
+	if m.SourceID != "" || m.ImportedFormatVersion != 0 || m.Template == "" || start+2 >= len(m.Blocks) {
+		return "", false
+	}
+	count := 0
+	for _, block := range m.Blocks {
+		if block.Paragraph != nil && block.Paragraph.Role == "imprint" {
+			count++
+		}
+	}
+	if count != 3 {
+		return "", false
+	}
+	upper, text, lower := m.Blocks[start].Paragraph, m.Blocks[start+1].Paragraph, m.Blocks[start+2].Paragraph
+	if upper == nil || text == nil || lower == nil || upper.Text != "" || upper.Prefix != "" || lower.Text != "" || lower.Prefix != "" {
+		return "", false
+	}
+	parts := strings.Split(text.Text, "\t")
+	if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
+		return "", false
+	}
+	standard := func(p Paragraph, line float64) Paragraph {
+		return Paragraph{ID: p.ID, Text: p.Text, Role: "imprint", Align: "both", Font: "仿宋", Size: 14, Line: line, AnchorBottom: true}
+	}
+	first, last := standard(*upper, 2.1), standard(*lower, 1.06)
+	first.BorderBottom, last.BorderBottom = true, true
+	first.BorderColor, last.BorderColor = "000000", "000000"
+	first.BorderWidth, last.BorderWidth = .35, .35
+	middle := standard(*text, 6.98)
+	middle.LeftIndent = 14 * 25.4 / 72
+	middle.Tabs = []TabStop{{Align: "right", Position: 156 - 2*14*25.4/72}}
+	if !reflect.DeepEqual(*upper, first) || !reflect.DeepEqual(*text, middle) || !reflect.DeepEqual(*lower, last) {
+		return "", false
+	}
+	merged := *text
+	merged.Tabs = append([]TabStop(nil), text.Tabs...)
+	merged.Indent += text.LeftIndent
+	merged.LeftIndent = 0
+	for i := range merged.Tabs {
+		merged.Tabs[i].Position += text.LeftIndent
+	}
+	merged.BorderTop, merged.BorderBottom = true, true
+	merged.BorderColor, merged.BorderWidth = upper.BorderColor, upper.BorderWidth
+	// Preserve even the original empty runs, in their original order. Only the
+	// two purely formatting paragraph wrappers are removed.
+	runs := func(p Paragraph) string {
+		markup := paragraphXML(p)
+		return markup[strings.Index(markup, "</w:pPr>")+len("</w:pPr>") : len(markup)-len("</w:p>")]
+	}
+	markup := paragraphXML(merged)
+	markup = strings.Replace(markup, "</w:pPr>", "</w:pPr>"+runs(*upper), 1)
+	markup = strings.TrimSuffix(markup, "</w:p>") + runs(*lower) + "</w:p>"
+	return markup, true
+}
+
 func CreateDOCX(m Model) ([]byte, error) {
 	if len(RequiredFallbackFonts(m, true)) > 0 {
 		return nil, fmt.Errorf("Word完整字体资源尚未准备完成，请重试")
@@ -535,7 +604,13 @@ func CreateDOCX(m Model) ([]byte, error) {
 		return nil, e
 	}
 	var body strings.Builder
-	for _, b := range m.Blocks {
+	for i := 0; i < len(m.Blocks); i++ {
+		b := m.Blocks[i]
+		if markup, ok := basicImprintWordXML(m, i); ok {
+			body.WriteString(markup)
+			i += 2
+			continue
+		}
 		if b.Paragraph != nil {
 			body.WriteString(paragraphXML(*b.Paragraph))
 			continue

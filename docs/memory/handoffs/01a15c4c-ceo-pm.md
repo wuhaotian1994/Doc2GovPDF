@@ -1,5 +1,15 @@
 # CEO 与产品经理交接
 
+## 最新：接收端版位/版记与原卫生尾注已完成本机验收（优先于历史）
+
+- 同PR5/codex/ceo-004-materials/ceo-001，起点595247c；本轮生产文件和测试归本聊天及明确Agent，shared他人不碰。完成提交/推送及PR状态见后续交付条目和checkpoint，不合并/部署。
+- 原LO三行由标签恰64pt到stop触发，留0.3mm且两姓名列/16pt不动；基本3段版记仅Word精确门控成一个页底双边框frame，自定义/CopyTo/来源不动；回开Word绘制上边框。原卫生短表注既有关系保持全段，Word/PDF KeepLines有界且硬分页优先；不是通用widow或准确61458验收。
+- 真实Word16与本地LO26.8.1.1各默认/所选字体三人稿14项，镇两模拟日期各7版记项；用户7dbd39块81格29空白和原文字号不变，Wordf533仅两keepLines差异，三成品7页/标题表开头6/末行及完整尾注来源7。正常Word回开保存刷新各6项，卫生回导PDF6页单列。四native输入字节不变复用本轮实际渲染如实标明，不冒称全部重调软件。
+- final源码Go full/vet、交叉审查；默认三浏览器48、selected22、镇9、字体契约20（非实际OS授权），16PDF37程序严格过、备用glyph33/33，17PDF53页/50独立页已看。详见RECEIVER-LAYOUT-RESPONSE.md、docs/evidence/receiver-layout与本轮独立日志。
+- 4173原PID65964保持，冻结final-web/engine867bd6d0901d5da28ec3/Wasm238e771770255cb9a6bb1c831b87ae5314becf071b3a9ba0a553619a273de1b4/SW78e133fa；64HTTP绑定、实际Chrome16/4再过，提交不重建。4188/PG不变、真实收集关闭。
+- latestCEOa1b2/mainb0ae，准确645eec/0eeb5d/61458不是本机稿，LO版本不同，不代签CEO验收。下一按新评价修同PR；准确61458孤行、通用widow与全文真实标准字体/未检客户端开放。用户答无529，不再索取；原7dbd不替代529。
+
+
 ## 最新：PDF字体子集结构P0已验收（优先于历史）
 
 - **已实际交付**：实现a4310bd66cfb4309df40efb08a797768142b23c9；正常合main b0ae480后51820b32977511100ffe518c7d52733e30ec6d18已推送原分支。PR5标题/正文重写并重新附加，open/unmerged，raw GitHub mergeable=true/clean；评论/评审/行内/Issues/statuses/Actions空，不称CI绿或CEO已接受这次字体容器修复。之后仅补交付记录，最终文档head见checkpoint，冻结资产不重建。

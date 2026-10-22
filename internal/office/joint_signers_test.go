@@ -327,3 +327,61 @@ func TestJointSignersNonstandardReferenceAndNameSpellingDoNotSelectFonts(t *test
 }
 
 func fmtInt(value int) string { return fmt.Sprint(value) }
+
+func TestJointSignersLabelTabHasPositiveFullWidthClearance(t *testing.T) {
+	loadFullFallbackTestFonts(t)
+	f := jointFixture([]string{"甲甲甲", "乙乙乙", "丙丙丙"})
+	f.Reference = ""
+	stops, err := jointSignerTabStops(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fullLabel := 4 * 16 * 25.4 / 72
+	if stops[1].Position-stops[0].Position < fullLabel+.29 {
+		t.Fatal("label can end exactly on or beyond the first-name stop")
+	}
+	if twips(stops[1].Position)-twips(stops[0].Position) <= twips(fullLabel) {
+		t.Fatal("clearance lost to DOCX twip rounding")
+	}
+	// Only reserve the label gap: both measured name columns retain their prior positions.
+	second := 150.36 - jointSignerAdvance(f.Signers[1], "楷体")
+	first := second - 2*16*25.4/72 - jointSignerAdvance(f.Signers[0], "楷体")
+	if math.Abs(stops[1].Position-first) > .000001 || math.Abs(stops[2].Position-second) > .000001 {
+		t.Fatal("name columns moved")
+	}
+}
+
+func TestJointSignersContinuationReferenceMustReachTheLabelStopBeforeNameStops(t *testing.T) {
+	loadFullFallbackTestFonts(t)
+	f := jointFixture([]string{"甲", "乙乙", "丙丙丙"})
+	f.Reference = ""
+	stops, err := jointSignerTabStops(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	between := ""
+	for count := 1; count <= 60; count++ {
+		candidate := strings.Repeat("文", count)
+		end := 5.64 + jointSignerAdvance(candidate, "仿宋")
+		if end > stops[0].Position && end < stops[1].Position-.3 {
+			between = candidate
+			break
+		}
+	}
+	if between == "" {
+		t.Fatal("no controlled between-stop fixture")
+	}
+	f.Reference = between
+	before, _ := json.Marshal(f)
+	if _, err := NewDocument(f); err == nil || !strings.Contains(err.Error(), "文号过长") {
+		t.Fatal("reference would consume the wrong physical tab", err)
+	}
+	after, _ := json.Marshal(f)
+	if !bytes.Equal(before, after) {
+		t.Fatal("rejected source changed")
+	}
+	f.Reference = "RAW-X17"
+	if _, err := NewDocument(f); err != nil {
+		t.Fatal("short original reference rejected", err)
+	}
+}

@@ -70,15 +70,16 @@ func jointSignerTabStops(f Fields) ([]TabStop, error) {
 	gap := 2 * 16 * 25.4 / 72
 	second := right - widths[1]
 	first := second - gap - widths[0]
-	labelWidth := math.Max(jointSignerAdvance("签发人：", "仿宋"), 4*16*25.4/72)
+	// A real tab must advance past the label, including a receiving engine that
+	// keeps the colon full-width. Equality can skip the first name column.
+	labelWidth := math.Max(jointSignerAdvance("签发人：", "仿宋"), 4*16*25.4/72) + .3
 	label := first - labelWidth
 	if label < left+.3 {
 		return nil, fmt.Errorf("签发人姓名过长，无法以 16 磅字号在当前版心排成两列；请核对姓名，不能截字或缩小字号")
 	}
-	referenceLimit := first
-	if len(f.Signers) <= 2 {
-		referenceLimit = label
-	}
+	// Continuation rows still contain the empty label slot: their first tab
+	// must reach that stop, rather than skipping it and consuming a name stop.
+	referenceLimit := label
 	if f.Reference != "" && left+jointSignerAdvance(f.Reference, "仿宋") > referenceLimit-.3 {
 		return nil, fmt.Errorf("文号过长，无法与末行签发人同排且保留两列位置；请核对文号，不能截字或缩小字号")
 	}

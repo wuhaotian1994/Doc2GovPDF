@@ -48,6 +48,7 @@ type Paragraph struct {
 	PageBreak      bool        `json:"pageBreak,omitempty"`
 	BreakOffsets   []int       `json:"breakOffsets,omitempty"`
 	KeepNext       bool        `json:"keepNext,omitempty"`
+	KeepLines      bool        `json:"keepLines,omitempty"`
 	BorderBottom   bool        `json:"borderBottom,omitempty"`
 	BorderColor    string      `json:"borderColor,omitempty"`
 	BorderTop      bool        `json:"borderTop,omitempty"`

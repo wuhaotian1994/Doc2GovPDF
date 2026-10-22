@@ -50,6 +50,9 @@ func (w *pdfWriter) tabbed(p Paragraph) error {
 		return e
 	}
 	w.y += p.Before
+	if p.BorderTop {
+		w.drawBorder(p, w.page.Left, w.y-borderWidth(p)/2, w.page.Width-w.page.Left-w.page.Right)
+	}
 	inkBottom := w.y
 	end := w.page.Left
 	parts := strings.Split(p.Text, "\t")

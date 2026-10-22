@@ -625,6 +625,19 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 		}
 		return nil
 	}
+	// Honor an emitted/native keepLines only when the whole paragraph fits a page.
+	// Authored page breaks above remain stronger, and oversized prose still flows.
+	if p.KeepLines {
+		if p.PageBreak && w.y > w.page.Top+.1 {
+			w.newPage()
+		}
+		p.PageBreak = false
+		if height := w.paragraphHeight(p, 0); height <= w.page.Height-w.page.Top-w.page.Bottom {
+			if e := w.room(height); e != nil {
+				return e
+			}
+		}
+	}
 	// An explicit line break ends justification. Keep its next line inside the
 	// same paragraph without repeating first-line indentation or spacing.
 	if strings.Contains(p.Text, "\n") {
@@ -831,6 +844,14 @@ func (w *pdfWriter) tableFollowingHeight(m Model, index int) float64 {
 	if p == nil || p.PageBreak || p.AnchorBottom {
 		return 0
 	}
+	// An existing final-row keep relation also protects a bounded short
+	// explanation as a whole. Only reserving its first two lines can split a
+	// four-line note in the middle. Long prose retains its bounded opening,
+	// and an authored in-paragraph page break must not be crossed implicitly.
+	whole := w.paragraphHeight(*p, 0)
+	if len(p.BreakOffsets) == 0 && whole <= (w.page.Height-w.page.Top-w.page.Bottom)/3 {
+		return whole
+	}
 	return w.paragraphHeight(*p, 2)
 }
 
@@ -886,7 +907,7 @@ func (w *pdfWriter) tableOpeningHeight(t Table, tail float64) float64 {
 }
 
 // Word and PDF share the same bounded compact-unit decision. Only keepNext
-// flags change; source documents, authored text and all dimensions stay intact.
+// and bounded-note keepLines flags change; source documents, text and dimensions stay intact.
 func keepCompactTableNotes(m Model) Model {
 	if m.SourceID != "" {
 		return m
@@ -901,6 +922,12 @@ func keepCompactTableNotes(m Model) Model {
 			continue
 		}
 		tail := w.tableFollowingHeight(m, i)
+		if tail > 0 {
+			note := m.Blocks[i+1].Paragraph
+			if len(note.BreakOffsets) == 0 && w.paragraphHeight(*note, 0) <= (w.page.Height-w.page.Top-w.page.Bottom)/3 {
+				note.KeepLines = true
+			}
+		}
 		height, compact := w.compactTableHeight(*b.Table, tail)
 		if !compact {
 			continue
