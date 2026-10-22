@@ -67,7 +67,7 @@ test('ISO printing date validates independently and never chooses a conflicting 
 });
 
 test('field length and type corruption reject without changing the input document',()=>{
- for(const [name,limit] of [['signer',60],['issuer',120],['issueDate',10]]){
+ for(const [name,limit] of [['signer',240],['issuer',120],['issueDate',10]]){
   const fields={...blank(),[name]:'x'.repeat(limit+1)},saved=draft(fields,0),before=JSON.stringify(saved);
   assert.throws(()=>validateDraft(saved));assert.equal(JSON.stringify(saved),before);
   assert.throws(()=>validateDraft({...saved,fields:{...saved.fields,[name]:12}}));
@@ -135,10 +135,10 @@ test('existing body review anchors remain restorable while changed metadata inva
  const all=new ReviewDecisions();all.restore(state,{...fields,issuer:'新明确机关'},'facts-review');assert.equal(all.has(documentEntry),false);assert.equal(all.has(entry),true);
 });
 
-test('multiline signer input remains a saveable exact draft but receives a field-level generation problem',()=>{
- for(const signer of ['签发甲\n签发乙','签发甲\t签发乙','\r签发甲']){
+test('invalid signer controls remain a saveable exact draft but receive a field-level generation problem',()=>{
+ for(const signer of ['签发甲\t签发乙','\r签发甲']){
   const fields={...blank(),signer},saved=draft(fields,0),restored=validateDraft(saved);
   assert.equal(restored.fields.signer,signer);assert.equal(saved.fields.signer,signer);
-  const problems=metadataProblems(fields);assert.equal(problems[0][0],'signer');assert.match(problems[0][1],/不能含换行或制表符/);
+  const problems=metadataProblems(fields);assert.equal(problems[0][0],'signer');assert.match(problems[0][1],/不能含制表符/);
  }
 });

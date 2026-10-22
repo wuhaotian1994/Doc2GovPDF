@@ -1,0 +1,353 @@
+{
+  "scope": "CEO full-document standards P0: official three-person joint request; limited local acceptance, no full-standard certification",
+  "baseline": "d43348e42020ab5b97083b1153c97fefc8b4f336",
+  "ceoBlob": "b36ac8b67e7c5e7a54269539666fb3906f6314cb",
+  "observedMain": "641dca88269cdd9969da70e1c189d800dfbefd78",
+  "source": {
+    "officialPDFSHA256": "5c1ecb59861529589e73d68a188432a75246f051b84458ea424c2a50fafe15b0",
+    "localTranscriptionSHA256": "b8ef01d0cb760ff134d94ea6000f1f649d8f18d2e84d64b065a18fcfba262b25",
+    "scanPages": 3,
+    "extractableScanTextCharacters": 0,
+    "reviewedScanPages": 3,
+    "coreBodyCharacters": 381,
+    "signerCount": 3,
+    "manualTranscriptionIndependentlyCompared": true,
+    "personalNamesAndFullManuscriptExcluded": true,
+    "historicalReviewOnly": true
+  },
+  "build": {
+    "wasmSHA256": "3d05f13f4de44e68adcc68d234e47f5be07186afcadfaf9353635e980c6f8326",
+    "engineVersion": "ab29a736e0e4ff5f0349",
+    "serviceWorkerCache": "gongwen-web-v2-254cd8d7ac6b9668",
+    "assets": {
+      "THIRD_PARTY_NOTICES.txt": "0d7399fc0a0652cb1eae56df8ee641f542543fede3eb5cfd3e8834b8fa4cc67b",
+      "advanced.html": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+      "browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+      "document-elements.js": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f",
+      "document-engine.wasm": "3d05f13f4de44e68adcc68d234e47f5be07186afcadfaf9353635e980c6f8326",
+      "engine-assets.js": "f36c03c0126efef744e2c484e51674bc416d6ca69a33b2cf75c97c2b958bb147",
+      "engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+      "engine-worker.js": "10ea7a559bab0312f24d7abc85c511afe2a28717b6d9f1a7729fb6e58347ebba",
+      "favicon.svg": "821ca465670104db4275460d8f4bca41c4c86a7994161dabc428021e37941660",
+      "feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+      "feedback-admin.js": "0e09f408a6da0d0fa4194079b9f42e76c9d6f9ec0adc7997fbf9f7ccf784b361",
+      "fonts/OFL.txt": "7accca2f29220c9ab44e4950799b821f36ebf5bbe6b5fb5342724b32228a8daf",
+      "fonts/README.md": "5eee9c372f0be67f845a670aa8632b498e26041417bb4c78db4d33e9cc96a956",
+      "fonts/document-fonts-OFL.txt": "64538aaa923b7e75559725ecf64eff7b18f623857b8e6d31a7347743ab27e907",
+      "fonts/serif-black-core.ttf": "332d60d946a3b1183cf65dd512eaa922acca086996f419aa8651600f1cc69239",
+      "fonts/serif-black-full.ttf": "0f048849cd9c0514f9915e25673801d37196c57af8e3b804f0185a3b23b53ac1",
+      "fonts/serif-core.ttf": "163b8bd972ad89bc0388e857d88428456ef4bb67c15a46f3481ebe5815c03ca0",
+      "fonts/serif-full.ttf": "9502147ceba7b5bc7fd3415083f6a5d133f22d8f9efb4974d4b85f3a97ea2d3a",
+      "fonts/ui-400.woff": "337daf2da524c61a295e4cc100659986f4c72de696432c758b23a399e799d198",
+      "fonts/ui-700.woff": "d32d6203c7c7c46e895baf011d7018271d4fe7be3f1cb4f3863b126948cd183e",
+      "index.html": "c321b33bb8c0403f8720aab1034a81db5faa6cf3f1d34bdb890f8f7c38608698",
+      "pdf-review.js": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
+      "vendor/pdfjs/LICENSE": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+      "vendor/pdfjs/pdf.js": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+      "vendor/pdfjs/pdf.mjs": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+      "vendor/pdfjs/pdf.worker.js": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+      "vendor/pdfjs/pdf.worker.mjs": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+      "wasm_exec.js": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+      "web.css": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
+      "workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+      "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+      "write-assembly-view.js": "75d76c67bab6e16334173e05acae681d64d1013a9b7e71dc05f4eee8c44a8a76",
+      "write-assembly.js": "4f84cd37a4cf1af86b75f5ba98699f5f9ac123fa9a3b0701ab3d4458b02b2e82",
+      "write-boot.js": "f3b0746c523ec93121d96f0c3ada3859eee3e68db0945fca2edd5f0f71e9f649",
+      "write-bytes.js": "5f98dc35b1b6356a209e80813f95ba088420980e0b471cb441cb997bc23a4574",
+      "write-checks.js": "7905113ba8d3ddb97b99eb593436644732623b1601852db347c1a60c4c59b953",
+      "write-content-editor.js": "75429a72f06fe009762f82f27ea5c98c83df5171f0285dc4a45a843cd4b5ff27",
+      "write-content.js": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+      "write-continuous.js": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef",
+      "write-engine.js": "7ce92a1b923bfcfb5355bb49b97cf1d5b7ea8c7d99a7c35edfba6078b8c071e3",
+      "write-feedback-capture.js": "20472db0d3102b465bbc96cd2d9678dd095231cb0c39ca614eaeeb13da3e38af",
+      "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604",
+      "write-feedback-evidence.js": "81cc06d8624aeeec5775daa33cb8b505798584d774aaeb3ec759871673e91d30",
+      "write-feedback.css": "9964ec7a3b2dc9fe675e46c4a239672b90cf437d6ac98bdac76a67a7afc40de7",
+      "write-feedback.js": "09c1aa7524048a133fa544b299d0f59fedd52dc435cdfd3fcb12c428d7a02dec",
+      "write-font-picker.js": "2c5386863abfd6ff7fb8842fdb53d7f4ece68a332b1a256881b4586e79e36d57",
+      "write-font-source.js": "cc0fae0985b828491dc193c344482137faa2f74b54600f971e88e4e604b8574d",
+      "write-library.js": "4b6c253615497eb717105dce5a6f9cc6ee6c2a8cfce64d0e2ff2bfda1d887a08",
+      "write-local-fonts.js": "1c20b0c1a17920116cf178d98fe86a3da2c591d14ee43fe76ef0e42e10d31670",
+      "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+      "write-materials.js": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+      "write-model.js": "9c9e5eb2f7b3dcff5bebdf5eb05e0c05e025ebc8205296b1e7dab6ae2b0012b5",
+      "write-reference.js": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178",
+      "write-table-blanks.js": "18b2aeb9499374f25df4765ba8555d737feb7b2fa70f829829783df74f91f7f3",
+      "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+      "write-text-table-view.js": "634d75cfbd9558aa628fd0b55c1c51b34db1c27a15f611823a845cae6bafbc53",
+      "write-text-table.js": "3042eebffa8e44c5c41a228e14feea71f2313c76084c7b58bd052da0a36e4a82",
+      "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+      "write-word-workspace.js": "54c4141b1fb117949e4fa88b570ccc43b97f31beb77e43061353cbed3c018474",
+      "write-workspace.css": "1d6e16b8db6a320731350171208064f07ec9bad3cab9ab2118afe9a1f6e507c7",
+      "write.css": "a3a73049c4b50417ae44304cae2d828a178bded9fcbc426de80fb681c8ccf7af",
+      "write.html": "13b26ebe7c20e01e407d5fc955d7199084ebd70af6dd89bc9b1a16bb28a66ce7",
+      "write.js": "b0aa4d26a84682cfac4ba9053a86239268f54d8c3fef7807f7e2fa68a3b2128b",
+      "sw.js": "c8db127d7bec3b28bc29d8591b431f3cd7811455f66fac8ef8c4aeefa8d415e8"
+    },
+    "assetCount": 64,
+    "allNegotiatedEncodingsEqual": true
+  },
+  "tests": {
+    "nodePassed": 91,
+    "go": {
+      "commands": [
+        {
+          "exitCode": 0,
+          "command": "go test ./internal/office -run ^TestExtendedTemplateElements$|^TestSignerScalarConflict -count=1",
+          "seconds": 5.424
+        },
+        {
+          "exitCode": 0,
+          "seconds": 4.41,
+          "command": "go test ./internal/office -run ^TestJointSigners -count=1 -v",
+          "tests": 7
+        },
+        {
+          "exitCode": 0,
+          "webengineSeconds": 0.927,
+          "command": "go test ./internal/office ./internal/webengine -count=1",
+          "officeSeconds": 28.7
+        },
+        {
+          "command": "go vet ./internal/office ./internal/webengine",
+          "exitCode": 0
+        }
+      ],
+      "sourceSHA256": {
+        "internal/office/pdf_fields.go": "68a78d3ae1491ff9656d1b8b5257b330ae171c9c605f04f90f6a8f100c23ba70",
+        "internal/office/templates.go": "4940987b47e585af6aca3b31b9cae38b8447fa4e2ba4f3b949a0211974652604",
+        "internal/office/issuance_fields.go": "e483d608798f46a8f613d7bdee345a3314acbb19b96c5f59dc9dc11f30952fa9",
+        "internal/office/joint_signers_test.go": "26b52a38cc6274d226a0789284cd202ce515d7f2ea5978e175d28854dc42012d",
+        "internal/office/template_elements.go": "76094f04c403558c0a9ba0d525b4a85ecc188301aa56ada07c3418347ab4d9ca"
+      },
+      "timestamp": "2026-10-23T00:40:35.1047228+08:00",
+      "kind": "completed-command-summary",
+      "actualControlledFiles": {
+        "firstColumnPt": 360.45,
+        "word": "Created and reopened DOCX; three explicit left tabs per row, 32 half-point role runs; unmodified Package.Export byte-identical",
+        "lastReferenceBaselinePt": 659.85,
+        "lastNameBaselinePt": 659.85,
+        "pdf": "Actual first-column starts equal across 3 rows, second-column starts equal across 2 rows; final reference and name share baseline; distinct controlled OFL role faces used to prove font separation, not to claim standard FangSong/KaiTi",
+        "secondColumnPt": 441.02
+      },
+      "protocol": {
+        "role": "signer",
+        "orderedRepeatsPreserved": true,
+        "slots": "ref only on last row; label only on first; name1; optional name2",
+        "tabCount": 3,
+        "sizePt": 16,
+        "prefix": "empty"
+      },
+      "scope": "Controlled layout and command evidence; actual official-source parent acceptance recorded separately in actualFiles and nativeWord."
+    },
+    "compatibilityGroupsPassed": 13,
+    "browsers": [
+      {
+        "profile": "chrome",
+        "version": "155.0.8059.86",
+        "checks": 22,
+        "actualDownloads": 4
+      },
+      {
+        "profile": "firefox",
+        "version": "157.0",
+        "checks": 22,
+        "actualDownloads": 4
+      },
+      {
+        "profile": "webkit",
+        "version": "27.2",
+        "checks": 22,
+        "actualDownloads": 4
+      }
+    ],
+    "persistentService": {
+      "url": "http://127.0.0.1:4173",
+      "checks": 22,
+      "actualDownloads": 4,
+      "assetsVerified": 64,
+      "sameDOCXAsNativeWordInput": true
+    },
+    "controlledTestsDoNotSubstituteOfficialSource": true
+  },
+  "actualFiles": {
+    "files": [
+      {
+        "kind": "product",
+        "pages": 2,
+        "sha256": "5881c39ad970938a55ed440adea12e856731807736ba274758ebf13e1babd971",
+        "coreBodyAndReviewNoteExactAfterPageNumbers": true,
+        "orderedClosingAgenciesAfterBody": true,
+        "allSourceNumericFactsPresent": true
+      },
+      {
+        "kind": "word",
+        "pages": 2,
+        "sha256": "5625102f55d1a00fe9ef25276badf13476bddf6d32ebb19bc683a144bb4b52d2",
+        "coreBodyAndReviewNoteExactAfterPageNumbers": true,
+        "orderedClosingAgenciesAfterBody": true,
+        "allSourceNumericFactsPresent": true
+      }
+    ],
+    "nativeWordSourceMatchesFinalNormalDownload": true,
+    "wordEmbedsOnlyPreviouslyVerifiedFixedOFLParts": true,
+    "systemFontFilesNotEmbeddedInDOCX": true,
+    "originalHealthDOCXUnchanged": true,
+    "originalHealth7PDFPageStreamsUnchanged": true,
+    "boundary": "Source scan and these real-task pages contain personal names and remain ignored locally; this is a historical review rewrite, not scan geometry or stamps reproduction."
+  },
+  "nativeWord": {
+    "inputDOCXSHA256": "57462d65cb9d2a06a658245da41193a445f344a87b7ff2fb771d869b56bb4cdd",
+    "outputPDFSHA256": "5625102f55d1a00fe9ef25276badf13476bddf6d32ebb19bc683a144bb4b52d2",
+    "pages": 2,
+    "wordFontSizePt": 16,
+    "extractedPDFSizePt": 15.96,
+    "signers": [
+      {
+        "sourceIndex": 1,
+        "page": 1,
+        "left": 376.51,
+        "right": 424.15,
+        "baselineFromTop": 128.05999999999995,
+        "fontSizes": [
+          15.96
+        ]
+      },
+      {
+        "sourceIndex": 2,
+        "page": 1,
+        "left": 457.06,
+        "right": 504.7,
+        "baselineFromTop": 128.05999999999995,
+        "fontSizes": [
+          15.96
+        ]
+      },
+      {
+        "sourceIndex": 3,
+        "page": 1,
+        "left": 376.51,
+        "right": 424.15,
+        "baselineFromTop": 157.0999999999999,
+        "fontSizes": [
+          15.96
+        ]
+      }
+    ],
+    "reference": {
+      "page": 1,
+      "left": 95.304,
+      "right": 238.01000000000002,
+      "baselineFromTop": 157.0999999999999,
+      "fontSizes": [
+        15.96
+      ]
+    },
+    "geometryPassed": [
+      "first-row-two",
+      "continuation-one",
+      "source-order",
+      "last-signer-reference-same-baseline",
+      "first-column-continuation-alignment",
+      "no-overlap",
+      "16pt"
+    ]
+  },
+  "productPDFGeometry": {
+    "firstTwoBaselineFromTopPt": 124.15,
+    "thirdAndReferenceBaselineFromTopPt": 153.09,
+    "firstAndThirdLeftPt": 376.45,
+    "secondLeftPt": 457.02,
+    "referenceLeftPt": 95.36,
+    "fontSizePt": 16
+  },
+  "actualNewPagesViewed": 4,
+  "fontVerification": {
+    "direct": {
+      "passed": true,
+      "counts": {
+        "authorsChecked": 3,
+        "headerCharacters": 25,
+        "roles": {
+          "仿宋": {
+            "characters": 16,
+            "nonemptyGlyphs": 16,
+            "matchedOutlines": 16,
+            "metadataMatches": 16
+          },
+          "楷体": {
+            "characters": 9,
+            "nonemptyGlyphs": 9,
+            "matchedOutlines": 9,
+            "metadataMatches": 9
+          }
+        }
+      },
+      "checks": {
+        "exactHeaderOperatorOrder": true,
+        "exactExtractedHeader": true,
+        "allHeaderMetadataMatches": true,
+        "allHeaderNonemptyGlyphsMatch": true
+      },
+      "structureNotes": [],
+      "sourceFontSHA256": [
+        "e6326459e8e60e436c7d60e34d273bda3ba4eea2d2a5b309ff8f1b73200f2e38",
+        "95b3e69321f4e55f6ecf36b29d1e31a0c1205acfde0117df6472a17494c3cbd2"
+      ]
+    },
+    "word": {
+      "passed": true,
+      "counts": {
+        "authorsChecked": 3,
+        "headerCharacters": 25,
+        "roles": {
+          "仿宋": {
+            "characters": 16,
+            "nonemptyGlyphs": 16,
+            "matchedOutlines": 16,
+            "metadataMatches": 16
+          },
+          "楷体": {
+            "characters": 9,
+            "nonemptyGlyphs": 9,
+            "matchedOutlines": 9,
+            "metadataMatches": 9
+          }
+        }
+      },
+      "checks": {
+        "exactHeaderOperatorOrder": true,
+        "exactExtractedHeader": true,
+        "allHeaderMetadataMatches": true,
+        "allHeaderNonemptyGlyphsMatch": true
+      },
+      "structureNotes": [],
+      "sourceFontSHA256": [
+        "e6326459e8e60e436c7d60e34d273bda3ba4eea2d2a5b309ff8f1b73200f2e38",
+        "95b3e69321f4e55f6ecf36b29d1e31a0c1205acfde0117df6472a17494c3cbd2"
+      ]
+    }
+  },
+  "singleSignerRegression": [
+    {
+      "day": 19,
+      "docxBytesEqual": true,
+      "pdf2PageStreamsEqual": true
+    },
+    {
+      "day": 23,
+      "docxBytesEqual": true,
+      "pdf2PageStreamsEqual": true
+    }
+  ],
+  "boundaries": [
+    "Title remains an explicitly downgraded pinned OFL fallback; not full-document GB/T 9704 compliance.",
+    "System fonts are local read-only inputs, selected through normal UI; no system font file or manuscript is committed; DOCX contains only previously verified pinned OFL embedding parts.",
+    "Product and Word PDFs each have two pages but different body line/page breaks; no pixel or pagination identity claim.",
+    "Actual acceptance covers three source signers; twelve-person/long-name bounds have controlled tests only.",
+    "Existing direct-PDF fallback cmap structure compatibility P0, LibreOffice imprint lines P1, and exact61458 Word-return review-note orphan P1 remain open.",
+    "Exact529 saved manuscript and exact61458 source are not available locally; no substitute acceptance claimed.",
+    "No PR merge, public deployment, or production feedback collection enabled."
+  ]
+}

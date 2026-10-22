@@ -20,7 +20,12 @@ func imprintValues(f Fields) (string, string) {
 }
 
 func validateIssuanceFields(f Fields) error {
-	if f.Signer != "" && len(cleanNames(f.Signers)) > 0 && strings.TrimSpace(f.Signer) != cleanNames(f.Signers)[0] {
+	for _, name := range append([]string{f.Signer}, f.Signers...) {
+		if strings.IndexFunc(name, func(r rune) bool { return r < 0x20 || r == 0x7f }) >= 0 {
+			return fmt.Errorf("每位签发人请单独填写，姓名不能含换行、制表符或控制字符；原输入未改变")
+		}
+	}
+	if f.Signer != "" && len(cleanSignerNames(f.Signers)) > 0 && strings.TrimSpace(f.Signer) != cleanSignerNames(f.Signers)[0] {
 		return fmt.Errorf("签发人单项与签发人名单不一致，请明确采用的原始事实；不会自动选择其中一个")
 	}
 	if !hasExplicitImprint(f) {

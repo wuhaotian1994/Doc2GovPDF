@@ -6,7 +6,10 @@ export const materialNames = ['sourceMaterial','pendingMaterial'];
 export const metadataNames = ['signer','issuer','issueDate'];
 export const names = ['title', 'recipient', 'agency', 'reference', 'body', 'signature', 'date', 'attachments', 'copyTo', 'postscript', ...materialNames, ...metadataNames];
 export const DRAFT_MAX_BYTES = 2*1024*1024;
-const limits = {title:180, recipient:300, agency:120, reference:100, body:100000, signature:120, date:10, attachments:4000, copyTo:1000,postscript:4000,sourceMaterial:100000,pendingMaterial:100000,signer:60,issuer:120,issueDate:10};
+export const SIGNER_MAX_LENGTH = 240;
+export const SIGNER_MAX_COUNT = 12;
+export const SIGNER_NAME_MAX_LENGTH = 60;
+const limits = {title:180, recipient:300, agency:120, reference:100, body:100000, signature:120, date:10, attachments:4000, copyTo:1000,postscript:4000,sourceMaterial:100000,pendingMaterial:100000,signer:SIGNER_MAX_LENGTH,issuer:120,issueDate:10};
 export function blank() {
   return {title:'', recipient:'', agency:'', reference:'', body:'', signature:'', date:'', attachments:'', copyTo:'', postscript:'',sourceMaterial:'',pendingMaterial:'',letterhead:false,signer:'',issuer:'',issueDate:''};
 }
@@ -45,9 +48,24 @@ export function formatDate(value) {
   const [year,month,day]=value.split('-').map(Number);
   return `${year}年${month}月${day}日`;
 }
+// Explicit author lines, not punctuation-based name guessing. Offsets address
+// the unchanged raw textarea/draft string; duplicates retain distinct line IDs.
+export function signerLines(value) {
+  if(typeof value!=='string')return [];
+  let start=0;
+  return value.split(/\r?\n/).map((text,index)=>{
+    const end=start+text.length,line={text,start,end,line:index+1,name:text.trim()};
+    start=end+(value.slice(end,end+2)==='\r\n'?2:1);
+    return line;
+  }).filter(line=>line.name);
+}
 export function metadataProblems(fields) {
   const problems=[];
-  if(/[\r\n\t]/.test(fields.signer||''))problems.push(['signer','签发人请填写在单独一行，不能含换行或制表符；原输入已保留，请明确修订。']);
+  const signer=typeof fields.signer==='string'?fields.signer:'',people=signerLines(signer);
+  if(/[\u0000-\u0009\u000b\u000c\u000e-\u001f\u007f]|\r(?!\n)/.test(signer))problems.push(['signer','签发人不能含制表符、控制字符或单独回车；请按原机关顺序每行一人，原输入已保留。']);
+  else if(people.length>SIGNER_MAX_COUNT)problems.push(['signer','签发人最多 '+SIGNER_MAX_COUNT+' 位，请核对每行一人的原名单；原输入已保留，不会删除人员。']);
+  else if(people.some(line=>line.name.length>SIGNER_NAME_MAX_LENGTH))problems.push(['signer','每位签发人最多 '+SIGNER_NAME_MAX_LENGTH+' 字符；多人请每行一人，原输入已保留。']);
+  else if(signer.length>SIGNER_MAX_LENGTH)problems.push(['signer','签发人名单合计最多 '+SIGNER_MAX_LENGTH+' 字符；原输入已保留，请核对。']);
   if(fields.issuer||fields.issueDate){
     if(!fields.issuer?.trim())problems.push(['issuer','请明确填写独立印发机关，不会使用落款单位代替。']);
     else if(/[\r\n\t]/.test(fields.issuer))problems.push(['issuer','印发机关请填写在单独一行，不能含换行或制表符。']);
@@ -65,7 +83,7 @@ export function draft(fields, step, id, review, content) {
   return {type:'gongwen-form', version:hasIssuance(fields)?7:hasAnnexes(checkedContent)?6:checkedContent?.postscript?5:checkedContent?4:fields.postscript?3:fields.sourceMaterial||fields.pendingMaterial?2:1, updatedAt:new Date().toISOString(), fields:{...blank(),...fields,...(checkedContent?{body:contentText(checkedContent),...(checkedContent.postscript?{postscript:contentText(checkedContent.postscript)}:{})}:{})},...(checkedContent?{content:checkedContent}:{}),step,...(id?{id,...(checkedReview?{review:checkedReview}:{})}:{})};
 }
 export function fieldsForEngine(fields, preview = false, content = null) {
-  const hasLetterhead=fields.letterhead&&Boolean(fields.agency.trim());
+  const hasLetterhead=fields.letterhead&&Boolean(fields.agency.trim()),people=signerLines(fields.signer).map(line=>line.name);
   return {
     kind:'plain', title:fields.title.trim() || (preview?'待填写标题':''),
     body:content?contentBodyForEngine(content):fields.body || (preview?'正文尚未填写':''),
@@ -76,7 +94,7 @@ export function fieldsForEngine(fields, preview = false, content = null) {
     date:formatDate(fields.date),
     letterhead:hasLetterhead,
     copyTo:fields.copyTo.trim(), attachments:fields.attachments.split(/\r?\n/).map(s=>s.trim()).filter(Boolean),
-    ...(hasIssuance(fields)?{signer:fields.signer?.trim()||'',issuer:fields.issuer?.trim()||'',issueDate:formatDate(fields.issueDate)}:{})
+    ...(hasIssuance(fields)?{signer:people[0]||'',issuer:fields.issuer?.trim()||'',issueDate:formatDate(fields.issueDate),...(people.length>1?{signers:people}:{})}:{})
   };
 }
 export function applySignature(model, fields) {
@@ -110,7 +128,15 @@ export function textContent(fields, content=null) {
   const f = fieldsForEngine(fields);
   const split=section=>{if(!section)return ['', ''];const at=section.annexes?.length?section.blocks.findIndex(b=>b.id===section.annexes[0].start):-1;return at<0?[contentText(section),'']:[contentText({blocks:section.blocks.slice(0,at)}),contentText({blocks:section.blocks.slice(at)})];};
   const [body,bodyAnnex]=content?split(content):[f.body,''],[notes,noteAnnex]=content?.postscript?split(content.postscript):[fields.postscript||'',''];
-  const signingReference=f.signer?[f.reference,'签发人：'+f.signer].filter(Boolean).join('\t'):'';
+  let signingReference=f.signer?[f.reference,'签发人：'+f.signer].filter(Boolean).join('\t'):'';
+  if(f.signers?.length>1){
+    const rows=[];
+    for(let i=0;i<f.signers.length;i+=2){
+      const people=f.signers.slice(i,i+2).join('　　'),reference=i+2>=f.signers.length?f.reference:'';
+      rows.push([reference,(i===0?'签发人：':'')+people].filter(Boolean).join('\t'));
+    }
+    signingReference=rows.join('\n');
+  }
   const heading=f.signer?[signingReference,f.title]:[f.reference,f.title];
   return [f.letterhead ? f.agency+'文件' : '', ...heading,
     f.recipient ? f.recipient.replace(/[：:]+$/, '')+'：' : '', body,

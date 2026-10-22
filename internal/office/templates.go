@@ -359,7 +359,10 @@ func NewDocument(f Fields) (Model, error) {
 		p.Tabs = []TabStop{{Align: "right", Position: 156 - 2*14*25.4/72}}
 		line(.35, 1.06)
 	}
-	m = applyExtraFields(m, f)
+	m, extraErr = applyExtraFields(m, f)
+	if extraErr != nil {
+		return Model{}, extraErr
+	}
 	m.AutoNumbering = f.AutoNumbering
 	m = RenumberDocument(m)
 	return m, m.Validate()

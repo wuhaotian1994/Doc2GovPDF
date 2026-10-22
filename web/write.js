@@ -265,7 +265,7 @@ function locateIssue(entry) {
   // Textarea values normalize imported CRLF to LF; select using displayed offsets.
   const line=resolveSource(entry.source,{...fields,[field]:input.value});
   $('issue-location').hidden=false;
-  $('issue-location-text').textContent=line?`已定位到${fieldLabels[field]}${['body','attachments'].includes(field)?'第 '+line.line+' 段':''}，请核对选中的原文。`:'这条提醒涉及整篇文档，请核对正文与相关内容。';
+  $('issue-location-text').textContent=line?`已定位到${fieldLabels[field]}${field==='signer'?'第 '+line.line+' 行':['body','attachments'].includes(field)?'第 '+line.line+' 段':''}，请核对选中的原文。`:'这条提醒涉及整篇文档，请核对正文与相关内容。';
   if(['body','postscript'].includes(field)){(field==='body'?contentEditor:postscriptEditor).focusText(line?.start||0,entry.issue.original||line?.text);return;}
   input.focus();
   if(line&&input.type!=='date') {
@@ -307,7 +307,7 @@ function renderChecks() {
     const {issue,source}=entry,line=resolveSource(source,fields,bodyContent);
     const item = document.createElement('div'); item.className='review-issue';item.dataset.rule=issue.rule;item.dataset.severity=issue.severity;
     const heading=document.createElement('h3');heading.className='issue-heading';
-    const location=source?.content?.cell&&line?'表格第 '+line.row+' 行，第 '+line.column+' 列':source?.content?.caption?'表格标题':source?fieldLabels[source.field]+(line&&['body','attachments'].includes(source.field)?'第 '+line.line+' 段':''):'整篇文档';
+    const location=source?.content?.cell&&line?'表格第 '+line.row+' 行，第 '+line.column+' 列':source?.content?.caption?'表格标题':source?fieldLabels[source.field]+(line&&source.field==='signer'?'第 '+line.line+' 行':line&&['body','attachments'].includes(source.field)?'第 '+line.line+' 段':''):'整篇文档';
     heading.textContent=({error:'必须修正',review:'需要你判断',suggestion:'建议 · 不影响下载'}[issue.severity] || '内容提醒')+' · '+location;
     if(entry.group){
       const group=entry.group;item.classList.add('table-blank-group');item.dataset.tableId=entry.blankState.table.id;

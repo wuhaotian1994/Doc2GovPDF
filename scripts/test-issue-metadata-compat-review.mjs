@@ -10,11 +10,12 @@ import {contentFromText,contentText,table} from '../web/write-content.js';
 import {setAnnex} from '../web/write-annexes.js';
 import {reviewItems,ReviewDecisions} from '../web/write-checks.js';
 
-const root=resolve(import.meta.dirname,'..'),out=resolve(root,'build/qa/issue-metadata-compat-review');
+const root=resolve(import.meta.dirname,'..'),out=resolve(root,process.env.ISSUE_METADATA_OUTPUT||process.env.OUTPUT||'build/qa/joint-signers-compat-review');
+const fictionalSigners=['机制签发甲','机制签发乙','机制签发丙'].join('\n'),invalidSigner='机制签发甲\n机制签发乙\t机制签发丙';
 await mkdir(out,{recursive:true});
 const files=['web/write.js','web/write.html','web/write-boot.js','web/write-checks.js','web/write-model.js','web/write-library.js'];
 const sha=async path=>createHash('sha256').update(await readFile(resolve(root,path))).digest('hex');
-const report={sourceSHA:Object.fromEntries(await Promise.all(files.map(async p=>[p,await sha(p)]))),baseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),checks:[]};
+const report={scope:'Synthetic compatibility mechanism only; not the official three-page manuscript or Word/PDF acceptance',output:out,sourceSHA:Object.fromEntries(await Promise.all(files.map(async p=>[p,await sha(p)]))),baseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),checks:[]};
 const check=async(name,fn)=>{try{await fn();report.checks.push({name,passed:true});console.log('PASS '+name);}catch(error){report.checks.push({name,passed:false,error:error.stack});console.error('FAIL '+name+': '+error.message);}};
 let baseline=execFileSync('git',['show','HEAD:web/write-checks.js'],{cwd:root,encoding:'utf8'});
 baseline=baseline.replace(/from '(\.\/[^']+)'/g,(_,p)=>`from '${pathToFileURL(resolve(root,'web',p)).href}'`);
@@ -85,15 +86,19 @@ await check('imprint correction locates changed authored fact; date rule does no
 if(process.env.ISSUANCE_REVIEW_BROWSER!=='0'){
  const require=createRequire(new URL('./browser-tests/package.json',import.meta.url));
  const {chromium,firefox,webkit}=require('playwright');
- const webRoot=resolve(root,process.env.WRITER_WEB_ROOT||'build/qa/issuance-feedback-web');
+ const webRoot=resolve(root,process.env.ISSUE_METADATA_WEB_ROOT||'build/qa/joint-signers-web');
+ report.candidateRoot=webRoot;
+ const assetSource=await readFile(resolve(webRoot,'engine-assets.js'),'utf8'),assets=JSON.parse(assetSource.slice(assetSource.indexOf('=')+1).trim().replace(/;$/,''));
+ report.candidateEngineVersion=assets.version;
  report.candidateSHA=Object.fromEntries(await Promise.all(['index.html','write.js','write-model.js','write-boot.js','write-library.js','write-checks.js','document-engine.wasm'].map(async p=>[p,createHash('sha256').update(await readFile(resolve(webRoot,p))).digest('hex')])));
+ assert.equal(report.candidateSHA['document-engine.wasm'],assets.wasm.sha256,'Candidate Wasm must match its own manifest');
  const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.wasm':'application/wasm','.json':'application/json','.svg':'image/svg+xml','.ttf':'font/ttf','.woff2':'font/woff2'};
  for(const profile of [{name:'chrome',type:chromium,channel:'chrome'},{name:'firefox',type:firefox},{name:'webkit',type:webkit}]){
   const browser=await profile.type.launch({headless:true,...(profile.channel?{channel:profile.channel}:{}),env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',http_proxy:'',https_proxy:'',all_proxy:'',NO_PROXY:'localhost,127.0.0.1'},...(profile.name==='firefox'?{firefoxUserPrefs:{'network.proxy.type':0}}:{})});
   try{
-   await check(profile.name+' v7 blocked module emergency download/reload/structured recovery',async()=>{
+   await check(profile.name+' three-signer v7 blocked module emergency download/reload/structured recovery',async()=>{
     const content=contentFromText('仅用于机制测试的虚构正文');content.blocks.push(table(2,2));content.postscript=contentFromText('虚构回执后文');
-    const seed=draft({...blank(),title:'虚构兼容验证',signer:'签发者甲',issuer:'虚构印发处',issueDate:'2024-08-19',signature:'独立落款',date:'2024-08-15'},1,'v7-recovery',undefined,content);
+    const seed=draft({...blank(),title:'虚构兼容验证',signer:fictionalSigners,issuer:'虚构印发处',issueDate:'2024-08-19',signature:'独立落款',date:'2024-08-15'},1,'v7-recovery',undefined,content);
     const context=await browser.newContext({serviceWorkers:'block',locale:'zh-CN'});let blockModule=true;
     await context.addInitScript(seed=>{if(!localStorage.getItem('gongwen-writer-v1'))localStorage.setItem('gongwen-writer-v1',JSON.stringify(seed));localStorage.setItem('gongwen-font-start-v1','chosen');},seed);
     await context.route('**/*',async route=>{
@@ -104,26 +109,31 @@ if(process.env.ISSUANCE_REVIEW_BROWSER!=='0'){
     const page=await context.newPage();page.setDefaultTimeout(15000);
     try{
      await page.goto('http://localhost:49191/',{waitUntil:'load'});
-     assert.equal(await page.locator('#issuer').inputValue(),'虚构印发处');assert.equal(await page.locator('#issueDate').inputValue(),'2024-08-19');assert.equal(await page.locator('#body').getAttribute('readonly'),'');
+     assert.equal(await page.locator('#issuer').inputValue(),'虚构印发处');assert.equal(await page.locator('#issueDate').inputValue(),'2024-08-19');assert.equal(await page.locator('#body').getAttribute('readonly'),'');assert.equal(await page.locator('#signer').inputValue(),fictionalSigners);
      await page.locator('#issuer').fill('虚构印发处修订');await page.evaluate(()=>window.writerBoot.fail());
      const waiting=page.waitForEvent('download');await page.locator('#startup-download').click();const download=await waiting,path=resolve(out,profile.name+'-emergency.gongwen.json');await download.saveAs(path);
-     const emergency=validateDraft(JSON.parse(await readFile(path,'utf8')));assert.equal(emergency.version,7);assert.equal(emergency.fields.issuer,'虚构印发处修订');assert.equal(emergency.fields.signer,'签发者甲');assert.deepEqual(emergency.content,content);
-     await page.reload();assert.equal(await page.locator('#issuer').inputValue(),'虚构印发处修订');assert.equal(await page.locator('#issueDate').inputValue(),'2024-08-19');
+     const emergency=validateDraft(JSON.parse(await readFile(path,'utf8')));assert.equal(emergency.version,7);assert.equal(emergency.fields.issuer,'虚构印发处修订');assert.equal(emergency.fields.signer,fictionalSigners);assert.deepEqual(emergency.content,content);
+     await page.reload();assert.equal(await page.locator('#issuer').inputValue(),'虚构印发处修订');assert.equal(await page.locator('#issueDate').inputValue(),'2024-08-19');assert.equal(await page.locator('#signer').inputValue(),fictionalSigners);
      blockModule=false;await page.reload();await page.waitForFunction(()=>window.writerReady,{},{timeout:90000});
-     const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));assert.equal(saved.version,7);assert.equal(saved.fields.issuer,'虚构印发处修订');assert.equal(saved.fields.signer,'签发者甲');assert.deepEqual(saved.content,content);
+     const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));assert.equal(saved.version,7);assert.equal(saved.fields.issuer,'虚构印发处修订');assert.equal(saved.fields.signer,fictionalSigners);assert.deepEqual(saved.content,content);
      assert.equal(await page.evaluate(()=>sessionStorage.getItem('gongwen-writer-pending-v1')),null);
+     assert.deepEqual(await page.evaluate(async()=>{const {fieldsForEngine}=await import('/write-model.js');return fieldsForEngine(JSON.parse(localStorage.getItem('gongwen-writer-v1')).fields).signers;}),fictionalSigners.split('\n'));
      await page.locator('#issueDate').fill('');await page.locator('[data-next="2"]').click();
      assert.equal(await page.evaluate(()=>document.activeElement.id),'issueDate');assert.equal(await page.locator('#issuance-fields').evaluate(n=>n.open),true);assert.equal(await page.locator('#issueDate-error').isVisible(),true);
-     const half=await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));assert.equal(half.fields.issueDate,'');assert.equal(half.fields.issuer,'虚构印发处修订');assert.equal(half.fields.date,'2024-08-15');
-     await page.reload();await page.waitForFunction(()=>window.writerReady,{},{timeout:90000});assert.equal(await page.locator('#issuer').inputValue(),'虚构印发处修订');assert.equal(await page.locator('#issueDate').inputValue(),'');
+     const half=await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));assert.equal(half.fields.issueDate,'');assert.equal(half.fields.issuer,'虚构印发处修订');assert.equal(half.fields.date,'2024-08-15');assert.equal(half.fields.signer,fictionalSigners);assert.deepEqual(half.content,content);
+     await page.reload();await page.waitForFunction(()=>window.writerReady,{},{timeout:90000});assert.equal(await page.locator('#issuer').inputValue(),'虚构印发处修订');assert.equal(await page.locator('#issueDate').inputValue(),'');assert.equal(await page.locator('#signer').inputValue(),fictionalSigners);
      await page.locator('#issueDate').fill('2024-08-19');await page.locator('[data-back="0"]').click();
-     if(!await page.locator('details:has(#signer)').evaluate(n=>n.open))await page.locator('details:has(#signer) summary').click();await page.locator('#signer').fill('签发者甲\n签发者乙');await page.locator('[data-step="2"]').click();
-     assert.equal(await page.evaluate(()=>document.activeElement.id),'signer');assert.equal(await page.locator('#signer-error').isVisible(),true);assert.equal(await page.locator('#signer').inputValue(),'签发者甲\n签发者乙');
+     if(!await page.locator('details:has(#signer)').evaluate(n=>n.open))await page.locator('details:has(#signer) summary').click();await page.locator('#signer').fill(invalidSigner);await page.locator('[data-step="2"]').click();
+     assert.equal(await page.evaluate(()=>document.activeElement.id),'signer');assert.equal(await page.locator('#signer-error').isVisible(),true);assert.equal(await page.locator('#signer').inputValue(),invalidSigner);
+     assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')).content),content);
      await page.screenshot({path:resolve(out,profile.name+'-signer-error.png')});
     }finally{await context.close();}
    });
   }finally{await browser.close();}
  }
 }
+report.sourceSHAAfter=Object.fromEntries(await Promise.all(files.map(async p=>[p,await sha(p)])));
+report.sourcesStable=JSON.stringify(report.sourceSHAAfter)===JSON.stringify(report.sourceSHA);
+if(!report.sourcesStable)report.checks.push({name:'Source snapshot remained stable throughout this run',passed:false});
 report.testSHA=await sha('scripts/test-issue-metadata-compat-review.mjs');await writeFile(resolve(out,'report.json'),JSON.stringify(report,null,2));
 if(report.checks.some(c=>!c.passed))process.exitCode=1;

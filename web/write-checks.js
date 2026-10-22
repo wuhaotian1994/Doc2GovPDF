@@ -48,6 +48,7 @@ function paragraphSources(model,fields) {
     else if(p.role==='note'){field='postscript';line=notes[noteIndex++];}
     else if(p.role==='imprint'&&p.text.startsWith('抄送：'))field='copyTo';
     else if(p.role==='imprint'&&p.text&&fields.issuer?.trim()){field='issuer';}
+    else if(p.role==='signer')continue; // Combined generated rows are mapped to authored lines below.
     else if(p.role==='reference'&&fields.signer?.trim()&&!fields.reference.trim()){field='signer';}
     if(!fieldLabels[field])continue;
     line ||= {text:fields[field],line:1};
@@ -61,14 +62,42 @@ function localRule(rule) {
     ['number.unit-space','number.range-unit','number.bare-decimal','number.short-year','number.fullwidth','number.mixed-place',
       'style.word','style.self-reference','style.modal-stack','style.latin','style.tool-marker','style.nominalization'].includes(rule);
 }
-// Engine findings carry the entire generated paragraph. A combined header or
-// imprint must not claim a particular authored field from that paragraph alone.
-function changedCompositeField(paragraph,issue,values){
+// Use the same authored LF/CRLF line semantics without introducing a model ↔
+// checks import cycle. Generated tab columns prove which original person a
+// minimal replacement changes; equal names remain distinct authored lines.
+function signerRows(model,fields){
+  const authors=sourceLines(fields.signer||'').filter(line=>line.text.trim());
+  const paragraphs=(model.blocks||[]).map(block=>block.paragraph).filter(p=>p?.role==='signer');
+  const result=new Map();if(authors.length<2||paragraphs.length!==Math.ceil(authors.length/2))return result;
+  paragraphs.forEach((p,index)=>{
+    let offset=0;const columns=p.text.split('\t').map(text=>{const part={text,start:offset,end:offset+text.length};offset+=text.length+1;return part;});
+    const people=authors.slice(index*2,index*2+2),last=index===paragraphs.length-1;
+    if(columns[0]?.text!==(last?fields.reference.trim():'')||columns[1]?.text!==(index===0?'签发人：':'')||columns.length<2+people.length||columns.slice(2+people.length).some(part=>part.text))return;
+    if(people.some((line,i)=>columns[2+i]?.text!==line.text.trim()))return;
+    const parts=people.map((line,i)=>({...columns[2+i],source:anchor('signer',line,fields)}));
+    const reference=sourceLines(fields.reference).filter(line=>line.text.trim());
+    if(last&&columns[0].text&&reference.length===1)parts.push({...columns[0],source:anchor('reference',reference[0],fields)});
+    result.set(p.id,parts);
+  });return result;
+}
+function replacementSpan(paragraph,issue){
   const original=issue.original,replacement=issue.replacement;
   if(original!==paragraph.text||typeof replacement!=='string'||!replacement||replacement===original)return null;
   let start=0,end=original.length,nextEnd=replacement.length;
   while(start<end&&start<nextEnd&&original[start]===replacement[start])start++;
   while(end>start&&nextEnd>start&&original[end-1]===replacement[nextEnd-1]){end--;nextEnd--;}
+  return {start,end};
+}
+function signerIssueSource(paragraph,issue,parts){
+  const span=replacementSpan(paragraph,issue);if(!span||!parts)return null;
+  const matches=parts.filter(part=>span.start>=part.start&&span.end<=part.end);
+  return matches.length===1?matches[0].source:null;
+}
+// Engine findings carry the entire generated paragraph. A combined header or
+// imprint must not claim a particular authored field from that paragraph alone.
+function changedCompositeField(paragraph,issue,values){
+  const span=replacementSpan(paragraph,issue);if(!span)return null;
+  const {start,end}=span,original=paragraph.text;
   const candidates=values.filter(([,value])=>{
     if(!value)return false;const at=original.indexOf(value);
     return at>=0&&original.indexOf(value,at+1)<0&&start>=at&&end<=at+value.length;
@@ -77,13 +106,15 @@ function changedCompositeField(paragraph,issue,values){
 }
 export function reviewItems(model,inspection,fields,documentId,content=null) {
   inspection=assemblyInspection(model,inspection,fields,content);
-  const sources=paragraphSources(model,fields);
+  const sources=paragraphSources(model,fields),authoredSignerRows=signerRows(model,fields);
   const entries=(inspection?.issues || []).map(issue=>{
     let source=sources.get(issue.paragraphId) || null;
     const p=model.blocks?.flatMap(block=>block.paragraph?[block.paragraph]:[...(block.table?.caption?[block.table.caption]:[]),...(block.table?.rows||[]).flatMap(row=>row.cells.flatMap(cell=>cell.paragraphs))]).find(p=>p.id===issue.paragraphId);
+    if(p?.role==='signer')source=signerIssueSource(p,issue,authoredSignerRows.get(p.id));
     if(p?.role==='reference'&&fields.signer?.trim()){
-      const field=!fields.reference.trim()?'signer':changedCompositeField(p,issue,[['reference',fields.reference.trim()],['signer',fields.signer.trim()]]);
-      source=field?anchor(field,{text:fields[field],line:1},fields):null;
+      const authors=sourceLines(fields.signer).filter(line=>line.text.trim());
+      const field=authors.length!==1?null:!fields.reference.trim()?'signer':changedCompositeField(p,issue,[['reference',fields.reference.trim()],['signer',authors[0].text.trim()]]);
+      source=field==='signer'?anchor(field,authors[0],fields):field?anchor(field,{text:fields[field],line:1},fields):null;
     }
     if(p?.role==='imprint'&&!p.text.startsWith('抄送：')&&p.text&&fields.issuer?.trim()&&fields.issueDate){
       const date=fields.issueDate.split('-').map(Number),printed=date.length===3?`${date[0]}年${date[1]}月${date[2]}日`:'';
