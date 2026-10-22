@@ -7,6 +7,7 @@
 | 遇到的问题 | 先读 |
 | --- | --- |
 | CEO 当前关注哪些产品问题、优先级和完成结果？ | [CEO 产品议题](../CEO-QUESTIONS.md) |
+| 如何让用户表达使用需求，同时明确上传、脱敏、回执与删除？ | [反馈产品方案（待实现）](../FEEDBACK-PRODUCT.md) |
 | 当前是网页还是 EXE？为什么不上传文稿？ | [产品与架构](topics/product-and-architecture.md) |
 | 能否换 UI、恢复报告中心或公开发布？ | [长期约定](../../AGENTS.md#已确认的长期约定) |
 | 哪些测试算通过，Word/PDF 如何验收？ | [验证与故障经验](topics/verification-and-pitfalls.md) |
