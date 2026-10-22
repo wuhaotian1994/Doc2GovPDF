@@ -1,5 +1,13 @@
 # CEO 与产品经理交接
 
+## 最终当前版（优先于下面阶段记录）
+
+- 已提交粘贴f2b4eae、同一原稿分页34b89d0；远端并发字体8c6ce8a/4d386e5正常合并3911d0d，主线评价5d2485f合入00c4e702。交付head看checkpoint，原PR5，无强推/合并PR。
+- 最终已验证资产为health-office-integrated-web，实际4173原PID65964服务同字节；44HTTP资产含字体，Wasm1d0462788c64856b9acd3745bdf54db0e265908776d54bf41f4c77e882afc57b，当前原稿QA+服务恢复/保存刷新/导出精确保持。DOCX0103c65e同已审Word16代表字节；PDF全部7页内容流和PNG同已审最终实页。小表全3行/标题/注同4，回执完整关系同6，长表5–6，余注/来源7。当前连续31和office/webengine/webserve全量test/vet通过。不要重建最终服务，也不拿旧41cdb/36资产当当前版本。
+- CEO最新blob87938cc24aa4fc8800ac2cd9f9bab5e514429cb5（main5d2485f）已独立确认原Word两次整格撤销，撤销待审批已替代；真实中文字体实际覆盖/Word策略/失败就近说明与全文P0仍开。
+- 当前唯一dirty为本聊天已完成后台子任务的go.mod/sum、internal/feedback/**、cmd/feedbackd/**、scripts/feedback-development.ps1与test-feedback-http.py，归属明确勿丢弃。接下按同一完整反馈工作包实现前端、证据本地脱敏制作、处理UI并整体验收后同PR提交；不是让用户确认，不以无新CEO消息停工。独立PG55440/开发4187仅虚构，真实收集关闭。
+
+
 ## 最新：同一原稿分页已验收，后台反馈待集成
 
 - 用户复现包源SHA7dbde2fe，正常UI恢复/save/reload/导出精确保持39块/三表。最终小表标题/全3行/注同第4；回执标题/单位/说明/全表同第6；产品和Word16各7页，全部14页父代理已看，无裁切。仅keepNext改变，字号/边距/列宽/正文及所有其他DOCX成员不变。初候选拆小表退化已修，不交付初版。具体docs/HEALTH-OFFICE-ORIGINAL-RESPONSE.md；原稿与图片仅shared tmp/health-office-original。

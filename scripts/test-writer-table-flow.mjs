@@ -37,4 +37,3 @@ test('a one-row header-only table does not bind unrelated prose merely because i
  c.blocks.at(-1).text='注：这是该表的说明。';const related=applyBodyContent(base(c),c).blocks.find(b=>b.table).table;
  assert.equal(related.rows[0].cells[0].paragraphs[0].keepNext,true);
 });
-

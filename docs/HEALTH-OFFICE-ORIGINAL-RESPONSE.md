@@ -27,3 +27,11 @@
 证据摘要：[原稿与最终文件核验](evidence/health-office-original/verified.json)、[正常UI恢复任务](evidence/health-office-original/ui-replay.json)、[当前构建连续回归](evidence/health-office-original/continuity-regression.json)。本地原件及最终文件位于 `D:/Project/Doc2GovPDF/tmp/health-office-original/`。
 
 最终持续服务绑定：正常UI用同一原稿再次恢复/保存刷新/导出通过；DOCX与已审最终件逐字节相同，PDF全部7页内容流及重渲染像素哈希相同；36个实际HTTP资产与验收构建相同。证据见evidence/health-office-original/service-bound.json及service-replay.json。父代理再次运行Node30全部通过，0跳过。最终资产原样同步，交付提交后不重建。
+
+## 最终并发集成复验
+
+普通推送因远端新增8c6ce8a/4d386e5而拒绝，已正常合入，不强推。PRODUCT双方追加说明均保留，随后合入main5d2485f纯CEO评价。另一会话的字体按需加载实现保留，不冒认为本轮原创。
+
+构建3911d0d集成源码后，用同一原稿在独立QA与持续服务各自完成恢复→保存刷新→实际导出；两轮均无页面异常。当前DOCX与已在Word16打开/渲染/全页查看的0103c65e文件逐字节一致；两轮产品PDF全部7页内容流及重新渲染PNG与已审最终页完全相同，故Word绑定与页面观察适用于当前文件，不冒称又运行一次Word。当前连续主链31项、office/webengine/webserve全量test及vet通过。最终44个HTTP资产（含实际字体、引擎和脚本）与构建字节匹配；Wasm为`1d0462788c64856b9acd3745bdf54db0e265908776d54bf41f4c77e882afc57b`。见[集成当前版绑定](evidence/health-office-original/integrated-verified.json)和[集成连续回归](evidence/health-office-original/integrated-continuity.json)。早先36资产和旧Wasm仅是此前阶段，不称最终当前版。
+
+CEO最新87938cc/5d2485f已独立确认原Word两次整格撤销步骤，不再列待审批；本轮不重复冒领独立结果。字体当前选择附近失败说明/实际中文覆盖及全文P0仍按最新任务推进。

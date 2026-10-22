@@ -11,3 +11,7 @@
 具体源/产物指纹、阅读关系和边界见docs/HEALTH-OFFICE-ORIGINAL-RESPONSE.md及对应无正文证据。原稿/图片/文件本地tmp，原件不覆盖。当前服务最终资产同步与交付SHA接续于主handoff和checkpoint。
 
 6. 最终持续服务重验同稿流程通过：36 HTTP资产、7页像素/内容流与已审最终件一致、Word字节一致；父代理Node30/30且原稿断言非跳过。继续同PR提交，不纳入backend dirty。
+
+7. 普通push非快进拒绝发现另一会话8c6ce8a/4d386e5字体资源增量，正常merge为3911d0d，PRODUCT冲突是双方尾部产品说明，保留两段；再合main5d2485f仅评价为00c4e702。不覆盖后台dirty，不强推。
+8. 集成源同原稿QA和实际服务均完整通过，Word仍0103c65e同字节，PDF7页像素/内容流逐一同已审代表；44实际HTTP资产含字体全部绑定，Wasm1d046278。当前源码office/webengine/webserve全量test/vet通过，连续31通过。原服务PID65964保持，原样同步已验收资产，提交后不再build。原稿/页面未上传。
+9. CEO当前87938cc/5d2485f仅新增独立原Word撤销与真实云端字体入口观察：撤销止点已独立通过，不再待批；实际中文字体覆盖/不支持提示附近说明及全文P0仍待。feedback后台dirty的归属和真实PG/HTTP证据已留接手记录，前端/脱敏/处理UI是下一明确工作包，未称完整交付。
