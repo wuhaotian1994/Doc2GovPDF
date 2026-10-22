@@ -186,6 +186,7 @@ type pdfWriter struct {
 	faceName      string
 	pointSize     float64
 	keepTail      float64
+	tableTail     float64
 	hiddenInk     bool
 }
 
@@ -281,12 +282,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 					}
 					p := m.Blocks[next].Paragraph
 					if table := m.Blocks[next].Table; table != nil {
-						if table.Caption != nil {
-							height += w.paragraphHeight(*table.Caption, 0)
-						}
-						for ri := 0; ri < len(table.Rows) && ri < 2; ri++ {
-							height += w.tableRowHeight(table.Rows[ri], table.Widths)
-						}
+						height += w.tableOpeningHeight(*table, w.tableFollowingHeight(m, next))
 						break
 					}
 					if p == nil || p.AnchorBottom || p.PageBreak {
@@ -319,9 +315,14 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 			}
 			w.keepTail = 0
 		} else if b.Table != nil {
+			// KeepNext on the final table row belongs to the following body
+			// paragraph, just as it does in Word. Keep only its opening lines,
+			// not a long note or the rest of the document, with that row.
+			w.tableTail = w.tableFollowingHeight(m, index)
 			if e := w.table(*b.Table); e != nil {
 				return PDFResult{}, e
 			}
+			w.tableTail = 0
 		}
 		if w.pages > 100 {
 			return PDFResult{}, fmt.Errorf("排版超过 100 页，请拆分文档")
@@ -755,7 +756,173 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 	w.y += p.After
 	return nil
 }
+
+// Use the same actual column widths for opening reservations and row drawing.
+func (w *pdfWriter) measuredTableWidths(t Table) []float64 {
+	columns := len(t.Widths)
+	if columns == 0 {
+		for _, row := range t.Rows {
+			n := 0
+			for _, cell := range row.Cells {
+				n += cell.Span
+			}
+			columns = max(columns, n)
+		}
+	}
+	if columns == 0 {
+		return nil
+	}
+	width := w.page.Width - w.page.Left - w.page.Right
+	sum := 0.0
+	for _, value := range t.Widths {
+		sum += value
+	}
+	requested := sum
+	if t.Width > 0 {
+		requested = t.Width
+	}
+	if requested > 0 && requested < width {
+		width = requested
+	}
+	widths := make([]float64, columns)
+	for i := range widths {
+		widths[i] = width / float64(columns)
+		if len(t.Widths) == columns && sum > 0 {
+			widths[i] = t.Widths[i] / sum * width
+		}
+	}
+	return widths
+}
+
+func (w *pdfWriter) tableFollowingHeight(m Model, index int) float64 {
+	t := m.Blocks[index].Table
+	if !w.newDocument || t == nil || len(t.Rows) == 0 || !rowKeepsNext(t.Rows[len(t.Rows)-1]) || index+1 >= len(m.Blocks) || m.Blocks[index+1].Page != nil {
+		return 0
+	}
+	p := m.Blocks[index+1].Paragraph
+	if p == nil || p.PageBreak || p.AnchorBottom {
+		return 0
+	}
+	return w.paragraphHeight(*p, 2)
+}
+
+// A compact, explicitly related table-and-note unit is at most one third of
+// the body height. Longer tables retain their normal header/first-row opening
+// and can split; there is no row-count, text-content or target-page heuristic.
+func (w *pdfWriter) compactTableHeight(t Table, tail float64) (float64, bool) {
+	if !w.newDocument || tail <= 0 || len(t.Rows) == 0 {
+		return 0, false
+	}
+	widths := w.measuredTableWidths(t)
+	if len(widths) == 0 {
+		return 0, false
+	}
+	height := tail
+	if t.Caption != nil {
+		height += w.paragraphHeight(*t.Caption, 0)
+	}
+	for _, row := range t.Rows {
+		height += w.tableRowHeight(row, widths)
+		if height > (w.page.Height-w.page.Top-w.page.Bottom)/3 || w.f.Error() != nil {
+			return height, false
+		}
+	}
+	return height, height <= (w.page.Height-w.page.Top-w.page.Bottom)/3
+}
+
+func (w *pdfWriter) tableOpeningHeight(t Table, tail float64) float64 {
+	if height, compact := w.compactTableHeight(t, tail); compact {
+		all := true
+		for _, row := range t.Rows {
+			all = all && rowKeepsNext(row)
+		}
+		if all {
+			return height
+		}
+	}
+	height := 0.0
+	if t.Caption != nil {
+		height += w.paragraphHeight(*t.Caption, 0)
+	}
+	widths := t.Widths
+	if w.newDocument {
+		widths = w.measuredTableWidths(t)
+	}
+	for i := 0; i < len(t.Rows) && i < 2; i++ {
+		height += w.tableRowHeight(t.Rows[i], widths)
+	}
+	if w.newDocument && len(t.Rows) <= 2 && len(t.Rows) > 0 && rowKeepsNext(t.Rows[len(t.Rows)-1]) {
+		height += tail
+	}
+	return height
+}
+
+// Word and PDF share the same bounded compact-unit decision. Only keepNext
+// flags change; source documents, authored text and all dimensions stay intact.
+func keepCompactTableNotes(m Model) Model {
+	if m.SourceID != "" {
+		return m
+	}
+	w := &pdfWriter{ctx: context.Background(), page: m.Page, loaded: map[string]string{}, warnings: map[string]bool{}, newDocument: true}
+	w.f = fpdf.NewCustom(&fpdf.InitType{UnitStr: "mm", Size: fpdf.SizeType{Wd: m.Page.Width, Ht: m.Page.Height}})
+	for i, b := range m.Blocks {
+		if b.Page != nil {
+			w.page = *b.Page
+		}
+		if b.Table == nil {
+			continue
+		}
+		tail := w.tableFollowingHeight(m, i)
+		height, compact := w.compactTableHeight(*b.Table, tail)
+		if !compact {
+			continue
+		}
+		for j := i - 1; j >= 0; j-- {
+			p := m.Blocks[j].Paragraph
+			if p == nil || !p.KeepNext || p.AnchorBottom || m.Blocks[j+1].Page != nil {
+				break
+			}
+			height += w.paragraphHeight(*p, 0)
+			if p.PageBreak {
+				break
+			}
+		}
+		if height > w.page.Height-w.page.Top-w.page.Bottom {
+			continue
+		}
+		for ri := range b.Table.Rows {
+			for ci := range b.Table.Rows[ri].Cells {
+				for pi := range b.Table.Rows[ri].Cells[ci].Paragraphs {
+					b.Table.Rows[ri].Cells[ci].Paragraphs[pi].KeepNext = true
+				}
+			}
+		}
+	}
+	return m
+}
+
+func rowKeepsNext(row Row) bool {
+	for _, cell := range row.Cells {
+		for _, p := range cell.Paragraphs {
+			if p.KeepNext {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func (w *pdfWriter) table(t Table) error {
+	// Recursive repeated headers must not inherit the final-row reservation.
+	tail := w.tableTail
+	w.tableTail = 0
+	if w.newDocument {
+		if opening := w.tableOpeningHeight(t, tail); opening <= w.page.Height-w.page.Top-w.page.Bottom {
+			if e := w.room(opening); e != nil {
+				return e
+			}
+		}
+	}
 	if t.Caption != nil {
 		height := w.paragraphHeight(*t.Caption, 0)
 		for i := 0; i < len(t.Rows) && i < 2; i++ {
@@ -889,6 +1056,9 @@ func (w *pdfWriter) table(t Table) error {
 			}
 			if keep {
 				pair := height + w.tableRowHeight(t.Rows[rowIndex+1], widths)
+				if rowIndex+1 == len(t.Rows)-1 && rowKeepsNext(t.Rows[rowIndex+1]) {
+					pair += tail
+				}
 				header := 0.0
 				if rowIndex > 0 && t.Rows[0].Header {
 					header = w.tableRowHeight(t.Rows[0], widths)
@@ -899,6 +1069,22 @@ func (w *pdfWriter) table(t Table) error {
 						if e := w.table(Table{Align: t.Align, Width: t.Width, Rows: []Row{t.Rows[0]}, Widths: t.Widths, Borders: t.Borders, BorderStyle: t.BorderStyle, Role: "repeat-header"}); e != nil {
 							return e
 						}
+					}
+				}
+			}
+		}
+		if w.newDocument && rowIndex == len(t.Rows)-1 && tail > 0 && rowKeepsNext(row) {
+			header := 0.0
+			if rowIndex > 0 && t.Rows[0].Header {
+				header = w.tableRowHeight(t.Rows[0], widths)
+			}
+			// An oversized unit must flow normally rather than generating a
+			// blank page or pushing a valid row outside the page body.
+			if height+tail+header <= w.page.Height-w.page.Top-w.page.Bottom && w.y+height+tail > w.page.Height-w.page.Bottom {
+				w.newPage()
+				if header > 0 {
+					if e := w.table(Table{Align: t.Align, Width: t.Width, Rows: []Row{t.Rows[0]}, Widths: t.Widths, Borders: t.Borders, BorderStyle: t.BorderStyle, Role: "repeat-header"}); e != nil {
+						return e
 					}
 				}
 			}
@@ -920,7 +1106,11 @@ func (w *pdfWriter) table(t Table) error {
 			}
 		}
 		if rowIndex == 0 && row.Header && len(t.Rows) > 1 {
-			if e := w.room(height + w.tableRowHeight(t.Rows[1], widths)); e != nil {
+			start := height + w.tableRowHeight(t.Rows[1], widths)
+			if w.newDocument && len(t.Rows) == 2 && rowKeepsNext(t.Rows[1]) && start+tail <= w.page.Height-w.page.Top-w.page.Bottom {
+				start += tail
+			}
+			if e := w.room(start); e != nil {
 				return e
 			}
 		}

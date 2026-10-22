@@ -33,6 +33,7 @@ func prepareNewLayout(m Model) Model {
 		}
 	}
 	m = keepHeadingGaps(m)
+	m = keepCompactTableNotes(m)
 	for _, block := range m.Blocks {
 		if block.Table != nil {
 			for _, row := range block.Table.Rows {

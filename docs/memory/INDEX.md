@@ -63,3 +63,5 @@
 - [历次验收记录](../STATUS.md)
 
 这些文档的历史版本号必须保留；不能把“桌面版已验证”直接解释成“最新版网页已验证”。
+
+- [用户原始卫生通知分页复现](../HEALTH-OFFICE-ORIGINAL-RESPONSE.md)：同一39块三表保存稿、真实Word/PDF、仅keepNext变化及分页边界。

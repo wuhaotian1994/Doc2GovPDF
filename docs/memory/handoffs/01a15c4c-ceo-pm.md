@@ -1,5 +1,12 @@
 # CEO 与产品经理交接
 
+## 最新：同一原稿分页已验收，后台反馈待集成
+
+- 用户复现包源SHA7dbde2fe，正常UI恢复/save/reload/导出精确保持39块/三表。最终小表标题/全3行/注同第4；回执标题/单位/说明/全表同第6；产品和Word16各7页，全部14页父代理已看，无裁切。仅keepNext改变，字号/边距/列宽/正文及所有其他DOCX成员不变。初候选拆小表退化已修，不交付初版。具体docs/HEALTH-OFFICE-ORIGINAL-RESPONSE.md；原稿与图片仅shared tmp/health-office-original。
+- f2b4eae为已提交粘贴增量；本轮分页源码/必要测试/无正文证据另提交推送同PR5，最后SHA见checkpoint。不要用旧Wasm41cdb的粘贴实页替代本轮新引擎，最终服务用已验收资产原样同步且不再构建。
+- 反馈后台backend_agent已冻结：internal/feedback/**、cmd/feedbackd/**、scripts/feedback-development.ps1、scripts/test-feedback-http.py、go.mod/sum归本聊天未提交。PG13.21隔离55440、独立反馈开发4187（当前真实收集默认禁用）；55439早期实例已停。独立Agent安全审查发现并修复并发解码、静态链接/..private路径、PNG透明隐藏RGB、通知误开。PG/3虚构岗位HTTP由backend验证，独立审查单测/vet通过，父代理未将其冒充完整功能。后续接反馈前端、本地脱敏证据与处理UI，按同一完整交付关口推进；不上传本次原稿。
+
+
 ## 当前接续：原始卫生通知复现包与并行研发（2026-10-22）
 
 - 用户明确授权子Agent并行研发，并提供 D:/Temp/Doc2GovPDF-卫生通知复现包.zip，要求用同稿复现回执标题/表格跨页，不另编样本、不删内容或缩字号。原稿仅本地，禁止纳入公开证据。
