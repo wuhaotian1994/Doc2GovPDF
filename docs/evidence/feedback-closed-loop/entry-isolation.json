@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "unavailable feedback module does not block writer startup",
+    "normal save works independently false",
+    "failed optional module gives a recoverable local explanation",
+    "failed optional module cannot discard continued writing",
+    "saved draft survives page refresh used to retry a failed module",
+    "older HTML without entry does not block writer startup",
+    "normal save works independently true",
+    "no runtime errors in writer isolation paths"
+  ],
+  "errors": [],
+  "passed": true
+}

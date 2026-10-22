@@ -828,6 +828,28 @@ if($('save-document'))$('save-document').onclick=()=>{readFields();persist();};
 $('load-draft-open').onclick=()=>$('load-draft').click();
 $('open-document').onclick=()=>$('load-draft').click();
 $('open-word-footer').onclick=()=>$('load-draft').click();
+// Feedback is loaded only after an explicit action and cannot block writing.
+let feedbackController;
+async function openFeedbackLazily(){
+  const button=$('feedback-open'),status=$('feedback-launch-status');
+  button.disabled=true;status.hidden=true;
+  try{
+    if(!feedbackController){
+      if(!document.getElementById('feedback-styles')){const link=document.createElement('link');link.id='feedback-styles';link.rel='stylesheet';link.href='./write-feedback.css';document.head.append(link);}
+      const {installFeedback}=await import('./write-feedback.js');
+      feedbackController=installFeedback({button,appVersion:'web-2',getDraft:()=>{
+        if(!window.writerReady)throw Error('文稿尚未恢复，暂时不能制作结构示例；可先描述问题或选择截图。');
+        if(wordWorkspace?.active)return {nativeWord:true};
+        readFields();return structuredClone({fields:{title:fields.title,body:fields.body,postscript:fields.postscript},content:bodyContent});
+      }});
+      button.removeEventListener('click',openFeedbackLazily);
+    }
+    await feedbackController.open();
+  }catch{status.textContent='反馈入口暂时未能打开。文稿未改变，可继续填写；保存草稿后刷新网页再试。';status.hidden=false;}
+  finally{button.disabled=false;}
+}
+$('feedback-open')?.addEventListener('click',openFeedbackLazily);
+
 $('backup-before-replace').onclick=saveDraft;
 $('new-document').onclick=newDocument;
 $('copy-current').onclick=()=>wordWorkspace?.active?wordWorkspace.copy().catch(e=>error(e.message)):requestReplace({...draft(copyFields(fields),0,undefined,undefined,bodyContent),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true);

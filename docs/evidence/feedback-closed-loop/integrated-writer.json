@@ -1,0 +1,52 @@
+{
+  "method": "Actual integrated writer entry and same-origin local PostgreSQL receiver; exclusively fictional material, no real manuscript.",
+  "checks": [
+    "normal writing starts without loading the feedback API",
+    "actual writer has the authored 3 by 2 table",
+    "no source block is selected by default",
+    "preparation has not transmitted any feedback",
+    "explicit send is reachable at short desktop height",
+    "only explicit chosen description and evidence were transmitted",
+    "actual PG copy keeps table semantics and blanks without the rest of the draft",
+    "feedback never mutates the active writer draft",
+    "private receipt no longer accesses the deleted feedback",
+    "unconfigured receiver cannot claim or send feedback",
+    "ordinary writing and saving continue when the feedback service is unavailable",
+    "integrated paths have no runtime errors"
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/feedback/config"
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/threads"
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/feedback/threads/:private-id"
+    }
+  ],
+  "files": [
+    {
+      "type": "selected-example",
+      "bytes": 155,
+      "sha256": "a8e382effdd1886d4da1fb667340aa8d8c58f78eed95742252a7c4940a25b983"
+    }
+  ],
+  "source": {
+    "write.js": "1128f19d907310485d362ac00e1b52e3694f7a0c81bf5c1e027b793fdc26a786",
+    "write.html": "1e4a9b97d6437aefdd80dc433a312265a297262ba37f8cc2b5150673b110752e",
+    "write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "write-feedback.css": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892",
+    "write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604"
+  },
+  "passed": true
+}

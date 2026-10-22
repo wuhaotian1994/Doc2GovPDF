@@ -1,0 +1,63 @@
+{
+  "method": "Normal UI restore/save/reload/export of supplied complete original on isolated integrated service; all feedback API requests forbidden, no manuscript upload. This is not a CEO 415-character Error9 reproduction.",
+  "passed": true,
+  "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+  "feedbackRequests": 0,
+  "fieldsAnd39BlocksExact": true,
+  "DOCXSHA256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c",
+  "PDFSHA256": "c3894e7e31e8617b7b44d5bbc9c21a2067606ae389cc3db882d5543cc872faac",
+  "pages": 7,
+  "allPageStreamsEqualReviewed": true,
+  "allRenderedPixelsEqualReviewed": [
+    {
+      "page": 1,
+      "pixelSHA256": "1c9f98ea4d22c40a7f5f2dc5c66e3062fa4f82d9fa3eaaaa58d067e906c1061b"
+    },
+    {
+      "page": 2,
+      "pixelSHA256": "8fa3aaf2c525806122f19919db31d91123c3a42b6669f4152bad92263312e7e9"
+    },
+    {
+      "page": 3,
+      "pixelSHA256": "07d7a992fa9531dbff8cfaa18701137f13d8d999904e29ec4295e26db3383785"
+    },
+    {
+      "page": 4,
+      "pixelSHA256": "35f9057801c4b7db36ea8e444d9fecdc2bf358018dcda5d83427e396b5111989"
+    },
+    {
+      "page": 5,
+      "pixelSHA256": "28687f6732e80c76c64ebd55c20b134545f924ba39639773726b1b40d0c11d94"
+    },
+    {
+      "page": 6,
+      "pixelSHA256": "3267796ff8c07793db393eb1aa654ca86dc3a316df9074397050d4cf9ba7f7ec"
+    },
+    {
+      "page": 7,
+      "pixelSHA256": "c9790b4140a1b65cddc007469a2f3aa692ecd870e121862026d66bb57c42fc8e"
+    }
+  ],
+  "currentSourceSHA256": {
+    "web/write.js": "1128f19d907310485d362ac00e1b52e3694f7a0c81bf5c1e027b793fdc26a786",
+    "web/write.html": "1e4a9b97d6437aefdd80dc433a312265a297262ba37f8cc2b5150673b110752e",
+    "web/write-content.js": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+    "web/write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "web/write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "web/engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+    "web/engine-worker.js": "0e12424abcca7c75dd805be9304206a33304881ffefa5097fd6c313061dd9f37",
+    "internal/office/font_resources.go": "f6df54ae43939789328c76f3610d8c9a8f2c55ff3d055a5d3b99dd53902f7a61",
+    "internal/office/pdf.go": "fa0fa56c9609b0a3e94644cf9b9c4fc0715d1fc711fdadc02836010e5a0d6c05",
+    "internal/office/title_layout.go": "d9c26f89c6ae9d43f97a37d52bdc88e01d57f2ddab957543e7e4b47b3cd38283"
+  },
+  "frozenBuildAndHTTPMatches": {
+    "write.js": "1128f19d907310485d362ac00e1b52e3694f7a0c81bf5c1e027b793fdc26a786",
+    "write-content.js": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+    "write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+    "engine-worker.js": "0e12424abcca7c75dd805be9304206a33304881ffefa5097fd6c313061dd9f37",
+    "document-engine.wasm": "5bb98e67980c5c5a2e39a9e541cbe1070bca495eac995662e7b9d2fdefca5a74",
+    "engine-assets.js": "b0503f6b64a7b20736ff071f54cab7504a20bd24c9a76265fe20c0457a12c1ed"
+  }
+}

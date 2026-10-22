@@ -1,0 +1,26 @@
+{
+  "profile": "webkit",
+  "version": "27.2",
+  "method": "Fictional roles using actual UI/evidence modules and an independent deterministic API contract. Not PG, actual operational collection or blind-user study.",
+  "checks": [
+    "初始反馈详情与其可编辑字段对应",
+    "选择新条立即撤下旧可编辑详情并显示加载态",
+    "较新选择B先返回后可以编辑正确详情",
+    "旧选择A的慢成功返回不能覆盖B或其未保存字段",
+    "旧选择A慢失败不覆盖B的状态或重试入口",
+    "退出后迟到详情不能重新显示私密内容",
+    "选择异步契约无未捕获异常"
+  ],
+  "errors": [],
+  "source": {
+    "write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "write-feedback.css": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892",
+    "feedback-admin.js": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e",
+    "feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+    "write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604"
+  },
+  "scope": "Controlled delayed admin selection, stale success/error and logout response guards",
+  "passed": true,
+  "apiRequests": 7
+}

@@ -43,7 +43,7 @@ export class WriterEngine {
   send(method, args) {
     return new Promise((resolve, reject) => {
       const id = ++this.sequence;
-      const timer = setTimeout(() => this.reset(Error('排版处理超时，内容仍保留。请重试或缩短正文。')), 120000);
+      const timer = setTimeout(() => this.reset(Error('排版处理超时，内容仍保留。可先下载草稿备份，再重试。')), 120000);
       this.pending.set(id, {resolve, reject, timer});
       try { this.worker.postMessage({id, request:{method, args}}); }
       catch (error) { this.reset(error); }

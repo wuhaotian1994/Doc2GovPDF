@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "profile": "chrome",
+      "passed": true,
+      "dimensions": [
+        52,
+        36
+      ],
+      "coveredPixels": 192,
+      "pngChunks": [
+        "IHDR",
+        "IDAT",
+        "IDAT",
+        "IEND"
+      ],
+      "pngSHA256": "d138482ae05cd5e1fc748b52b2156c3ad53d92c8b5c7660ebee904fe6eb85fcc",
+      "exampleSHA256": "5e172b093feba2e2590319039b79a7e5813b4a9d37927995e160b4aa1675ef24",
+      "strictPostgresServerAcceptedBoth": true,
+      "deletedAfterValidation": true
+    },
+    {
+      "profile": "firefox",
+      "passed": true,
+      "dimensions": [
+        52,
+        36
+      ],
+      "coveredPixels": 192,
+      "pngChunks": [
+        "IHDR",
+        "IDAT",
+        "deBG",
+        "IEND"
+      ],
+      "pngSHA256": "4796035842abc01d0d4c0dfe54d0422f5e0fd5d5542a43c138104a6ab4d76283",
+      "exampleSHA256": "5e172b093feba2e2590319039b79a7e5813b4a9d37927995e160b4aa1675ef24",
+      "strictPostgresServerAcceptedBoth": true,
+      "deletedAfterValidation": true
+    },
+    {
+      "profile": "webkit",
+      "passed": true,
+      "dimensions": [
+        52,
+        36
+      ],
+      "coveredPixels": 192,
+      "pngChunks": [
+        "IHDR",
+        "sBIT",
+        "sRGB",
+        "IDAT",
+        "IEND"
+      ],
+      "pngSHA256": "7279d84e029286bf5b2cbf5e566782e7156aca8bdcfb2cc8bdbcdea6770b984f",
+      "exampleSHA256": "5e172b093feba2e2590319039b79a7e5813b4a9d37927995e160b4aa1675ef24",
+      "strictPostgresServerAcceptedBoth": true,
+      "deletedAfterValidation": true
+    }
+  ]
+}

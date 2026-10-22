@@ -66,3 +66,6 @@
 这些文档的历史版本号必须保留；不能把“桌面版已验证”直接解释成“最新版网页已验证”。
 
 - [用户原始卫生通知分页复现](../HEALTH-OFFICE-ORIGINAL-RESPONSE.md)：同一39块三表保存稿、真实Word/PDF、仅keepNext变化及分页边界。
+
+- [字体内存与失败恢复](../FONT-MEMORY-RECOVERY-RESPONSE.md)：降低确定副本占用、原稿故障注入恢复，415字云端Error9仍待精确复验。
+- [主动反馈本地闭环](../FEEDBACK-CLOSED-LOOP-RESPONSE.md)：真实PG/私密回执/本地证据/处理与删除，真实收集未开启。

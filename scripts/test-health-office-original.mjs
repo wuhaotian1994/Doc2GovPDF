@@ -14,8 +14,8 @@ const out=process.env.HEALTH_OUT||resolve(root,'build/qa/health-office');
 await mkdir(out,{recursive:true});
 const browser=await chromium.launch({headless:true,channel:'chrome',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 const context=await browser.newContext({viewport:{width:1440,height:900},locale:'zh-CN',acceptDownloads:true,serviceWorkers:'block'});
-const page=await context.newPage(),report={errors:[],sourceSHA256:createHash('sha256').update(await readFile(source)).digest('hex'),downloads:[]};
-await context.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
+const page=await context.newPage(),report={errors:[],sourceSHA256:createHash('sha256').update(await readFile(source)).digest('hex'),downloads:[],feedbackRequests:0};
+await context.route('**/*',route=>{const url=new URL(route.request().url());if(url.pathname.startsWith('/api/feedback/')){report.feedbackRequests++;return route.abort();}return url.hostname==='127.0.0.1'?route.continue():route.abort();});
 page.on('pageerror',e=>report.errors.push(e.message));
 try{
  await page.goto(process.env.HEALTH_URL||'http://127.0.0.1:4173');await page.waitForFunction(()=>window.writerReady);
@@ -41,7 +41,7 @@ try{
   report.downloads.push({format,bytes:data.length,sha256:createHash('sha256').update(data).digest('hex')});
  }
  assert.deepEqual((await read()).fields,original.fields);assert.deepEqual((await read()).content,original.content);
- report.exportKeptOriginal=true;report.passed=report.errors.length===0;
+ assert.equal(report.feedbackRequests,0,'Original must never enter the feedback channel');report.exportKeptOriginal=true;report.passed=report.errors.length===0;
 }catch(e){report.failure=e.stack;await page.screenshot({path:out+'/failure.png'}).catch(()=>{});throw e;}
 finally{await writeFile(out+'/report.json',JSON.stringify(report,null,2));await browser.close();}
 console.log(JSON.stringify({passed:report.passed,sourceSHA256:report.sourceSHA256,downloads:report.downloads,errors:report.errors}));

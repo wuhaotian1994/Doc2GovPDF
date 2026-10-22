@@ -1,0 +1,15 @@
+import {createRequire} from 'node:module';import {resolve} from 'node:path';import {readFile,writeFile,mkdir} from 'node:fs/promises';import assert from 'node:assert/strict';
+import {startWebServer} from './browser-tests/server.mjs';
+const root=resolve(import.meta.dirname,'..'),require=createRequire(root+'/scripts/browser-tests/package.json'),{chromium}=require('playwright'),out=root+'/build/qa/feedback-entry-isolation';await mkdir(out,{recursive:true});
+const server=await startWebServer(root+'/build/qa/feedback-web'),browser=await chromium.launch({headless:true,channel:'chrome',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}}),report={checks:[],errors:[]};const check=(name,v)=>{assert.ok(v,name);report.checks.push(name);console.log(name);};
+try{
+ for(const oldHTML of [false,true]){
+  const context=await browser.newContext({viewport:{width:1280,height:600},locale:'zh-CN',serviceWorkers:'block'}),page=await context.newPage();let feedbackLoads=0;page.on('pageerror',e=>report.errors.push(e.message));
+  if(oldHTML)await page.route(server.url+'/',async route=>{const response=await route.fetch(),html=(await response.text()).replace(/<p id="feedback-launch-status"[^>]*><\/p>/,'').replace(/<button[^>]*id="feedback-open"[^>]*>[\s\S]*?<\/button>/,'');await route.fulfill({response,body:html,headers:{...response.headers(),'content-encoding':'identity'}});});
+  await page.route('**/write-feedback.js',route=>{feedbackLoads++;return route.abort();});await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);check((oldHTML?'older HTML without entry':'unavailable feedback module')+' does not block writer startup',feedbackLoads===0);
+  await page.locator('#title').fill('虚构入口保护稿');await page.locator('#save-document').click();check('normal save works independently '+oldHTML,await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')).fields.title==='虚构入口保护稿'));
+  if(!oldHTML){await page.locator('#feedback-open').click();await page.locator('#feedback-launch-status:not([hidden])').waitFor();check('failed optional module gives a recoverable local explanation',feedbackLoads===1&&(await page.locator('#feedback-launch-status').innerText()).includes('保存草稿后刷新网页再试'));await page.locator('#title').fill('虚构入口保护稿（继续）');await page.locator('#save-document').click();check('failed optional module cannot discard continued writing',await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')).fields.title.endsWith('（继续）')));await page.unroute('**/write-feedback.js');await page.reload();await page.waitForFunction(()=>window.writerReady);await page.locator('#feedback-open').click();await page.getByText('无法连接反馈服务。填写未发送，正常写作不受影响。',{exact:true}).waitFor();check('saved draft survives page refresh used to retry a failed module',await page.locator('#title').inputValue()==='虚构入口保护稿（继续）');}
+  await context.close();
+ }
+ check('no runtime errors in writer isolation paths',report.errors.length===0);report.passed=true;
+}finally{await writeFile(out+'/report.json',JSON.stringify(report,null,2));await browser.close();await server.close();}
