@@ -17,3 +17,9 @@
 - 原卫生Word4c18c0d6和7页PDF流保持；单签发两副本字节/流保持。所有原稿、字体原件与个人姓名只在ignored，本轮只提交去正文证据。详细坐标/范围见JOINT-SIGNERS-RESPONSE.md。
 - 最终joint-signers-web/ab29a736，Wasm3d05f13f，64资源压缩/MIME绑定过；原样同步4173/PID65964并实际复验通过，替代上文旧6110‘仍待刷新’状态。4188/PG不动，正式收集未开。
 - 最新CEO b36ac8b6/main641dca8（2026-10-22T16:37:33Z）只新增文档；备用Word交接获独立实物支持，准确61458回导说明孤行P1新接续，不归因字体；本机无准确原稿不代签。direct cmapP0、LO版记P1及全文字体仍开。下一步提交本轮、正常合main文档、推同PR5/核评价，不重建冻结资产。
+
+## 实际交付
+
+- 实现d12c0bc7（未推送前仅清理测试脚本空行尾空白并node --check，逻辑及生产资产不变）；完整新文件暂存后发现该处尾空白，已修复，最终cached check通过。正常合main641dca8仅CEO文档，e232feb已推送原codex分支，PR5正文重写/附加成功，没有合并PR或重建已验服务。
+- 推送后评论/评审/行内/Issues空，statuses和workflow_runs空；不称CI绿。远端插件暂显示mergeable=false，不把可能null重算误作冲突，known main ancestor。固定4173/PID65964健康，原frozen3d05资产保持。交付记录之后仅文档head以checkpoint为准。
+- 下一轮优先directPDF备用cmap结构P0，继续真实全文字体/接收端P0；准确61458回导说明孤行P1及LO版记P1接续，不替不同源签收，不重复索要用户已答不存在的稿。收到CEO可执行评价继续同PR；无变化不推空确认。
