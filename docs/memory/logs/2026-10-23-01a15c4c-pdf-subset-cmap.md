@@ -14,3 +14,9 @@
 - 本轮native Word未重新渲染，当前Word下载字节同已审源，不把旧渲染冒称新验。真实原稿、字体、页面不上传。可发布摘要为PDF-SUBSET-CMAP-RESPONSE.md和对应verification.json。
 - 当前pdf-cmap-web/6cc35cda，Wasm10921c59，64资源协商压缩/源/缓存绑定；原样同步4173/PID65964，真实服务22/4文件和同字体程序/内容/Word通过。关闭QA浏览器后服务继续；4188/PG未碰，收集未开，提交后不重建。
 - 最新CEO已变a1b2f89a/mainb0ae480（18:01:30Z），新增独立联合直接PDF支持但LO三行/缺线P0/P1，卫生39三表已独立成品支持（标题后缀不同非本机同hash），尾注6/7及LO表尾阅读关系继续开。准确645eec/0eeb5d/61458本机无，不冒签。下一优先LO多人+版记，再尾注/回导widow机制；不拿原来‘文件未取回’或‘单行阻止’过时状态搁置。
+
+## 实际交付
+
+- 实现a4310bd66cfb4309df40efb08a797768142b23c9，正常合入mainb0ae480仅CEO文档后51820b32977511100ffe518c7d52733e30ec6d18已成功推送同分支/PR5。标题/正文围绕最终子集修复重写并重新附加；未合并或部署。首次依赖manifest字节守卫因CRLF checkout与Git LF误判，规范化后逐字相同；源码冻结SHA原已全部匹配，不是依赖变化或产品失败。
+- 推送后comments/reviews/threads/Issues空，statuses/workflow_runs空；不能称远端CI绿。raw GitHub true/clean/unmerged；4173原PID65964健康，已验10921资产保持，Word/源字/字体不上传，收集未启用。之后仅提交本交付记录，不重建。
+- 后续优先CEOa1b2所证备用联合Word在LO三行/版记缺线P0-P1，再原卫生尾注6/7接续与回导widow控制。准确变体缺失不当作没有可推进工作，已有用户原稿和只读机制可继续；不能代签CEO准确文件或冒称本轮已修分页。

@@ -2,6 +2,8 @@
 
 ## 最新：PDF字体子集结构P0已验收（优先于历史）
 
+- **已实际交付**：实现a4310bd66cfb4309df40efb08a797768142b23c9；正常合main b0ae480后51820b32977511100ffe518c7d52733e30ec6d18已推送原分支。PR5标题/正文重写并重新附加，open/unmerged，raw GitHub mergeable=true/clean；评论/评审/行内/Issues/statuses/Actions空，不称CI绿或CEO已接受这次字体容器修复。之后仅补交付记录，最终文档head见checkpoint，冻结资产不重建。
+
 - 同PR5/codex/ceo-004-materials/ceo-001树，起点c16661c。修fpdf已知cmap无效长度与head低位借位，只作用本引擎新生成classic-xref输出，合法程序原样/幂等，其他结构明确失败；不改模块缓存/字体资产/Word/文稿/布局。源码及父/Agent测试、文档归本聊天，shared他人改动不碰。
 - 6Go新专项/既有坐标/office-webengine全量test及vet、独立审查过；validator17正负可复现。旧joint仅Black坏，旧day19有效，不能概括所有旧件坏。新11PDF31程序实例严格必查/实际fontTools均过，22页内容/字位/非cmap表/Unicode-CID/宽度及像素相同；16个不同页面均已看。11DOCX与已审来源字节保持，未冒称新native Word渲染。卫生原7dbd/39块3表、Word4c18、回执标题全表6/7页保持。详见PDF-SUBSET-CMAP-RESPONSE.md与独立日志。
 - 当前4173原PID65964，冻结pdf-cmap-web/engine6cc35cda15c5311e7c05，Wasm10921c59a4b306b239460ea72bb0c054cb5200c28eea477f5f2eb14d67d9d233；64HTTP资产，实际Chrome22项/4文件、字体程序/内容/Word同已检候选。替代历史3d05；提交不重建。4188 PID63200/PG55440未变，真实收集未开。
