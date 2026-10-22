@@ -6,6 +6,7 @@
 
 | 遇到的问题 | 先读 |
 | --- | --- |
+| 国标为何贯穿全文，字体与实际导出怎样判断符合？ | [全文国标产品约束（最新原则）](../STANDARDS-PRODUCT.md) |
 | CEO 当前关注哪些产品问题、优先级和完成结果？ | [CEO 产品议题](../CEO-QUESTIONS.md) |
 | 如何让用户表达使用需求，同时明确上传、脱敏、回执与删除？ | [反馈产品方案（待实现）](../FEEDBACK-PRODUCT.md) |
 | 当前是网页还是 EXE？为什么不上传文稿？ | [产品与架构](topics/product-and-architecture.md) |
