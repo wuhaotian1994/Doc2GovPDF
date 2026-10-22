@@ -2,6 +2,8 @@
 
 ## 最新：页码实际字形与Word/LO动态字号已完成本机验收（优先于历史）
 
+- **已实际交付**：实现2f2086fd60701d41402bf0ef71c8738eb4a4e91f已推送原分支，main b0ae是祖先；同PR5标题/正文按最终页码/缺字行为重写并重新附加，open/unmerged/mergeable=true。该head评论/评审/行内/Issues/statuses/Actions空，不称CI绿或CEO接受。只补本交付记录，最终head见checkpoint；eaf4/cc18冻结资产不重建。
+
 - 同PR5/ceo-001/codex/ceo-004-materials，基线7c04bfc；CEOa1b2/mainb0ae无新评价，shared他人不碰。当前实现/交付SHA由后续交付条目和checkpoint记录，不合并/部署。
 - PDF页码实际字符串进入字体选择与实际面定位；缺字原因区分已读/未知/歧义，首例U码/短原文/整段或页码范围有界，不把测量次数当影响数，不要求改删原字。pdf40e91。原7dbd+Go A-only是同稿配置控制，旧21非空页码GID0→新21真OFL14；真实ST/Kai源稿本来全覆盖，不冒称实字体已缺字。
 - 实际Word和LO数字曾继承正文16而dash14；mark-only/仅MERGE都被接收端拦下，最后局部style-only两端有效。pagefooter c819/templates f7b/专项4386冻结，仅新CreateDOCX用生成helper/样式，原base/source normalization无新style引用；Normal16/原PAGE不动。最终full39.516/.962+vet/交叉审过，不拿中间e620/43d6当最后。

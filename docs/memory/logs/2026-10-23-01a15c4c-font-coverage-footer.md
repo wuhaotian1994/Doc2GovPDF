@@ -27,3 +27,7 @@
 release eaf4d9ab/Wasmcc18/cache18b034de，Go full39.516/.962和vet通过。当前浏览器/四font/原source配置控制均通过；新Word9adce7bb卫生+当前selected分别新原生Word/LO，18页54footer非空轮廓真源约14（Word14.04/LO14），身体所有char/size/geometry/family对各旧件相同，源81/29、6/7阅读保持。11对35页像素全同/8原件byteexact/3新docx只style3part，12PDF26程序严格过。34当前页27独立像素页全看及旧7footer带看，私图不提交。新service原PID65964同步冻结，当前新styleWord6/4+18glyph+64HTTP过。
 
 header专项最初传4font-map遇TTC未支持（ValueError），改只给其实际要测的ST/Kai两已钉源面，不删错误或冒称集合全支持；25glyph真源过，页码SimSun单独明确TTCface0测过。receiver v4两端各14过。完整response/evidence已写，下一显式stage/commit/push同PR并核评价。
+
+## 已实际交付
+
+2f2086fd60701d41402bf0ef71c8738eb4a4e91f已推送同codex分支，PR5重写最终标题/正文并重新附加，open/unmerged/mergeable=true。mainb0ae已ancestor，CEOa1b2未变；评论/评审/行内/Issues/statuses/Actions空，不称CI或CEO已通过。最终release eaf4/cc18＋原PID65964服务保持，不重建，后续仅此交付文档。准确CEO变体/全文P0不代签，不合并或部署。
