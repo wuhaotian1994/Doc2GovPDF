@@ -411,6 +411,13 @@ func paragraphXML(p Paragraph) string {
 	if p.KeepLines {
 		props.WriteString(`<w:keepLines/>`)
 	}
+	if p.WidowControl != nil {
+		if *p.WidowControl {
+			props.WriteString(`<w:widowControl/>`)
+		} else {
+			props.WriteString(`<w:widowControl w:val="0"/>`)
+		}
+	}
 	if p.AutoNumbered {
 		fmt.Fprintf(&props, `<w:numPr><w:ilvl w:val="%d"/><w:numId w:val="1"/></w:numPr>`, p.OutlineLevel-1)
 	}

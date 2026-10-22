@@ -49,6 +49,7 @@ type Paragraph struct {
 	BreakOffsets   []int       `json:"breakOffsets,omitempty"`
 	KeepNext       bool        `json:"keepNext,omitempty"`
 	KeepLines      bool        `json:"keepLines,omitempty"`
+	WidowControl   *bool       `json:"widowControl,omitempty"` // nil follows Word's enabled default.
 	BorderBottom   bool        `json:"borderBottom,omitempty"`
 	BorderColor    string      `json:"borderColor,omitempty"`
 	BorderTop      bool        `json:"borderTop,omitempty"`

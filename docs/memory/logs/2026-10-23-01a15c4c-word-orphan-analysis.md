@@ -65,3 +65,24 @@ Microsoft官方[WidowControl说明](https://learn.microsoft.com/en-us/dotnet/api
 ## 父最终补验（替代上节待验状态）
 
 最终f533与正常浏览器下载逐字节绑定；真实Word16与LO26.8.1.1各7页，完整尾注与来源均第7页，标题与表开头6。最终源码full test/vet、正常save/reload及所有53页/50独立页已目视；Word回导PDF6页单列、不外推准确61458。详见RECEIVER-LAYOUT-RESPONSE与去正文evidence，交付状态由自有交接/checkpoint维护。
+
+
+## 有效 widowControl 与导入稿孤行窗口（21c4d55 后续候选）
+
+- 父授权接续准确61458仍不在本机的有界实现，owned起点21c4d55且status clean；不改服务冻结238e、不构建浏览器、不提交。父负责当前准确镇稿/联合/卫生Word的正常回导和完整集成验证，本节不是准确61458通过声明。
+- primary语义：https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.widowcontrol?view=openxml-3.0.1 ：属性沿样式继承，整个层级无声明仍默认防首/尾单行；显式off需保留。这与keepLines/keepNext缺省关闭不同。
+- Paragraph新增可选三态 `*bool widowControl`：nil保留默认且不新增WordXML，非nil显式on/off。package从现有已合并docDefaults/defaultStyle/basedOn/direct的pp投影；legacy重设旧模板格式时继续保留同一个有效孤行状态。原WordExport路径未修改，5种样式状态均在native/legacy路径验证未改原件byte exact，旧JSON缺字段仍默认ON且序列化不伪造新字段。
+- PDF仅将段首2行（3行可容则整3）和段尾2行窗口与SourceID解耦，仍保持导入稿身份。没有改newDocument控制的空间抑制、标题平衡、表格/版心/字号/内容逻辑。显式off可1+3或3+1；默认4行允许2+2，不泛化为整段keepLines。
+- KeepLines仍为整段可装一页才保留；作者BreakOffsets先拆并强制分页，每段保留on/off，节边界断keep链。原导入KeepNext无条件room整条超页链会报错，现仅可装下一页时预留，超页文字正常流动；2/3行窗口也仅在可满足容量内施加，不因窗口本身超页拒绝原文。
+- 普通换行仍属于同一段：既有分段递归会把4软行/余2行空间排为1+3。新增私有paragraphFlow传递剩余视觉行数和是否续段，使头/尾窗口跨软换行累计；非末part不再伪造与下一段的KeepNext。counts与实际绘制共用原有16pt+11.29/charSpacing首行网格缩进计算，center/right归零，无绘制尺寸改变。
+- 新 `widow_control_test.go` 6主组，覆盖默认旧JSON/显式JSONXML、5种样式继承×native与legacy字节保护、8种2/3/4行实际PDF分法、超页KeepNext/KeepLines/合法40mm容量/中文UTF8硬分页/分节、4种普通换行及左/中/右网格窗口。专项最终PASS1.543s；受影响Native/表注/签发/版记局部回归最终PASS6.423s；office vet PASS。初次测试把实际28字行宽误写27、短页小于模型40mm下限，已校正测试输入与断言；非生产回退。没有用这些机制稿代签用户准确文件。
+- 最终生产候选冻结：model.go 6e08215c88349065380440cee1892e04f1faf0300858abfb9e35b6d87e61356c；package.go 4d928e0f5d5768988429248362daaac5ab9286842600ff0f2376c3d8f7c81876；pdf.go fae3a4451ab268732998d057d1aa25293a8178ae704758c91daf5580b966738b；templates.go 93e87f9c5afa729858ac5b0d8ed56ed6c190820bb69a998b47c757c4b4b06e5c；新test 47b81dca30f8ea68066ed117fe15c7bc56e1d64e225333ca01e1b4589745ac14。独立审查及父全量/准确原Word实物仍待最终汇总。
+
+
+### 独立审查拦截与最终共享尾预算
+
+- 上述 fae3a445/47b81dca 候选不是最终交付。receipt用独立ignored overlay发现确定遗漏：25个单字普通换行组成同一段、默认widowON且KeepNext=true、前页余3行、后跟1行NEXT，实测分为[3,21,1]，最后1行随NEXT到第3页，仍违反本段尾2行。父已将对应完整测试/中间5dc363构建标为审查拦截中间，不刷新用户服务或冒称通过。
+- 等父中间构建/测试完成后，新增私有共享flowTail预算：原段After+following预算跨全部软换行传递，在原段剩2行窗口一次消费；continued末part不再独立room“末part+1行”，末1不能二次预算。显式widowOFF只在本段末1行处理KeepNext，不把OFF重新开启；整尾预算超过一页则有界放弃关系，不产生超页错误或静默截字。硬分页入口重置，不能跨作者break。
+- 新7主组专项PASS1.599s；同例default和After6实际[3,20,2]、NEXT同末页；OFF仍[3,21,1]；不可满足超大following链[3,22]且完整流动。最终受影响局部回归PASS6.669s、office vet PASS。
+- receipt在相同独立overlay上复验得到[3,20,2]，并只读复核共享预算、末part不二次room、共用精确indent、硬分页优先、有界超页及三态继承，未发现剩余确定缺陷；未改实现源或重跑全量。
+- 最终替代SHA：pdf.go 2745f8a5b6b2fb68c3ef2c5f5fda88fff107fb51ac174e95005f74f2baf9f7be；widow_control_test.go fa8a306f4a0918fe6313ff45b362c01a8a3785b884575ba6205459250bc15291；model/package/templates沿上节SHA不变。父将以此冻结源重跑完整测试并在新 `word-widow-final-web` 候选构建/准确原件验证，旧中间目录不作最终证据。

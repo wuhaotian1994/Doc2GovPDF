@@ -181,7 +181,8 @@ func openPackage(data []byte, legacy bool) (*Package, error) {
 		pp, rp := formatting.paragraph(styleID, pr)
 		applyProps(&r, pp, rp)
 		if legacy {
-			r = Paragraph{ID: r.ID, Role: "body", Align: "both", Font: "仿宋", Size: 16, Line: 10.21, Indent: 11.29}
+			widow := r.WidowControl
+			r = Paragraph{ID: r.ID, Role: "body", Align: "both", Font: "仿宋", Size: 16, Line: 10.21, Indent: 11.29, WidowControl: widow}
 			if style := styles[styleID]; style != nil {
 				applyLegacyProps(&r, child(style, "pPr"), child(style, "rPr"))
 			}
@@ -683,6 +684,10 @@ func applyProps(p *Paragraph, pp, rp *etree.Element) {
 		}
 		if value := child(pp, "keepLines"); value != nil {
 			p.KeepLines = enabled(value)
+		}
+		if value := child(pp, "widowControl"); value != nil {
+			on := enabled(value)
+			p.WidowControl = &on
 		}
 		p.BorderBottom = child(child(pp, "pBdr"), "bottom") != nil
 		if border := child(child(pp, "pBdr"), "bottom"); border != nil {

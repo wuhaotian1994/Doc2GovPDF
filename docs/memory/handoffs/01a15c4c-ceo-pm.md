@@ -1,5 +1,14 @@
 # CEO 与产品经理交接
 
+## 最新：Word有效孤行控制已完成本机语义/实稿回归（优先于历史）
+
+- 同PR5/ceo-001/codex/ceo-004-materials，基线21c4d55；最新CEOa1b2/mainb0ae无新评论/评审/行内/Issues。准确61458无本机原件，当前四准确Word均未复现该首行孤立，不代签，不归因字体。最终交付SHA见后续条目/checkpoint。
+- 三态有效widowControl沿现有样式继承/defaultON/显式OFF；PDF普通段2行窗口与SourceID解耦，SourceID其它保真/新稿守卫不动，软换行共享行数与尾预算，硬页/节优先/超页有界。独立审查中间3/21/1反例已修3/20/2；中间候选full过也未服务。最终Go full31.768/1.006及vet/交叉审通过。
+- 四真实Word正常回开保存刷新各6/4；新joint16/4、原卫生JSON逐格保持/2下载；10DOCX原字节不变、10实际PDF33页内容/矩阵/字号/字形程序/像素全同，20程序严格有效。镇4页新目视，其他同前已看页像素绑定。不称重新调用原生Word/LO（相同DOCX字节复用此前接收端依据）。详见WORD-WIDOW-CONTROL-RESPONSE与去正文evidence。
+- 当前4173原PID65964，冻结word-widow-final-web/engine d21d8729b2ec7306b0a1/Wasm e9cd5637585e2a7241651bba0d4903f879265cba729f0e2a982358a328d85584/SW14f1fb；实际原卫生Word服务6/4及64HTTP资产过，收集关闭，提交不重建。此前238e已替代；4188/PG不变。
+- 下一准确61458与CEO新评价仍需对应真实文件，全文真实字体/适用标准/未检特殊对象开放。已答无529不再索取，不以7dbd替代；不合并/部署/上传原稿字体。
+
+
 ## 最新：接收端版位/版记与原卫生尾注已完成本机验收（优先于历史）
 
 - **已实际交付**：实现bc4cfea6a23489cc7ab45e17a42d77cb1ad3e585已推送原分支，main b0ae480是祖先无需重复merge；同PR5标题/正文按本轮最终行为重写并重新附加，open/unmerged/mergeable=true。该head状态/Actions/评论/评审/行内均空，不称CI绿或CEO接受。只补文档交付记录，最终head见checkpoint，冻结资产不重建。

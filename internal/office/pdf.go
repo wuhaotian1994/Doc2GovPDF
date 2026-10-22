@@ -291,7 +291,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 				anchored = append(anchored, *b.Paragraph)
 				continue
 			}
-			if b.Paragraph.KeepNext {
+			if b.Paragraph.KeepNext && len(b.Paragraph.BreakOffsets) == 0 {
 				height := w.paragraphHeight(*b.Paragraph, 0)
 				ownHeight := height
 				for next := index + 1; next < len(m.Blocks); next++ {
@@ -303,13 +303,13 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 						height += w.tableOpeningHeight(*table, w.tableFollowingHeight(m, next))
 						break
 					}
-					if p == nil || p.AnchorBottom || p.PageBreak {
+					if p == nil || p.AnchorBottom || p.PageBreak || len(p.BreakOffsets) > 0 {
 						break
 					}
 					limit := 0
 					if !p.KeepNext {
 						limit = 1
-						if w.newDocument {
+						if paragraphWidowControl(*p) {
 							limit = 2
 						}
 						if chapterLabel.MatchString(b.Paragraph.Prefix + b.Paragraph.Text) {
@@ -322,7 +322,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 					}
 				}
 				w.keepTail = height - ownHeight
-				if !w.newDocument || height <= w.page.Height-w.page.Top-w.page.Bottom {
+				if height <= w.page.Height-w.page.Top-w.page.Bottom {
 					if e := w.room(height); e != nil {
 						return PDFResult{}, e
 					}
@@ -583,7 +583,30 @@ func (w *pdfWriter) wrapIndented(text string, width, indent float64) []string {
 func nonbreakingRune(r rune) bool {
 	return r >= '0' && r <= '9' || r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' || r == '×' || r == '-' || r == '/' || r == '.' || r == '%'
 }
+
+// Keep soft-break line predictions identical to the renderer's first-line grid adjustment.
+func (w *pdfWriter) paragraphIndent(p Paragraph) float64 {
+	indent := p.Indent - p.Hanging
+	if p.Size == 16 && math.Abs(p.Indent-11.29) < .1 && p.Hanging == 0 {
+		indent = 2 * (16*25.4/72 + w.charSpacing)
+	}
+	if p.Align == "center" || p.Align == "right" {
+		return 0
+	}
+	return indent
+}
+
 func (w *pdfWriter) paragraph(p Paragraph) error {
+	tail := 0.0
+	if p.KeepNext && w.keepTail > 0 {
+		tail = p.After + w.keepTail
+	}
+	return w.paragraphFlow(p, 0, false, tail)
+}
+
+// A soft line break is still inside the same paragraph. Carry its remaining
+// visual lines so widow windows do not restart at each justification boundary.
+func (w *pdfWriter) paragraphFlow(p Paragraph, followingLines int, continued bool, flowTail float64) error {
 	if p.Role == "letterhead-divider" && w.lastInkBottom > 0 {
 		p.Line = math.Max(.1, w.lastInkBottom+4-w.y-borderWidth(p)/2)
 	}
@@ -642,6 +665,18 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 	// same paragraph without repeating first-line indentation or spacing.
 	if strings.Contains(p.Text, "\n") {
 		parts := strings.Split(p.Text, "\n")
+		counts := make([]int, len(parts))
+		remaining := 0
+		w.setFont(p)
+		for i, text := range parts {
+			q := p
+			q.Text = text
+			if i > 0 {
+				q.Indent, q.Hanging, q.Prefix = 0, 0, ""
+			}
+			counts[i] = len(w.wrapIndented(q.Prefix+q.Text, w.page.Width-w.page.Left-w.page.Right-q.LeftIndent-q.RightIndent, w.paragraphIndent(q)))
+			remaining += counts[i]
+		}
 		for i, text := range parts {
 			part := p
 			part.Text = text
@@ -650,9 +685,10 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 				part.Prefix, part.PageBreak = "", false
 			}
 			if i < len(parts)-1 {
-				part.After, part.KeepNext = 0, true
+				part.After, part.KeepNext = 0, false
 			}
-			if e := w.paragraph(part); e != nil {
+			remaining -= counts[i]
+			if e := w.paragraphFlow(part, remaining, i > 0, flowTail); e != nil {
 				return e
 			}
 		}
@@ -672,30 +708,29 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 	if width < 20 {
 		return fmt.Errorf("段落左右缩进过大，请调整后重试")
 	}
-	indent := p.Indent - p.Hanging
-	if p.Size == 16 && math.Abs(p.Indent-11.29) < .1 && p.Hanging == 0 {
-		indent = 2 * (16*25.4/72 + w.charSpacing)
-	}
-	if p.Align == "center" || p.Align == "right" {
-		indent = 0
-	}
+	indent := w.paragraphIndent(p)
 	lines := w.wrapIndented(p.Prefix+p.Text, width, indent)
-	if p.KeepNext {
+	if p.KeepNext && !continued {
 		height := p.Before + line*float64(len(lines)) + p.After + line
-		if !w.newDocument || height <= w.page.Height-w.page.Top-w.page.Bottom {
+		if height <= w.page.Height-w.page.Top-w.page.Bottom {
 			if e := w.room(height); e != nil {
 				return e
 			}
 		}
 	}
 	w.y += p.Before
-	// New Word documents use widow/orphan control by default. A three-line
+	// Word uses widow/orphan control by default, including imported paragraphs. A three-line
 	// paragraph cannot leave one line on either page; longer paragraphs need
 	// at least two lines on each side of an automatic page break.
-	if w.newDocument && len(lines) > 1 {
-		need := min(len(lines), 2)
-		if len(lines) == 3 {
+	if paragraphWidowControl(p) && !continued && len(lines)+followingLines > 1 {
+		need := min(len(lines)+followingLines, 2)
+		if len(lines)+followingLines == 3 {
 			need = 3
+		}
+		// An oversized line group cannot be kept together; retain as much of
+		// the widow window as fits without rejecting otherwise flowing prose.
+		for need > 1 && float64(need)*line > w.page.Height-w.page.Top-w.page.Bottom {
+			need--
 		}
 		if e := w.room(float64(need) * line); e != nil {
 			return e
@@ -706,16 +741,21 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 			return e
 		}
 		need := line
-		if w.newDocument && len(lines)-i == 2 {
+		if paragraphWidowControl(p) && len(lines)-i+followingLines == 2 && 2*line <= w.page.Height-w.page.Top-w.page.Bottom {
 			need = 2 * line
 		}
 		// Reserve following content at the widow boundary once. Retrying on the
 		// last line can strand that single line when two lines plus an oversized
 		// keep chain did not fit a page but one line plus that chain does.
-		if w.newDocument && p.KeepNext && len(lines)-i == min(2, len(lines)) && w.keepTail > 0 {
-			tail := float64(len(lines)-i)*line + p.After + w.keepTail
+		remaining := len(lines) - i + followingLines
+		boundary := remaining == 1
+		if paragraphWidowControl(p) {
+			boundary = remaining == 2 || (!continued && len(lines)+followingLines == 1)
+		}
+		if boundary && flowTail > 0 {
+			tail := float64(remaining)*line + flowTail
 			if tail <= w.page.Height-w.page.Top-w.page.Bottom {
-				need = tail
+				need = math.Max(need, tail)
 			}
 		}
 		if e := w.room(need); e != nil {
@@ -1349,6 +1389,11 @@ func (w *pdfWriter) drawBorder(p Paragraph, x, y, width float64) {
 	}
 }
 
+// Missing at every style level means enabled in Word (ISO/IEC 29500 widowControl).
+func paragraphWidowControl(p Paragraph) bool {
+	return p.WidowControl == nil || *p.WidowControl
+}
+
 // Both pagination estimates and drawing use the same authored multiplier.
 // Natural metrics use this renderer's actual font, so Word may still paginate differently.
 func paragraphLineHeight(p Paragraph, table bool) float64 {
@@ -1384,7 +1429,7 @@ func (w *pdfWriter) paragraphHeight(p Paragraph, limit int) float64 {
 	if len(p.Tabs) > 0 {
 		n = 1
 	}
-	if w.newDocument && limit == 2 && n == 3 {
+	if paragraphWidowControl(p) && limit == 2 && n == 3 {
 		limit = 3
 	}
 	if limit > 0 && n > limit {
