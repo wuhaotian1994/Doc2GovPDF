@@ -1,6 +1,6 @@
 # 项目记忆索引
 
-最近整理：2026-10-21。入口约定见 [AGENTS.md](../../AGENTS.md)；记录方法见 [README](README.md)。
+最近整理：2026-10-22。入口约定见 [AGENTS.md](../../AGENTS.md)；记录方法见 [README](README.md)。
 
 ## 按问题找资料
 
@@ -35,6 +35,7 @@
 | 常用信息、旧稿保护、浏览器和手机验证到哪一步？ | [经常使用与跨浏览器验收](../RETURNING-USERS-QA.md) |
 | 为什么点下一步会清空，启动异常如何保护输入？ | [启动保护](../STARTUP-PROTECTION.md)、[10月21日故障日志](logs/2026-10-21-01a158b0-startup-loss.md) |
 | 测试通过却预览失败、保存刷新打不开？ | [首次填写与真实服务验收](../FIRST-USE-DELIVERY-QA.md) |
+| 用户授权的阿里云部署、HTTPS 和 Workbench 连接如何继续？ | [ECS 部署交接](handoffs/01a16258-ecs-deployment.md)、[连接交接](handoffs/01a16258-workbench-connection.md) |
 
 ## 当前进行中的任务
 

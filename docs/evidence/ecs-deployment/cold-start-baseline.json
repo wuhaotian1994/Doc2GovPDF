@@ -1,0 +1,17 @@
+{
+  "baseline": true,
+  "checks": [
+    "baseline terminates a still-downloading engine at the rendering deadline"
+  ],
+  "errors": [],
+  "passed": true,
+  "coldState": {
+    "fault": {
+      "drop": false,
+      "dropped": 0,
+      "terminations": 1
+    },
+    "status": "首次准备排版与预览，可继续填写…",
+    "error": ""
+  }
+}

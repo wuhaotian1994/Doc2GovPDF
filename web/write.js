@@ -326,13 +326,15 @@ async function preview() {
   rendering=true;previewFailed=false;updateExport(); const requested=revision,run=++previewRun; const snapshot={...fields},snapshotContent=bodyContent?structuredClone(bodyContent):null,wordSnapshot=wordWorkspace?.active?structuredClone(wordWorkspace.document):null;
   let loading,worker,deadlineTimer,expired=false;
   const stale=()=>{if(run!==previewRun)return true;if(requested!==revision){repeatPreview=true;return true;}return false;};
-  const deadline=new Promise((_,reject)=>{deadlineTimer=setTimeout(()=>{
+  // Worker startup has its own bounded download timeout. Count the shorter
+  // rendering deadline only after the engine can actually process the draft.
+  const deadline=new Promise((_,reject)=>{engine.start().then(()=>{deadlineTimer=setTimeout(()=>{
     expired=true;previewRun++;
     const failure=Error('这次预览未完成，内容已保留。可继续修改，或点击“重新生成预览”重试。');
     engine.reset(failure);currentRender?.cancel();loading?.destroy().catch(()=>{});
     try{worker?.destroy();}catch{}if(pdfjsWorker===worker)pdfjsWorker=null;
     reject(failure);
-  },previewDeadlineMS);});
+  },previewDeadlineMS);},reject);});
   $('preview-canvas').setAttribute('aria-busy','true'); $('preview-status').textContent=pdf?'正在更新成品…':'首次准备排版与预览，可继续填写…';
   try {
     await Promise.race([deadline,(async()=>{
