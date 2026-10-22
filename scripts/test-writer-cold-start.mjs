@@ -17,7 +17,7 @@ const bodyEditor=async()=>await page.locator('#body').isVisible()?page.locator('
 const fillBody=async value=>{const input=await bodyEditor();if(await page.locator('#body').isVisible())await input.fill(value);else{await input.click();await page.keyboard.press('Control+A');await page.keyboard.insertText(value);}};
 const ready=()=>page.waitForFunction(()=>document.getElementById('preview-status').textContent.startsWith('已更新'),{},{timeout:30000});
 try{
-  await page.clock.install();await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);
+  await page.clock.install();await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);if(await page.locator('#font-start-fallback').isVisible())await page.locator('#font-start-fallback').click();
   await page.locator('#title').fill('慢速网络合成验证');await page.locator('[data-next="1"]').click();await fillBody('首次下载可继续填写，完成后正常预览。');
   await page.clock.runFor(1000);await page.clock.fastForward(31000);await page.clock.runFor(1000);report.coldState=await page.evaluate(()=>({fault:coldStartFault,status:document.getElementById('preview-status').textContent,error:document.getElementById('global-error').textContent}));
   if(baseline){check('baseline terminates a still-downloading engine at the rendering deadline',report.coldState.fault.terminations>0);}

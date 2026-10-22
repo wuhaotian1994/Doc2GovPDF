@@ -28,6 +28,8 @@ for(const file of files.filter(file=>['.wasm','.ttf','.js','.mjs','.css','.html'
 }
 // Precache the UI, not every font and a second concurrent engine download.
 const resources=new Set(['document-engine.wasm',...fonts.flatMap(font=>[font.core.url.slice(2),font.full.url.slice(2)])]);
+// The active viewer uses .js; do not fetch duplicate PDF.js aliases during setup.
+resources.add('vendor/pdfjs/pdf.mjs');resources.add('vendor/pdfjs/pdf.worker.mjs');
 const precache=['./',...files.map(file=>relative(out,file).replaceAll('\\','/')).filter(file=>file!=='index.html'&&!resources.has(file)).map(file=>'./'+file)];
 const hashes=[];for(const file of files)hashes.push(createHash('sha256').update(await readFile(file)).digest('hex'));
 const cache='gongwen-web-v2-'+createHash('sha256').update(hashes.join('')).digest('hex').slice(0,16);

@@ -19,21 +19,21 @@ const ready=()=>page.waitForFunction(()=>document.getElementById('preview-status
 async function body(value){await page.locator('[data-step="1"]').click();await page.locator('#content-blocks').click();await page.keyboard.press('Control+A');await page.keyboard.insertText(value);}
 async function download(format,name){await page.locator('[data-step="2"]').click();for(const box of await page.locator('.review-issue input[type=checkbox]').all())await box.check();await page.locator(`[name=format][value=${format}]`).check();await page.locator('#export:not([disabled])').waitFor();const waiting=page.waitForEvent('download');await page.locator('#export').click();const file=await waiting;await file.saveAs(resolve(out,name));assert.equal(await file.failure(),null);}
 try{
-  const started=Date.now();await page.goto(server.url,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.writerReady);report.timings.editableMs=Date.now()-started;
+  const started=Date.now();await page.goto(server.url,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.writerReady);if(await page.locator('#font-start-fallback').isVisible())await page.locator('#font-start-fallback').click();report.timings.editableMs=Date.now()-started;
   check('empty page does not download fallback font files',fontRequests().length===0);
   await page.locator('#title').fill('关于资料整理的通知');await body('请各部门核对工作记录。\n一、工作要求\n保留原始资料，完成后及时归档。');await ready();report.timings.firstPreviewMs=Date.now()-started;
   check('common document renders with only common fallback faces',fontRequests().length===2&&fontRequests().every(request=>request.url.endsWith('-core.ttf')));
   check('service worker does not start a competing engine download',engineRequests().length===1);
   await download('pdf','common.pdf');await page.screenshot({path:resolve(out,'common.png')});
   const before={engine:engineRequests().length,fonts:fontRequests().length};
-  const warmStarted=Date.now();await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.writerReady);await ready();report.timings.warmPreviewMs=Date.now()-warmStarted;
+  const warmStarted=Date.now();await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.writerReady);if(await page.locator('#font-start-fallback').isVisible())await page.locator('#font-start-fallback').click();await ready();report.timings.warmPreviewMs=Date.now()-warmStarted;
   check('warm reload reuses verified engine and font bytes',engineRequests().length===before.engine&&fontRequests().length===before.fonts);
   await body('请核对龘字，原文字形不能被替换。');await ready();
   check('rare body loads only the needed complete face',fontRequests().filter(request=>request.url.endsWith('serif-full.ttf')).length===1&&!fontRequests().some(request=>request.url.endsWith('serif-black-full.ttf')));
   await download('pdf','rare.pdf');
   await download('docx','editable.docx');
   check('Word downloads complete fallback faces only at export',fontRequests().some(request=>request.url.endsWith('serif-black-full.ttf')));
-  await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');await context.setOffline(true);await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.writerReady);await ready();await download('pdf','offline.pdf');check('previously prepared document still previews and exports offline',true);await context.setOffline(false);
+  await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');await context.setOffline(true);await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.writerReady);if(await page.locator('#font-start-fallback').isVisible())await page.locator('#font-start-fallback').click();await ready();await download('pdf','offline.pdf');check('previously prepared document still previews and exports offline',true);await context.setOffline(false);
   if(process.env.SOURCE_WORD){
     await page.locator('#load-draft').setInputFiles(process.env.SOURCE_WORD);await page.waitForSelector('body.word-mode');await ready();
     check('original Word renders with the split font resources',await page.locator('#pdf-pages canvas').count()>0);
@@ -42,7 +42,7 @@ try{
   }
   await context.close();
   const localContext=await browser.newContext({viewport:{width:1366,height:900},locale:'zh-CN',acceptDownloads:true,serviceWorkers:'block'});const localRequests=[];localContext.on('request',request=>localRequests.push(request.url()));page=await localContext.newPage();page.setDefaultTimeout(120000);page.on('pageerror',error=>report.errors.push(error.message));
-  await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);await page.locator('#settings-open').click();
+  await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);if(await page.locator('#font-start-fallback').isVisible())await page.locator('#font-start-fallback').click();await page.locator('#settings-open').click();
   for(const role of ['仿宋','楷体','黑体','宋体','方正小标宋简体']){
     await page.locator('#font-role').selectOption(role);
     await page.locator('#font-file').setInputFiles(resolve(root,'assets/fonts/web',role==='黑体'||role==='方正小标宋简体'?'NotoSerifSC-Black.ttf':'NotoSerifSC.ttf'));

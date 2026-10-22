@@ -1,4 +1,5 @@
 import {installFontPicker} from './write-font-picker.js';
+import {installLocalFonts} from './write-local-fonts.js';
 import {decodeBase64} from './write-bytes.js';
 import {hasAnnexes,annexCandidates,applyAnnexChoices,attachmentSummary} from './write-annexes.js';
 import {installWordWorkspace} from './write-word-workspace.js';
@@ -37,6 +38,10 @@ let previewRun=0;
 const previewDeadlineMS=30000;
 let previewFailed=false,lastPreviewError='',lastSaveError='';
 let previous, replacement, rawRecovery, fontDB, fontStore = {}, engineFonts = [];
+let fontChoiceRequired=false,fontReading=false,offlineStarted=false;
+const fontChoiceKey='gongwen-font-start-v1';
+function chooseFontPath(){fontChoiceRequired=false;$('font-start').hidden=true;try{localStorage.setItem(fontChoiceKey,'chosen');}catch{}schedulePreview();}
+function prepareOffline(){if(offlineStarted||!('serviceWorker' in navigator))return;offlineStarted=true;navigator.serviceWorker.register('./sw.js').catch(()=>{offlineStarted=false;});}
 let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId;
 const stepScrolls=[0,0,0];
 let materialAnalysis=null;
@@ -323,8 +328,9 @@ function renderChecks() {
   updateExport();persist();
 }
 async function preview() {
+  if(fontChoiceRequired&&!wordWorkspace?.active){$('preview-status').textContent='请选择本机字体，或使用备用字体开始预览';$('font-start-status').textContent='内容已保留；选择后开始生成 PDF。';return;}
   clearTimeout(previewTimer);
-  if(fontBusy){$('preview-status').textContent='字体正在更新，完成后会继续预览';updateExport();return;}
+  if(fontBusy||fontReading){$('preview-status').textContent='字体正在更新，完成后会继续预览';updateExport();return;}
   if(!wordWorkspace?.active&&(fields.date&&!validDate(fields.date)||$('date').validity.badInput)){
     fieldError('date','请选择 1900 年及以后的有效日期，或清空日期。');
     $('preview-status').textContent='日期尚未有效，请在“正文内容”中修正；下方仍为上一版';updateExport();return;
@@ -379,7 +385,7 @@ async function preview() {
     pageNumber=Math.min(pageNumber,pdf.numPages);
     await renderPage(requested,run);
     if(stale())return;
-    readyRevision=requested;pdfReadyRevision=requested;
+    readyRevision=requested;pdfReadyRevision=requested;prepareOffline();
     if(lastPreviewError&&$('global-error').textContent===lastPreviewError)clearError();lastPreviewError='';
     const incomplete=!wordSnapshot&&(!(snapshotContent?hasContent(snapshotContent):snapshot.body.trim()) || (snapshot.letterhead&&!snapshot.agency.trim()));
     $('preview-status').textContent=incomplete?'填写中 · 待填内容仅用于预览':'已更新 · '+pdf.numPages+' 页'+(outputWarnings.length?' · 存在排版降级':'');
@@ -551,7 +557,7 @@ function requestReplace(next, direct=false) {
   if(wordWorkspace?.active){wordWorkspace.leave().then(()=>requestReplace(next,direct)).catch(e=>error(e.message));return false;}
   if(!hasLock){error('另一标签页正在编辑，请关闭它后刷新本页。');return;}
   if(blockedSave&&!rawRecovery){error('原有文档尚未成功归档，切换已取消。请先下载当前草稿，腾出本地空间后刷新此页重试恢复。');return;}
-  if(exporting||fontBusy){error('请等待当前文件或字体处理完成，再切换文档。');return;}
+  if(exporting||fontBusy||fontReading){error('请等待当前文件或字体处理完成，再切换文档。');return;}
   if(fields.date&&!validDate(fields.date) || $('date').validity.badInput) {
     $('draft-dialog').close();$('replace-dialog').close();
     fieldError('date','请先修正或清空日期，再开始新的文档，以便完整保留恢复副本。');
@@ -666,10 +672,21 @@ async function changeFont(file, reset=false) {
       await engine.call('RegisterFont',role,data);next[role]=data;
     }
     if(wordWorkspace?.active)await wordWorkspace.setFonts(next);else {await writeFonts(next);fontStore=next;}
-    engine.reset();await showFonts();
+    engine.reset();await showFonts();if(!reset)chooseFontPath();
     $('font-message').textContent='字体已保存在本浏览器，预览将重新排版；请核对缺字与回退。自选字体不嵌入Word。';
   }catch(e){engine.reset();$('font-message').textContent=e.message;throw e;}
   finally{fontBusy=false;invalidate();schedulePreview();$('font-reset').disabled=false;$('font-file').disabled=false;$('font-file-open').disabled=false;$('font-file').value='';}
+}
+async function changeLocalFonts(entries){
+  if(!hasLock||fontBusy||exporting)throw Error('请等待当前处理完成后再采用字体。');
+  fontBusy=true;invalidate();
+  try{
+    const next={...(wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore)};
+    for(const [role,data] of Object.entries(entries)){const encoded=base64(data);await engine.call('RegisterFont',role,encoded);next[role]=encoded;}
+    if(wordWorkspace?.active)await wordWorkspace.setFonts(next);else{await writeFonts(next);fontStore=next;}
+    chooseFontPath();await showFonts();
+  }catch(error){engine.reset();throw error;}
+  finally{fontBusy=false;invalidate();schedulePreview();}
 }
 async function boot() {
   try {
@@ -699,6 +716,8 @@ async function boot() {
       request.onsuccess=()=>resolve(request.result || {});request.onerror=()=>reject(request.error);
     });
   }catch{error('字体存储不可用，当前使用内置字体。文档仍可填写与导出。');}
+  try{fontChoiceRequired=Boolean(window.queryLocalFonts)&&!Object.keys(fontStore).length&&!localStorage.getItem(fontChoiceKey);}catch{fontChoiceRequired=Boolean(window.queryLocalFonts)&&!Object.keys(fontStore).length;}
+  $('font-start').hidden=!fontChoiceRequired;
   // Inputs may arrive while module imports or IndexedDB are still loading.
   // Merge only the fields actually edited, rather than hydrating over them.
   const pending=window.writerBoot?.pending();
@@ -741,7 +760,7 @@ async function boot() {
   document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();
   const restoredSubmission=pending?.source==='legacy-submit'&&!window.writerBoot?.pending();
   history.replaceState({writerStep:step},'', location.pathname+(restoredSubmission?'':location.search)+'#step-'+(step+1));
-  wordWorkspace=installWordWorkspace({engine,fonts:()=>fontStore,busy:value=>{if(value){wordDisabled=[...document.querySelectorAll('#editable,.header-actions button,#draft-dialog button')].map(e=>[e,e.disabled]);wordDisabled.forEach(([e])=>e.disabled=true);$('save-status').textContent='正在打开文档，当前稿仍保留…';}else{wordDisabled.forEach(([e,v])=>e.disabled=v);wordDisabled=[];}},canEdit:()=>hasLock&&!exporting&&!blockedSave,step:()=>step,bytes,download,error:message=>error(message?.message||message),summary:renderSummary,showStep,schedule:schedulePreview,updateExport,
+  wordWorkspace=installWordWorkspace({engine,fonts:()=>fontStore,busy:value=>{if(value){wordDisabled=[...document.querySelectorAll('#editable,.header-actions button,#draft-dialog button')].map(e=>[e,e.disabled]);wordDisabled.forEach(([e])=>e.disabled=true);$('save-status').textContent='正在打开文档，当前稿仍保留…';}else{wordDisabled.forEach(([e,v])=>e.disabled=v);wordDisabled=[];}},canEdit:()=>hasLock&&!exporting&&!fontBusy&&!fontReading&&!blockedSave,step:()=>step,bytes,download,error:message=>error(message?.message||message),summary:renderSummary,showStep,schedule:schedulePreview,updateExport,
     changed:invalidate,reset:()=>{$('preview-empty').querySelector('h3').textContent='你的内容，会在这里成为文档';$('preview-empty').querySelector('p').textContent='填写标题后即可看到排版效果。正文、落款和日期会随填写自动更新。';outputWarnings=[];engine.reset();currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;readyRevision=-1;pdfReadyRevision=-1;pageNumber=1;$('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='尚未生成';$('prev-page').disabled=$('next-page').disabled=true;previewRun++;},
     prepareForm:async()=>{readFields();if(fields.date&&!validDate(fields.date)||$('date').validity.badInput)throw Error('请先修正或清空填写稿日期，以完整保留原输入。');persist();if(lastSaveError||blockedSave)throw Error(lastSaveError||'填写稿保存尚未完成，打开已取消。');},
     openForm:async value=>{const next=validateDraft(value);if(wordWorkspace.active)await wordWorkspace.leave();requestReplace({...next,id:crypto.randomUUID(),review:undefined,reuseMessage:'已打开草稿副本，原稿仍保留。'});},
@@ -874,12 +893,15 @@ $('load-draft').onchange=async event=>{
   }catch(e){const message=e instanceof SyntaxError?'文件不是有效的工作稿JSON，当前内容未改变。':e.message;$('draft-status').textContent=message;error(message);}
 };
 $('settings-open').onclick=()=>{$('settings-dialog').showModal();showFonts().catch(e=>$('font-message').textContent=e.message);};
-const fontPicker=installFontPicker({apply:file=>changeFont(file),canEdit:()=>hasLock&&!fontBusy&&!exporting});
+const fontPicker=installFontPicker({apply:file=>changeFont(file),canEdit:()=>hasLock&&!fontBusy&&!fontReading&&!exporting});
+const localFonts=installLocalFonts({apply:changeLocalFonts,canEdit:()=>hasLock&&!fontBusy&&!fontReading&&!exporting,saved:()=>wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore,reading:value=>{fontReading=value;if(!value)schedulePreview();},done:()=>$('local-font-dialog').close()});
+$('font-start-local').onclick=()=>localFonts.open();
+$('font-start-fallback').onclick=chooseFontPath;
+$('font-batch-file').onclick=()=>{$('local-font-dialog').close();$('settings-dialog').showModal();showFonts().catch(()=>{});};
 $('font-file-open').onclick=()=>$('font-file').click();
 $('font-reset').onclick=()=>{fontPicker.clear();changeFont(null,true).catch(()=>{});};
 window.addEventListener('beforeunload',event=>{
   if(wordWorkspace?.dirty||$('save-status').textContent==='自动保存失败' || !wordWorkspace?.active&&(blockedSave&&names.some(name=>fields[name]) || fields.date&&!validDate(fields.date)||$('date').validity.badInput)){event.preventDefault();event.returnValue='';}
 });
 document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='s'){event.preventDefault();if(window.writerReady)persist();}});
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 boot().catch(e=>error(e.message));

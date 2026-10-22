@@ -21,6 +21,7 @@ try{
    for(const scenario of ['immediate-input','enter-key','delayed-module','missing-module','missing-preview','delayed-storage','legacy-query','pending-query-reload','different-current-draft','recovery-archive-failure','javascript-disabled']){
     const result={browser:profile.name,version:browser.version(),scenario,passed:false};
     const context=await browser.newContext({serviceWorkers:'block',javaScriptEnabled:scenario!=='javascript-disabled',locale:'zh-CN'});
+    await context.addInitScript(()=>localStorage.setItem('gongwen-font-start-v1','chosen')); // Explicit fallback path; local-first is tested separately.
     const page=await context.newPage();page.setDefaultTimeout(20000);
     const requests=[];page.on('request',r=>{if(r.isNavigationRequest())requests.push(r.url());});
     let release;const gate=new Promise(r=>release=r);
