@@ -1,0 +1,25 @@
+{
+  "wordVersion": "16.0",
+  "sourceSHA256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+  "pages": 2,
+  "tables": 2,
+  "positions": [
+    {
+      "page": 1,
+      "text": "模拟核对安排"
+    },
+    {
+      "page": 1,
+      "text": "说明：模拟记录只用于本地核验"
+    },
+    {
+      "page": 1,
+      "text": "接收方回执"
+    },
+    {
+      "page": 2,
+      "text": "注：未填写的事实由接收方补充"
+    }
+  ],
+  "logicalTextSHA256": "4ab3de2430cc58f106cec46f0b265b16794e35c288405675581c92266bb562ef"
+}

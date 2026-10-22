@@ -277,6 +277,18 @@ function renderChecks() {
     const heading=document.createElement('h3');heading.className='issue-heading';
     const location=source?.content?.cell&&line?'表格第 '+line.row+' 行，第 '+line.column+' 列':source?.content?.caption?'表格标题':source?fieldLabels[source.field]+(line&&['body','attachments'].includes(source.field)?'第 '+line.line+' 段':''):'整篇文档';
     heading.textContent=({error:'必须修正',review:'需要你判断',suggestion:'建议 · 不影响下载'}[issue.severity] || '内容提醒')+' · '+location;
+    if(entry.group){
+      const group=entry.group;item.classList.add('table-blank-group');item.dataset.tableId=entry.blankState.table.id;
+      heading.textContent=`建议 · ${fieldLabels[group.field]}表格${group.index} · ${group.cells.length}处空白`;
+      const description=document.createElement('p');description.textContent=group.caption?`${group.caption}（${group.rows}行${group.columns}列）`:`${group.rows}行${group.columns}列；可按此表的空白范围确认用途，不影响下载。`;
+      const detail=document.createElement('details'),summary=document.createElement('summary');summary.textContent='查看空白范围与原表';detail.append(summary);
+      for(const cell of group.cells){const row=document.createElement('p');const table=entry.blankState.table,header=table.header?table.rows[0].cells[cell.column-1].text:'',rowLabel=table.rows[cell.row-1].cells.find(c=>c.text.trim())?.text||'';row.textContent=`第${cell.row}行，第${cell.column}列`+([rowLabel,header].filter(Boolean).length?'（'+[rowLabel,header].filter(Boolean).join(' · ')+'）':'');const edit=document.createElement('button');edit.type='button';edit.className='quiet';edit.textContent='定位此格';edit.onclick=()=>locateIssue(cell.entry);row.append(edit);detail.append(row);}
+      const note=document.createElement('p');note.className='hint';note.textContent='仅记录这些空白的用途，不填写0、横线或猜造事实；其他数据、格式和未核项目继续提示。';detail.append(note);
+      const choice=document.createElement('label');choice.className='check';const check=document.createElement('input');check.type='checkbox';check.checked=decisions.has(entry);check.onchange=()=>{decisions.set(entry,check.checked);persist();};choice.append(check,document.createTextNode('这些位置有意留白'));
+      const showTable=document.createElement('button');showTable.type='button';showTable.className='secondary';showTable.textContent='查看原表';showTable.onclick=()=>locateIssue(group.cells[0].entry);item.append(heading,description,choice,showTable,detail);
+      if(decisions.blankRechecks.has(entry.blankState.table.id)){const reason=document.createElement('p');reason.className='hint';reason.textContent='此表内容、表头、行列范围或检查依据已变化，请重新核对这些空白的用途。';item.append(reason);}
+      $('check-list').append(item);continue;
+    }
     const text = document.createElement('p'); text.textContent=issue.message;
     if(issue.message.startsWith('这处写法可按公文体例整理'))text.textContent='请对照原文与建议写法，核对是否需要调整。';
     item.append(heading,text);

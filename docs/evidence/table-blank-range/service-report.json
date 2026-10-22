@@ -1,0 +1,42 @@
+[
+  {
+    "profile": "chrome",
+    "checks": [
+      "29处空白按两张实际表分组，不再出现29条单格卡片",
+      "范围决定默认未选，仍是非阻断建议",
+      "未声明空白用途也能正常下载，不把建议升级为阻断",
+      "实际空白坐标和表头语境按需可查",
+      "整组可以直接回到当前可见空白格",
+      "明确按表保留后，实际Word字节没有被补字或改表",
+      "无关标题变化保留两张表的范围决定",
+      "保存关页重开仍保持真实范围决定",
+      "真实范围改变只要求该表重核，另一张表决定保留",
+      "重开后重核原因仍可见，不静默恢复旧选择"
+    ],
+    "errors": [],
+    "files": [
+      {
+        "file": "before-choice.docx",
+        "sha256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+        "bytes": 17066682
+      },
+      {
+        "file": "before-choice.pdf",
+        "sha256": "6ea20e240c1c814dc46eda4b7134aca6c2d506a68d8c56338f11412ca39759e9",
+        "bytes": 40189
+      },
+      {
+        "file": "kept-blanks.docx",
+        "sha256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+        "bytes": 17066682
+      },
+      {
+        "file": "kept-blanks.pdf",
+        "sha256": "cc8d3cefa9e0dd8a5cf3ce2baec55d7e2959e422fd8029762c62ae78b1b06831",
+        "bytes": 40189
+      }
+    ],
+    "fixture": "Controlled fictional 9x5 schedule and 5x6 receipt, 9+20 blanks; not the CEO 2330-character/39-block saved draft.",
+    "passed": true
+  }
+]

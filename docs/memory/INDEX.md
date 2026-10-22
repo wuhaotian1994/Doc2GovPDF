@@ -6,6 +6,7 @@
 
 | 遇到的问题 | 先读 |
 | --- | --- |
+| 有意留白回执怎样按表判断并保存，变化时为何重核？ | [空白范围决定与实物](../TABLE-BLANK-RANGE-RESPONSE.md) |
 | 怎样主动读取本机字体，辨别真实身份与选择集合第二面？ | [本机字体入口/实物/未完成边界](../FONT-ACCESS-RESPONSE.md) |
 | 正文为何改成连续文稿，插表续写及原Word边界怎样验收？ | [连续文稿任务与实际交付](../CONTINUOUS-WRITING-RESPONSE.md) |
 | 原Word空格为何Word/PDF字号不一，旧工作稿怎样兼容，大Word下载如何核对？ | [原生格式与实际交付](../NATIVE-FORMAT-RESPONSE.md) |

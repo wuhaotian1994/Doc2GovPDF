@@ -1,3 +1,4 @@
+import {blankTableState,validBlankState,groupBlankTables} from './write-table-blanks.js';
 import {hasAnnexes} from './write-annexes.js';
 // Review identity belongs to the source and the decision, never to the engine's
 // document-digest ID. Export still uses the latest engine IDs.
@@ -58,7 +59,7 @@ function localRule(rule) {
 }
 export function reviewItems(model,inspection,fields,documentId,content=null) {
   const sources=paragraphSources(model,fields);
-  return (inspection?.issues || []).map(issue=>{
+  const entries=(inspection?.issues || []).map(issue=>{
     const source=sources.get(issue.paragraphId) || null;
     const p=model.blocks?.flatMap(block=>block.paragraph?[block.paragraph]:[...(block.table?.caption?[block.table.caption]:[]),...(block.table?.rows||[]).flatMap(row=>row.cells.flatMap(cell=>cell.paragraphs))]).find(p=>p.id===issue.paragraphId);
     const {id,...format}=p || {};
@@ -68,13 +69,15 @@ export function reviewItems(model,inspection,fields,documentId,content=null) {
     const key=JSON.stringify([documentId,inspection.version,issue.rule,issue.severity,issue.message,issue.original,issue.replacement || '',issue.basis,dependencies,format,scope==='document'?model.page:null,scope]);
     return {issue,source,scope,key,documentId,fields:scope==='document'?JSON.stringify(documentFields(fields,content)):null};
   });
+  return groupBlankTables(entries,model,inspection,content,documentId);
 }
 function receiptFromKey(key,documentId,anchor){
   if(typeof key!=='string')return null;
   let parts;try{parts=JSON.parse(key);}catch{return null;}
-  if(!Array.isArray(parts)||parts.length!==12||parts[0]!==documentId||parts[3]!=='review'||typeof parts[1]!=='string'||typeof parts[2]!=='string')return null;
+  if(!Array.isArray(parts)||parts.length!==12||parts[0]!==documentId||!(parts[3]==='review'||parts[3]==='suggestion'&&parts[2]==='writer.table-blank-range'&&parts[11]==='table-blanks')||typeof parts[1]!=='string'||typeof parts[2]!=='string')return null;
   const scope=parts[11];let source=parts[8];
   if(!source||Array.isArray(source)||typeof source!=='object')return null;
+  if(scope==='table-blanks'){if(parts[2]!=='writer.table-blank-range'||parts[3]!=='suggestion'||anchor||!validBlankState(source))return null;return {key,documentId,scope,blankState:source,source:null,issue:{rule:parts[2],severity:'suggestion'}};}
   if(scope==='paragraph'){
     if(!Object.hasOwn(fieldLabels,source.field)||typeof source.text!=='string'||!Number.isInteger(source.count)||!Number.isInteger(source.occurrence)||source.occurrence<1||source.occurrence>source.count)return null;
   }else if(scope!=='document')return null;
@@ -88,18 +91,19 @@ function receiptFromKey(key,documentId,anchor){
 // Optional draft metadata is never allowed to make authored text unreadable.
 // Exact keys must match a newly generated inspection before export uses them.
 export function validateReviewState(value,documentId){
-  if(!documentId||!value||value.version!==1||value.documentId!==documentId||!Array.isArray(value.keys)||!value.keys.length||!value.keys.every(key=>receiptFromKey(key,documentId)))return undefined;
+  if(!documentId||!value||value.version!==1||value.documentId!==documentId||!Array.isArray(value.keys)||!value.keys.every(key=>receiptFromKey(key,documentId)))return undefined;
   const keys=[...new Set(value.keys)],anchors=[];
   if(value.anchors!==undefined){
     if(!Array.isArray(value.anchors))return undefined;const used=new Set();
     for(const item of value.anchors){if(!item?.source||used.has(item.key)||!keys.includes(item.key))return undefined;const receipt=receiptFromKey(item.key,documentId,item.source);if(!receipt)return undefined;used.add(item.key);anchors.push({key:item.key,source:receipt.source});}
   }
-  return {version:1,documentId,keys,...(anchors.length?{anchors}:{})};
+  const blankRechecks=Array.isArray(value.blankRechecks)&&value.blankRechecks.length<=1000?value.blankRechecks.filter(id=>typeof id==='string'&&/^[a-zA-Z0-9-]{1,80}$/.test(id)):[];
+  return {version:1,documentId,keys,...(anchors.length?{anchors}:{}),...(blankRechecks.length?{blankRechecks}: {})};
 }
 export class ReviewDecisions {
   forgetField(field,documentId,rule){for(const [key,item] of this.receipts)if(item.documentId===documentId&&item.source?.field===field&&item.issue.rule===rule)this.receipts.delete(key);}
-  constructor(){this.receipts=new Map();}
-  snapshot(documentId){const items=[...this.receipts].filter(([,item])=>item.documentId===documentId&&item.issue.severity==='review'),keys=items.map(([key])=>key),anchors=items.filter(([,item])=>item.scope==='paragraph'&&item.source?.content&&!item.source.content.cell&&!item.source.content.caption).map(([key,item])=>({key,source:item.source}));return keys.length?{version:1,documentId,keys,...(anchors.length?{anchors}:{})}:undefined;}
+  constructor(){this.receipts=new Map();this.blankRechecks=new Set();}
+  snapshot(documentId){const items=[...this.receipts].filter(([,item])=>item.documentId===documentId&&(item.issue.severity==='review'||item.scope==='table-blanks')),keys=items.map(([key])=>key),anchors=items.filter(([,item])=>item.scope==='paragraph'&&item.source?.content&&!item.source.content.cell&&!item.source.content.caption).map(([key,item])=>({key,source:item.source}));return keys.length||this.blankRechecks.size?{version:1,documentId,keys,...(anchors.length?{anchors}:{}),...(this.blankRechecks.size?{blankRechecks:[...this.blankRechecks]}:{})}:undefined;}
   bindContent(fields,documentId,content){
     const sources=paragraphContentSources(content);
     for(const [key,item] of this.receipts){
@@ -109,23 +113,25 @@ export class ReviewDecisions {
     }
   }
   restore(value,fields,documentId,content=null){
-    this.receipts.clear();
+    this.receipts.clear();this.blankRechecks.clear();
     const state=validateReviewState(value,documentId),anchors=new Map((state?.anchors||[]).map(item=>[item.key,item.source]));
+    for(const id of state?.blankRechecks||[])this.blankRechecks.add(id);
     for(const key of state?.keys||[])this.receipts.set(key,receiptFromKey(key,documentId,anchors.get(key)));
     this.bindContent(fields,documentId,content);
     this.retain(fields,documentId,content);
   }
-  set(item,checked){if(checked)this.receipts.set(item.key,item);else this.receipts.delete(item.key);}
+  set(item,checked){if(item.blankState)this.blankRechecks.delete(item.blankState.table.id);if(checked)this.receipts.set(item.key,item);else this.receipts.delete(item.key);}
   has(item){return this.receipts.has(item.key);}
   retain(fields,documentId,content=null) {
     for(const [key,item] of this.receipts) {
+      if(item.scope==='table-blanks'){const id=item.blankState.table.id;if(item.documentId!==documentId||JSON.stringify(blankTableState(content,id))!==JSON.stringify(item.blankState)){this.receipts.delete(key);if(item.documentId===documentId&&blankTableState(content,id))this.blankRechecks.add(id);}continue;}
       if(item.documentId!==documentId || (item.scope==='paragraph'?!resolveSource(item.source,fields,content):item.fields!==JSON.stringify(documentFields(fields,content))))this.receipts.delete(key);
     }
   }
   reconcile(items){
     const present=new Set(items.map(item=>item.key));
-    for(const key of this.receipts.keys())if(!present.has(key))this.receipts.delete(key);
+    for(const [key,old] of this.receipts)if(!present.has(key)){if(old.scope==='table-blanks'&&items.some(item=>item.blankState?.table.id===old.blankState.table.id))this.blankRechecks.add(old.blankState.table.id);this.receipts.delete(key);}
     for(const item of items)if(this.receipts.has(item.key))this.receipts.set(item.key,item);
-    return new Set(items.filter(item=>this.has(item)).map(item=>item.issue.id));
+    return new Set(items.filter(item=>this.has(item)&&item.issue.severity==='review').map(item=>item.issue.id));
   }
 }
