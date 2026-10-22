@@ -2,7 +2,7 @@ import {assembleArticle,applyAssemblyQuestion} from './write-assembly.js';
 import {installAssemblyView} from './write-assembly-view.js';
 import {installFontPicker} from './write-font-picker.js';
 import {installLocalFonts} from './write-local-fonts.js';
-import {decodeBase64} from './write-bytes.js';
+import {decodeBase64,encodeBase64} from './write-bytes.js';
 import {hasAnnexes,annexCandidates,applyAnnexChoices,attachmentSummary} from './write-annexes.js';
 import {installWordWorkspace} from './write-word-workspace.js';
 import {WriterEngine} from './write-engine.js';
@@ -83,7 +83,7 @@ function bodySummary(){
 }
 function updateBodyCount(){$('body-count').textContent=bodySummary();$('postscript-count').textContent=fields.postscript.length.toLocaleString('zh-CN')+' 字';}
 const bytes = decodeBase64;
-function base64(buffer) { let value = ''; for (let i=0;i<buffer.length;i+=32768) value += String.fromCharCode(...buffer.subarray(i,i+32768)); return btoa(value); }
+const base64=encodeBase64;
 function download(name, data, type) {
   const url = URL.createObjectURL(new Blob([data], {type}));
   const link = document.createElement('a'); link.href = url; link.download = name;
@@ -682,7 +682,12 @@ async function changeLocalFonts(entries){
   fontBusy=true;invalidate();
   try{
     const next={...(wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore)};
-    for(const [role,data] of Object.entries(entries)){const encoded=base64(data);await engine.call('RegisterFont',role,encoded);next[role]=encoded;}
+    const registered=new Map();
+    for(const [role,data] of Object.entries(entries)){
+      const existing=registered.get(data);
+      if(existing){await engine.call('AliasFont',role,existing.role);next[role]=existing.encoded;}
+      else{await engine.call('RegisterFontBytes',role,data);const encoded=base64(data);next[role]=encoded;registered.set(data,{role,encoded});}
+    }
     if(wordWorkspace?.active)await wordWorkspace.setFonts(next);else{await writeFonts(next);fontStore=next;}
     chooseFontPath();await showFonts();
   }catch(error){engine.reset();throw error;}

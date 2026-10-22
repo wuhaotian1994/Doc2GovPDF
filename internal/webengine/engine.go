@@ -84,6 +84,14 @@ func dispatch(r Request) (any, error) {
 			return nil, e
 		}
 		return nil, office.RegisterFont(text, b)
+	case "AliasFont":
+		if e := arg(0, &text); e != nil {
+			return nil, e
+		}
+		if e := arg(1, &id); e != nil {
+			return nil, e
+		}
+		return nil, office.AliasRegisteredFont(text, id)
 	case "BuildDocument":
 		if e := arg(0, &f); e != nil {
 			return nil, e

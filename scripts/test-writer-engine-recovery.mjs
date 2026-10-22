@@ -7,6 +7,10 @@ class TestWorker{
  terminate(){this.terminated=true;}
  ready(){return this.onmessage({data:{ready:true}});}
 }
+test('saved identical font faces cross the worker boundary once as bytes',async()=>{
+ const native=globalThis.Worker;globalThis.Worker=TestWorker;TestWorker.all=[];const engine=new WriterEngine(()=>({'仿宋':'AQID','宋体':'AQID','黑体':'BAUG'}));
+ try{const result=engine.call('Fonts');await tick();const worker=TestWorker.all[0];await worker.ready();await result;assert.deepEqual(worker.messages.map(x=>x.request.method),['RegisterFontBytes','AliasFont','RegisterFontBytes','Fonts']);assert.deepEqual([...worker.messages[0].request.args[1]],[1,2,3]);assert.deepEqual(worker.messages[1].request.args,['宋体','仿宋']);}finally{engine.reset();globalThis.Worker=native;}
+});
 test('late boot font resolution and errors from a replaced worker cannot reset its replacement',async()=>{
  const native=globalThis.Worker;globalThis.Worker=TestWorker;TestWorker.all=[];let release;const gate=new Promise(resolve=>release=resolve);let calls=0;const engine=new WriterEngine(()=>++calls===1?gate:{});
  try{
