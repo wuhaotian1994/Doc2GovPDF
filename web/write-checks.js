@@ -1,3 +1,4 @@
+const metadataNames=['signer','issuer','issueDate'];
 import {assemblyInspection} from './write-assembly.js';
 import {blankTableState,validBlankState,groupBlankTables} from './write-table-blanks.js';
 import {hasAnnexes} from './write-annexes.js';
@@ -5,8 +6,8 @@ import {hasAnnexes} from './write-annexes.js';
 // document-digest ID. Export still uses the latest engine IDs.
 import {resolveContentSource,paragraphContentSources} from './write-content.js';
 const bodyRoles = new Set(['body','article','heading','heading2','heading3','heading4']);
-const documentFields=(fields,content)=>({...Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key))),...(hasAnnexes(content)||[...(content?.blocks||[]),...(content?.postscript?.blocks||[])].some(block=>block.type==='table'||['role','align','indent','before','after'].some(key=>block[key]!=='auto'))?{bodyContent:content}:{})});
-export const fieldLabels = {title:'标题',body:'正文',recipient:'收文对象',agency:'发文单位',reference:'发文字号',signature:'落款',date:'日期',attachments:'附件名称',copyTo:'抄送单位',postscript:'落款后内容'};
+const documentFields=(fields,content)=>({...Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key)&&(!metadataNames.includes(key)||Boolean(fields[key]?.trim())))),...(hasAnnexes(content)||[...(content?.blocks||[]),...(content?.postscript?.blocks||[])].some(block=>block.type==='table'||['role','align','indent','before','after'].some(key=>block[key]!=='auto'))?{bodyContent:content}:{})});
+export const fieldLabels = {title:'标题',body:'正文',recipient:'收文对象',agency:'发文单位',reference:'发文字号',signature:'落款',date:'成文日期',attachments:'附件名称',copyTo:'抄送单位',postscript:'落款后内容',signer:'签发人',issuer:'印发机关',issueDate:'印发日期'};
 
 export function sourceLines(value) {
   let start=0;
@@ -46,6 +47,8 @@ function paragraphSources(model,fields) {
     else if(p.role==='signature')line=signatures[signatureIndex++];
     else if(p.role==='note'){field='postscript';line=notes[noteIndex++];}
     else if(p.role==='imprint'&&p.text.startsWith('抄送：'))field='copyTo';
+    else if(p.role==='imprint'&&p.text&&fields.issuer?.trim()){field='issuer';}
+    else if(p.role==='reference'&&fields.signer?.trim()&&!fields.reference.trim()){field='signer';}
     if(!fieldLabels[field])continue;
     line ||= {text:fields[field],line:1};
     if(line)result.set(p.id,anchor(field,line,fields));
@@ -58,12 +61,35 @@ function localRule(rule) {
     ['number.unit-space','number.range-unit','number.bare-decimal','number.short-year','number.fullwidth','number.mixed-place',
       'style.word','style.self-reference','style.modal-stack','style.latin','style.tool-marker','style.nominalization'].includes(rule);
 }
+// Engine findings carry the entire generated paragraph. A combined header or
+// imprint must not claim a particular authored field from that paragraph alone.
+function changedCompositeField(paragraph,issue,values){
+  const original=issue.original,replacement=issue.replacement;
+  if(original!==paragraph.text||typeof replacement!=='string'||!replacement||replacement===original)return null;
+  let start=0,end=original.length,nextEnd=replacement.length;
+  while(start<end&&start<nextEnd&&original[start]===replacement[start])start++;
+  while(end>start&&nextEnd>start&&original[end-1]===replacement[nextEnd-1]){end--;nextEnd--;}
+  const candidates=values.filter(([,value])=>{
+    if(!value)return false;const at=original.indexOf(value);
+    return at>=0&&original.indexOf(value,at+1)<0&&start>=at&&end<=at+value.length;
+  });
+  return candidates.length===1?candidates[0][0]:null;
+}
 export function reviewItems(model,inspection,fields,documentId,content=null) {
   inspection=assemblyInspection(model,inspection,fields,content);
   const sources=paragraphSources(model,fields);
   const entries=(inspection?.issues || []).map(issue=>{
-    const source=sources.get(issue.paragraphId) || null;
+    let source=sources.get(issue.paragraphId) || null;
     const p=model.blocks?.flatMap(block=>block.paragraph?[block.paragraph]:[...(block.table?.caption?[block.table.caption]:[]),...(block.table?.rows||[]).flatMap(row=>row.cells.flatMap(cell=>cell.paragraphs))]).find(p=>p.id===issue.paragraphId);
+    if(p?.role==='reference'&&fields.signer?.trim()){
+      const field=!fields.reference.trim()?'signer':changedCompositeField(p,issue,[['reference',fields.reference.trim()],['signer',fields.signer.trim()]]);
+      source=field?anchor(field,{text:fields[field],line:1},fields):null;
+    }
+    if(p?.role==='imprint'&&!p.text.startsWith('抄送：')&&p.text&&fields.issuer?.trim()&&fields.issueDate){
+      const date=fields.issueDate.split('-').map(Number),printed=date.length===3?`${date[0]}年${date[1]}月${date[2]}日`:'';
+      const field=changedCompositeField(p,issue,[['issuer',fields.issuer.trim()],['issueDate',printed]]);
+      source=field?anchor(field,{text:fields[field],line:1},fields):null;
+    }
     const {id,...format}=p || {};
     const scope=source&&localRule(issue.rule)?'paragraph':'document';
     const {content:sourcePath,contentStyle,...identity}=source||{};

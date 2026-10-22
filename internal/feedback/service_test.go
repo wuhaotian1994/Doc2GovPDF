@@ -218,7 +218,7 @@ func TestPostgresLifecycle(t *testing.T) {
 		t.Fatal("retention failed")
 	}
 	// A second independent PostgreSQL connection verifies durable persistence.
-	input := Input{ClientRequestID: RandomToken(), AccessToken: RandomToken(), Description: "虚构政务目标：希望减少重复录入"}
+	input := Input{ClientRequestID: RandomToken(), AccessToken: RandomToken(), Description: strings.Repeat("虚构自然说明，", 20), Contact: "虚构私密联系方式不进入列表", TechnicalInfo: map[string]string{"appVersion": "private-technical-marker"}}
 	w = call("POST", "/api/feedback/threads", "", input, nil)
 	expect(w, 201)
 	json.Unmarshal(w.Body.Bytes(), &receipt)
@@ -231,6 +231,22 @@ func TestPostgresLifecycle(t *testing.T) {
 	if e != nil || loaded.Description != input.Description {
 		t.Fatal("not durable across connections")
 	}
+	w = call("GET", "/api/feedback/admin/threads", cfg.AdminToken, nil, nil)
+	expect(w, 200)
+	var summaries struct {
+		Threads []Thread `json:"threads"`
+	}
+	if json.Unmarshal(w.Body.Bytes(), &summaries) != nil || len(summaries.Threads) != 1 {
+		t.Fatal("admin summary list missing")
+	}
+	summary := summaries.Threads[0]
+	if summary.ID != receipt.ID || summary.Description != string([]rune(input.Description)[:100]) || summary.Status != "received" || summary.Role != "" || summary.Goal != "" || summary.Contact != "" || summary.TechnicalInfo != nil {
+		t.Fatal("no-role feedback needs a bounded description summary without private contact or technical fields")
+	}
+	if strings.Contains(w.Body.String(), input.Contact) || strings.Contains(w.Body.String(), "private-technical-marker") || len([]rune(loaded.Description)) <= 100 {
+		t.Fatal("list must be bounded while the authorized detail keeps the full description")
+	}
+	t.Log("PostgreSQL: no-role natural-description list summary is bounded to 100 characters; details remain complete")
 	var wg sync.WaitGroup
 	statuses := make(chan int, 5)
 	for i := 0; i < 5; i++ {

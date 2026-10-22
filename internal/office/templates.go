@@ -83,8 +83,8 @@ func NewDocument(f Fields) (Model, error) {
 	if f.Letterhead && strings.TrimSpace(f.Agency) == "" {
 		return Model{}, fmt.Errorf("显示红头时请填写发文单位")
 	}
-	if f.Signer != "" && f.Kind != "request" && f.Kind != "report" {
-		return Model{}, fmt.Errorf("签发人适用于上行文，请选择请示或报告")
+	if f.Signer != "" && f.Kind != "request" && f.Kind != "report" && f.Kind != "plain" {
+		return Model{}, fmt.Errorf("签发人适用于上行文；可在填写稿明确填写，其他模板请按实际适用条件选择请示或报告")
 	}
 	if f.Kind != "minutes" && (f.Attendees != "" || f.Absentees != "" || f.Observers != "") {
 		return Model{}, fmt.Errorf("填写参会名单时请选择纪要文种")
@@ -197,7 +197,12 @@ func NewDocument(f Fields) (Model, error) {
 			divider.KeepNext = true
 		}
 	}
-	add(f.Title, "title")
+	// Explicit signer metadata in the generic writer precedes the title, even
+	// without a red heading. Preserve legacy unsigned and typed-template order.
+	plainSignerBeforeTitle := f.Kind == "plain" && !f.Letterhead && f.Signer != ""
+	if !plainSignerBeforeTitle {
+		add(f.Title, "title")
+	}
 	if !f.Letterhead && (f.Reference != "" || f.Signer != "") {
 		text := f.Reference
 		if f.Signer != "" {
@@ -210,6 +215,9 @@ func NewDocument(f Fields) (Model, error) {
 			p.Indent = 5.64
 			p.Tabs = []TabStop{{Align: "right", Position: 150.36}}
 		}
+	}
+	if plainSignerBeforeTitle {
+		add(f.Title, "title")
 	}
 	if f.Recipient != "" {
 		add(strings.TrimRight(f.Recipient, "：:")+"：", "recipient")
@@ -324,7 +332,8 @@ func NewDocument(f Fields) (Model, error) {
 			add("", "attachment-body")
 		}
 	}
-	imprint := f.Kind != "letter" && f.Letterhead && f.Agency != "" && f.Date != ""
+	issuer, issueDate := imprintValues(f)
+	imprint := f.Kind != "letter" && (hasExplicitImprint(f) || f.Letterhead && f.Agency != "" && f.Date != "")
 	line := func(width, height float64) {
 		p := add("", "imprint")
 		p.Line = height
@@ -345,7 +354,7 @@ func NewDocument(f Fields) (Model, error) {
 		}
 	}
 	if imprint {
-		p := add(f.Agency+"\t"+f.Date+"印发", "imprint")
+		p := add(issuer+"\t"+issueDate+"印发", "imprint")
 		p.LeftIndent = 14 * 25.4 / 72
 		p.Tabs = []TabStop{{Align: "right", Position: 156 - 2*14*25.4/72}}
 		line(.35, 1.06)

@@ -20,7 +20,7 @@ export function freshFields(common) {
   return {...blank(),...validateCommon(common).fields};
 }
 export function copyFields(fields) {
-  return {...fields,date:'',reference:''};
+  return {...fields,date:'',reference:'',issueDate:''};
 }
 export function validateLibrary(value) {
   if(!value || value.version!==1 || !Array.isArray(value.items) || value.items.length>MAX_DOCUMENTS)throw Error('最近文档列表无法读取，原始数据已保留。请先下载恢复数据。');

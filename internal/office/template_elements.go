@@ -20,6 +20,9 @@ func cleanNames(names []string) []string {
 	return out
 }
 func validateExtraFields(f Fields) (Fields, error) {
+	if err := validateIssuanceFields(f); err != nil {
+		return f, err
+	}
 	f.Agencies = cleanNames(f.Agencies)
 	f.Signers = cleanNames(f.Signers)
 	f.SigningAgencies = cleanNames(f.SigningAgencies)
@@ -226,13 +229,7 @@ func applyExtraFields(m Model, f Fields) Model {
 			p.Text = f.Reference + p.Text
 		}
 		if p.Role == "imprint" && strings.Contains(p.Text, "\t") {
-			issuer, date := f.Agency, f.Date
-			if f.Issuer != "" {
-				issuer = f.Issuer
-			}
-			if f.IssueDate != "" {
-				date = f.IssueDate
-			}
+			issuer, date := imprintValues(f)
 			p.Text = issuer + "\t" + date + "印发"
 		}
 		blocks = append(blocks, b)

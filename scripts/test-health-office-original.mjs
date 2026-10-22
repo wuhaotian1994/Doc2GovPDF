@@ -29,9 +29,9 @@ try{
  if(await page.locator('#draft-dialog').isVisible())await page.locator('[data-close="draft-dialog"]').click();
  await page.locator('[data-step="1"]').click();await page.waitForFunction(()=>document.querySelector('#preview-status').textContent.startsWith('已更新'),{},{timeout:180000});
  const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));
- const restored=await read();assert.deepEqual(restored.fields,original.fields);assert.deepEqual(restored.content,original.content);
+ const restored=await read();assert.deepEqual(restored.fields,{...original.fields,signer:'',issuer:'',issueDate:''});assert.deepEqual(restored.content,original.content);
  await page.locator('#save-document').click();await page.reload();await page.waitForFunction(()=>window.writerReady);await chooseFallbackIfOffered();
- assert.deepEqual((await read()).fields,original.fields);assert.deepEqual((await read()).content,original.content);
+ assert.deepEqual((await read()).fields,{...original.fields,signer:'',issuer:'',issueDate:''});assert.deepEqual((await read()).content,original.content);
  report.restoredExactly=true;report.reopenedExactly=true;report.blockCount=restored.content.blocks.length;
  report.tableShapes=restored.content.blocks.filter(b=>b.type==='table').map(b=>({rows:b.rows.length,columns:b.rows[0].cells.length,blanks:b.rows.flatMap(r=>r.cells).filter(c=>c.text==='').length}));
  await page.screenshot({path:out+'/restored.png'});
@@ -44,7 +44,7 @@ try{
   await download.saveAs(out+'/original.'+format);const data=await readFile(out+'/original.'+format);
   report.downloads.push({format,bytes:data.length,sha256:createHash('sha256').update(data).digest('hex')});
  }
- assert.deepEqual((await read()).fields,original.fields);assert.deepEqual((await read()).content,original.content);
+ assert.deepEqual((await read()).fields,{...original.fields,signer:'',issuer:'',issueDate:''});assert.deepEqual((await read()).content,original.content);
  assert.equal(report.feedbackRequests,0,'Original must never enter the feedback channel');assert.equal(report.uploadRequests,0,'Original and fonts must never be uploaded');report.exportKeptOriginal=true;report.passed=report.errors.length===0;
 }catch(e){report.failure=e.stack;await page.screenshot({path:out+'/failure.png'}).catch(()=>{});throw e;}
 finally{await writeFile(out+'/report.json',JSON.stringify(report,null,2));await browser.close();}

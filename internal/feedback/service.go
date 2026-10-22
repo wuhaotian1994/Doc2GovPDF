@@ -663,7 +663,7 @@ func (s *Server) list(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	rows, e := s.db.QueryContext(r.Context(), "SELECT id,status,role,goal,impact,owner_name,fix_version,created_at,updated_at FROM feedback_threads WHERE NOT deletion_pending AND expires_at>now() ORDER BY updated_at DESC,id LIMIT 100 OFFSET $1", offset)
+	rows, e := s.db.QueryContext(r.Context(), "SELECT id,left(description,100),status,role,goal,impact,owner_name,fix_version,created_at,updated_at FROM feedback_threads WHERE NOT deletion_pending AND expires_at>now() ORDER BY updated_at DESC,id LIMIT 100 OFFSET $1", offset)
 	if e != nil {
 		fail(w, 503, "读取失败")
 		return
@@ -672,7 +672,7 @@ func (s *Server) list(w http.ResponseWriter, r *http.Request) {
 	out := []Thread{}
 	for rows.Next() {
 		var t Thread
-		if rows.Scan(&t.ID, &t.Status, &t.Role, &t.Goal, &t.Impact, &t.Owner, &t.FixVersion, &t.CreatedAt, &t.UpdatedAt) != nil {
+		if rows.Scan(&t.ID, &t.Description, &t.Status, &t.Role, &t.Goal, &t.Impact, &t.Owner, &t.FixVersion, &t.CreatedAt, &t.UpdatedAt) != nil {
 			fail(w, 503, "读取失败")
 			return
 		}
