@@ -40,6 +40,7 @@ type Paragraph struct {
 	Before         float64     `json:"before"`
 	After          float64     `json:"after"`
 	Line           float64     `json:"line"`
+	LineMultiple   float64     `json:"lineMultiple,omitempty"` // Native automatic line spacing (240ths of a line).
 	Indent         float64     `json:"indent"`
 	LeftIndent     float64     `json:"leftIndent,omitempty"`
 	RightIndent    float64     `json:"rightIndent,omitempty"`
@@ -120,21 +121,22 @@ type Page struct {
 	CharSpace int     `json:"charSpace"`
 }
 type Model struct {
-	ConfirmedIssues     []string        `json:"confirmedIssues,omitempty"`
-	AutoNumbering       bool            `json:"autoNumbering,omitempty"`
-	LayoutNormalized    bool            `json:"layoutNormalized,omitempty"`
-	Preprinted          bool            `json:"preprinted,omitempty"`
-	ReviewComments      []ReviewComment `json:"reviewComments,omitempty"`
-	Blocks              []Block         `json:"blocks"`
-	Page                Page            `json:"page"`
-	Template            string          `json:"template"`
-	SourceID            string          `json:"sourceId,omitempty"`
-	Warnings            []string        `json:"warnings"`
-	PDFUnsupported      bool            `json:"pdfUnsupported"`
-	HideFirstPageNumber bool            `json:"hideFirstPageNumber"`
-	Header              []Paragraph     `json:"header,omitempty"`
-	FirstHeader         []Paragraph     `json:"firstHeader,omitempty"`
-	FirstFooter         []Paragraph     `json:"firstFooter,omitempty"`
+	ImportedFormatVersion int             `json:"importedFormatVersion,omitempty"`
+	ConfirmedIssues       []string        `json:"confirmedIssues,omitempty"`
+	AutoNumbering         bool            `json:"autoNumbering,omitempty"`
+	LayoutNormalized      bool            `json:"layoutNormalized,omitempty"`
+	Preprinted            bool            `json:"preprinted,omitempty"`
+	ReviewComments        []ReviewComment `json:"reviewComments,omitempty"`
+	Blocks                []Block         `json:"blocks"`
+	Page                  Page            `json:"page"`
+	Template              string          `json:"template"`
+	SourceID              string          `json:"sourceId,omitempty"`
+	Warnings              []string        `json:"warnings"`
+	PDFUnsupported        bool            `json:"pdfUnsupported"`
+	HideFirstPageNumber   bool            `json:"hideFirstPageNumber"`
+	Header                []Paragraph     `json:"header,omitempty"`
+	FirstHeader           []Paragraph     `json:"firstHeader,omitempty"`
+	FirstFooter           []Paragraph     `json:"firstFooter,omitempty"`
 }
 
 func DefaultPage() Page {
@@ -203,7 +205,7 @@ func (m *Model) Validate() error {
 			}
 			lastRange = r.End
 		}
-		for _, n := range []float64{p.Size, p.Before, p.After, p.Line, p.Indent, p.LeftIndent, p.RightIndent, p.Hanging} {
+		for _, n := range []float64{p.Size, p.Before, p.After, p.Line, p.LineMultiple, p.Indent, p.LeftIndent, p.RightIndent, p.Hanging} {
 			if math.IsNaN(n) || math.IsInf(n, 0) {
 				return fmt.Errorf("段落尺寸无效")
 			}
@@ -234,7 +236,7 @@ func (m *Model) Validate() error {
 				return fmt.Errorf("正文含不可写入的字符")
 			}
 		}
-		if p.Size < 5 || p.Size > 72 || p.Before < 0 || p.After < 0 || p.Line < 0 || p.Before > 250 || p.After > 250 || p.Line > 100 || p.Indent < 0 || p.Indent > 100 {
+		if p.Size < 5 || p.Size > 72 || p.Before < 0 || p.After < 0 || p.Line < 0 || p.Before > 250 || p.After > 250 || p.Line > 100 || p.LineMultiple < 0 || p.LineMultiple > 10 || p.Indent < 0 || p.Indent > 100 {
 			return fmt.Errorf("段落尺寸超出支持范围")
 		}
 	}

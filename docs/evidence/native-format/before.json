@@ -1,0 +1,61 @@
+{
+  "profile": "chrome",
+  "browserVersion": "155.0.8059.86",
+  "oldBaseline": true,
+  "url": "http://127.0.0.1:1980",
+  "method": "Implementation-informed college office task with the same official DOCX; not an independent blind study. Saved new-form admissions is implementation fixture, not the unavailable CEO cloud recovery file.",
+  "checks": [
+    "原件进入统一工作区，纵横分节仍保留",
+    "空格原位置字号可见，未统一整表",
+    "本次填字可撤销且标题修改保留",
+    "关页重开保持两处模拟文字与插入字号",
+    "便携恢复包重新打开保留填字和原件身份"
+  ],
+  "errors": [],
+  "downloads": [
+    {
+      "name": "untouched.docx",
+      "bytes": 38431,
+      "sha256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "elapsedMs": 505
+    },
+    {
+      "name": "untouched.pdf",
+      "bytes": 109287,
+      "sha256": "def2a1f6512e8d175b9065edf035477ab9c9f091bd177a4bdac0cb50c2b1ee26",
+      "elapsedMs": 439
+    },
+    {
+      "name": "edited.docx",
+      "bytes": 36709,
+      "sha256": "149891baaefc3b4fa981d97c28314c67dbe3bb85ae62a1389cf6920d4675bd54",
+      "elapsedMs": 455
+    },
+    {
+      "name": "edited.pdf",
+      "bytes": 109947,
+      "sha256": "d7d641e0a6e7ae23075ee3222c7bf4e199d1904b1a3d901edb3024c2d5c8fe23",
+      "elapsedMs": 433
+    },
+    {
+      "name": "edited.gongwen-word.json",
+      "bytes": 564014,
+      "sha256": "2b89a2fb3a26c2c6f7c0b9e13ce583df08f56e8909fd418511d9d1664addd54b",
+      "elapsedMs": 148
+    },
+    {
+      "name": "restored.docx",
+      "bytes": 36709,
+      "sha256": "149891baaefc3b4fa981d97c28314c67dbe3bb85ae62a1389cf6920d4675bd54",
+      "elapsedMs": 459
+    }
+  ],
+  "wasm": [
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c",
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c",
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c",
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c",
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c"
+  ],
+  "passed": true
+}

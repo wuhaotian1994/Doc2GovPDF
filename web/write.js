@@ -1,3 +1,4 @@
+import {decodeBase64} from './write-bytes.js';
 import {hasAnnexes,annexCandidates,applyAnnexChoices,attachmentSummary} from './write-annexes.js';
 import {installWordWorkspace} from './write-word-workspace.js';
 import {WriterEngine} from './write-engine.js';
@@ -71,7 +72,7 @@ function bodySummary(){
   return text.toLocaleString('zh-CN')+' 字'+(tables?'，'+tables+' 张表格':'');
 }
 function updateBodyCount(){$('body-count').textContent=bodySummary();$('postscript-count').textContent=fields.postscript.length.toLocaleString('zh-CN')+' 字';}
-const bytes = data => Uint8Array.from(atob(data), c => c.charCodeAt(0));
+const bytes = decodeBase64;
 function base64(buffer) { let value = ''; for (let i=0;i<buffer.length;i+=32768) value += String.fromCharCode(...buffer.subarray(i,i+32768)); return btoa(value); }
 function download(name, data, type) {
   const url = URL.createObjectURL(new Blob([data], {type}));

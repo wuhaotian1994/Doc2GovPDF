@@ -102,7 +102,11 @@ func parseXML(b []byte) (*etree.Document, error) {
 	}
 	return d, nil
 }
-func Open(data []byte) (*Package, error) {
+func Open(data []byte) (*Package, error) { return openPackage(data, false) }
+
+// The legacy reader is retained only as the comparison baseline for already
+// saved native drafts; it never reparses a new import with gongwen defaults.
+func openPackage(data []byte, legacy bool) (*Package, error) {
 	if len(data) > 50*1024*1024 {
 		return nil, fmt.Errorf("文件超过 50 MB")
 	}
@@ -157,22 +161,32 @@ func Open(data []byte) (*Package, error) {
 		return nil, fmt.Errorf("文档正文缺失")
 	}
 	p.Model = Model{Page: DefaultPage(), Template: "imported", SourceID: fmt.Sprintf("%x", sha256.Sum256(data)), Warnings: []string{}, Blocks: []Block{}}
+	if !legacy {
+		p.Model.ImportedFormatVersion = 1
+	}
 	p.stories = map[string]string{}
-	styles := readStyles(p.Parts["word/styles.xml"])
+	formatting := readImportedFormatting(p.Parts)
+	styles := formatting.styles
 	nums := readNumbering(p.Parts["word/numbering.xml"])
 	counts := map[string][]int{}
 	index := 0
 	var paragraph func(*etree.Element) Paragraph
 	paragraph = func(e *etree.Element) Paragraph {
-		r := Paragraph{ID: fmt.Sprintf("p%d", index), Role: "body", Align: "both", Font: "仿宋", Size: 16, Line: 10.21, Indent: 11.29}
+		// Native documents inherit their own formatting, not the new-gongwen template.
+		r := Paragraph{ID: fmt.Sprintf("p%d", index), Role: "body", Align: "left", Font: "宋体", Size: 10.5}
 		index++
 		p.elements[r.ID] = e
 		pr := child(e, "pPr")
 		styleID := attr(child(pr, "pStyle"), "val")
-		if style, ok := styles[styleID]; ok {
-			applyProps(&r, child(style, "pPr"), child(style, "rPr"))
+		pp, rp := formatting.paragraph(styleID, pr)
+		applyProps(&r, pp, rp)
+		if legacy {
+			r = Paragraph{ID: r.ID, Role: "body", Align: "both", Font: "仿宋", Size: 16, Line: 10.21, Indent: 11.29}
+			if style := styles[styleID]; style != nil {
+				applyLegacyProps(&r, child(style, "pPr"), child(style, "rPr"))
+			}
+			applyLegacyProps(&r, pr, nil)
 		}
-		applyProps(&r, pr, nil)
 		r.ExplicitIndent = child(pr, "ind") != nil
 		if style := styles[styleID]; style != nil {
 			name := strings.ToLower(attr(child(style, "name"), "val"))
@@ -192,6 +206,7 @@ func Open(data []byte) (*Package, error) {
 		}
 		var walk func(*etree.Element)
 		baseFont, baseSize, baseColor, baseItalic, baseBold := r.Font, r.Size, r.Color, r.Italic, r.Bold
+		fontKnown, sizeKnown := child(rp, "rFonts") != nil && attr(child(rp, "rFonts"), "eastAsia") != "", child(rp, "sz") != nil
 		anyItalic, anyRed := false, false
 		walk = func(n *etree.Element) {
 			if n.NamespaceURI() != W {
@@ -203,9 +218,16 @@ func Open(data []byte) (*Package, error) {
 				switch n.Tag {
 				case "r":
 					r.Font, r.Size, r.Color, r.Italic, r.Bold = baseFont, baseSize, baseColor, baseItalic, baseBold
-					if style := styles[attr(child(child(n, "rPr"), "rStyle"), "val")]; style != nil {
-						applyProps(&r, nil, child(style, "rPr"))
+					runProps := formatting.run(rp, child(n, "rPr"))
+					if legacy {
+						if style := styles[attr(child(child(n, "rPr"), "rStyle"), "val")]; style != nil {
+							applyLegacyProps(&r, nil, child(style, "rPr"))
+						}
+					} else {
+						applyProps(&r, nil, runProps)
 					}
+					fontKnown = attr(child(runProps, "rFonts"), "eastAsia") != ""
+					sizeKnown = child(runProps, "sz") != nil
 				case "pPr":
 					return
 				case "del", "moveFrom":
@@ -241,7 +263,10 @@ func Open(data []byte) (*Package, error) {
 						r.Protected = true
 						p.Model.PDFUnsupported = true
 					}
-					applyProps(&r, nil, n)
+					// New imports resolve direct properties with the character style above.
+					if legacy {
+						applyLegacyProps(&r, nil, n)
+					}
 					return
 				}
 			}
@@ -250,6 +275,31 @@ func Open(data []byte) (*Package, error) {
 			}
 		}
 		walk(e)
+		if !legacy && len(descendants(e, "r")) == 0 {
+			// The paragraph mark carries the insertion format of an empty cell.
+			// It must not override existing text runs in a non-empty paragraph.
+			markProps := formatting.run(rp, child(pr, "rPr"))
+			applyProps(&r, nil, markProps)
+			fontKnown = attr(child(markProps, "rFonts"), "eastAsia") != ""
+			sizeKnown = child(markProps, "sz") != nil
+			anyItalic = r.Italic
+		}
+		if !legacy && (!fontKnown || !sizeKnown) {
+			message := "原件部分位置未明确声明可解析的中文字体或字号，预览使用应用草拟参数（宋体请求、10.5磅基值）；Word接收端默认值可能不同。该部分格式未核，不表示符合国标。"
+			found := false
+			for _, w := range p.Model.Warnings {
+				if w == message {
+					found = true
+				}
+			}
+			if !found {
+				p.Model.Warnings = append(p.Model.Warnings, message)
+			}
+		}
+		// Character-based indentation depends on the final effective size.
+		if !legacy {
+			applyProps(&r, pp, nil)
+		}
 		r.Italic = anyItalic
 		if anyRed {
 			r.Color = "FF0000"
@@ -600,8 +650,14 @@ func applyProps(p *Paragraph, pp, rp *etree.Element) {
 		sp := child(pp, "spacing")
 		p.Before = number(attr(sp, "before"), p.Before*56.6929) / 56.6929
 		p.After = number(attr(sp, "after"), p.After*56.6929) / 56.6929
-		if attr(sp, "lineRule") == "exact" {
-			p.Line = number(attr(sp, "line"), 579) / 56.6929
+		if attr(sp, "lineRule") == "exact" || attr(sp, "lineRule") == "atLeast" {
+			p.Line = number(attr(sp, "line"), 0) / 56.6929
+			p.LineMultiple = 0
+		} else if attr(sp, "line") != "" || attr(sp, "lineRule") == "auto" {
+			// Preserve the authored multiplier. Actual natural metrics still
+			// depend on the font used by this renderer, not Word's font engine.
+			p.Line = 0
+			p.LineMultiple = number(attr(sp, "line"), 240) / 240
 		}
 		ind := child(pp, "ind")
 		if tabs := child(pp, "tabs"); tabs != nil {
@@ -648,8 +704,8 @@ func applyProps(p *Paragraph, pp, rp *etree.Element) {
 		if bold := child(rp, "b"); bold != nil {
 			p.Bold = enabled(bold)
 		}
-		if italic := child(rp, "i"); italic != nil && attr(italic, "val") != "0" && attr(italic, "val") != "false" {
-			p.Italic = true
+		if italic := child(rp, "i"); italic != nil {
+			p.Italic = enabled(italic)
 		}
 		if v := attr(child(rp, "rFonts"), "eastAsia"); v != "" {
 			p.Font = v
@@ -761,6 +817,14 @@ func formatNumber(l numLevel, counts []int, level int) string {
 	return s
 }
 func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
+	if m.ImportedFormatVersion == 0 && p.baseline.ImportedFormatVersion != 0 {
+		legacy, err := openPackage(p.Original, true)
+		if err != nil {
+			return nil, err
+		}
+		return legacy.Export(m, tracked)
+	}
+
 	if e := m.Validate(); e != nil {
 		return nil, e
 	}
@@ -869,6 +933,9 @@ func (p *Package) Export(m Model, tracked bool) ([]byte, error) {
 			}
 		}
 		var props *etree.Element
+		if len(descendants(para, "r")) == 0 {
+			props = insertionRunProperties(child(child(para, "pPr"), "rPr"), *r)
+		}
 		if len(children) > 0 && children[0].Tag == "r" {
 			if rp := child(children[0], "rPr"); rp != nil {
 				props = rp.Copy()

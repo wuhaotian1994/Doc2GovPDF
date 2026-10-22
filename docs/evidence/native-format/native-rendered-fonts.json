@@ -1,0 +1,65 @@
+[
+  {
+    "file": "before/edited.word.pdf",
+    "fileSHA256": "ed39ae2238dfb64745cccb4697b9799afa93ff01aa724ce18aec68c83beac6b5",
+    "sourceDOCXSHA256": "149891baaefc3b4fa981d97c28314c67dbe3bb85ae62a1389cf6920d4675bd54",
+    "page": 4,
+    "text": "模拟待核",
+    "nominalWordSizePt": 10.5,
+    "renderedGlyphSizesPt": [
+      10.56
+    ],
+    "glyphFontNames": [
+      "BCDKEE+DengXian"
+    ],
+    "fontResources": [
+      {
+        "baseFont": "/BCDKEE+DengXian",
+        "descriptorFontName": "/BCDKEE+DengXian",
+        "embeddedTrueTypeSHA256": "7d193c2613bc01087d544b68efa9c5d86ccd25ba5b35a10800b0071a7093702d"
+      }
+    ]
+  },
+  {
+    "file": "chrome/edited.word.pdf",
+    "fileSHA256": "f4076b403e17811fad22d61fdc166a66480551173fdb1c69174a1ba9930b82d9",
+    "sourceDOCXSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+    "page": 4,
+    "text": "模拟待核",
+    "nominalWordSizePt": 11,
+    "renderedGlyphSizesPt": [
+      11.04
+    ],
+    "glyphFontNames": [
+      "BCDKEE+SimSun"
+    ],
+    "fontResources": [
+      {
+        "baseFont": "/BCDKEE+SimSun",
+        "descriptorFontName": "/BCDKEE+SimSun",
+        "embeddedTrueTypeSHA256": "c052cac306c09a137dd066027b907b3289794e4881adecd7ecce42fe3f655ca4"
+      }
+    ]
+  },
+  {
+    "file": "chrome/legacy-restored.word.pdf",
+    "fileSHA256": "b11a0addf7d3e17908978801e28e2ba86915ee22b522d8d232e5c8c703c47abf",
+    "sourceDOCXSHA256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+    "page": 4,
+    "text": "模拟待核",
+    "nominalWordSizePt": 16,
+    "renderedGlyphSizesPt": [
+      15.96
+    ],
+    "glyphFontNames": [
+      "BCDKEE+仿宋"
+    ],
+    "fontResources": [
+      {
+        "baseFont": "/BCDKEE+仿宋",
+        "descriptorFontName": "/BCDKEE+仿宋",
+        "embeddedTrueTypeSHA256": "ad0aba21740a74448827d777c37e48fe864e53fe71dba4067cbab4ce7d4aca6d"
+      }
+    ]
+  }
+]

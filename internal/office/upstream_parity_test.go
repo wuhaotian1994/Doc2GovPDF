@@ -224,7 +224,10 @@ func TestUpstreamTextFixPairs(t *testing.T) {
 	}
 }
 
-func TestUpstreamCompliantDocumentsAreNotRepaired(t *testing.T) {
+// Sparse upstream defaults used to be silently treated as gongwen formatting.
+// Preserve the original on plain export; explicitly requested normalization may
+// now repair that uncertainty, while all authored text must remain intact.
+func TestUpstreamDocumentsPreserveOriginalAndNormalizeWithoutTextLoss(t *testing.T) {
 	root, f := upstreamFixtures(t)
 	for _, file := range f.Files {
 		if strings.HasPrefix(file.Path, "negative/") || strings.Contains(file.Name, "修订") || file.Name == "messy.docx" || file.Name == "accepted.docx" {
@@ -239,19 +242,28 @@ func TestUpstreamCompliantDocumentsAreNotRepaired(t *testing.T) {
 			if e != nil {
 				t.Fatal(e)
 			}
+			plain, err := p.Export(p.Model, false)
+			if err != nil || !bytes.Equal(b, plain) {
+				t.Fatal("plain export changed original", err)
+			}
 			m := NormalizeLayout(p.Model)
 			out, e := p.Export(m, true)
 			if e != nil {
 				t.Fatal(e)
 			}
-			if !bytes.Equal(b, out) {
-				for i, q := range m.Paragraphs() {
-					if !sameFormat(*q, *p.Model.Paragraphs()[i]) {
-						t.Logf("changed paragraph %d role=%s before=%+v after=%+v", i, q.Role, *p.Model.Paragraphs()[i], *q)
-					}
-				}
-				t.Fatal("compliant input modified")
+			if !strings.Contains(strings.Join(p.Model.Warnings, " "), "未明确声明") && !bytes.Equal(b, out) {
+				t.Fatal("fully declared compliant input modified")
 			}
+			after, err := Open(out)
+			if err != nil {
+				t.Fatal(err)
+			}
+			for i, para := range p.Model.Paragraphs() {
+				if after.Model.Paragraphs()[i].Text != para.Text {
+					t.Fatalf("normalization changed authored paragraph %d", i)
+				}
+			}
+
 		})
 	}
 }

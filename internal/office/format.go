@@ -118,7 +118,7 @@ func sameFormat(a, b Paragraph) bool {
 		}
 		return s
 	}
-	if a.Bold != b.Bold || a.Italic != b.Italic || canonical(a.Font) != canonical(b.Font) || a.Color != b.Color || a.Align != b.Align || a.PageBreak != b.PageBreak || a.KeepNext != b.KeepNext {
+	if (a.Line == 0 && b.Line == 0 && math.Abs(a.LineMultiple-b.LineMultiple) > .001) || a.Bold != b.Bold || a.Italic != b.Italic || canonical(a.Font) != canonical(b.Font) || a.Color != b.Color || a.Align != b.Align || a.PageBreak != b.PageBreak || a.KeepNext != b.KeepNext {
 		return false
 	}
 	x, y := []float64{a.LeftIndent, a.RightIndent, a.Hanging, a.Size, a.Before, a.After, a.Line, a.Indent}, []float64{b.LeftIndent, b.RightIndent, b.Hanging, b.Size, b.Before, b.After, b.Line, b.Indent}
@@ -149,8 +149,17 @@ func reviseFormatOnRuns(e *etree.Element, p Paragraph, tracked bool, nextID func
 	spacing := pp.CreateElement("w:spacing")
 	spacing.CreateAttr("w:before", strconv.Itoa(twips(p.Before)))
 	spacing.CreateAttr("w:after", strconv.Itoa(twips(p.After)))
-	spacing.CreateAttr("w:line", strconv.Itoa(twips(p.Line)))
-	spacing.CreateAttr("w:lineRule", "exact")
+	if p.Line == 0 {
+		multiple := p.LineMultiple
+		if multiple == 0 {
+			multiple = 1
+		}
+		spacing.CreateAttr("w:line", strconv.Itoa(int(math.Round(multiple*240))))
+		spacing.CreateAttr("w:lineRule", "auto")
+	} else {
+		spacing.CreateAttr("w:line", strconv.Itoa(twips(p.Line)))
+		spacing.CreateAttr("w:lineRule", "exact")
+	}
 	indent := pp.CreateElement("w:ind")
 	indent.CreateAttr("w:firstLine", strconv.Itoa(twips(p.Indent)))
 	indent.CreateAttr("w:left", strconv.Itoa(twips(p.LeftIndent)))

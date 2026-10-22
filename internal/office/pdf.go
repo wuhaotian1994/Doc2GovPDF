@@ -625,10 +625,7 @@ func (w *pdfWriter) paragraph(p Paragraph) error {
 		p.Before = 0
 	}
 	w.setFont(p)
-	line := p.Line
-	if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
-		line = p.Size * 25.4 / 72 * 1.3
-	}
+	line := paragraphLineHeight(p, false)
 	width := w.page.Width - w.page.Left - w.page.Right - p.LeftIndent - p.RightIndent
 	if width < 20 {
 		return fmt.Errorf("段落左右缩进过大，请调整后重试")
@@ -876,10 +873,7 @@ func (w *pdfWriter) table(t Table) error {
 					cellLines[i] = append(cellLines[i], w.wrap(line, available)...)
 				}
 			}
-			line := p.Line
-			if line < p.Size*25.4/72*1.15 {
-				line = p.Size * 25.4 / 72 * 1.4
-			}
+			line := paragraphLineHeight(p, true)
 			cellHeights[i] = line
 			h := float64(len(cellLines[i]))*line + padding.Top + padding.Bottom
 			if h > height {
@@ -1110,6 +1104,23 @@ func (w *pdfWriter) drawBorder(p Paragraph, x, y, width float64) {
 	}
 }
 
+// Both pagination estimates and drawing use the same authored multiplier.
+// Natural metrics use this renderer's actual font, so Word may still paginate differently.
+func paragraphLineHeight(p Paragraph, table bool) float64 {
+	line := p.Line
+	factor := 1.3
+	if table {
+		factor = 1.4
+	}
+	if (table || strings.TrimSpace(p.Text) != "" || p.Line == 0) && line < p.Size*25.4/72*1.15 {
+		line = p.Size * 25.4 / 72 * factor
+	}
+	if p.Line == 0 && p.LineMultiple > 0 {
+		line *= p.LineMultiple
+	}
+	return line
+}
+
 func borderWidth(p Paragraph) float64 {
 	if p.BorderWidth > 0 {
 		return p.BorderWidth
@@ -1119,10 +1130,7 @@ func borderWidth(p Paragraph) float64 {
 
 func (w *pdfWriter) paragraphHeight(p Paragraph, limit int) float64 {
 	w.setFont(p)
-	line := p.Line
-	if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
-		line = p.Size * 25.4 / 72 * 1.3
-	}
+	line := paragraphLineHeight(p, false)
 	indent := p.Indent - p.Hanging
 	if p.Align == "center" || p.Align == "right" {
 		indent = 0
@@ -1167,10 +1175,7 @@ func (w *pdfWriter) tableRowHeight(row Row, widths []float64) float64 {
 		p.Text = strings.Join(texts, "\n")
 		w.setFont(p)
 		padding := cell.padding()
-		line := p.Line
-		if line < p.Size*25.4/72*1.15 {
-			line = p.Size * 25.4 / 72 * 1.4
-		}
+		line := paragraphLineHeight(p, true)
 		n := len(w.wrap(p.Text, cw-padding.Left-padding.Right-p.LeftIndent-p.RightIndent))
 		ch := float64(n)*line + padding.Top + padding.Bottom
 		if ch > h {
@@ -1185,10 +1190,7 @@ func (w *pdfWriter) drawAnchored(anchored []Paragraph) error {
 		height := 0.0
 		for _, p := range anchored {
 			w.setFont(p)
-			line := p.Line
-			if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
-				line = p.Size * 25.4 / 72 * 1.3
-			}
+			line := paragraphLineHeight(p, false)
 			lines := len(w.wrapIndented(p.Prefix+p.Text, w.page.Width-w.page.Left-w.page.Right-p.LeftIndent-p.RightIndent, p.Indent-p.Hanging))
 			if len(p.Tabs) > 0 && !strings.Contains(p.Text, "\n") {
 				lines = 1
