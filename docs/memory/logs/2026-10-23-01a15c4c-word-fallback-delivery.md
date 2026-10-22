@@ -11,3 +11,9 @@
 - 最终4173仍PID65964，原样切换冻结6110资产；64实际HTTP资产匹配，实际Chrome另20项/10下载与5对独立验证通过，DOCX同已审Word源；浏览器关闭后服务继续。提交后不重建。4188虚构开发服务/PG未新增真实收集，不改账号/字体安装或公网状态。
 - 最新远端CEO993c77ad/maina21929e：单签发镇稿文件已实际独立支持，不能再写全未取得。新增三部门多人签发P0（按原行名单、不猜顿号拆分、两名一行及文号最后同行）下一优先；LibreOffice版记两线P1未复现，本机无可用LO，不能以Word16有线代签。Agent只读已列模型/TXT/判断锚点和engine长名/同名边界，以及LO空段边框/frame机制线索；未擅改新任务生产。
 - 本轮只交付固定OFL备用的本机实际字体与Unicode改善；自选接收端替代、标准类别/全文、direct cmap、多签发、LO兼容继续开放。最终提交/PR/远端SHA看checkpoint；不合并PR、不部署、不传用户原稿或系统字体。
+
+## 实际提交与原PR交付
+
+- 实现dae7d685969c983e6e3eed49a60faec75d7bd6b7；正常合入a21929e2b3d37009d6095c1da91f8ba7e3af287e后a6f0a1b5cddbdd4ddd89c096910a329697fa3cd5已push原分支。PR5标题/正文按最终Word故障与行为更新且attach成功，open/unmerged/mergeable=true。
+- a6推送后comments/reviews/threads/Issues/combined statuses/PR Actions均空；不冒称CI绿或新的独立签收。新CEO多签发已先只读评估：允许逐行并传signers不足，还须TXT名单、逐作者行判断锚点及实际末行文号/第二列对齐；本轮未动其生产源码。LO本机未发现，frame空段边框为线索而非已证根因。
+- 常驻4173仍PID65964/冻结6110，提交后未重建；开发4188仅虚构收集，账号权限/系统字体和公网均未改。最终文档head、共享记忆guard同步和后续队列见checkpoint。

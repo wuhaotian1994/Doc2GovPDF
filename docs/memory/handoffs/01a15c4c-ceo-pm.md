@@ -2,6 +2,8 @@
 
 ## 最新：内置OFL备用Word实际字形与中文映射（优先于历史）
 
+- **已实际交付**：实现dae7d685969c983e6e3eed49a60faec75d7bd6b7，正常合main a21929e后a6f0a1b5cddbdd4ddd89c096910a329697fa3cd5已推送原分支；PR5标题/正文重写、附加成功，open/unmerged/mergeable=true。该head评论/评审/行内/Issues/statuses/Actions均空，不称CI绿或CEO已接受本轮。随后仅补交付记录，最终文档head看checkpoint，不重建已验6110资产。
+
 - 同PR5/ceo-001树/codex/ceo-004-materials，起点1b17f3a；本轮Go7文件、字体脚本4、原字体提示及证据全归本聊天/明确Agent。实现与最终交付SHA看checkpoint，不合并或部署。
 - 固定OFL两fullSHA派生内部3429e家族、PRC charset86，字形/度量/许可证不改；用户所选字体字节与真实legacy声明不改、原Word原件另存不改。严格SHA未知失败，owned buffer不改注册数据/无常驻copy，精确alias可回导Black并要求完整资源。office/webengine完整test/vet、独立审查过。
 - 三浏览器60项/15对30实际文件，备用原生Word33/33真实glyph、中文Regular13/Black11、0images/精确提取过；原卫生源未改，Word仅字体声明/派生part/无效setting改变，新4c18c0d6，7页及88原文本保持，回执标题/表6、小表4。镇稿实际Word2+2页，14新实页及旧1页已看。具体WORD-FALLBACK-EMBEDDING-RESPONSE.md，23日独立日志。
