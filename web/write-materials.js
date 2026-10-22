@@ -21,7 +21,8 @@ export function analyseMaterial(raw){
   const candidates={};
   const first=meaningful[0];
   if(first&&first.text.trim().length<=180&&!sourceDate(first.text)&&!/[：:]$/.test(first.text.trim()))candidates.title={...first,value:first.text.trim()};
-  const recipient=meaningful.slice(0,2).find(line=>recipientLine(line.text));
+  const webMetadata=meaningful.slice(1,3).filter(line=>/^发布(?:日期|时间)[：:]\s*\d{4}[-年]\d{1,2}[-月]\d{1,2}(?:日)?(?:\s.*)?$/.test(line.text.trim()));
+  const recipient=meaningful.filter(line=>!webMetadata.some(meta=>meta.index===line.index)).slice(0,2).find(line=>recipientLine(line.text));
   if(recipient)candidates.recipient={...recipient,value:recipient.text.trim().replace(/[：:]+$/,'')};
   const closings=[];
   for(let dateIndex=0;dateIndex<meaningful.length;dateIndex++){
@@ -36,12 +37,12 @@ export function analyseMaterial(raw){
     if(tail.length)closing.signature={...tail[0],indices:tail.map(row=>row.index),text:tail.map(row=>row.text).join('\n'),value:tail.map(row=>row.text.trim()).join('\n')};
     if(meaningful.some(line=>line.index>last.index)){
       const indices=lines.map((_,index)=>index).filter(index=>index>last.index);
-      while(indices.length&&!lines[indices[0]].trim())indices.shift();while(indices.length&&!lines[indices.at(-1)].trim())indices.pop();
+      while(indices.length&&!lines[indices[0]].trim()&&!lines[indices[0]].includes('\t'))indices.shift();while(indices.length&&!lines[indices.at(-1)].trim()&&!lines[indices.at(-1)].includes('\t'))indices.pop();
       const text=indices.map(index=>lines[index]).join('\n');closing.postscript={index:indices[0],indices,text,value:text};
     }
     closings.push(closing);
   }
-  return selectMaterialClosing({source,lines,candidates,closings},closings.length===1?0:-1);
+  return selectMaterialClosing({source,lines,candidates,closings,webMetadata},closings.length===1?0:-1);
 }
 export function selectMaterialClosing(analysis,index){
   const {date,signature,postscript,...base}=analysis.candidates;
@@ -64,6 +65,7 @@ export function materialProposal(analysis,selected={},mergeWrapped=false,current
     if(selected.signature&&!selected.date||selected.date&&!selected.postscript||selected.postscript&&!selected.date)conflicts.push('这处日期后还有内容。请同时确认日期及其后的附注，或都留在正文，避免改变原始顺序。');
     if(selected.postscript&&analysis.candidates.postscript.value.length>4000)conflicts.push('日期后的内容超过附注的4000字符限制，请取消后在正文中保留，或分份整理。');
   }
+  if(selected.omitWebMetadata)for(const line of analysis.webMetadata||[])used.set(line.index,'webMetadata');
   for(const name of ['title','recipient','signature','date','postscript']){
     const candidate=analysis.candidates[name];if(!candidate||!selected[name])continue;
     for(const index of candidate.indices||[candidate.index]){
@@ -73,12 +75,12 @@ export function materialProposal(analysis,selected={},mergeWrapped=false,current
     fields[name]=candidate.value;
   }
   const remaining=analysis.lines.filter((line,index)=>!used.has(index));
-  while(remaining.length&&!remaining[0].trim())remaining.shift();
-  while(remaining.length&&!remaining.at(-1).trim())remaining.pop();
+  while(remaining.length&&!remaining[0].trim()&&!remaining[0].includes('\t'))remaining.shift();
+  while(remaining.length&&!remaining.at(-1).trim()&&!remaining.at(-1).includes('\t'))remaining.pop();
   if(mergeWrapped){
     const groups=[];let group=[];
     const flush=()=>{if(group.length){groups.push(heading.test(group[0].trim())&&group.length>1?group.join('\n'):joinWraps(group));group=[];}};
-    for(const line of remaining){if(!line.trim())flush();else group.push(line);}
+    for(const line of remaining){if(line.includes('\t')){flush();groups.push(line);}else if(!line.trim())flush();else group.push(line);}
     flush();fields.body=groups.join('\n');
   }else fields.body=remaining.join('\n');
   fields.sourceMaterial=analysis.source;

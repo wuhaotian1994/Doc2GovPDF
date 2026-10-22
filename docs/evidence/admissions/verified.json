@@ -1,0 +1,209 @@
+{
+  "cases": [
+    {
+      "phase": "before",
+      "profile": "chrome",
+      "id": "46c73578-43df-47ff-bc63-d78f2ed053c9",
+      "exactCharacters": 383,
+      "rows": 14,
+      "columns": 4,
+      "emptyCells": 12,
+      "schoolsTotal": 9000,
+      "pdfPages": 2,
+      "widthsMM": [
+        39,
+        39,
+        39,
+        39
+      ],
+      "docxSHA256": "1d19aad31a0ac0b9bc17169495087bd8d407b6fe2f70f78a1decb17c5875d825",
+      "pdfSHA256": "41dfed6ce07f8d31a79924419205ea0cf7a183746f5adec17e5782349e16f498",
+      "actualWasmSHA256": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6"
+    },
+    {
+      "phase": "after",
+      "profile": "chrome",
+      "id": "8453910b-d4c7-42e3-ba39-3cb4590e5db2",
+      "exactCharacters": 383,
+      "rows": 14,
+      "columns": 4,
+      "emptyCells": 12,
+      "schoolsTotal": 9000,
+      "pdfPages": 2,
+      "widthsMM": [
+        14,
+        70.75574485515061,
+        25.238507889675738,
+        46.005747255173645
+      ],
+      "docxSHA256": "d207a565a2c4ca42446c6587ab89e3f6ecd22690c49a49be4faa0bb5a379891d",
+      "pdfSHA256": "d9325e46af034878900bb02b0ab72cb7363faa86cd5c60dba2869b5c339a211d",
+      "actualWasmSHA256": "14e4674f8a5f329571f52201f637804e1fbd4621cc0128740050278d26611b88"
+    },
+    {
+      "phase": "after",
+      "profile": "firefox",
+      "id": "01228660-d69e-41c5-98f6-f268a5575eb5",
+      "exactCharacters": 383,
+      "rows": 14,
+      "columns": 4,
+      "emptyCells": 12,
+      "schoolsTotal": 9000,
+      "pdfPages": 2,
+      "widthsMM": [
+        14,
+        70.75574485515061,
+        25.238507889675738,
+        46.005747255173645
+      ],
+      "docxSHA256": "d207a565a2c4ca42446c6587ab89e3f6ecd22690c49a49be4faa0bb5a379891d",
+      "pdfSHA256": "21e627047c1626c3d310368af224a48b069091766f79537df31f2ae728c0c5b4",
+      "actualWasmSHA256": "14e4674f8a5f329571f52201f637804e1fbd4621cc0128740050278d26611b88"
+    },
+    {
+      "phase": "after",
+      "profile": "webkit",
+      "id": "7d26e6d9-f43b-4651-aea0-61e95ccc2ce8",
+      "exactCharacters": 383,
+      "rows": 14,
+      "columns": 4,
+      "emptyCells": 12,
+      "schoolsTotal": 9000,
+      "pdfPages": 2,
+      "widthsMM": [
+        14,
+        70.75574485515061,
+        25.238507889675738,
+        46.005747255173645
+      ],
+      "docxSHA256": "d207a565a2c4ca42446c6587ab89e3f6ecd22690c49a49be4faa0bb5a379891d",
+      "pdfSHA256": "21e627047c1626c3d310368af224a48b069091766f79537df31f2ae728c0c5b4",
+      "actualWasmSHA256": "14e4674f8a5f329571f52201f637804e1fbd4621cc0128740050278d26611b88"
+    }
+  ],
+  "nativeWord": [
+    {
+      "phase": "before",
+      "wordVersion": "16.0",
+      "sourceSHA256": "1D19AAD31A0AC0B9BC17169495087BD8D407B6FE2F70F78A1DECB17C5875D825",
+      "pages": 2,
+      "logicalCharacters": 383,
+      "logicalTextSHA256": "165F909882CF4CB9753948C481BB3DDD75BCB14CE8F455E53322A846E8B3725E",
+      "pageMap": {
+        "attachment": 1,
+        "title": 1,
+        "firstSchool": 1,
+        "lastSchool": 2,
+        "total": 2
+      }
+    },
+    {
+      "phase": "after",
+      "wordVersion": "16.0",
+      "sourceSHA256": "D207A565A2C4CA42446C6587AB89E3F6ECD22690C49A49BE4FAA0BB5A379891D",
+      "pages": 2,
+      "logicalCharacters": 383,
+      "logicalTextSHA256": "165F909882CF4CB9753948C481BB3DDD75BCB14CE8F455E53322A846E8B3725E",
+      "pageMap": {
+        "attachment": 1,
+        "title": 1,
+        "firstSchool": 1,
+        "lastSchool": 2,
+        "total": 2
+      }
+    }
+  ],
+  "sourceURL": "https://jyj.panjin.gov.cn/2025_05/14_10/content-520850.html",
+  "sourceFixtureSHA256": "1ef37ee506894feca60f8bc911e1ec0718feb9f1bb569562f3104fde4f8542ef",
+  "sources": {
+    "web/write.js": "eee65247f3eb1891391499492359b531660462e42e0f1f1dff5e3edc6968e00d",
+    "web/write-materials.js": "df45085c3caeb0969cc774e66ebf2b3c05ae07a011696e43cbf5e55be22ce377",
+    "web/write-material-tables.js": "bbf6c67060743bb2a39e3d2fa08d3bec13390b0f16071af98fc65f3ac64098a6",
+    "web/write-table-layout.js": "787cbfd17c5fcf5c497f744312202809043633b755250d574f15c1a060cf86e5",
+    "web/write-content.js": "06fb048a45330c81a15ed5be80adb07598515d53e87c2ce8a46c78d90e884693",
+    "internal/office/pdf.go": "a81307fc935bf5913d46230a5d55cb1a66e0742382dff82da04d63d05bc58115"
+  },
+  "rendered": {
+    "groups": [
+      {
+        "label": "before-pdf",
+        "pages": 2,
+        "sha256": "41dfed6ce07f8d31a79924419205ea0cf7a183746f5adec17e5782349e16f498"
+      },
+      {
+        "label": "before-word",
+        "pages": 2,
+        "sha256": "2995cb617fdfe3a0dad472c8bf1ab043cf668b51b6f52789a22a8fe9f6d8b7fb"
+      },
+      {
+        "label": "after-pdf",
+        "pages": 2,
+        "sha256": "d9325e46af034878900bb02b0ab72cb7363faa86cd5c60dba2869b5c339a211d"
+      },
+      {
+        "label": "after-word",
+        "pages": 2,
+        "sha256": "77e57875b86042b6a82a23da8a0ecf17fe6cf40d5c2eaa1fd5d6de8e7e3f4837"
+      }
+    ],
+    "totalPages": 8,
+    "uniquePages": 8,
+    "mapping": [
+      {
+        "path": "page-review\\before-pdf\\page-1.png",
+        "labels": [
+          "before-pdf p1"
+        ]
+      },
+      {
+        "path": "page-review\\before-pdf\\page-2.png",
+        "labels": [
+          "before-pdf p2"
+        ]
+      },
+      {
+        "path": "page-review\\before-word\\page-1.png",
+        "labels": [
+          "before-word p1"
+        ]
+      },
+      {
+        "path": "page-review\\before-word\\page-2.png",
+        "labels": [
+          "before-word p2"
+        ]
+      },
+      {
+        "path": "page-review\\after-pdf\\page-1.png",
+        "labels": [
+          "after-pdf p1"
+        ]
+      },
+      {
+        "path": "page-review\\after-pdf\\page-2.png",
+        "labels": [
+          "after-pdf p2"
+        ]
+      },
+      {
+        "path": "page-review\\after-word\\page-1.png",
+        "labels": [
+          "after-word p1"
+        ]
+      },
+      {
+        "path": "page-review\\after-word\\page-2.png",
+        "labels": [
+          "after-word p2"
+        ]
+      }
+    ],
+    "manualVisualReviewRecordedSeparately": true
+  },
+  "limits": [
+    "Same public source transcript and cells in separate role-task drafts, not the exact CEO three-page saved file",
+    "Baseline explicitly manually relocates recipient and removes webpage metadata, no claim of old automatic behavior",
+    "Informed implementation task; no independent first-user discovery rate",
+    "Native Word covers Chrome before/after; other browser files independently checked by XML/PDF text"
+  ]
+}

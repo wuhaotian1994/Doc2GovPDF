@@ -1,3 +1,4 @@
+import {tableColumnWidths,isSummaryRow} from './write-table-layout.js';
 // Canonical body content for the normal writer. It belongs to the same draft;
 // the plain-text body is a derived representation, never a second document.
 export const contentRoles=['auto','body','title','heading','heading2','heading3','heading4','article','signature','date'];
@@ -108,18 +109,23 @@ function formatParagraph(base,block){
 export function applyBodyContent(model,value){
   if(!value)return model;
   const content=validateContent(value),original=model.blocks.filter(block=>bodyRoles.has(block.paragraph?.role)).map(block=>block.paragraph),sources={};
-  const compile=(section,original,field)=>{let at=0;return section.blocks.map(block=>{
+  const compile=(section,original,field)=>{let at=0;const compiled=section.blocks.map(block=>{
     if(block.type==='paragraph'){
       const base=field==='postscript'?{...(original[0]||{role:'note',font:'仿宋',size:16,line:10.21,align:'left',indent:11.29,before:0,after:0}),text:block.text}:original[at++];
       const p=formatParagraph(base,block);sources[p.id]=source(block,{},block.text,section,field);return {paragraph:p};
     }
-    const columns=block.rows[0].cells.length,width=(model.page.width-model.page.left-model.page.right)/columns;
-    const result={widths:Array(columns).fill(width),borders:true,borderStyle:'grid',rows:block.rows.map((row,index)=>({header:index===0&&block.header,cells:row.cells.map(cell=>({span:1,paragraphs:cell.text.split('\n').map((text,line)=>{
+    const widths=tableColumnWidths(block,model.page.width-model.page.left-model.page.right);
+    const result={widths,borders:true,borderStyle:'grid',rows:block.rows.map((row,index)=>({header:index===0&&block.header,cells:row.cells.map(cell=>({span:1,paragraphs:cell.text.split('\n').map((text,line)=>{
       const p={id:'writer-cell-'+cell.id+'-'+line,text,role:'body',font:'仿宋',size:14,line:8,indent:0,align:'left',before:0,after:0};sources[p.id]=source(block,{row:row.id,cell:cell.id,line},text,section,field);return p;
     })}))}))};
+    for(const [index,row] of result.rows.entries())if(row.header||index===result.rows.length-2&&isSummaryRow(block.rows.at(-1)))for(const cell of row.cells)for(const p of cell.paragraphs)p.keepNext=true;
     if(block.caption){result.caption={id:'writer-caption-'+block.id,text:block.caption,role:'caption',font:'黑体',size:14,line:8,align:'center',indent:0,before:0,after:2,keepNext:true};sources[result.caption.id]=source(block,{caption:true},block.caption,section,field);}
     return {table:result};
-  });};
+  });
+  for(let i=0;i<compiled.length;i++)if(compiled[i].table){
+    let labels=0;for(let j=i-1;j>=0&&labels<2;j--){const p=compiled[j].paragraph;if(!p||['signature','date'].includes(p.role))break;const text=p.text.trim();if(!text){p.keepNext=true;continue;}if(text.length>60||/[。！？!?]/.test(text))break;p.keepNext=true;labels++;}
+  }
+  return compiled;};
   const body=compile(content,original,'body');
   const blocks=[];let inserted=false;
   for(const block of model.blocks){if(bodyRoles.has(block.paragraph?.role)){if(!inserted){blocks.push(...body);inserted=true;}}else blocks.push(block);}

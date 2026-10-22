@@ -889,6 +889,29 @@ func (w *pdfWriter) table(t Table) error {
 				height = h
 			}
 		}
+		if w.newDocument && rowIndex+1 < len(t.Rows) {
+			keep := false
+			for _, cell := range row.Cells {
+				for _, p := range cell.Paragraphs {
+					keep = keep || p.KeepNext
+				}
+			}
+			if keep {
+				pair := height + w.tableRowHeight(t.Rows[rowIndex+1], widths)
+				header := 0.0
+				if rowIndex > 0 && t.Rows[0].Header {
+					header = w.tableRowHeight(t.Rows[0], widths)
+				}
+				if pair+header <= w.page.Height-w.page.Top-w.page.Bottom && w.y+pair > w.page.Height-w.page.Bottom {
+					w.newPage()
+					if header > 0 {
+						if e := w.table(Table{Align: t.Align, Width: t.Width, Rows: []Row{t.Rows[0]}, Widths: t.Widths, Borders: t.Borders, BorderStyle: t.BorderStyle, Role: "repeat-header"}); e != nil {
+							return e
+						}
+					}
+				}
+			}
+		}
 		if rowIndex > 0 && w.y+height > w.page.Height-w.page.Bottom {
 			if t.Borders && t.BorderStyle == "three-line" {
 				w.f.SetDrawColor(0, 0, 0)
