@@ -195,5 +195,6 @@
     "No full-standard, arbitrary Word/font or physical-print certification; real small-Song and exact CEO variants remain unverified.",
     "No PR merge, public website deployment or real feedback collection."
   ],
-  "passed": true
+  "passed": true,
+  "implementationCommit": "0d2ac7c1ac78d576410243239037e9c317f64563"
 }

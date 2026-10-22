@@ -29,3 +29,8 @@
 - 最终engine5969898b/Wasm e630e147/cachec2f1e4ae，64资产绑定。正常历史规范化恢复8/6、原件保护6/4、新原卫生2文件过；独立5对31页全部内容/资源/字位/像素相同，原Word与新9adce7字节保持。报告SHA e1a958dcfa47ad195baf122f816388013beff9d94c276f60b4525b8bb0068193。
 - 4173原PID65964保持并原样更新，64HTTP和实际规范化恢复再8/6过、零上传/反馈/外部请求、真实收集关闭；提交后不重建。原稿/字体/图片仅本机。边界及摘要见NORMALIZED-WORD-FOOTER-RESPONSE及docs/evidence/source-normalization-footer。
 - 本轮源码/测试/独立记录全归本聊天，shared其他改动不碰。当前已验待实际提交推送，同PR5；交付SHA由后续条目和checkpoint记录，不合并/部署。
+
+### E05 · 2026-10-23 · 已实际推送原PR
+
+- 实现0d2ac7c1ac78d576410243239037e9c317f64563已推送codex/ceo-004-materials，main b0ae是祖先。PR5标题/正文按最终源replacement行为重写并重新附加，open/unmerged/mergeable=true。复核CEO仍a1b2，无评论/评审/行内/Issues/statuses/Actions，不称CI绿或CEO已接受本轮。
+- 后续仅补本交付记录，最终文档head见checkpoint。源码与已验5969/e630资产不改、不重建；4173原PID65964持续。下一按新评价及真实全文P0边界推进，不重复已闭合路径或索取不存在529稿，不合并/部署/上传原稿字体。

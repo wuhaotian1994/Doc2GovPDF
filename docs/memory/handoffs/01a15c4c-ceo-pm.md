@@ -2,7 +2,9 @@
 
 ## 最新：历史规范化Word恢复的新页脚已完成同稿验收（优先于历史）
 
-- 同PR5/ceo-001/codex/ceo-004-materials，起点c1a771f；CEO a1b2/main b0ae无新评价，main已是祖先。所有本轮源/专项/浏览器工具与记录归本聊天及明确Agent；shared他人不碰。实际提交推送状态和SHA见后续交付条目/checkpoint，不能在待推阶段称已交付。
+- **已实际交付**：实现0d2ac7c1ac78d576410243239037e9c317f64563已推送原分支；同PR5标题/正文按最终源replacement行为重写且已重新附加，open/unmerged/mergeable=true。该实现head评论/评审/行内/Issues/statuses/Actions空，不称CI绿或CEO已独立接受。后续只补本交付记录，最终文档head见checkpoint；5969/e630冻结资产不重建。
+
+- 同PR5/ceo-001/codex/ceo-004-materials，起点c1a771f；CEO a1b2/main b0ae无新评价，main已是祖先。所有本轮源/专项/浏览器工具与记录归本聊天及明确Agent；shared他人不碰。实际提交推送状态和SHA见交付条目/checkpoint。
 - 不是新开旧UI：当前首页不触发NormalizeDocument，但历史layoutNormalized记录可正常恢复。准确f533卫生原件→既有规范化模型，内容/81格29空白/字号0变化；baseline正常UI8/6、Word15.96和LO16实证，修replacement局部14style，不升级good接受的raw/custom，不覆盖first或原styles/default。样式/part/rId/悬空引用避撞，孤立styles不启用，未知/冲突关系明确失败。
 - 初次full通过后独立审拦下styles别名覆盖及OPC/settings前缀、val属性反例，最终source1f1d/page0be5、15组19子例/full38.794/.932+vet/三overlay.875过。pdf40e91/templatef7b未动，不能把中间版当最终。
 - 最终f533重生成5719与实际渲染输入同字节绑定，Word16/LO26.8.1.1各7页/42非空页码轮廓真SimSun14；正文14页文字/字位/字号/字族/像素各自同基线。表标题/表开头6、末行与完整尾注来源7，81格29空白保留。看所有页脚带及两端6/7完整页，其余正文以像素等值绑定，不冒称全篇人工重读。
