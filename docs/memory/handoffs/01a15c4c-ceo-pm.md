@@ -2,6 +2,8 @@
 
 ## 最新：Word有效孤行控制已完成本机语义/实稿回归（优先于历史）
 
+- **已实际交付**：实现feeaf95f5f20424e6dce439b73b59dd2476c1134已推送同分支，main b0ae已是祖先；PR5最终标题/正文重写并重新附加，open/unmerged/mergeable=true。该head评论/评审/行内/statuses/Actions均空，不称CI绿或CEO接受。只补文档记录，最终head见checkpoint，已验d21d/e9cd资产不重建。
+
 - 同PR5/ceo-001/codex/ceo-004-materials，基线21c4d55；最新CEOa1b2/mainb0ae无新评论/评审/行内/Issues。准确61458无本机原件，当前四准确Word均未复现该首行孤立，不代签，不归因字体。最终交付SHA见后续条目/checkpoint。
 - 三态有效widowControl沿现有样式继承/defaultON/显式OFF；PDF普通段2行窗口与SourceID解耦，SourceID其它保真/新稿守卫不动，软换行共享行数与尾预算，硬页/节优先/超页有界。独立审查中间3/21/1反例已修3/20/2；中间候选full过也未服务。最终Go full31.768/1.006及vet/交叉审通过。
 - 四真实Word正常回开保存刷新各6/4；新joint16/4、原卫生JSON逐格保持/2下载；10DOCX原字节不变、10实际PDF33页内容/矩阵/字号/字形程序/像素全同，20程序严格有效。镇4页新目视，其他同前已看页像素绑定。不称重新调用原生Word/LO（相同DOCX字节复用此前接收端依据）。详见WORD-WIDOW-CONTROL-RESPONSE与去正文evidence。
