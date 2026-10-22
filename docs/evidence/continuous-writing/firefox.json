@@ -1,0 +1,96 @@
+{
+  "profile": "firefox",
+  "browserVersion": "157.0",
+  "url": "http://127.0.0.1:7251",
+  "method": "Implementation-informed community-clinic office task, restored public admissions draft and official native Word; normal UI/keyboard, plus deterministic DOM Range selection and simulated clipboard/composition contracts. Not a blind-user study or real Windows IME.",
+  "checks": [
+    "正文默认就是连续编辑面，无逐段输入卡片",
+    "只阅读或定位正文不会改写旧稿结构",
+    "连续段落无卡片边框，专业选项默认不占写作区",
+    "一次粘贴三段通知，原有日期数字及编号保持",
+    "未支持的行内富格式不会只在编辑区假装生效",
+    "原段落可就地移动，语义和值仍随同一段",
+    "移动可撤销回原顺序",
+    "Enter换段与段首退格合并符合连续写作",
+    "拆段、文字与合并均能逐次撤销",
+    "跨段选改保持选区外数字和后文",
+    "跨段选改可撤销且三段恢复",
+    "粘贴按纯文字进入当前选区，不把外部HTML当文稿结构",
+    "粘贴可撤销，原三段与数字保持",
+    "段中插表保留光标前后文字而非整段挪走",
+    "段中插表可完整撤销",
+    "表内Tab、补行及回正文续写保持一份稿",
+    "全选含表文稿后可替换，未强迫逐个删除对象",
+    "全选替换可撤销，完整原表与后文恢复",
+    "离开文稿后相关工具收起，填写区不留操作墙",
+    "专业控制在同一原文位置按需打开，默认不展开四个参数",
+    "短窗口末行和常驻下一步可达，无整页横向溢出",
+    "关页从首页重开，连续文稿及4×2表仍完整",
+    "模拟组合输入结束即使值相同也收敛到当前预览",
+    "组合输入可撤销回保存正文",
+    "旧v6实际附件在连续编辑中保持身份、原表和9000事实",
+    "官方Word也在连续文稿中，原两表/纵横节和只读区保留",
+    "原Word填空可撤销，原标题修改仍保留",
+    "同格整格替换后撤销回前次文字而非空格",
+    "再次撤销回本次正确填字",
+    "原空格保留11磅，原生精确控制仍就地可达",
+    "原Word关页重开保持同两处修改与真实网格"
+  ],
+  "errors": [],
+  "files": [
+    {
+      "name": "clinic.docx",
+      "bytes": 17065946,
+      "sha256": "482a5b45a33bc3ee70fee4c2beec1118a9400f3e90a7930a9691fc0b3c66f299"
+    },
+    {
+      "name": "clinic.pdf",
+      "bytes": 30017,
+      "sha256": "7ec840a3c94e98b7dcb69e9cd499782ae7270c4e2f183564593dc8fe99056bf3"
+    },
+    {
+      "name": "admissions.docx",
+      "bytes": 17066664,
+      "sha256": "20da21408f358b39b87c490e3645e8a76c488466a8548544bb34706ca0e9e4b7"
+    },
+    {
+      "name": "admissions.pdf",
+      "bytes": 52926,
+      "sha256": "2375db489cf483df78801d0310c2abaceeed39d89fa701b91514933a11ae1854"
+    },
+    {
+      "name": "native-untouched.docx",
+      "bytes": 38431,
+      "sha256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1"
+    },
+    {
+      "name": "native-untouched.pdf",
+      "bytes": 109201,
+      "sha256": "0d2c56c16af0f6c336c1884186c064e0363b898906744d42ab2399bd8e933243"
+    },
+    {
+      "name": "native-edited.docx",
+      "bytes": 36802,
+      "sha256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781"
+    },
+    {
+      "name": "native-edited.pdf",
+      "bytes": 109903,
+      "sha256": "1270e51aff33f6b35b62943057e7ffcaa7bb1b9389c1694fecd7f129ebf667aa"
+    },
+    {
+      "name": "native.gongwen-word.json",
+      "bytes": 567397,
+      "sha256": "d9604071b8012d0fa8a6169e3d6c236c64712ef81c2da3821b01b14ee0a27663"
+    }
+  ],
+  "wasm": [
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+  ],
+  "passed": true
+}

@@ -12,6 +12,7 @@ const server=await startWebServer(webRoot);
 const url=server.url;
 const profiles=[{name:'chrome',type:chromium,channel:'chrome'},{name:'firefox',type:firefox},{name:'webkit',type:webkit}].filter(p=>!process.env.STARTUP_BROWSER||p.name===process.env.STARTUP_BROWSER);
 const results=[];
+async function fillBody(page,value){if(await page.locator('#body').isVisible())await page.locator('#body').fill(value);else{await page.locator('#content-blocks').click();await page.keyboard.press('Control+A');await page.keyboard.insertText(value);}}
 const title='启动保护测试稿',recipient='测试部门',reference='示例办〔2026〕0058号',body='这是用于启动保护验证的合成正文。';
 try{
  for(const profile of profiles){
@@ -39,7 +40,7 @@ try{
      await page.goto(url+query,{waitUntil:'commit'});
      if(scenario==='delayed-storage')await page.waitForFunction(()=>typeof window.releaseWriterStorage==='function');
      if(scenario==='pending-query-reload'){
-      await page.locator('#title').fill(title+'继续修改');await page.locator('[data-next="1"]').click();await page.locator('#body').fill(body+'继续修改');
+      await page.locator('#title').fill(title+'继续修改');await page.locator('[data-next="1"]').click();await fillBody(page,body+'继续修改');
       await page.reload();assert.equal(await page.locator('#title').inputValue(),title+'继续修改');assert.equal(await page.locator('#body').inputValue(),body+'继续修改');
       await page.unroute('**/write.js');await page.reload();await page.waitForFunction(()=>window.writerReady);
       assert.equal(await page.locator('#title').inputValue(),title+'继续修改');assert.equal(await page.locator('#body').inputValue(),body+'继续修改');assert.equal(await page.evaluate(()=>location.search),'');
@@ -77,7 +78,7 @@ try{
         await page.waitForFunction(()=>window.writerReady);
         assert.equal(await page.locator('#body').inputValue(),'先前正文需要保留');
        }else{
-        await page.locator('#body').fill(body);
+        await fillBody(page,body);
         assert.equal(await page.locator('#body-count').textContent(),body.length+' 字');
         if(profile.name==='chrome'&&scenario==='missing-module')await page.screenshot({path:resolve(out,'protected-startup.png'),fullPage:true});
         await page.locator('[data-next="2"]').click();
@@ -99,7 +100,7 @@ try{
         await page.waitForFunction(()=>document.getElementById('global-error').textContent.includes('暂时无法显示预览'),{},{timeout:120000});
         await page.locator('[name=format][value=txt]').check();const waiting=page.waitForEvent('download');await page.locator('#export').click();const download=await waiting;
         const path=resolve(out,profile.name+'-without-preview.txt');await download.saveAs(path);assert.ok((await readFile(path,'utf8')).includes(body));
-        await page.unroute('**/vendor/pdfjs/pdf.js*');await page.locator('[data-back="1"]').click();await page.locator('#body').fill(body+'继续修改。');await page.locator('[data-next="2"]').click();
+        await page.unroute('**/vendor/pdfjs/pdf.js*');await page.locator('[data-back="1"]').click();await fillBody(page,body+'继续修改。');await page.locator('[data-next="2"]').click();
         await page.locator('#pdf-pages canvas').waitFor({timeout:120000});assert.equal(await page.locator('#global-error').isVisible(),false);
         await page.locator('[name=format][value=pdf]').check();for(const box of await page.locator('#check-list input[type=checkbox]').all())await box.check();
         await page.locator('#export:not([disabled])').waitFor();const recovered=page.waitForEvent('download');await page.locator('#export').click();await (await recovered).saveAs(resolve(out,profile.name+'-recovered.pdf'));

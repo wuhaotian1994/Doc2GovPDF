@@ -58,10 +58,10 @@ const clearError = () => {
   $('global-error').hidden=true;
   if($('export-status').classList.contains('failed')){$('export-status').textContent='';$('export-status').classList.remove('failed');}
 };
-const contentEditor=installContentEditor({getContent:()=>bodyContent?{version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})}:null,onSettled:schedulePreview,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
-  bodyContent=bodyContent?.postscript?{...(next||contentFromText(text)),postscript:bodyContent.postscript}:next;$('body').value=text;readFields();decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
+const contentEditor=installContentEditor({getContent:()=>bodyContent?{version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})}:null,onSettled:schedulePreview,onPending:invalidate,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
+  bodyContent=bodyContent?.postscript?{...(next||contentFromText(text)),postscript:bodyContent.postscript}:next;$('body').value=text;readFields();if(text.trim())fieldError('body','');decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
 }});
-const postscriptEditor=installContentEditor({region:'postscript',getContent:()=>bodyContent?.postscript||null,onSettled:schedulePreview,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
+const postscriptEditor=installContentEditor({region:'postscript',getContent:()=>bodyContent?.postscript||null,onSettled:schedulePreview,onPending:invalidate,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
   const hadBody=Boolean(bodyContent);
   if(next)bodyContent={...(bodyContent||contentFromText(fields.body)),postscript:next};else if(bodyContent){const {postscript,...body}=bodyContent;bodyContent=body;}
   $('postscript').value=text;readFields();if(!hadBody&&bodyContent)contentEditor.set({version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})});decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
@@ -153,7 +153,7 @@ function validate(target) {
   if (errors.length) {
     const name = errors[0][0]; showStep(['body','date'].includes(name)?1:0, false);
     if (name==='agency') $('agency').closest('details').open = true;
-    if(name==='body'&&bodyContent)contentEditor.focusSource({block:bodyContent.blocks[0].id});else $(name).focus();return false;
+    if(name==='body')contentEditor.focusSource(bodyContent?{block:bodyContent.blocks[0].id}:null);else $(name).focus();return false;
   }
   return true;
 }
@@ -213,7 +213,7 @@ function renderSummary() {
     const dt = document.createElement('dt'); dt.textContent = label;
     const dd = document.createElement('dd'); dd.textContent = value;
     const edit = document.createElement('button'); edit.type='button'; edit.className='quiet'; edit.textContent='修改';
-    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);if(id==='body'&&bodyContent){contentEditor.focusSource({block:bodyContent.blocks[0].id});return;}if(id==='postscript'&&bodyContent?.postscript){$('postscript').closest('details').open=true;postscriptEditor.focusSource({block:bodyContent.postscript.blocks[0].id});return;}if($(id).closest('details'))$(id).closest('details').open=true;$(id).focus();};
+    edit.setAttribute('aria-label','修改'+label); edit.onclick=()=>{showStep(target);if(id==='body'){contentEditor.focusSource(bodyContent?{block:bodyContent.blocks[0].id}:null);return;}if(id==='postscript'){$('postscript').closest('details').open=true;postscriptEditor.focusSource(bodyContent?.postscript?{block:bodyContent.postscript.blocks[0].id}:null);return;}if($(id).closest('details'))$(id).closest('details').open=true;$(id).focus();};
     row.append(dt,dd,edit); return row;
   }));
 }
@@ -233,6 +233,7 @@ function locateIssue(entry) {
   const line=resolveSource(entry.source,{...fields,[field]:input.value});
   $('issue-location').hidden=false;
   $('issue-location-text').textContent=line?`已定位到${fieldLabels[field]}${['body','attachments'].includes(field)?'第 '+line.line+' 段':''}，请核对选中的原文。`:'这条提醒涉及整篇文档，请核对正文与相关内容。';
+  if(['body','postscript'].includes(field)){(field==='body'?contentEditor:postscriptEditor).focusText(line?.start||0,entry.issue.original||line?.text);return;}
   input.focus();
   if(line&&input.type!=='date') {
     input.setSelectionRange(line.start,line.end);

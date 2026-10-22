@@ -6,6 +6,7 @@
 
 | 遇到的问题 | 先读 |
 | --- | --- |
+| 正文为何改成连续文稿，插表续写及原Word边界怎样验收？ | [连续文稿任务与实际交付](../CONTINUOUS-WRITING-RESPONSE.md) |
 | 原Word空格为何Word/PDF字号不一，旧工作稿怎样兼容，大Word下载如何核对？ | [原生格式与实际交付](../NATIVE-FORMAT-RESPONSE.md) |
 | 实际附件怎样与附注区分、另面并核对说明，选择为何保留或失效？ | [附件身份与真实文件](../ANNEX-STRUCTURE-RESPONSE.md)、[标准覆盖合同](../STANDARDS-COVERAGE.md) |
 | 新稿与原生Word怎样在同一工作区完成，旧任务如何承接？ | [统一Word工作区与原文件流转](../UNIFIED-WORD-RESPONSE.md) |

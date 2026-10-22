@@ -1,0 +1,85 @@
+[
+  {
+    "file": "clinic",
+    "wordVersion": "16.0",
+    "sourceSHA256": "482a5b45a33bc3ee70fee4c2beec1118a9400f3e90a7930a9691fc0b3c66f299",
+    "pages": 1,
+    "tables": 1,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "width": 595.2999877929688,
+        "orientation": 0
+      }
+    ],
+    "sample": null,
+    "logicalCharacters": 124,
+    "logicalTextSHA256": "883995ed9f7568ecfee882162d3e8219fc45c5fe0281f2131b33983d804f340e"
+  },
+  {
+    "file": "admissions",
+    "wordVersion": "16.0",
+    "sourceSHA256": "20da21408f358b39b87c490e3645e8a76c488466a8548544bb34706ca0e9e4b7",
+    "pages": 3,
+    "tables": 1,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "width": 595.2999877929688,
+        "orientation": 0
+      }
+    ],
+    "sample": null,
+    "logicalCharacters": 391,
+    "logicalTextSHA256": "fc2ca1a2af2f79b8484ef7aec86314ad01bc2050b00638dc07d88064642e41b3"
+  },
+  {
+    "file": "native-untouched",
+    "wordVersion": "16.0",
+    "sourceSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "width": 595.2999877929688,
+        "orientation": 0
+      },
+      {
+        "height": 595.2999877929688,
+        "width": 841.9000244140625,
+        "orientation": 1
+      }
+    ],
+    "sample": null,
+    "logicalCharacters": 1443,
+    "logicalTextSHA256": "7def99dbd4efd5dcc645e266c312aef31e534fa6f9c6bdff11b90ffe87ced1d9"
+  },
+  {
+    "file": "native-edited",
+    "wordVersion": "16.0",
+    "sourceSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "width": 595.2999877929688,
+        "orientation": 0
+      },
+      {
+        "height": 595.2999877929688,
+        "width": 841.9000244140625,
+        "orientation": 1
+      }
+    ],
+    "sample": {
+      "sizePt": 11.0,
+      "page": 4,
+      "text": "模拟待核",
+      "font": "宋体"
+    },
+    "logicalCharacters": 1454,
+    "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+  }
+]
