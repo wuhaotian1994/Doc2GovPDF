@@ -19,3 +19,9 @@
 - 失败记录：真实PG首轮测试multipart取体null是脚本盲区，改用实际fetch快照并完整重跑；隐藏Word首轮完整标题Find因软换行未匹配，改为段范围去排版空白核对完整标题后两文件通过。资源验证器初缺Python brotli、误拿历史index比较、Windows大小写排序不同均为验证器问题，改用Node内置解压、既定write首页及与构建相同排序后，全部压缩与缓存摘要匹配。
 - 最终冻结issuance-feedback-web，Wasm b8f8f727366c807e461929e7d3dc0f7b80deac5aea501c37c00c5ae98286b1ce；64实际HTTP资产含编码/MIME一致，4173原PID65964原样更新。实际常驻Chrome再9项/9下载/上传0通过，浏览器关闭后台继续。4188新开发PID63200仅替换原确认归属实例，复用隔离PG和原凭据，真实收集仍关闭。
 - 远端f9f0c50最新仅CEO确认准确529稿UI解除；blob a6079795已记录，不把它代签文件。提交本轮再正常合入main并推送同一PR5，最终SHA/评审去重另存checkpoint；提交后不重建服务。
+
+## 实际远端交付
+
+- 实现6fa339b433f2950774a923560f3c39a56a300512；正常合入f9f0c507eabcb8984942835771badd4f92dfbd7d CEO文档后705dfa394cda9e9645a7424710b5ec395cbfec47已成功推送原分支。PR5正文/标题按最终问题与行为重写，附加工具成功，open/unmerged/mergeable=true。
+- 705推送后评论/评审/行内/Issues/combined statuses/PR Actions均空；CEO仍a6079795，没有新的返工ID，未把空CI视为通过。后续文档head另存checkpoint，不重建已验资产。4173健康与原PID保持，用户可继续本机查看。
+- 下一有界P0：沿用已证fallback DOCX bffb215e在旧/新均复现的原生Word中文PDF提取问题，先分清实际字体资源和ToUnicode映射，再选择可复现实证的最小修复。不能把本轮请求家族/视觉可读冒充真实接收端等同，不能以缺529原稿停住其他工作。
