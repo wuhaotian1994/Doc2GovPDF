@@ -1,0 +1,14 @@
+[
+  {
+    "file": "chrome.pdf",
+    "pdfSHA256": "f96dabe10caa1f11b001f8208a88e43022f0b2f57e539236260aeae204eda398",
+    "image": "chrome-1.png",
+    "imageSHA256": "6f8f7f9fdd162a651daa57055e800b5714ae0e6ac84647eafbd78d709ad79073"
+  },
+  {
+    "file": "chrome.word.pdf",
+    "pdfSHA256": "999a98a161a6939a21225ce204a37ba7c17fc0ca51c5b72bf586dea6991034b8",
+    "image": "chrome.word-1.png",
+    "imageSHA256": "b9b1df40d27bfcf5eb540df0ef7de2917562e21b6cfb835600c126697ecd9adc"
+  }
+]

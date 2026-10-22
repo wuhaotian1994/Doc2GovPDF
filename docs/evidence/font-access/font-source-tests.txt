@@ -1,0 +1,17 @@
+(node:61500) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-font-source.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ TrueType identity comes from name table rather than assigned role (1.4738ms)
+✔ TTC extraction selects the requested second real face and rebuilds valid checksum (44.3834ms)
+✔ Malformed and unsupported inputs fail before replacing existing configuration (3.3802ms)
+✔ Technical embedding flags distinguish preview, editable, restrictions and subset prohibition (31.1232ms)
+✔ Denied permission and unavailable security policy are not reported as absent fonts (0.2426ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 245.8282

@@ -1,3 +1,4 @@
+import {installFontPicker} from './write-font-picker.js';
 import {decodeBase64} from './write-bytes.js';
 import {hasAnnexes,annexCandidates,applyAnnexChoices,attachmentSummary} from './write-annexes.js';
 import {installWordWorkspace} from './write-word-workspace.js';
@@ -627,9 +628,9 @@ async function writeFonts(value) {
 }
 async function showFonts() {
   engineFonts=await engine.call('Fonts');
-  $('font-status').replaceChildren(...engineFonts.map(font=>{
-    const p=document.createElement('p');p.textContent=font.name+'：'+((wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore)[font.name]?'已选择的本地字体':'尚未读取本机字体；当前为备用草拟');return p;
-  }));
+  const saved=wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore;
+  const rows=await Promise.all(engineFonts.map(async font=>{const p=document.createElement('p'),data=saved[font.name];p.textContent=font.name+'：'+(data?await fontPicker.summary(bytes(data)):'尚未读取本机字体；当前为备用草拟');return p;}));
+  $('font-status').replaceChildren(...rows);
 }
 async function changeFont(file, reset=false) {
   if(!hasLock||fontBusy||exporting||(!reset&&!file))return;
@@ -648,8 +649,8 @@ async function changeFont(file, reset=false) {
     }
     if(wordWorkspace?.active)await wordWorkspace.setFonts(next);else {await writeFonts(next);fontStore=next;}
     engine.reset();await showFonts();
-    $('font-message').textContent='字体已保存，预览将重新排版。';
-  }catch(e){engine.reset();$('font-message').textContent=e.message;}
+    $('font-message').textContent='字体已保存在本浏览器，预览将重新排版；请核对缺字与回退。自选字体不嵌入Word。';
+  }catch(e){engine.reset();$('font-message').textContent=e.message;throw e;}
   finally{fontBusy=false;invalidate();schedulePreview();$('font-reset').disabled=false;$('font-file').disabled=false;$('font-file-open').disabled=false;$('font-file').value='';}
 }
 async function boot() {
@@ -855,9 +856,9 @@ $('load-draft').onchange=async event=>{
   }catch(e){const message=e instanceof SyntaxError?'文件不是有效的工作稿JSON，当前内容未改变。':e.message;$('draft-status').textContent=message;error(message);}
 };
 $('settings-open').onclick=()=>{$('settings-dialog').showModal();showFonts().catch(e=>$('font-message').textContent=e.message);};
-$('font-file').onchange=event=>changeFont(event.target.files[0]);
+const fontPicker=installFontPicker({apply:file=>changeFont(file),canEdit:()=>hasLock&&!fontBusy&&!exporting});
 $('font-file-open').onclick=()=>$('font-file').click();
-$('font-reset').onclick=()=>changeFont(null,true);
+$('font-reset').onclick=()=>{fontPicker.clear();changeFont(null,true).catch(()=>{});};
 window.addEventListener('beforeunload',event=>{
   if(wordWorkspace?.dirty||$('save-status').textContent==='自动保存失败' || !wordWorkspace?.active&&(blockedSave&&names.some(name=>fields[name]) || fields.date&&!validDate(fields.date)||$('date').validity.badInput)){event.preventDefault();event.returnValue='';}
 });
