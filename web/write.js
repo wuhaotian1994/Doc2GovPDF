@@ -551,7 +551,7 @@ function renderLibrary() {
     const actions=document.createElement('div');actions.className='recent-actions';
     const action=(text,fn)=>{const b=document.createElement('button');b.type='button';b.className='quiet';b.textContent=text;b.onclick=fn;actions.append(b);};
     action('继续编辑',()=>requestReplace({...item.document,id:item.id},true));
-    action('复制新稿',()=>requestReplace({...draft(copyFields(item.document.fields),0),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true));
+    action('复制新稿',()=>requestReplace({...draft(copyFields(item.document.fields),0,undefined,undefined,item.document.content),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true));
     action('下载草稿',()=>download(safeName(item.document.fields.title)+'.gongwen.json',JSON.stringify(item.document,null,2),'application/json'));
     action('删除',()=>{deleteId=item.id;$('delete-document-name').textContent=heading.textContent;$('delete-document-dialog').showModal();});
     row.append(heading,meta,actions);root.append(row);

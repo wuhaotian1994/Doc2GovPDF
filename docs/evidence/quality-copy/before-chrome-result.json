@@ -1,0 +1,18 @@
+{
+  "profile": "chrome",
+  "phase": "before",
+  "url": "http://127.0.0.1:4173",
+  "version": "155.0.8059.86",
+  "method": "实施者知情的制造企业质量文员任务，非盲测；正常UI，无存储注入",
+  "checks": [
+    "正常页分别形成正文问题清单与落款后复查表",
+    "从最近文档复制生成新身份，明确清空独立日期和文号",
+    "旧版缺陷复现：最近文档复制丢失两张表格结构",
+    "任务过程无页面错误"
+  ],
+  "errors": [],
+  "passed": true,
+  "initialStructureRetained": false,
+  "originalId": "638d93ae-7925-43e9-978a-43839def540c",
+  "copiedId": "3b16783b-38b3-4974-8460-a77e3910efe5"
+}
