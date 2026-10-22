@@ -1,0 +1,34 @@
+{
+  "buildAtHead": "38086e4745570534ebb890a14139ea29bd4859dd",
+  "remoteImplementationsRetained": [
+    "882fcab",
+    "7d474c5"
+  ],
+  "ownImplementations": [
+    "b7184bb",
+    "1ea57aa"
+  ],
+  "currentWasmSHA256": "002fa89b6540f23fe22cf42a9d1c3843b1228f8c6c3acf81808d3861bb7ce33b",
+  "constantServiceAssets": 61,
+  "writerFeedbackIntegration": 12,
+  "optionalEntryIsolation": 8,
+  "startup": 33,
+  "feedbackMatrixUnchangedSource": 138,
+  "goAffectedPackagesPassed": true,
+  "goVetPassed": true,
+  "realFeedbackCollection": false,
+  "currentSource": {
+    "web/write.js": "c8f839b544ed04aa7d850c64cf7db20891e36f3393ca3f50b3939d9e67df354a",
+    "web/write.html": "042f791b9c6a30d6de61f084f3522d3a688388fc59951fdcfd16fea0e42a0e26",
+    "web/write-engine.js": "7ce92a1b923bfcfb5355bb49b97cf1d5b7ea8c7d99a7c35edfba6078b8c071e3",
+    "web/engine-worker.js": "10ea7a559bab0312f24d7abc85c511afe2a28717b6d9f1a7729fb6e58347ebba",
+    "web/write-local-fonts.js": "1c20b0c1a17920116cf178d98fe86a3da2c591d14ee43fe76ef0e42e10d31670",
+    "web/engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+    "web/write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "web/feedback-admin.js": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e",
+    "internal/office/browser_fonts.go": "d20c411c3ee069e39d18bf999243d8b4ef95926610eb205da3ce35adb487b448",
+    "internal/office/font_resources.go": "f6df54ae43939789328c76f3610d8c9a8f2c55ff3d055a5d3b99dd53902f7a61",
+    "internal/feedback/service.go": "29c24939f443a24760395cbbf83e08cc97da37840f5f1d060576d6fcc9c63289",
+    "internal/feedback/attachment.go": "bf80455494e3f174f4357b5285b15e095b72b9ed453585d765117406868921b4"
+  }
+}

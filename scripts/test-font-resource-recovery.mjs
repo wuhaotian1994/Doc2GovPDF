@@ -16,14 +16,20 @@ const webRoot=resolve(root,process.env.FONT_RECOVERY_WEB_ROOT||'build/qa/font-me
 const server=await startWebServer(webRoot),browser=await chromium.launch({headless:true,channel:'chrome',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 const context=await browser.newContext({viewport:{width:1440,height:900},locale:'zh-CN',acceptDownloads:true,serviceWorkers:'block'});
 const page=await context.newPage();page.setDefaultTimeout(180000);
-const report={method:'Injected font HTTP 503 with the supplied complete original; not a reproduction or resolution of CEO renderer Error9.',sourceSHA256,webRoot,url:server.url,checks:[],errors:[],crashes:0,font503:[],fontResponses:[],downloads:[],mainNavigations:0,documentRequests:0,passed:false};
+const report={method:'Injected font HTTP 503 with the supplied complete original; not a reproduction or resolution of CEO renderer Error9.',sourceSHA256,webRoot,url:server.url,checks:[],errors:[],crashes:0,font503:[],fontResponses:[],downloads:[],mainNavigations:0,documentRequests:0,feedbackRequests:0,uploadRequests:0,fontFallbackChoices:0,passed:false};
 let denyFonts=true;
 const check=(name,condition)=>{assert.ok(condition,name);report.checks.push(name);console.log(name);};
 const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));
 const exact=async()=>{const current=await read();assert.deepEqual(current.fields,original.fields);assert.deepEqual(current.content,original.content);};
+async function chooseFallbackIfOffered(){
+ const button=page.locator('#font-start-fallback');
+ if(await button.isVisible()){await button.click();report.fontFallbackChoices++;}
+}
 context.on('response',response=>{if(/\/fonts\/[^/]+\.ttf(?:$|\?)/.test(response.url()))report.fontResponses.push({url:response.url(),status:response.status()});});
 await context.route('**/*',route=>{
  const request=route.request(),url=new URL(request.url());
+ if(url.pathname.startsWith('/api/feedback/')){report.feedbackRequests++;return route.abort();}
+ if(!['GET','HEAD'].includes(request.method())){report.uploadRequests++;return route.abort();}
  if(url.hostname!=='127.0.0.1')return route.abort();
  if(denyFonts&&/\/fonts\/[^/]+\.ttf$/.test(url.pathname)){report.font503.push(url.pathname);return route.fulfill({status:503,contentType:'text/plain',body:'Injected unavailable font resource'});}
  return route.continue();
@@ -32,7 +38,7 @@ page.on('pageerror',error=>report.errors.push(error.message));page.on('crash',()
 page.on('framenavigated',frame=>{if(frame===page.mainFrame())report.mainNavigations++;});
 page.on('request',request=>{if(request.isNavigationRequest()&&request.resourceType()==='document')report.documentRequests++;});
 try{
- await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);
+ await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);await chooseFallbackIfOffered();
  await page.locator('#draft-menu').click();await page.locator('#load-draft').setInputFiles(source);
  if(await page.locator('#replace-dialog').isVisible())await page.locator('#confirm-replace').click();
  await page.waitForFunction(title=>document.getElementById('title').value===title,original.fields.title);
@@ -66,6 +72,7 @@ try{
  await exact();check('recovered original exports actual Word and PDF and keeps current draft exact',report.downloads.length===2);
  check('fault injection causes no page error or renderer crash',report.errors.length===0&&report.crashes===0);
  check('restored resource requests succeed after the explicit retry',report.fontResponses.some(value=>value.status===200));
+ check('no feedback or manuscript upload requests',report.feedbackRequests===0&&report.uploadRequests===0);
  report.passed=true;
 }catch(error){report.failure=error.stack;try{await page.screenshot({path:resolve(out,'failure.png')});}catch{}console.error(error.stack);}
 finally{await writeFile(resolve(out,'report.json'),JSON.stringify(report,null,2));await browser.close();await server.close();}
