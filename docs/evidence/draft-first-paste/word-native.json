@@ -1,0 +1,68 @@
+[
+  {
+    "file": "safe",
+    "wordVersion": "16.0",
+    "sourceSHA256": "663bb08ea2d92c6117b51c96fc91265f9f7175d19e2771a7cfa481344b844027",
+    "pages": 1,
+    "tables": 1,
+    "positions": [
+      {
+        "text": "模拟办公室",
+        "page": 1
+      },
+      {
+        "text": "2026年10月22日",
+        "page": 1
+      },
+      {
+        "text": "说明：空白由接收方填写。",
+        "page": 1
+      }
+    ],
+    "logicalTextSHA256": "bc39a3a091d227df4a314707f6890a1440b59bc5424749b2f2725aeaad562036"
+  },
+  {
+    "file": "mixed",
+    "wordVersion": "16.0",
+    "sourceSHA256": "7f09950bec6bba1e62fe749307c52285b8a43a973f53ae844efb1cfa929317f7",
+    "pages": 1,
+    "tables": 1,
+    "positions": [
+      {
+        "text": "模拟办公室",
+        "page": 1
+      },
+      {
+        "text": "2022年10月22日",
+        "page": 1
+      },
+      {
+        "text": "说明：空白由接收方填写。",
+        "page": 1
+      }
+    ],
+    "logicalTextSHA256": "1e8bdb738a2ad39d311b4820ef6baf397487e738528c4e1dd60353482057726e"
+  },
+  {
+    "file": "annex",
+    "wordVersion": "16.0",
+    "sourceSHA256": "d3c0b30b3adf92bf3af2c069b877c3fc1c3bc982fa4cc168e51315d9505e6df5",
+    "pages": 2,
+    "tables": 1,
+    "positions": [
+      {
+        "text": "模拟办公室",
+        "page": 1
+      },
+      {
+        "text": "2026年10月22日",
+        "page": 1
+      },
+      {
+        "text": "说明：空白由接收方填写。",
+        "page": 2
+      }
+    ],
+    "logicalTextSHA256": "4c5634ff41b02090a0be4b91509d2ff1c88f52efd403808d2cc13c46fbb7060e"
+  }
+]

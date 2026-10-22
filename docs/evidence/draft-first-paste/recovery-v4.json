@@ -1,0 +1,48 @@
+[
+  {
+    "scenario": "delayed-module",
+    "checks": [
+      "structure is not flattened into editable raw text before the module recovers",
+      "early basic edits preserve exact table and body structure in the same draft",
+      "table returns as an editable same-page grid",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "scenario": "missing-module",
+    "checks": [
+      "structure is not flattened into editable raw text before the module recovers",
+      "emergency download preserves complete structured content and latest basic edits",
+      "original saved draft was not overwritten by failed startup",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "scenario": "quota-and-cancel",
+    "checks": [
+      "quota failure preserves current editable input and keeps original durable draft",
+      "backup contains full current structure rather than a flattened text substitute",
+      "saving can recover without refreshing the page",
+      "failed document switch keeps the current identity structure and content",
+      "out-of-range table insertion stays unapplied and can be cancelled",
+      "cancelling the invalid table leaves the original structure exact",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "scenario": "corrupt-structure",
+    "checks": [
+      "inconsistent structure is explicit and original bytes are preserved",
+      "new typing cannot silently replace the blocked source",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

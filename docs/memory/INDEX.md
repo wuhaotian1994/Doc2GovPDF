@@ -6,6 +6,8 @@
 
 | 遇到的问题 | 先读 |
 | --- | --- |
+| 整篇粘贴为何先给可编辑稿，署名日期疑点如何原位处理？ | [暂排主链与实际交付](../DRAFT-FIRST-PASTE-RESPONSE.md) |
+| 完整反馈/PostgreSQL是否开工、下一关口和估时？ | [实施排期与实际状态](../FEEDBACK-IMPLEMENTATION-PLAN.md) |
 | 有意留白回执怎样按表判断并保存，变化时为何重核？ | [空白范围决定与实物](../TABLE-BLANK-RANGE-RESPONSE.md) |
 | 怎样主动读取本机字体，辨别真实身份与选择集合第二面？ | [本机字体入口/实物/未完成边界](../FONT-ACCESS-RESPONSE.md) |
 | 正文为何改成连续文稿，插表续写及原Word边界怎样验收？ | [连续文稿任务与实际交付](../CONTINUOUS-WRITING-RESPONSE.md) |
