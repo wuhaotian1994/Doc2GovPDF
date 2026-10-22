@@ -29,8 +29,8 @@ export function installWordWorkspace(h){
   function remember(id){if(id!==lastUndoId){undo.push(structuredClone(record.document));if(undo.length>20)undo.shift();lastUndoId=id;}redo=[];}
   function changed(composing=false){pdfAcknowledged=false;pdfWarnings=[];h.changed();persist();if(!composing)h.schedule();undoButton.disabled=!undo.length;redoButton.disabled=!redo.length;}
   function history(forward){if(!canEdit())return;const caret=continuous.selection();const from=forward?redo:undo,to=forward?undo:redo;if(!from.length)return;to.push(structuredClone(record.document));record.document=from.pop();lastUndoId='';renderBody();changed();if(caret)continuous.focus(caret.start.key,Math.min(caret.start.offset,paragraphs(record.document).find(p=>p.id===caret.start.key)?.text.length||0));}
-  function persist(){
-    if(!record||!h.canEdit())return saveQueue;
+  function persist(force=false){
+    if(!record||(!force&&!h.canEdit()))return saveQueue;
     const version=++saveVersion,snapshot=structuredClone(record);snapshot.step=h.step();
     $('save-status').textContent='正在保存Word工作稿…';
     saveQueue=saveQueue.catch(()=>{}).then(()=>saveWord(snapshot)).then(()=>{savedVersion=version;saveFailure='';if(version===saveVersion)$('save-status').textContent='已保存到此浏览器';}).catch(e=>{saveFailure=e.message;$('save-status').textContent='自动保存失败';h.error(e.message);});
@@ -154,5 +154,5 @@ export function installWordWorkspace(h){
   }
   async function copy(item=record){const next={...structuredClone(item),id:crypto.randomUUID(),name:name(item.name)+'-副本',review:{fingerprints:[]}};await activate(next);$('reuse-status').hidden=false;$('reuse-status').textContent='已复制原文结构。原文中的日期、文号、数字仍保留，请按本次工作核对，不会自动猜改。';}
   async function restore(){const id=activeWord();if(id)await activate(await loadWord(id),{restoring:true});if(new URLSearchParams(location.search).has('resume-word')){const old=await legacyWorkspace();if(old)await migrate(old);else {$('reuse-status').hidden=false;$('reuse-status').textContent='已进入统一工作区。本浏览器没有旧Word工作稿，可直接打开Word或新建填写。';}}}
-  return {get active(){return Boolean(record);},get document(){return record?.document;},get fonts(){return record?.fonts;},async setFonts(value){record.fonts=structuredClone(value);await persist();if(saveFailure)throw Error(saveFailure);},get dirty(){return record&&(saveFailure||savedVersion!==saveVersion);},get pending(){return Boolean(record?.pendingForm);},persist,flush,leave,open,restore,summary,checks,showPDFWarnings,appendLibrary,copy,backup,source:()=>sourceData(record?.document.sourceId),filename:format=>name(record?.name)+'-另存.'+format,pdfAllowed:()=>pdfAcknowledged&&!record?.document.pdfUnsupported};
+  return {get active(){return Boolean(record);},get document(){return record?.document;},get fonts(){return record?.fonts;},async setFonts(value){const previous=record.fonts;record.fonts=structuredClone(value);try{await persist(true);if(saveFailure)throw Error(saveFailure);}catch(error){record.fonts=previous;throw error;}},get dirty(){return record&&(saveFailure||savedVersion!==saveVersion);},get pending(){return Boolean(record?.pendingForm);},persist,flush,leave,open,restore,summary,checks,showPDFWarnings,appendLibrary,copy,backup,source:()=>sourceData(record?.document.sourceId),filename:format=>name(record?.name)+'-另存.'+format,pdfAllowed:()=>pdfAcknowledged&&!record?.document.pdfUnsupported};
 }

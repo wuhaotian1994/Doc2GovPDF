@@ -1,0 +1,23 @@
+{
+  "pages": 1,
+  "expectedTextPresent": true,
+  "bodyUsesSelectedRegularFace": true,
+  "embeddedActualNames": {
+    "/utf8f0": [
+      "Noto Serif SC Black",
+      "NotoSerifSC-Black"
+    ],
+    "/utf8f1": [
+      "Noto Serif SC",
+      "Noto Serif SC Regular",
+      "NotoSerifSC-Regular"
+    ],
+    "/utf8f2": [
+      "Noto Serif SC",
+      "Noto Serif SC Regular",
+      "NotoSerifSC-Regular"
+    ]
+  },
+  "sha256": "ae73d349cd2c3e933702200e2ec4e798f07e94b5ba150eff1857b35206c9724b",
+  "fixtureBoundary": "OFL synthetic local-font test, not a standard Chinese office font sample"
+}

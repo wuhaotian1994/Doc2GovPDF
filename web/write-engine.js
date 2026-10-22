@@ -1,4 +1,5 @@
 // A private worker for the form writer. Existing Word-editor drafts remain separate.
+import {decodeBase64} from './write-bytes.js';
 export class WriterEngine {
   constructor(fonts = () => ({})) {
     this.fonts = fonts;
@@ -28,7 +29,12 @@ export class WriterEngine {
           try {
             const fonts = await this.fonts();
             if(worker!==this.worker)return;
-            for (const [role, value] of Object.entries(fonts)){if(worker!==this.worker)return;await this.send('RegisterFont', [role, value]);}
+            const registered=new Map();
+            for (const [role, value] of Object.entries(fonts)){
+              if(worker!==this.worker)return;
+              if(registered.has(value))await this.send('AliasFont',[role,registered.get(value)]);
+              else{await this.send('RegisterFontBytes',[role,decodeBase64(value)]);registered.set(value,role);}
+            }
             if(worker!==this.worker)return;
             clearTimeout(this.timer); this.rejectBoot = null; resolve();
           } catch (error) { if(worker===this.worker)this.reset(error); }
