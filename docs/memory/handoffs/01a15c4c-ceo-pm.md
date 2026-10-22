@@ -1,5 +1,15 @@
 # CEO 与产品经理交接
 
+## 最新：历史规范化Word恢复的新页脚已完成同稿验收（优先于历史）
+
+- 同PR5/ceo-001/codex/ceo-004-materials，起点c1a771f；CEO a1b2/main b0ae无新评价，main已是祖先。所有本轮源/专项/浏览器工具与记录归本聊天及明确Agent；shared他人不碰。实际提交推送状态和SHA见后续交付条目/checkpoint，不能在待推阶段称已交付。
+- 不是新开旧UI：当前首页不触发NormalizeDocument，但历史layoutNormalized记录可正常恢复。准确f533卫生原件→既有规范化模型，内容/81格29空白/字号0变化；baseline正常UI8/6、Word15.96和LO16实证，修replacement局部14style，不升级good接受的raw/custom，不覆盖first或原styles/default。样式/part/rId/悬空引用避撞，孤立styles不启用，未知/冲突关系明确失败。
+- 初次full通过后独立审拦下styles别名覆盖及OPC/settings前缀、val属性反例，最终source1f1d/page0be5、15组19子例/full38.794/.932+vet/三overlay.875过。pdf40e91/templatef7b未动，不能把中间版当最终。
+- 最终f533重生成5719与实际渲染输入同字节绑定，Word16/LO26.8.1.1各7页/42非空页码轮廓真SimSun14；正文14页文字/字位/字号/字族/像素各自同基线。表标题/表开头6、末行与完整尾注来源7，81格29空白保留。看所有页脚带及两端6/7完整页，其余正文以像素等值绑定，不冒称全篇人工重读。
+- 当前候选历史恢复8/6、原Word6/4、新卫生2下载过；5对产品PDF31页内容流/矩阵/字体程序映射/像素全同。原Word和新9adce7字节保持，规范化Word仅2footer引用+1局部style。详见NORMALIZED-WORD-FOOTER-RESPONSE、去正文evidence与本轮独立日志。
+- 当前4173原PID65964，冻结source-normalization-footer-web/engine5969898bf0dead1c682d/Wasm e630e147e6d0b89be026cead46f80500d1532c193fbe05e252aec77f167a87ce/cachec2f1e4ae249cf9f0；64HTTP和实际服务规范化恢复再8/6通过，真实收集关闭。此前cc18已替代；提交后不重建，4188/PG不变。
+- 下一按新评价继续全文P0真实条件：已被good接受的raw/自定义页脚未广修，真实小标宋/类别覆盖/许可/特殊页/打印与准确CEO变体仍有边界；用户答无529，不再索取。不合并、不部署、不上传原稿字体或启用真实收集。
+
 ## 最新：页码实际字形与Word/LO动态字号已完成本机验收（优先于历史）
 
 - **已实际交付**：实现2f2086fd60701d41402bf0ef71c8738eb4a4e91f已推送原分支，main b0ae是祖先；同PR5标题/正文按最终页码/缺字行为重写并重新附加，open/unmerged/mergeable=true。该head评论/评审/行内/Issues/statuses/Actions空，不称CI绿或CEO接受。只补本交付记录，最终head见checkpoint；eaf4/cc18冻结资产不重建。

@@ -285,7 +285,7 @@ func TestPageFooterStyleDoesNotRewriteAnExistingWordFooter(t *testing.T) {
 	}
 }
 
-func TestPageFooterStyleDoesNotLeakIntoSourceNormalization(t *testing.T) {
+func TestPageFooterStyleSourceNormalizationDeclaresItsOwnBoundStyle(t *testing.T) {
 	loadFullFallbackTestFonts(t)
 	word, e := CreateDOCX(pageFooterFixture(t))
 	if e != nil {
@@ -316,15 +316,15 @@ func TestPageFooterStyleDoesNotLeakIntoSourceNormalization(t *testing.T) {
 		if strings.Contains(name, "-even") {
 			align = "left"
 		}
-		if !bytes.Equal(data, []byte(pageFooterXML(align))) || bytes.Contains(data, []byte(pageFooterStyleID)) || bytes.Contains(data, []byte("MERGEFORMAT")) {
-			t.Fatal("explicit source normalization acquired generated-only formatting")
+		if !bytes.Equal(data, []byte(pageFooterXMLWithStyle(align, pageFooterStyleID+"x"))) || bytes.Contains(data, []byte("MERGEFORMAT")) {
+			t.Fatal("source replacement did not bind its independently declared style")
 		}
 		checked++
 	}
 	if checked != 2 {
 		t.Fatal("normalization fixture did not create odd/even footers", checked)
 	}
-	if _, changed := overrides["word/styles.xml"]; changed {
-		t.Fatal("source normalization changed original styles")
+	if _, changed := overrides["word/styles.xml"]; !changed {
+		t.Fatal("source replacement style definition missing")
 	}
 }
