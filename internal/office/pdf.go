@@ -353,7 +353,11 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 	if e := w.f.Output(&out); e != nil {
 		return PDFResult{}, fmt.Errorf("PDF 排版失败：%w", e)
 	}
-	result := PDFResult{Data: out.Bytes(), Pages: w.pages, Warnings: []string{}}
+	data, err := repairPDFSubsetFonts(out.Bytes())
+	if err != nil {
+		return PDFResult{}, fmt.Errorf("PDF字体子集结构准备失败：%w", err)
+	}
+	result := PDFResult{Data: data, Pages: w.pages, Warnings: []string{}}
 	for warning := range w.warnings {
 		result.Warnings = append(result.Warnings, warning)
 	}

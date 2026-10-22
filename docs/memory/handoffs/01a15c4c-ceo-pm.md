@@ -1,5 +1,15 @@
 # CEO 与产品经理交接
 
+## 最新：PDF字体子集结构P0已验收（优先于历史）
+
+- 同PR5/codex/ceo-004-materials/ceo-001树，起点c16661c。修fpdf已知cmap无效长度与head低位借位，只作用本引擎新生成classic-xref输出，合法程序原样/幂等，其他结构明确失败；不改模块缓存/字体资产/Word/文稿/布局。源码及父/Agent测试、文档归本聊天，shared他人改动不碰。
+- 6Go新专项/既有坐标/office-webengine全量test及vet、独立审查过；validator17正负可复现。旧joint仅Black坏，旧day19有效，不能概括所有旧件坏。新11PDF31程序实例严格必查/实际fontTools均过，22页内容/字位/非cmap表/Unicode-CID/宽度及像素相同；16个不同页面均已看。11DOCX与已审来源字节保持，未冒称新native Word渲染。卫生原7dbd/39块3表、Word4c18、回执标题全表6/7页保持。详见PDF-SUBSET-CMAP-RESPONSE.md与独立日志。
+- 当前4173原PID65964，冻结pdf-cmap-web/engine6cc35cda15c5311e7c05，Wasm10921c59a4b306b239460ea72bb0c054cb5200c28eea477f5f2eb14d67d9d233；64HTTP资产，实际Chrome22项/4文件、字体程序/内容/Word同已检候选。替代历史3d05；提交不重建。4188 PID63200/PG55440未变，真实收集未开。
+- 已读最新CEOa1b2f89a24bc61e921901f1ee4a09ec9a5abc92d/mainb0ae4800806e70b3d06c6fbd93f1aae906ea5ccd：多人直接PDF和卫生标题随表已独立支持，不再称文件未取回或单行阻止；但LO备用联合变三行/版记缺线P0-P1，以及卫生尾注6/7续接/LO表尾与原Word回导孤行CEO003仍开。准确645eec/0eeb5d/61458变体本机无，不以本机7dbd/官方转写代签；不再索要已答没有的529。
+- 下一优先联合备用字体LO版位/版记P0-P1，再原卫生尾注/导入widowControl读取及保护门控。只读分析日志已有可复现机制，尚未修改分页，不归因字体或要求删字/缩字号。全文真实标准字体/接收端仍开放。
+- 下一完成本轮提交、正常合main新文档、更新同PR5/检查评价；交付SHA和已处理ID见checkpoint/后续交付条目。不合并/部署/上传原稿字体。
+
+
 ## 最新：官方三人联合请示已完成本机验收（优先于历史）
 
 - **已实际交付**：实现d12c0bc7d87d6b5dedcb524191826675000e352b，正常合main641dca8后e232febd4e4c6b83cae73ae3ec57218a040cb33f已推送原分支。PR5标题/正文改为多人最终行为并成功重新附加，open/unmerged；推送后评论/评审/行内/Issues/statuses/Actions均空，不称CI绿或CEO接受。插件mergeable=false可能是null重算，不据此宣称冲突；已知main是ancestor。只补本条交付记录，不重建资产。
