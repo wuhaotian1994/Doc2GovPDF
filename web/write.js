@@ -684,7 +684,7 @@ async function changeFont(file, reset=false) {
     }
     if(wordWorkspace?.active)await wordWorkspace.setFonts(next);else {await writeFonts(next);fontStore=next;}
     engine.reset();await showFonts();if(!reset)chooseFontPath();
-    $('font-message').textContent='字体已保存在本浏览器，预览将重新排版；请核对缺字与回退。自选字体不嵌入Word。';
+    $('font-message').textContent='字体已保存在本浏览器，预览将重新排版；请核对缺字与回退。生成Word会声明已识别的真实字族，自选字体不嵌入Word，接收端需安装对应字体。';
   }catch(e){engine.reset();$('font-message').textContent=e.message;throw e;}
   finally{fontBusy=false;invalidate();schedulePreview();$('font-reset').disabled=false;$('font-file').disabled=false;$('font-file-open').disabled=false;$('font-file').value='';}
 }

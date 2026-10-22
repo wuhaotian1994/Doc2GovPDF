@@ -1,5 +1,7 @@
 # 本机字体读取、真实身份与集合字体面
 
+后续更新：生成稿“Word仍只声明用途名”的限制已由[真实字族声明增量](WORD-FONT-IDENTITY-RESPONSE.md)部分替代。以下是首次入口实现的历史证据；自选字体仍不自动嵌入，接收端实际资源、字重和Word再转PDF文字映射仍未闭合，不能据新声明称出品一致。
+
 2026-10-22，继续同一分支 `codex/ceo-004-materials` / [PR #5](https://github.com/wuhaotian1994/Doc2GovPDF/pull/5)。回应[全文标准P0](STANDARDS-PRODUCT.md)的主动读取、身份与字体面缺口；**未关闭整个字体/全文标准P0**。
 
 ## 以前缺什么，这次做了什么

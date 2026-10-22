@@ -1,0 +1,228 @@
+{
+  "verifiedAt": "2026-10-22T13:35:54.235313+00:00",
+  "source": {
+    "internal/office/word_font_identity.go": "48600dbf94bbc77a35845e366bf019961567f77ca72ca7e0c5df73a84dbcc55d",
+    "internal/office/embedded_fonts.go": "27509876de32b88c900d972781a83450d59ad6a546f8e7ba4264b5f06be5799b",
+    "internal/office/pdf.go": "174e10a805331ef314be9a9b66bbdb5ac70e0789dac8b3edefc8262266706010",
+    "internal/office/word_font_identity_test.go": "cc726229540fbd7e541e794c660291d65d13dc3bec3821a7f7256358d5706c1f",
+    "web/write.js": "c4b59c80feb537b1f6e89990d7aa552cc63a8a1b9e052cd0260fd1abe3bc7df8",
+    "web/write.html": "0c9e2cc1a5bae6f978ac993aaa6c615a0ea66112f2c35c8f9477bee0df383bf6",
+    "scripts/test-writer-font-access.mjs": "9776bd4e113fcc1f81e88b3213fed95f36a102363b21a5ded332fb64a84f3c5e",
+    "scripts/verify-font-access.py": "907ec2ad6b93ac4c3e3fe6c07dc224a9eefa21f703d3e134059da8b4b559b940",
+    "scripts/verify-font-word.ps1": "30eced506e01373924d4270c393c212a0dcfb3d197e188202863bf7eebccb104",
+    "scripts/render-font-access.py": "8f9003e6f8e8d4b92ddb7b4f227a62c429005f9d62d079070142cfb45e31af71"
+  },
+  "actualWasmSHA256": "e403042ad6ba6ff318d11aab1e1d495b37522036eef45a2485f8bb209c1211ab",
+  "browserTasks": [
+    {
+      "profile": "chrome",
+      "version": "155.0.8059.86",
+      "checks": 18,
+      "passed": true
+    },
+    {
+      "profile": "firefox",
+      "version": "157.0",
+      "checks": 18,
+      "passed": true
+    },
+    {
+      "profile": "webkit",
+      "version": "27.2",
+      "checks": 18,
+      "passed": true
+    }
+  ],
+  "outputPairs": 12,
+  "actualOutputIdentityChecks": [
+    {
+      "profile": "chrome",
+      "phase": "selected",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "fb9a424dae673041b76f288bfe17c8974f13543842092806620a17a865983f7d",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "chrome",
+      "phase": "-restored",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "ac55479c3a5082a5586ba7a8d7af3d88bc3386f0c0d3cc8e4da85d484ffa58b4",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "chrome",
+      "phase": "-reopened",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "38724dffd1fd633ca4c322120a347d82ba6d4c1917c10c527e064491742321a9",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": true,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "chrome",
+      "phase": "-fallback",
+      "docxSHA256": "bffb215e00957881435b4654ca9a18af0cc088da4d42bf5f2c8478deb40d2fa7",
+      "pdfSHA256": "7c5c37f19102358355e1cf73bb495172f5b35ce8e892dcdc4ef7968181c38b75",
+      "wordRequestedFamily": "Noto Serif SC",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "firefox",
+      "phase": "selected",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "a6a53f62185705da57f745154a693263c487f5083dd241779ab6b80370113d72",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "firefox",
+      "phase": "-restored",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "5858017a36ae94486cb8d463deaa4f0c22605654067a857a8b740f38aee40c33",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "firefox",
+      "phase": "-reopened",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "475542864228779d7bdf0ec6bcd9249258736f0a0e821be20a552ee1ee1c2ddd",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": true,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "firefox",
+      "phase": "-fallback",
+      "docxSHA256": "bffb215e00957881435b4654ca9a18af0cc088da4d42bf5f2c8478deb40d2fa7",
+      "pdfSHA256": "edf9ba37fb96fb1ec59fe770f7e3659c25cc40f9eb163b9eb35d56cbd1fefaf7",
+      "wordRequestedFamily": "Noto Serif SC",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "webkit",
+      "phase": "selected",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "0445f6d7cc52186744175f0090af8a8c366ad228ffab26f761470429dee76a65",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "webkit",
+      "phase": "-restored",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "ba2d3a48d34ea9042cb8ea784b732739ac07f96c2e592279bc144a6740edf3f0",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "webkit",
+      "phase": "-reopened",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "pdfSHA256": "5b5023fe94cdc611c53993d21b34112deb8aec42d0d009b75b0312d303e6bb19",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "nativeWordBytesUnchanged": true,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    },
+    {
+      "profile": "webkit",
+      "phase": "-fallback",
+      "docxSHA256": "bffb215e00957881435b4654ca9a18af0cc088da4d42bf5f2c8478deb40d2fa7",
+      "pdfSHA256": "25d60b76949758dd4a7715a4a915b39aad720ed1b6f7328187d9ee68bea485a1",
+      "wordRequestedFamily": "Noto Serif SC",
+      "nativeWordBytesUnchanged": null,
+      "fallbackFontParts": 2,
+      "embeddedBuiltinFamilies": [
+        "Noto Serif SC",
+        "Noto Serif SC Black"
+      ]
+    }
+  ],
+  "nativeWord": {
+    "version": "16.0",
+    "openedSources": 4,
+    "renderedViewedPages": 8,
+    "requestedBodySizePt": 16,
+    "actualSubstitutionObserved": true,
+    "allRequestedFontNamesAreNotRenderingProof": true,
+    "fallbackPDFTextMappingGapUnresolved": true,
+    "fallbackDocxUnchangedFromPreviousBuild": true
+  },
+  "originalRegression": {
+    "docxSHA256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c",
+    "pdfPages": 7,
+    "allPageContentStreamsUnchanged": true,
+    "uploadedRequests": 0
+  },
+  "organizedTableRegression": {
+    "wordAndPdfContentUnchanged": true
+  },
+  "limitations": [
+    "Only already-existing Word font slots are mapped; cs coverage is proved with an explicit Go fixture, not by adding a missing slot.",
+    "No new embedding of selected/user font payloads; built-in OFL source provenance is kept even when names match.",
+    "Current machine Word PDF resources show substitution despite requested family; no guarantee of actual face, weight or cross-machine pagination.",
+    "Word re-export of fallback fixture visually reads correctly but Chinese Unicode extraction is incorrect; same DOCX from previous verified build proves this increment did not introduce the gap. Product direct PDFs are exact.",
+    "Permissions/list/blob are deterministic API contracts using real repository-OFL bytes, not actual customer installed-font authorization.",
+    "Full 529-paragraph input is unavailable and is not validated by this fixture."
+  ],
+  "finalPersistentService": {
+    "fontChecks": 18,
+    "sameFourDocxAsInspectedWordSources": true,
+    "boundAssets": 63,
+    "wasmSHA256": "e403042ad6ba6ff318d11aab1e1d495b37522036eef45a2485f8bb209c1211ab"
+  }
+}

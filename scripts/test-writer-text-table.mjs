@@ -28,7 +28,7 @@ test('header action derives displayed columns from explicitly chosen fields and 
 });
 test('header fields cannot move across skipped prose and explicit conflicting column counts are rejected',()=>{
  const c=text(['姓名','保留说明。','电话']),s=select(c,0,2);
- assert.throws(()=>preview(c,s,{mode:'header',blankRows:2,includeIDs:[s.ids[0],s.ids[2]]}),/连续/);assert.throws(()=>preview(c,s,{mode:'header',columns:2,blankRows:2}),/所选完整段落/);
+ assert.throws(()=>preview(c,s,{mode:'header',blankRows:2,includeIDs:[s.ids[0],s.ids[2]]}),/原第 2 段.*未选的非空文字/);assert.throws(()=>preview(c,s,{mode:'header',columns:2,blankRows:2}),/所选完整段落/);
 });
 test('no method, columns, header interpretation, blank-row count or candidate selection is silently guessed',()=>{
  const c=text(['甲','乙']),s=select(c,0,1);
@@ -84,5 +84,33 @@ test('malformed multi-line paragraphs and forged out-of-bounds captures are reje
  const c=text(['A','B']),bad=structuredClone(c);bad.blocks[0].text='一段\n不可猜拆';assert.throws(()=>select(bad,0,0),/段落设置无效/);assert.equal(bad.blocks[0].text,'一段\n不可猜拆');
  const p=preview(c,select(c,0,1),rows(2)),tampered=structuredClone(p);tampered.selection.endIndex=999;assert.throws(()=>apply(c,tampered,ids()),/范围已失效/);
  assert.throws(()=>preview(c,select(c,0,1),{mode:'header',blankRows:100}),/99行/);
+});
+
+
+test('six selected header fields can span ten excluded blank paragraphs while five tail labels stay outside the new four-row receipt',()=>{
+ const fields=['字段甲','字段乙','字段丙','字段丁','字段戊','字段己'],gaps=['',' ','\t','　','  ','','\u00a0','\t ','','　 '],tail=['领队','/','队员1','队员1','队员1'],values=[];
+ fields.forEach((field,i)=>{values.push(field);if(i<5)values.push(gaps[i*2],gaps[i*2+1]);});values.push(...tail);
+ const c=text(values),before=structuredClone(c),s=select(c,0,c.blocks.length-1),includeIDs=s.source.filter(item=>fields.includes(item.text)).map(item=>item.id),p=preview(c,s,{mode:'header',blankRows:4,includeIDs}),next=apply(c,p,ids());
+ assert.equal(p.tables.length,1);assert.equal(p.options.columns,6);assert.deepEqual(p.rows[0],fields);assert.deepEqual(p.rows.slice(1),Array.from({length:4},()=>Array(6).fill('')));
+ const originals=c.blocks.filter(block=>!includeIDs.includes(block.id));assert.equal(originals.length,15);assert.deepEqual(next.blocks.filter(block=>block.type==='paragraph'),originals);assert.deepEqual(p.retainedOriginal.map(item=>item.text),originals.map(block=>block.text));
+ assert.equal(p.retainedOriginal.filter(item=>item.reason==='header-gap').length,10);assert.equal(p.retainedOriginal.filter(item=>item.reason==='excluded').length,5);assert.match(p.warnings.join(' '),/10段未选空白.*原字符串和段落标识.*新表之后/);assert.equal(p.addedTrailingParagraph,false);assert.deepEqual(c,before);
+ // The existing editor's one history snapshot receives this unchanged source.
+ assert.deepEqual(s.ids,c.blocks.map(block=>block.id));assert.deepEqual(p.usedIDs,includeIDs);
+});
+test('excluded nonempty text inside selected header fields names its blocking paragraph and an actionable safe alternative',()=>{
+ const c=text(['前文','甲',' ','不能跳过的正文','乙','领队']),s=select(c,1,5),includeIDs=[c.blocks[1].id,c.blocks[4].id];
+ assert.throws(()=>preview(c,s,{mode:'header',blankRows:4,includeIDs}),error=>{assert.match(error.message,/原第 4 段.*未选的非空文字/);assert.match(error.message,/分开组织.*明确勾选/);return true;});assert.deepEqual(contentText(c),'前文\n甲\n \n不能跳过的正文\n乙\n领队');
+});
+test('unselected blank prefix and tail remain excluded rather than being consumed as header gaps or new cells',()=>{
+ const c=text(['',' A ',' ','B','　','领队','/','队员1']),s=select(c,0,7),p=preview(c,s,{mode:'header',blankRows:1,includeIDs:[c.blocks[1].id,c.blocks[3].id]}),next=apply(c,p,ids());
+ assert.deepEqual(p.rows,[[' A ','B'],['','']]);assert.equal(p.retainedOriginal.filter(item=>item.reason==='header-gap').length,1);assert.deepEqual(next.blocks.filter(block=>block.type==='paragraph'),c.blocks.filter((_,i)=>![1,3].includes(i)));
+});
+test('whitespace-gap header previews still reject changed snapshots and strict suffix capacity overflow',()=>{
+ const c=text(['A','','B','领队']),s=select(c,0,3),opts={mode:'header',blankRows:4,includeIDs:[s.ids[0],s.ids[2]]},p=preview(c,s,opts),changed=structuredClone(c);changed.blocks[1].text=' ';
+ assert.throws(()=>apply(changed,p,ids()),/已有变化/);
+ const suffix=text(['x'.repeat(3990),'A','','B']),ss=select(suffix,1,3,{region:'postscript',sectionOnly:true});assert.throws(()=>preview(suffix,ss,{mode:'header',blankRows:99,includeIDs:[ss.ids[0],ss.ids[2]]}),/4000/);
+});
+test('row mode retains its original disjoint-run protection even for blank gaps',()=>{
+ const c=text(['A','','B']),s=select(c,0,2),p=preview(c,s,rows(2,{includeIDs:[s.ids[0],s.ids[2]]}));assert.equal(p.canApply,false);assert.equal(p.tables.length,0);assert.deepEqual(p.retainedOriginal.map(item=>item.reason),['remainder','excluded','remainder']);
 });
 

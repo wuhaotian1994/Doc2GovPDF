@@ -1,0 +1,51 @@
+{
+  "method": "Summary of commands already completed by receipt_pagination; writing this record did not rerun any test. No real system-font payload or user manuscript is included.",
+  "sourceSHA256": {
+    "internal/office/pdf.go": "174e10a805331ef314be9a9b66bbdb5ac70e0789dac8b3edefc8262266706010",
+    "internal/office/embedded_fonts.go": "27509876de32b88c900d972781a83450d59ad6a546f8e7ba4264b5f06be5799b",
+    "internal/office/word_font_identity.go": "48600dbf94bbc77a35845e366bf019961567f77ca72ca7e0c5df73a84dbcc55d",
+    "internal/office/word_font_identity_test.go": "cc726229540fbd7e541e794c660291d65d13dc3bec3821a7f7256358d5706c1f"
+  },
+  "runs": [
+    {
+      "command": "go test ./internal/office -run '^TestWordRealLegacy|^TestWordTrueFamily|^TestWordFamilyKeyword|^TestWordExplicitPurpose|^TestWordSelectedSameName|^TestWordBundledFallback' -count=1 -v",
+      "exitCode": 0,
+      "newTargetTests": [
+        "TestWordRealLegacyFamilyMapsExistingFourSlotsWithoutEmbeddingSelectedNoto",
+        "TestWordTrueFamilyRoundTripReusesRegisteredFaceAheadOfBuiltinName",
+        "TestWordFamilyKeywordUniqueAndAmbiguousPathsDoNotFallThroughRoleHeuristics",
+        "TestWordExplicitPurposeAndUnknownSafeNamesRemainIndependent",
+        "TestWordSelectedSameNameNeverLeaksItsBytesThroughBundledEmbedding",
+        "TestWordBundledFallbackStillEmbedsAndSelectedFamilyNamesRemainEscaped"
+      ],
+      "packageSeconds": 1.206
+    },
+    {
+      "command": "go test ./internal/office ./internal/webengine -count=1",
+      "exitCode": 0,
+      "packages": [
+        {
+          "name": "doc2govpdf/internal/office",
+          "passed": true,
+          "seconds": 18.349
+        },
+        {
+          "name": "doc2govpdf/internal/webengine",
+          "passed": true,
+          "seconds": 0.987
+        }
+      ]
+    },
+    {
+      "command": "go vet ./internal/office ./internal/webengine",
+      "exitCode": 0,
+      "output": "No diagnostics"
+    },
+    {
+      "command": "git diff --check -- internal/office/pdf.go internal/office/embedded_fonts.go internal/office/word_font_identity.go internal/office/word_font_identity_test.go",
+      "exitCode": 0,
+      "output": "No diagnostics"
+    }
+  ],
+  "boundary": "Implementation evidence only. Word family declarations and existing-slot mapping do not certify actual selected weight/version, receiving-machine layout or full standards coverage."
+}

@@ -91,6 +91,17 @@ func FontStatus() []FontInfo {
 }
 func resolveFont(name string) fontData {
 	fontCatalog()
+	if face, ok := fonts[name]; ok && !fallbackName(name) {
+		return face
+	}
+	if face, matched, ambiguous := registeredWordFamily(name); matched {
+		return face
+	} else if ambiguous {
+		return fonts["Noto Serif SC"]
+	}
+	if face, ok := fonts[name]; ok {
+		return face
+	}
 	lower := strings.ToLower(name)
 	switch {
 	case strings.Contains(lower, "fangsong") || strings.Contains(lower, "仿宋"):
@@ -363,7 +374,13 @@ func (w *pdfWriter) setFont(p Paragraph) {
 		w.f.AddUTF8FontFromBytes(family, "", fd.data)
 		w.loaded[sum] = family
 	}
-	if strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name {
+	ambiguousFamily := false
+	if fallbackName(fd.name) {
+		_, _, ambiguousFamily = registeredWordFamily(p.Font)
+	}
+	if fallbackName(fd.name) && ambiguousFamily {
+		w.warnings["已登记的字族“"+p.Font+"”对应多个不同字体面，原声明不能唯一确定字重或样式；PDF 使用 "+fd.name+" 备用字体草拟，请重新核对字体。"] = true
+	} else if strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name {
 		w.warnings["当前排版引擎未取得可用字体“"+p.Font+"”，PDF 使用已嵌入的 "+fd.name+" 备用字体，仅供草拟，不代表全文国标检查通过。"] = true
 	}
 	w.f.SetFont(family, "", p.Size)

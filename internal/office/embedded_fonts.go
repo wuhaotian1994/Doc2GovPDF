@@ -25,10 +25,14 @@ func addFallbackFonts(parts map[string]string) map[string][]byte {
 				if declared == "" {
 					continue
 				}
-				face := resolveFont(declared)
-				if strings.HasPrefix(face.name, "Noto Serif SC") {
+				name, face, embedFallback := wordFontDeclaration(declared)
+				if name != declared {
 					fontsElement.RemoveAttr("w:" + key)
-					fontsElement.CreateAttr("w:"+key, face.name)
+					fontsElement.CreateAttr("w:"+key, name)
+				}
+				// Decide from the original resolved provenance, never from the
+				// newly written family name (which may also start with Noto).
+				if embedFallback {
 					used[face.name] = face
 				}
 			}

@@ -1,0 +1,210 @@
+{
+  "samples": [
+    {
+      "sample": "chrome",
+      "wordVersion": "16.0",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "direct": {
+        "pdfSHA256": "fb9a424dae673041b76f288bfe17c8974f13543842092806620a17a865983f7d",
+        "pages": 1,
+        "exactExtractedBodyText": true,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/utf8f1",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "Noto Serif SC Black",
+              "NotoSerifSC-Black"
+            ],
+            "fontSHA256": "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456",
+            "sizePt": 16.0
+          }
+        ]
+      },
+      "wordRendered": {
+        "pdfSHA256": "e46e53bdde4ec4d5c4b20b1bb392b59b0e5edb603bb374b14ba3871ee6e7a4ce",
+        "pages": 1,
+        "exactExtractedBodyText": true,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/Calibri-Bold",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "Noto Serif SC",
+              "NotoSerifSC-ExtraLight"
+            ],
+            "fontSHA256": "655045522222989cd3c99fc2ccc4de08cfd26bf5cc6b139a5e0abf7ca59c7ca7",
+            "sizePt": 15.96
+          },
+          {
+            "pdfBaseFont": "/Calibri-Bold",
+            "embeddedTrueType": false,
+            "actualNames": [],
+            "fontSHA256": null,
+            "sizePt": 15.96
+          }
+        ]
+      }
+    },
+    {
+      "sample": "chrome-restored",
+      "wordVersion": "16.0",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "direct": {
+        "pdfSHA256": "ac55479c3a5082a5586ba7a8d7af3d88bc3386f0c0d3cc8e4da85d484ffa58b4",
+        "pages": 1,
+        "exactExtractedBodyText": true,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/utf8f1",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "Noto Serif SC Black",
+              "NotoSerifSC-Black"
+            ],
+            "fontSHA256": "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456",
+            "sizePt": 16.0
+          }
+        ]
+      },
+      "wordRendered": {
+        "pdfSHA256": "f64f9f431d8dac5f35ea5a3a4094f8bf29ff6e5a4c38e481a9e7de447c1e4ee1",
+        "pages": 1,
+        "exactExtractedBodyText": true,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/Calibri-Bold",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "Noto Serif SC",
+              "NotoSerifSC-ExtraLight"
+            ],
+            "fontSHA256": "655045522222989cd3c99fc2ccc4de08cfd26bf5cc6b139a5e0abf7ca59c7ca7",
+            "sizePt": 15.96
+          },
+          {
+            "pdfBaseFont": "/Calibri-Bold",
+            "embeddedTrueType": false,
+            "actualNames": [],
+            "fontSHA256": null,
+            "sizePt": 15.96
+          }
+        ]
+      }
+    },
+    {
+      "sample": "chrome-reopened",
+      "wordVersion": "16.0",
+      "docxSHA256": "568f3f0c2f3f540ac11717943330755357ddbcc179099d7b4eff178e41201c7c",
+      "wordRequestedFamily": "Noto Serif SC Black",
+      "direct": {
+        "pdfSHA256": "38724dffd1fd633ca4c322120a347d82ba6d4c1917c10c527e064491742321a9",
+        "pages": 1,
+        "exactExtractedBodyText": true,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/utf8f0",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "Noto Serif SC Black",
+              "NotoSerifSC-Black"
+            ],
+            "fontSHA256": "def9954f21fd2a6831fe419c852d3989decca6d23881cb48c88879bd49740063",
+            "sizePt": 16.0
+          }
+        ]
+      },
+      "wordRendered": {
+        "pdfSHA256": "35c7a5be97426a064b2a0a39386272077ddfde702c30b3be03386b211d037dbe",
+        "pages": 1,
+        "exactExtractedBodyText": true,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/Calibri-Bold",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "Noto Serif SC",
+              "NotoSerifSC-ExtraLight"
+            ],
+            "fontSHA256": "655045522222989cd3c99fc2ccc4de08cfd26bf5cc6b139a5e0abf7ca59c7ca7",
+            "sizePt": 15.96
+          },
+          {
+            "pdfBaseFont": "/Calibri-Bold",
+            "embeddedTrueType": false,
+            "actualNames": [],
+            "fontSHA256": null,
+            "sizePt": 15.96
+          }
+        ]
+      }
+    },
+    {
+      "sample": "chrome-fallback",
+      "wordVersion": "16.0",
+      "docxSHA256": "bffb215e00957881435b4654ca9a18af0cc088da4d42bf5f2c8478deb40d2fa7",
+      "wordRequestedFamily": "Noto Serif SC",
+      "direct": {
+        "pdfSHA256": "7c5c37f19102358355e1cf73bb495172f5b35ce8e892dcdc4ef7968181c38b75",
+        "pages": 1,
+        "exactExtractedBodyText": true,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/utf8f1",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "Noto Serif SC",
+              "Noto Serif SC Regular",
+              "NotoSerifSC-Regular"
+            ],
+            "fontSHA256": "ec71e6f223821f69fce747db170f3966f3ebc9487c949c155b01105bad772092",
+            "sizePt": 16.0
+          }
+        ]
+      },
+      "wordRendered": {
+        "pdfSHA256": "8ded822a8aab0c9d66479516411a8f538cbbf599dd45d8e98f59679ddd1a5e54",
+        "pages": 1,
+        "exactExtractedBodyText": false,
+        "bodyFonts": [
+          {
+            "pdfBaseFont": "/BCDFEE+Calibri",
+            "embeddedTrueType": true,
+            "actualNames": [
+              "MingLiU-ExtB",
+              "細明體-ExtB"
+            ],
+            "fontSHA256": "d36ef287aac60c064b0dc8c6d7baef19347840f6a19aecd5e30a3294690fee34",
+            "sizePt": 15.96
+          }
+        ]
+      }
+    }
+  ],
+  "originalRegression": {
+    "docxSHA256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c",
+    "pdfPages": 7,
+    "allPageContentStreamsUnchanged": true,
+    "uploadedRequests": 0
+  },
+  "organizedTableRegression": {
+    "wordAndPdfContentUnchanged": true
+  },
+  "knownWordFallbackUnicodeGap": {
+    "nativeWordPDFExactText": false,
+    "directProductPDFExactText": true,
+    "baselineUnchangedDocx": {
+      "oldWasmSHA256": "002fa89b6540f23fe22cf42a9d1c3843b1228f8c6c3acf81808d3861bb7ce33b",
+      "oldDocxSHA256": "bffb215e00957881435b4654ca9a18af0cc088da4d42bf5f2c8478deb40d2fa7",
+      "newDocxSHA256": "bffb215e00957881435b4654ca9a18af0cc088da4d42bf5f2c8478deb40d2fa7",
+      "sameDocx": true,
+      "method": "Same visible title/body on previously verified 065a656 build, no selected fonts; no user manuscript."
+    },
+    "freshWordInstanceAlsoReproduced": true,
+    "visualPagesReadable": true,
+    "status": "Unresolved existing P0; not caused by this declaration increment; never counted as text-extraction pass."
+  },
+  "boundary": "Actual PDF font resources inspected for these repository-OFL fixtures only. Same-name builtin OFL embedding may serve Word; no general claim about unavailable receiver fonts, style weight, pixel equality or standards conformance."
+}

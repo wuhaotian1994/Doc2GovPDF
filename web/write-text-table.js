@@ -98,15 +98,22 @@ function materialize(ctx,plan,idFactory){
 
 // rows: explicit columns + header boolean; header: each selected paragraph is
 // an author-declared field, so its count supplies columns, with explicit blankRows.
-// includeIDs can leave text untouched. Separate runs never cross retained prose.
+// includeIDs can leave text untouched. Row runs never cross retained prose;
+// explicitly selected header fields may span only excluded whitespace paragraphs.
 export function previewTextTable(value,selection,options){
  const ctx=currentSelection(value,selection),settings=choices(ctx.source,options),included=new Set(settings.includeIDs),runs=[];
  for(const item of ctx.source){if(!included.has(item.id))continue;const last=runs.at(-1);if(last&&last.at(-1).index===item.index-1)last.push(item);else runs.push([item]);}
- const tables=[],usedIDs=[],warnings=[];
+ const tables=[],usedIDs=[],warnings=[],headerGaps=new Set();
  if(settings.mode==='header'){
   if(included.size&&included.size!==settings.columns)fail('所选表头字段数必须与明确填写的列数一致。');
-  if(runs.length>1)fail('表头字段需连续，不能跨过要原位保留的文字。');
-  if(runs.length){const run=runs[0];tables.push({startIndex:run[0].index,sourceIDs:run.map(item=>item.id),header:true,rows:[run.map(item=>item.text),...Array.from({length:settings.blankRows},()=>Array(settings.columns).fill(''))]});usedIDs.push(...run.map(item=>item.id));warnings.push(`新建${settings.blankRows}行待填写空白；这不是恢复原表几何。`);}
+  const fields=ctx.source.filter(item=>included.has(item.id));
+  if(fields.length){
+   const gaps=ctx.source.filter(item=>item.index>fields[0].index&&item.index<fields.at(-1).index&&!included.has(item.id)),blocking=gaps.find(item=>item.text.trim()!=='');
+   if(blocking)fail(`原第 ${blocking.index+1} 段是未选的非空文字，位于所选表头字段之间。请取消它一侧的字段、分开组织；若该段本来也是字段，请明确勾选。不能跨过未选正文。`);
+   for(const item of gaps)headerGaps.add(item.id);
+   tables.push({startIndex:fields[0].index,sourceIDs:fields.map(item=>item.id),header:true,rows:[fields.map(item=>item.text),...Array.from({length:settings.blankRows},()=>Array(settings.columns).fill(''))]});usedIDs.push(...fields.map(item=>item.id));warnings.push(`新建${settings.blankRows}行待填写空白；这不是恢复原表几何。`);
+   if(gaps.length)warnings.push(`字段间的${gaps.length}段未选空白不进入单元格，原字符串和段落标识按顺序保留为表外段，显示在新表之后；未删除空白。`);
+  }
  }else{
   for(const run of runs){
    const complete=Math.floor(run.length/settings.columns)*settings.columns,rows=[];
@@ -115,7 +122,7 @@ export function previewTextTable(value,selection,options){
    if(rows.length){const used=run.slice(0,complete);tables.push({startIndex:run[0].index,sourceIDs:used.map(item=>item.id),header:settings.header,rows});usedIDs.push(...used.map(item=>item.id));}
   }
  }
- const used=new Set(usedIDs),retainedOriginal=ctx.source.filter(item=>!used.has(item.id)).map(item=>({...item,reason:included.has(item.id)?'remainder':'excluded'}));
+ const used=new Set(usedIDs),retainedOriginal=ctx.source.filter(item=>!used.has(item.id)).map(item=>({...item,reason:headerGaps.has(item.id)?'header-gap':included.has(item.id)?'remainder':'excluded'}));
  const remainder=retainedOriginal.filter(item=>item.reason==='remainder').length;
  if(remainder)warnings.push(`${remainder}段不足以组成完整一行，仍在原处保留，未补造单元格。`);
  if(tables.length>1)warnings.push('跳过的原文仍在原处；已按连续范围分别组织表格，未跨过这些文字搬动顺序。');
