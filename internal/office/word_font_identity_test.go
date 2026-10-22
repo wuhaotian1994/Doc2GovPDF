@@ -91,7 +91,10 @@ func TestWordRealLegacyFamilyMapsExistingFourSlotsWithoutEmbeddingSelectedNoto(t
 		t.Fatal(family, ok)
 	}
 	parts := map[string]string{"word/document.xml": `<w:document xmlns:w="` + W + `"><w:r><w:rPr><w:rFonts w:ascii="仿宋" w:hAnsi="仿宋" w:eastAsia="仿宋" w:cs="仿宋"/></w:rPr></w:r></w:document>`}
-	files := addFallbackFonts(parts)
+	files, embeddingErr := addFallbackFonts(parts)
+	if embeddingErr != nil {
+		t.Fatal(embeddingErr)
+	}
 	if len(files) != 0 {
 		t.Fatal("selected Noto name was mistaken for fallback provenance")
 	}
@@ -250,17 +253,24 @@ func TestWordSelectedSameNameNeverLeaksItsBytesThroughBundledEmbedding(t *testin
 		t.Fatal(err)
 	}
 	parts := map[string]string{"word/document.xml": `<w:document xmlns:w="` + W + `"><w:rFonts w:eastAsia="仿宋"/><w:rFonts w:eastAsia="黑体"/></w:document>`, "word/settings.xml": `<w:settings xmlns:w="` + W + `"></w:settings>`, "[Content_Types].xml": `<Types></Types>`, "word/_rels/document.xml.rels": `<Relationships></Relationships>`}
-	files := addFallbackFonts(parts)
+	files, embeddingErr := addFallbackFonts(parts)
+	if embeddingErr != nil {
+		t.Fatal(embeddingErr)
+	}
 	if len(files) != 1 {
 		t.Fatal("expected only the needed bundled face", len(files))
 	}
-	sum := sha256.Sum256(assets.FallbackBlackFont)
+	derived, err := prepareWordFallbackEmbedding(fontData{"Noto Serif SC Black", assets.FallbackBlackFont})
+	if err != nil {
+		t.Fatal(err)
+	}
+	sum := sha256.Sum256(derived.data)
 	for name, data := range files {
 		decoded := append([]byte(nil), data...)
 		for i := 0; i < 32; i++ {
 			decoded[i] ^= sum[15-i%16]
 		}
-		if !bytes.Equal(decoded, assets.FallbackBlackFont) {
+		if !bytes.Equal(decoded, derived.data) {
 			t.Fatal("non-bundled bytes embedded", name)
 		}
 		if bytes.Contains(data, []byte("selected-private-marker")) {
@@ -280,7 +290,7 @@ func TestWordBundledFallbackStillEmbedsAndSelectedFamilyNamesRemainEscaped(t *te
 		t.Fatal(err)
 	}
 	parts := map[string]string{"word/document.xml": `<w:document xmlns:w="` + W + `"><w:rFonts w:eastAsia="仿宋"/><w:rFonts w:eastAsia="黑体"/></w:document>`, "word/settings.xml": `<w:settings xmlns:w="` + W + `"></w:settings>`, "[Content_Types].xml": `<Types></Types>`, "word/_rels/document.xml.rels": `<Relationships></Relationships>`}
-	if len(addFallbackFonts(parts)) != 2 {
+	if files, err := addFallbackFonts(parts); err != nil || len(files) != 2 {
 		t.Fatal("bundled fallback embedding stopped")
 	}
 	family := `A & "B<`
@@ -288,7 +298,7 @@ func TestWordBundledFallbackStillEmbedsAndSelectedFamilyNamesRemainEscaped(t *te
 		t.Fatal(err)
 	}
 	selected := map[string]string{"word/document.xml": `<w:document xmlns:w="` + W + `"><w:rFonts w:eastAsia="仿宋"/></w:document>`}
-	if len(addFallbackFonts(selected)) != 0 {
+	if files, err := addFallbackFonts(selected); err != nil || len(files) != 0 {
 		t.Fatal("selected family name changed provenance")
 	}
 	d, e := parseXML([]byte(selected["word/document.xml"]))

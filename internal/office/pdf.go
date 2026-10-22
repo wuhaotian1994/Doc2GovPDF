@@ -99,6 +99,9 @@ func resolveFont(name string) fontData {
 	} else if ambiguous {
 		return fonts["Noto Serif SC"]
 	}
+	if original, ok := derivedFallbackSource(name); ok {
+		return fonts[original]
+	}
 	if face, ok := fonts[name]; ok {
 		return face
 	}
@@ -380,7 +383,7 @@ func (w *pdfWriter) setFont(p Paragraph) {
 	}
 	if fallbackName(fd.name) && ambiguousFamily {
 		w.warnings["已登记的字族“"+p.Font+"”对应多个不同字体面，原声明不能唯一确定字重或样式；PDF 使用 "+fd.name+" 备用字体草拟，请重新核对字体。"] = true
-	} else if strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name {
+	} else if original, derived := derivedFallbackSource(p.Font); strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name && (!derived || original != fd.name) {
 		w.warnings["当前排版引擎未取得可用字体“"+p.Font+"”，PDF 使用已嵌入的 "+fd.name+" 备用字体，仅供草拟，不代表全文国标检查通过。"] = true
 	}
 	w.f.SetFont(family, "", p.Size)

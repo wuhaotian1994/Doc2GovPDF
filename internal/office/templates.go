@@ -654,7 +654,10 @@ func CreateDOCX(m Model) ([]byte, error) {
 	parts["[Content_Types].xml"] = strings.Replace(parts["[Content_Types].xml"], "</Types>", `<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`, 1)
 	parts["word/_rels/document.xml.rels"] = strings.Replace(parts["word/_rels/document.xml.rels"], "</Relationships>", `<Relationship Id="styles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`, 1)
 	addNumberingPart(parts, m)
-	fontFiles := addFallbackFonts(parts)
+	fontFiles, err := addFallbackFonts(parts)
+	if err != nil {
+		return nil, err
+	}
 	z := zip.NewWriter(&out)
 	names := []string{}
 	for name := range parts {

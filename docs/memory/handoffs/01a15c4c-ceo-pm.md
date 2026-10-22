@@ -1,5 +1,16 @@
 # CEO 与产品经理交接
 
+## 最新：内置OFL备用Word实际字形与中文映射（优先于历史）
+
+- 同PR5/ceo-001树/codex/ceo-004-materials，起点1b17f3a；本轮Go7文件、字体脚本4、原字体提示及证据全归本聊天/明确Agent。实现与最终交付SHA看checkpoint，不合并或部署。
+- 固定OFL两fullSHA派生内部3429e家族、PRC charset86，字形/度量/许可证不改；用户所选字体字节与真实legacy声明不改、原Word原件另存不改。严格SHA未知失败，owned buffer不改注册数据/无常驻copy，精确alias可回导Black并要求完整资源。office/webengine完整test/vet、独立审查过。
+- 三浏览器60项/15对30实际文件，备用原生Word33/33真实glyph、中文Regular13/Black11、0images/精确提取过；原卫生源未改，Word仅字体声明/派生part/无效setting改变，新4c18c0d6，7页及88原文本保持，回执标题/表6、小表4。镇稿实际Word2+2页，14新实页及旧1页已看。具体WORD-FALLBACK-EMBEDDING-RESPONSE.md，23日独立日志。
+- 当前4173仍PID65964，word-fallback-embedded-web冻结原样同步，64HTTP资产，Wasm6110d00ba2ce502b23bb442f3e23722eadac3bd83560f0c0841a36b4a7f8b7a3；实际服务Chrome再20项/5对文件全过，DOCX与已审Word源同字节。提交后不重建。
+- 最新main a21929e2b3d37009d6095c1da91f8ba7e3af287e / CEO993c77ad6eb465ee3d134898a364ddd343005a24：单签发镇稿成品已独立实际取得，支持事实/两页/版记，不能再称只生成未取得。新多人签发P0最优先，另有LO版记横线P1（当前Word16显示不代签LO）。未实施多人改善，不能称已有engine数组等于产品完成。
+- 下一多人最小增量：沿用textarea每行一人、按原机关顺序，v7原字符串可存不需新版；fieldsForEngine需signers数组与首名signer兼容，TXT不能漏后人；write-checks需逐作者行锚点，歧义整稿。现有engine两名一行/文号末行/无红头标题前可复用，但需准确三页官方扫描原件与实际Word/PDF坐标验。cleanNames静默去重、长名第二列间距是已知边界，勿删人或猜业务。源URL见CEO最新段，本机尚未建该完整可读源，不拿镇稿或编样本替代。
+- 已闭合仅本机固定OFL备用Word映射；自选接收端替代/字体类别/全文标准仍开。directPDF子集cmap format4奇数长度为旧新重开字节一致的另一个P0，Poppler可见可提取与glyph通过不等于容器全面有效；LO缺线本机无LO，待同环境复现。继续按优先级推进，不重复已过短稿或要求用户再给不存在529稿。
+
+
 ## 最新：签发／独立印发与简化反馈（优先于历史）
 
 - **已实际交付**：实现6fa339b433f2950774a923560f3c39a56a300512，正常合入main f9f0c50后705dfa394cda9e9645a7424710b5ec395cbfec47已推送原分支。PR5标题/正文已按最终行为重写且成功附加，open/unmerged/mergeable=true；没有新增PR或合并。705核对评论/评审/行内/Issues/状态/Actions均空，不能称远端CI绿或CEO已独立接受本轮。随后只补本交付记录，最终文档head在checkpoint。

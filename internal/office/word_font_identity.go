@@ -93,6 +93,9 @@ func wordFontDeclaration(declared string) (string, fontData, bool) {
 	} else if ambiguous {
 		return declared, fontData{}, false
 	}
+	if original, ok := derivedFallbackSource(declared); ok {
+		return declared, fonts[original], true
+	}
 	if !wordRoleRequest(declared) && !fallbackName(declared) {
 		return declared, fontData{}, false
 	}

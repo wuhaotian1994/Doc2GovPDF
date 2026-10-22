@@ -9,7 +9,8 @@ import (
 
 // Only the OFL fallback faces are embedded. Installed system fonts are not
 // redistributed; a missing face is explicitly named as a fallback in the file.
-func addFallbackFonts(parts map[string]string) map[string][]byte {
+func addFallbackFonts(parts map[string]string) (map[string][]byte, error) {
+	prepared := map[string]fontData{}
 	used := map[string]fontData{}
 	for name, xml := range parts {
 		if !strings.HasSuffix(name, ".xml") || name == "[Content_Types].xml" {
@@ -26,6 +27,18 @@ func addFallbackFonts(parts map[string]string) map[string][]byte {
 					continue
 				}
 				name, face, embedFallback := wordFontDeclaration(declared)
+				if embedFallback {
+					derived, ok := prepared[face.name]
+					if !ok {
+						var err error
+						derived, err = prepareWordFallbackEmbedding(face)
+						if err != nil {
+							return nil, err
+						}
+						prepared[face.name] = derived
+					}
+					name, face = derived.name, derived
+				}
 				if name != declared {
 					fontsElement.RemoveAttr("w:" + key)
 					fontsElement.CreateAttr("w:"+key, name)
@@ -43,7 +56,7 @@ func addFallbackFonts(parts map[string]string) map[string][]byte {
 	}
 	files := map[string][]byte{}
 	if len(used) == 0 {
-		return files
+		return files, nil
 	}
 	names := []string{}
 	for name := range used {
@@ -57,22 +70,23 @@ func addFallbackFonts(parts map[string]string) map[string][]byte {
 		face := used[name]
 		sum := sha256.Sum256(face.data)
 		key := fmt.Sprintf("{%X-%X-%X-%X-%X}", sum[:4], sum[4:6], sum[6:8], sum[8:10], sum[10:16])
-		data := append([]byte{}, face.data...)
+		// face.data is this export's validated owned derivative, never registered data.
+		data := face.data
 		for n := 0; n < 32; n++ {
 			data[n] ^= sum[15-n%16]
 		}
 		file := fmt.Sprintf("font%d.odttf", i+1)
 		id := fmt.Sprintf("font%d", i+1)
 		files["word/fonts/"+file] = data
-		fmt.Fprintf(&table, `<w:font w:name="%s"><w:family w:val="roman"/><w:pitch w:val="variable"/><w:embedRegular r:id="%s" w:fontKey="%s"/></w:font>`, xmlText(name), id, key)
+		fmt.Fprintf(&table, `<w:font w:name="%s"><w:charset w:val="86"/><w:family w:val="roman"/><w:pitch w:val="variable"/><w:embedRegular r:id="%s" w:fontKey="%s"/></w:font>`, xmlText(name), id, key)
 		fmt.Fprintf(&rels, `<Relationship Id="%s" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/%s"/>`, id, file)
 	}
 	table.WriteString(`</w:fonts>`)
 	rels.WriteString(`</Relationships>`)
 	parts["word/fontTable.xml"] = table.String()
 	parts["word/_rels/fontTable.xml.rels"] = rels.String()
-	parts["word/settings.xml"] = strings.Replace(parts["word/settings.xml"], "</w:settings>", `<w:embedTrueTypeFonts/><w:doNotEmbedSystemFonts/><w:saveSubsetFonts w:val="0"/></w:settings>`, 1)
+	parts["word/settings.xml"] = strings.Replace(parts["word/settings.xml"], "</w:settings>", `<w:embedTrueTypeFonts/><w:saveSubsetFonts w:val="0"/></w:settings>`, 1)
 	parts["[Content_Types].xml"] = strings.Replace(parts["[Content_Types].xml"], "</Types>", `<Default Extension="odttf" ContentType="application/vnd.openxmlformats-officedocument.obfuscatedFont"/><Override PartName="/word/fontTable.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml"/></Types>`, 1)
 	parts["word/_rels/document.xml.rels"] = strings.Replace(parts["word/_rels/document.xml.rels"], "</Relationships>", `<Relationship Id="fonts" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable" Target="fontTable.xml"/></Relationships>`, 1)
-	return files
+	return files, nil
 }
