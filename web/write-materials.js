@@ -62,8 +62,8 @@ export function materialProposal(analysis,selected={},mergeWrapped=false,current
   if(selected.keepTitle&&selected.title)conflicts.push('请选择一个标题来源，不要同时选择两个标题。');
   if(selected.keepTitle&&!selected.title&&analysis.candidates.title?.value===currentTitle.trim())conflicts.push('原文首行与已填标题相同，请选择提取首行，避免在正文中重复标题。');
   if(analysis.candidates.postscript){
-    if(selected.signature&&!selected.date||selected.date&&!selected.postscript||selected.postscript&&!selected.date)conflicts.push('这处日期后还有内容。请同时确认日期及其后的附注，或都留在正文，避免改变原始顺序。');
-    if(selected.postscript&&analysis.candidates.postscript.value.length>4000)conflicts.push('日期后的内容超过附注的4000字符限制，请取消后在正文中保留，或分份整理。');
+    if(selected.signature&&!selected.date||selected.date&&!selected.postscript||selected.postscript&&!selected.date)conflicts.push('这处日期后还有内容。请同时确认日期及其后的内容，或都留在正文，避免改变原始顺序。');
+    if(selected.postscript&&analysis.candidates.postscript.value.length>4000)conflicts.push('日期后的内容超过当前4000字符限制，请取消后在正文中保留，或分份整理。');
   }
   if(selected.omitWebMetadata)for(const line of analysis.webMetadata||[])used.set(line.index,'webMetadata');
   for(const name of ['title','recipient','signature','date','postscript']){

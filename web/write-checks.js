@@ -1,9 +1,10 @@
+import {hasAnnexes} from './write-annexes.js';
 // Review identity belongs to the source and the decision, never to the engine's
 // document-digest ID. Export still uses the latest engine IDs.
 import {resolveContentSource,paragraphContentSources} from './write-content.js';
 const bodyRoles = new Set(['body','article','heading','heading2','heading3','heading4']);
-const documentFields=(fields,content)=>({...Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key))),...([...(content?.blocks||[]),...(content?.postscript?.blocks||[])].some(block=>block.type==='table'||['role','align','indent','before','after'].some(key=>block[key]!=='auto'))?{bodyContent:content}:{})});
-export const fieldLabels = {title:'标题',body:'正文',recipient:'收文对象',agency:'发文单位',reference:'发文字号',signature:'落款',date:'日期',attachments:'附件名称',copyTo:'抄送单位',postscript:'落款后附注'};
+const documentFields=(fields,content)=>({...Object.fromEntries(Object.entries(fields).filter(([key])=>!['sourceMaterial','pendingMaterial'].includes(key))),...(hasAnnexes(content)||[...(content?.blocks||[]),...(content?.postscript?.blocks||[])].some(block=>block.type==='table'||['role','align','indent','before','after'].some(key=>block[key]!=='auto'))?{bodyContent:content}:{})});
+export const fieldLabels = {title:'标题',body:'正文',recipient:'收文对象',agency:'发文单位',reference:'发文字号',signature:'落款',date:'日期',attachments:'附件名称',copyTo:'抄送单位',postscript:'落款后内容'};
 
 export function sourceLines(value) {
   let start=0;

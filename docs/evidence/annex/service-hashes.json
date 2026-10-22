@@ -1,0 +1,14 @@
+{
+  "url": "http://127.0.0.1:4173",
+  "hashes": {
+    "index.html": "1257047215ee81ad69dc9d143e69c69eaf39d71d881d1d03a7e4bfb6e762c956",
+    "write.js": "f72e515bf5905597d1bf026610d06dd315e0f7677c34469af603fb4886747de3",
+    "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+    "write-content.js": "ff3f364a2e8d2d5e87d8f227e77dc25e8595ad82aaddd5ef09f4a9cef60c32c2",
+    "write-model.js": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143",
+    "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+    "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+    "document-engine.wasm": "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c"
+  },
+  "passed": true
+}

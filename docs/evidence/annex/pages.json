@@ -1,0 +1,62 @@
+[
+  {
+    "file": "admissions.pdf",
+    "image": "admissions-1.png",
+    "sha256": "bcd78c4e8900988704d6e625be2192d597688d1d3d9853e26e59cb4092b305dc"
+  },
+  {
+    "file": "admissions.pdf",
+    "image": "admissions-2.png",
+    "sha256": "1203ec67b61d7d699581bf1199846a928125393312f21b5753924324ed96da98"
+  },
+  {
+    "file": "admissions.pdf",
+    "image": "admissions-3.png",
+    "sha256": "3431d33341749de48ff22155c6ecb6f4ceebc1e6d73d7e73c69d02aeec030f18"
+  },
+  {
+    "file": "admissions.word.pdf",
+    "image": "admissions.word-1.png",
+    "sha256": "6a4ad0d33fc5160d96aaa1faa86b4343f12c7f6f6b96dcbdd2f74fcba37e603a"
+  },
+  {
+    "file": "admissions.word.pdf",
+    "image": "admissions.word-2.png",
+    "sha256": "7d9d17781fc34c059edaa49b5dd2e07811726e67d176b23a5b7789fbd738ba76"
+  },
+  {
+    "file": "admissions.word.pdf",
+    "image": "admissions.word-3.png",
+    "sha256": "ebbf1c3ffcdb4fbe50d9870aecc7837caf9052b2b2de21a505acf4efec808754"
+  },
+  {
+    "file": "multiple.pdf",
+    "image": "multiple-1.png",
+    "sha256": "350a7ba175591ad3d6caae93297bf68d1902c923171abdc3a4ab09198cc0d0ae"
+  },
+  {
+    "file": "multiple.pdf",
+    "image": "multiple-2.png",
+    "sha256": "ebdccad9f60433042073c21de6952c5d7d5d023b9e0793f84b8dba402b75f15f"
+  },
+  {
+    "file": "multiple.pdf",
+    "image": "multiple-3.png",
+    "sha256": "143609707118476cd757f5fbbaf37bbb4974626f34244ffb90f750ea5d246a6c"
+  },
+  {
+    "file": "multiple.word.pdf",
+    "image": "multiple.word-1.png",
+    "sha256": "110e6b24967b28c645380505cee43de97ca4e34bd04d480383af73560feb28f1"
+  },
+  {
+    "file": "multiple.word.pdf",
+    "image": "multiple.word-2.png",
+    "sha256": "29eea547753badbafd9c9607da1b97ca16c71bc2ef8793aaa57c6f27fe38a69d"
+  },
+  {
+    "file": "multiple.word.pdf",
+    "image": "multiple.word-3.png",
+    "sha256": "5ad96cd97de74d74e0509bcb0f126b6a4c01e426646b50b646f6a627e3a79195"
+  }
+]

@@ -137,6 +137,7 @@ func Inspect(m Model) (Inspection, error) {
 			}
 		}
 	}
+	attachmentFindings(m, add)
 	for _, p := range m.Paragraphs() {
 		if p.Role == "attachment-body" && strings.TrimSpace(p.Text) == "" {
 			add(p, "attachment.empty", "error", "这个附件页还没有内容，请填写后再导出。", "", "附件内容完整性")

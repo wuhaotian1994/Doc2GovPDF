@@ -1,3 +1,4 @@
+import {hasAnnexes,annexCandidates,applyAnnexChoices,attachmentSummary} from './write-annexes.js';
 import {installWordWorkspace} from './write-word-workspace.js';
 import {WriterEngine} from './write-engine.js';
 import {DRAFT_KEY,DRAFT_MAX_BYTES,materialNames, names, blank, draft, validateDraft, validDate, fieldsForEngine, applySignature, textContent, safeName} from './write-model.js';
@@ -56,13 +57,13 @@ const clearError = () => {
   $('global-error').hidden=true;
   if($('export-status').classList.contains('failed')){$('export-status').textContent='';$('export-status').classList.remove('failed');}
 };
-const contentEditor=installContentEditor({getContent:()=>bodyContent?{version:1,blocks:bodyContent.blocks}:null,onSettled:schedulePreview,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
+const contentEditor=installContentEditor({getContent:()=>bodyContent?{version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})}:null,onSettled:schedulePreview,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
   bodyContent=bodyContent?.postscript?{...(next||contentFromText(text)),postscript:bodyContent.postscript}:next;$('body').value=text;readFields();decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
 }});
 const postscriptEditor=installContentEditor({region:'postscript',getContent:()=>bodyContent?.postscript||null,onSettled:schedulePreview,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
   const hadBody=Boolean(bodyContent);
   if(next)bodyContent={...(bodyContent||contentFromText(fields.body)),postscript:next};else if(bodyContent){const {postscript,...body}=bodyContent;bodyContent=body;}
-  $('postscript').value=text;readFields();if(!hadBody&&bodyContent)contentEditor.set({version:1,blocks:bodyContent.blocks});decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
+  $('postscript').value=text;readFields();if(!hadBody&&bodyContent)contentEditor.set({version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})});decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();if(!composing)schedulePreview();
 }});
 function bodySummary(){
   if(!bodyContent)return fields.body.length.toLocaleString('zh-CN')+' 字';
@@ -92,7 +93,7 @@ function fillFields() {
   renderLetterheadState();
   $('letterhead').closest('details').open = Boolean(fields.letterhead || fields.reference);
   $('attachments').closest('details').open = Boolean(fields.attachments || fields.copyTo);
-  updateBodyCount();contentEditor.set(bodyContent?{version:1,blocks:bodyContent.blocks}:null);postscriptEditor.set(bodyContent?.postscript||null);
+  updateBodyCount();contentEditor.set(bodyContent?{version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})}:null);postscriptEditor.set(bodyContent?.postscript||null);
   $('material-source').hidden=!fields.sourceMaterial;
   $('material-entry').open=Boolean(fields.pendingMaterial);
   $('postscript').closest('details').open=Boolean(fields.postscript);
@@ -202,8 +203,9 @@ function renderSummary() {
   if(wordWorkspace?.active)return wordWorkspace.summary();
   const rows = [
     ['标题',fields.title,0,'title'],['正文',bodySummary(),1,'body'],
+    ...(hasAnnexes(bodyContent)?[['实际附件',attachmentSummary(bodyContent).map(a=>a.label+'：'+a.title).join('；')+'（另面起排，页码连续）',1,bodyContent?.annexes?.length?'body':'postscript']]:[]),
     ['落款',fields.signature || '未单独填写；如已在正文中保留，无需重复添加。',1,'signature'],['日期',fieldsForEngine(fields).date || '未单独填写；如已在正文中保留，无需重复添加。',1,'date'],
-    ...(fields.postscript?[['附注',fields.postscript.split(/\r?\n/).filter(line=>line.trim()).length+' 段，排在日期后',1,'postscript']]:[])
+    ...(fields.postscript?[['落款后内容',fields.postscript.split(/\r?\n/).filter(line=>line.trim()).length+' 段，排在日期后',1,'postscript']]:[])
   ];
   $('review-summary').replaceChildren(...rows.map(([label,value,target,id])=>{
     const row = document.createElement('div'); row.className = 'review-row';
@@ -265,7 +267,7 @@ function renderChecks() {
   }
   renderReferenceFeedback();
   const count=severity=>entries.filter(entry=>entry.issue.severity===severity).length;
-  $('checks-status').textContent = entries.length ? `必须修正 ${count('error')} 项，需要判断 ${count('review')} 项，建议 ${count('suggestion')} 项。事实、名称和数字仍需你核对。` : '未发现需要处理的格式问题。请自行核对事实、名称和数字。';
+  $('checks-status').textContent = entries.length ? `必须修正 ${count('error')} 项，需要判断 ${count('review')} 项，建议 ${count('suggestion')} 项。事实、名称和数字仍需你核对。` : '已完成当前已实现的格式检查。全文国标仍有未核项，请核对事实、名称和数字。';
   for (const entry of entries) {
     const {issue,source}=entry,line=resolveSource(source,fields,bodyContent);
     const item = document.createElement('div'); item.className='review-issue';item.dataset.rule=issue.rule;item.dataset.severity=issue.severity;
@@ -300,6 +302,7 @@ function renderChecks() {
     }
     $('check-list').append(item);
   }
+  const scope=document.createElement('details');scope.className='standards-scope';const scopeTitle=document.createElement('summary');scopeTitle.textContent='查看本次标准核对范围与未核项';scope.append(scopeTitle);for(const text of [hasAnnexes(bodyContent)?'实际附件：已按作者确认约束起页、标识、标题位置及正文说明对应；具体页面仍需核对。':'正文内表格和落款后说明未自动声明为实际附件；请按业务用途明确确认。','本次不是全文合规认证：真实字体身份/嵌入、签章事实、纸张油墨、双面印制和装订仍有未核项目。保留原写法或继续草拟不会把它们变为符合。']){const p=document.createElement('p');p.textContent=text;scope.append(p);}$('check-list').append(scope);
   if(outputWarnings.length){const warning=document.createElement('details');warning.className='output-warnings';const summary=document.createElement('summary');summary.textContent='当前为备用草拟排版，不能据此认定全文符合国标';warning.append(summary);for(const message of outputWarnings){const p=document.createElement('p');p.textContent=message;warning.append(p);}$('check-list').append(warning);}
   updateExport();persist();
 }
@@ -398,7 +401,7 @@ async function exportFile() {
   if(wordWorkspace?.active){updateExport();if($('export').disabled)return;}
   exporting=true;$('editable').disabled=true;updateExport();clearError();
   try {
-    if(format==='txt') download(safeName(fields.title)+'.txt','\ufeff'+textContent(fields),'text/plain;charset=utf-8');
+    if(format==='txt') download(safeName(fields.title)+'.txt','\ufeff'+textContent(fields,bodyContent),'text/plain;charset=utf-8');
     else {
       const checked=structuredClone(model); checked.confirmedIssues=[...confirmed];
       const file=await engine.call('ExportDocument',checked,format,false,wordWorkspace?.active?await wordWorkspace.source():null);
@@ -447,15 +450,19 @@ function keepReference(){
   }else referenceChoice={documentId:currentId,value:fields.reference,advice,seeded:false};
   referenceDismissed=null;renderChecks();renderReferenceFeedback(true);persist();
 }
-let materialTableSelections=new Set();
+let materialTableSelections=new Set(),materialAnnexSelections=new Set(),materialChoiceNotices={};
+function renderChoiceNotice(){const p=$('material-choice-status');p.textContent=Object.values(materialChoiceNotices).join(' ');p.hidden=!p.textContent;}
+
+function renderAnnexChoices(fields){const root=$('material-annexes'),candidates=annexCandidates(fields),valid=new Set(candidates.map(a=>a.key));if([...materialAnnexSelections].some(k=>!valid.has(k)))materialChoiceNotices.annex='原有附件标识与标题的独立行关系在当前整理结果中已改变，先前的附件身份选择未沿用。请取消合并或重新核对。';materialAnnexSelections=new Set([...materialAnnexSelections].filter(k=>valid.has(k)));renderChoiceNotice();root.replaceChildren();root.hidden=!candidates.length;if(!candidates.length)return;const heading=document.createElement('h3');heading.textContent='这些内容是随文的实际附件吗？';root.append(heading);for(const a of candidates){const label=document.createElement('label');label.className='check';const input=document.createElement('input');input.type='checkbox';input.dataset.materialAnnex=a.region;input.checked=materialAnnexSelections.has(a.key);input.onchange=()=>{input.checked?materialAnnexSelections.add(a.key):materialAnnexSelections.delete(a.key);delete materialChoiceNotices.annex;renderChoiceNotice();};label.append(input,document.createTextNode('作为实际附件 · '+a.label+' · '+a.name));root.append(label);}const hint=document.createElement('p');hint.className='hint';hint.textContent='确认后保留原文字和表格，实际附件另面起排、标题居中、页码连续，并核对正文附件说明。附注和正文内普通表格不自动变成附件。';root.append(hint);}
+
 function renderMaterialTableChoices(fields){
   const candidates=materialTables(fields),root=$('material-tables');root.replaceChildren();root.hidden=!candidates.length;
-  const valid=new Set(candidates.map(item=>item.key));materialTableSelections=new Set([...materialTableSelections].filter(key=>valid.has(key)));
+  const valid=new Set(candidates.map(item=>item.key)),removed=[...materialTableSelections].filter(key=>!valid.has(key));if(removed.length){const old=JSON.parse(removed[0].split('\0')[0]);materialChoiceNotices.table=`原先确认的${old.length}行${old[0].length}列表格已不能在当前范围匹配相同内容和出现次数（含空格），已取消该选择，请展开核对当前范围。`;}materialTableSelections=new Set([...materialTableSelections].filter(key=>valid.has(key)));renderChoiceNotice();
   if(!candidates.length)return;
   const heading=document.createElement('h3');heading.textContent='发现原文已有表格，不用重新抄录';root.append(heading);
   for(const candidate of candidates){
     const label=document.createElement('label');label.className='check';const input=document.createElement('input');input.type='checkbox';input.dataset.materialTable=candidate.region;input.checked=materialTableSelections.has(candidate.key);
-    input.onchange=()=>{if(input.checked)materialTableSelections.add(candidate.key);else materialTableSelections.delete(candidate.key);};
+    input.onchange=()=>{if(input.checked)materialTableSelections.add(candidate.key);else materialTableSelections.delete(candidate.key);delete materialChoiceNotices.table;renderChoiceNotice();};
     label.append(input,document.createTextNode(`保留为表格 · ${candidate.rows.length}行${candidate.rows[0].length}列 · ${candidate.region==='body'?'正文中':'落款日期之后'}`));
     const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='查看这些原有行列和数字';const scroll=document.createElement('div');scroll.className='material-table-preview';const table=document.createElement('table');
     for(const row of candidate.rows){const tr=document.createElement('tr');for(const text of row){const td=document.createElement('td');td.textContent=text;tr.append(td);}table.append(tr);}scroll.append(table);details.append(summary,scroll);root.append(label,details);
@@ -465,7 +472,7 @@ function renderMaterialTableChoices(fields){
 function renderMaterialPreview(){
   if(!materialAnalysis)return;
   const next=materialProposal(materialAnalysis,selectedMaterial(),$('material-join').checked,fields.title);
-  renderMaterialTableChoices(next.fields);
+  renderMaterialTableChoices(next.fields);renderAnnexChoices(next.fields);
   $('material-body-preview').value=next.fields.body;
   $('material-postscript-preview').value=next.fields.postscript;
   $('material-postscript-result').hidden=!materialAnalysis.candidates.postscript;
@@ -486,7 +493,7 @@ function renderMaterialCandidates(preserveBasic=false){
       const copy=document.createElement('span'),heading=document.createElement('strong'),source=document.createElement('span'),hint=document.createElement('small');
       heading.textContent=label;source.textContent=value;hint.textContent=note;copy.append(heading,source,hint);row.append(input,copy);options.push(row);
     };
-    const labels={title:'作为文档标题',recipient:'作为收文对象',signature:'作为落款',date:'作为日期',postscript:'后面的内容作为落款后附注（保留原顺序）'};
+    const labels={title:'作为文档标题',recipient:'作为收文对象',signature:'作为落款',date:'作为日期',postscript:'把后面的附注、附件等内容放在落款后核对'};
     for(const name of ['title','recipient','signature','date','postscript']){
       const candidate=materialAnalysis.candidates[name];
       if(candidate)add(name,name==='signature'&&candidate.indices?.length>1?'作为联合落款（保留原顺序）':labels[name],candidate.text.trim(),'原文第 '+(candidate.indices||[candidate.index]).map(index=>index+1).join('、')+' 行；请确认用途，不会默认提取。');
@@ -500,7 +507,7 @@ function openMaterial(){
   readFields();persist();
   try{
     if(!fields.pendingMaterial.trim())throw Error('请先整篇粘贴原始材料。现有文档不会改变。');
-    materialAnalysis=analyseMaterial(fields.pendingMaterial);materialTableSelections=new Set();
+    materialAnalysis=analyseMaterial(fields.pendingMaterial);materialTableSelections=new Set();materialAnnexSelections=new Set();materialChoiceNotices={};renderChoiceNotice();
     $('material-date-choice').hidden=materialAnalysis.closings.length<=1;
     const placeholder=document.createElement('option');placeholder.value='-1';placeholder.textContent='请先选择属于落款的日期';
     $('material-date-source').replaceChildren(placeholder,...materialAnalysis.closings.map((closing,index)=>{const option=document.createElement('option');option.value=String(index);option.textContent='原文第 '+(closing.date.index+1)+' 行：'+closing.date.text+'；前一行：'+(materialAnalysis.lines[closing.date.index-1]||'（空行）');return option;}));
@@ -514,7 +521,7 @@ function applyMaterial(){
   const next=materialProposal(materialAnalysis,selectedMaterial(),$('material-join').checked,fields.title);
   if(next.conflicts.length||!next.fields.title.trim()||!next.fields.body.trim()){renderMaterialPreview();return;}
   if(fields.date&&!validDate(fields.date)||$('date').validity.badInput){$('material-dialog').close();showStep(1);fieldError('date','请先修正或清空当前日期，再整理新材料。');$('date').focus();return;}
-  let materialContent;try{materialContent=confirmedMaterialContent(next.fields,materialTableSelections);}catch(e){$('material-message').textContent=e.message;return;}
+  let materialContent;try{materialContent=confirmedMaterialContent(next.fields,materialTableSelections);if(materialAnnexSelections.size){if(!materialContent){materialContent=contentFromText(next.fields.body);if(next.fields.postscript)materialContent.postscript=contentFromText(next.fields.postscript);}materialContent=applyAnnexChoices(materialContent,next.fields,materialAnnexSelections);}}catch(e){$('material-message').textContent=e.message;return;}
   if(requestReplace({...draft(next.fields,1,undefined,undefined,materialContent),reuseMessage:'已按你确认的选项整理。原始材料已保留，可查看或下载；上一份文档仍可恢复。'},true)){
     $('material-dialog').close();materialAnalysis=null;
   }
@@ -703,7 +710,7 @@ async function boot() {
       if(name==='letterhead'&&typeof pending.fields[name]==='boolean')fields[name]=pending.fields[name];
     }
     if(pending.content){
-      try{const restored=validateDraft({type:'gongwen-form',version:pending.content.postscript?5:4,fields,content:pending.content});bodyContent=restored.content;}
+      try{const restored=validateDraft({type:'gongwen-form',version:hasAnnexes(pending.content)?6:pending.content.postscript?5:4,fields,content:pending.content});bodyContent=restored.content;}
       catch{blockedSave=true;rawRecovery=JSON.stringify(pending);error('段落与表格恢复尚未完成，原始数据已保留。请先下载恢复数据。');$('rescue-draft').hidden=false;}
     }
     if(Number.isInteger(pending.step)&&pending.step>=0&&pending.step<=2)step=pending.step;

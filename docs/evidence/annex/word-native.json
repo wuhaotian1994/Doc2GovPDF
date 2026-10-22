@@ -1,0 +1,32 @@
+[
+  {
+    "file": "admissions",
+    "wordVersion": "16.0",
+    "sourceSHA256": "C98DB648923A132AE78D1B56AAA2B4C771BB3D8F3BF7490FD395886016543334",
+    "pages": 3,
+    "tables": 1,
+    "logicalTextSHA256": "165F909882CF4CB9753948C481BB3DDD75BCB14CE8F455E53322A846E8B3725E",
+    "pageMap": {
+      "label": 2,
+      "title": 2,
+      "signature": 1,
+      "firstSchool": 2,
+      "lastSchool": 3,
+      "total": 3
+    }
+  },
+  {
+    "file": "multiple",
+    "wordVersion": "16.0",
+    "sourceSHA256": "14A90167F90AFB6B01CEB5C4FE7259BBFEC35CA769ADA2D41F7921B8A3B9A981",
+    "pages": 3,
+    "tables": 1,
+    "logicalTextSHA256": "D84A0ABD3E5F3835CB5B8547FE2514F741DD937A99D545B89570AF0F9717BB31",
+    "pageMap": {
+      "firstLabel": 2,
+      "firstTitle": 2,
+      "secondLabel": 3,
+      "secondTitle": 3
+    }
+  }
+]

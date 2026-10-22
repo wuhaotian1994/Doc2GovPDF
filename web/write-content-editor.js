@@ -1,3 +1,4 @@
+import {setAnnex,annexAt} from './write-annexes.js';
 import {paragraph,table,contentFromText,contentText,validateContent,splitContentParagraph,mergeContentParagraph,moveContentBlock,tabularContentAt} from './write-content.js';
 const labels={auto:'自动识别',body:'正文',title:'标题',heading:'一级标题',heading2:'二级标题',heading3:'三级标题',heading4:'四级标题',article:'条文正文',signature:'署名',date:'日期'};
 export function installContentEditor({getContent,onChange,onError,canEdit,onSettled,region='body'}){
@@ -41,7 +42,7 @@ export function installContentEditor({getContent,onChange,onError,canEdit,onSett
   function mutate(action,options={}){try{const next=structuredClone(getContent());action(next);return commit(next,options);}catch(error){onError(error.message);return false;}}
   function updateBlock(values){mutate(next=>Object.assign(next.blocks.find(block=>block.id===selected.block),values),{message:'段落设置已更新，可撤销。'});}
   function removeBlock(){mutate(next=>{next.blocks=next.blocks.filter(block=>block.id!==selected.block);if(!next.blocks.length)next.blocks.push(paragraph());},{path:null,message:'已移除，可撤销。'});}
-  function move(direction){try{commit(moveContentBlock(getContent(),selected.block,direction),{message:'顺序已调整，可撤销。'});}catch(error){onError(error.message);}}
+  function move(direction){try{const section=getContent(),i=section.blocks.findIndex(b=>b.id===selected.block),a=annexAt(section,selected.block),b=annexAt(section,section.blocks[i+direction]?.id);if((a?.start||'')!==(b?.start||''))throw Error('这会改变附件内容范围，请先取消附件身份再调整位置。');commit(moveContentBlock(getContent(),selected.block,direction),{message:'顺序已调整，可撤销。'});}catch(error){onError(error.message);}}
   function split(){const block=current(),input=inputFor(selected);if(block?.type!=='paragraph'||!input)return;try{const next=splitContentParagraph(getContent(),block.id,input.selectionStart),index=next.blocks.findIndex(item=>item.id===block.id);commit(next,{path:{block:next.blocks[index+1].id},range:{start:0},message:'已拆成两段，可撤销。'});}catch(error){onError(error.message);}}
   function merge(){const content=getContent(),index=content.blocks.findIndex(block=>block.id===selected.block),previous=content.blocks[index-1];try{commit(mergeContentParagraph(content,selected.block),{path:{block:previous.id},range:{start:previous.text.length},message:'已与上一段合并，可撤销。'});}catch(error){onError(error.message);}}
   function tableChange(kind){
@@ -60,14 +61,16 @@ export function installContentEditor({getContent,onChange,onError,canEdit,onSett
     const block=current();toolbar.replaceChildren();if(!block)return;fitControls();
     const index=getContent().blocks.indexOf(block),actions=document.createElement('div');actions.className='content-actions';
     if(block.type==='paragraph'){
-      actions.append(select('段落类型',Object.entries(labels),block.role,value=>updateBlock({role:value})),button('拆分段落',split),button('与上一段合并',merge,index===0||getContent().blocks[index-1].type!=='paragraph'));
+      const marked=getContent().annexes?.find(a=>a.start===block.id||a.title===block.id);if(marked||/^附件\s*[0-9]*$/.test(block.text.trim()))actions.append(button(marked?'取消实际附件身份':'作为实际附件，另面起排',()=>{try{commit(setAnnex(getContent(),marked?.start||block.id,!marked),{message:marked?'已取消附件身份，原文仍保留。':'已确认实际附件：另面起排并核对附件说明，修改可撤销。'});}catch(e){onError(e.message);}}));
+      if(!marked)actions.append(select('段落类型',Object.entries(labels),block.role,value=>updateBlock({role:value})),button('拆分段落',split),button('与上一段合并',merge,index===0||getContent().blocks[index-1].type!=='paragraph'));
     }else{
       const rowIndex=block.rows.findIndex(row=>row.id===selected?.row),columnIndex=rowIndex<0?-1:block.rows[rowIndex].cells.findIndex(cell=>cell.id===selected?.cell);
       const caption=document.createElement('strong');caption.textContent=`表格 · ${block.rows.length} 行 ${block.rows[0].cells.length} 列`+(rowIndex>=0&&columnIndex>=0?`；当前第 ${rowIndex+1} 行，第 ${columnIndex+1} 列`:'');actions.append(caption,button('下方加一行',()=>tableChange('add-row'),block.rows.length>=100),button('右侧加一列',()=>tableChange('add-column'),block.rows[0].cells.length>=10),button('删除当前行',()=>tableChange('remove-row'),block.rows.length<=1),button('删除当前列',()=>tableChange('remove-column'),block.rows[0].cells.length<=1));
       const header=document.createElement('label');header.className='check';const input=document.createElement('input');input.type='checkbox';input.checked=block.header;input.onchange=()=>mutate(next=>next.blocks.find(item=>item.id===block.id).header=input.checked,{message:'表头设置已更新，可撤销。'});header.append(input,document.createTextNode('第一行为表头'));actions.append(header);
     }
+    if(getContent().annexes?.some(a=>a.start===block.id||a.title===block.id)){const note=document.createElement('p');note.className='hint';note.textContent='此处已声明实际附件：标识顶格、标题居中，导出另面起排。需恢复普通段落时先取消附件身份。';toolbar.append(note);}
     actions.append(button('上移',()=>move(-1),index===0),button('下移',()=>move(1),index===getContent().blocks.length-1),button(block.type==='table'?'移除表格':'删除本段',removeBlock));toolbar.append(actions);
-    if(block.type==='paragraph'){
+    if(block.type==='paragraph'&&!getContent().annexes?.some(a=>a.start===block.id||a.title===block.id)){
       const details=document.createElement('details');details.className='content-format';const summary=document.createElement('summary');summary.textContent='对齐、缩进与段间距';details.append(summary);details.open=formatOpen;details.ontoggle=()=>{formatOpen=details.open;};
       const settings=document.createElement('div');settings.className='content-format-fields';
       settings.append(select('对齐',[['auto','随段落类型'],['left','左对齐'],['center','居中'],['right','右对齐'],['both','两端对齐']],block.align,value=>updateBlock({align:value})),select('首行缩进',[['auto','随段落类型'],['none','不缩进'],['two','两个字']],block.indent,value=>updateBlock({indent:value})),select('段前间距',[['auto','随段落类型'],['none','不留空'],['half','半行'],['one','一行']],block.before,value=>updateBlock({before:value})),select('段后间距',[['auto','随段落类型'],['none','不留空'],['half','半行'],['one','一行']],block.after,value=>updateBlock({after:value})));details.append(settings);toolbar.append(details);

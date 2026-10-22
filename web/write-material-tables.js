@@ -11,11 +11,11 @@ export function materialTables(fields){
    let end=i+1;while(end<content.blocks.length&&content.blocks[end].text.includes('\t')&&content.blocks[end].text.split('\t').length===columns)end++;
    const start=i,count=end-i;i=end-1;if(count<2||count>100)continue;
    const rows=content.blocks.slice(start,end).map(block=>block.text.split('\t'));
-   const identity=region+'\0'+JSON.stringify(rows),occurrence=(occurrences.get(identity)||0)+1;occurrences.set(identity,occurrence);
-   result.push({start,count,rows,region,key:identity+'\0'+occurrence});
+   const identity=JSON.stringify(rows),occurrence=(occurrences.get(identity)||0)+1;occurrences.set(identity,occurrence);
+   result.push({start,count,rows,region,identity,occurrence});
   }
  }
- return result;
+ return result.map(item=>({...item,key:item.identity+'\0'+item.occurrence+'\0'+occurrences.get(item.identity)}));
 }
 export function confirmedMaterialContent(fields,keys){
  const selected=materialTables(fields).filter(item=>keys.has(item.key));if(!selected.length)return null;

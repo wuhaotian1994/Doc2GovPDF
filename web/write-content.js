@@ -1,3 +1,4 @@
+import {validateAnnexes,compileAnnexes,annexAt} from './write-annexes.js';
 import {tableColumnWidths,isSummaryRow} from './write-table-layout.js';
 // Canonical body content for the normal writer. It belongs to the same draft;
 // the plain-text body is a derived representation, never a second document.
@@ -43,8 +44,9 @@ export function validateContent(value,{ids=new Set(),postscript=false}={}){
     });
     return result;
   })};
-  if(contentText(checked).length>(postscript?4000:100000))throw Error(postscript?'附注及表格文字合计最多 4000 字符，原稿未改变。':'正文及表格文字合计最多 100000 字符，原稿未改变。');
-  if(value.postscript!==undefined){if(postscript)throw Error('附注结构无效，原稿未改变。');checked.postscript=validateContent(value.postscript,{ids,postscript:true});}
+  const annexes=validateAnnexes(value.annexes,checked.blocks);if(annexes.length)checked.annexes=annexes;
+  if(contentText(checked).length>(postscript?4000:100000))throw Error(postscript?'落款后内容及表格文字合计最多 4000 字符，原稿未改变。':'正文及表格文字合计最多 100000 字符，原稿未改变。');
+  if(value.postscript!==undefined){if(postscript)throw Error('落款后内容结构无效，原稿未改变。');checked.postscript=validateContent(value.postscript,{ids,postscript:true});}
   return checked;
 }
 // Offer only explicit tab-separated cells; prose and following unequal-width
@@ -65,8 +67,8 @@ function paragraphIdentity(block,content,field='body'){
   const neighbour=item=>!item?null:item.type==='paragraph'?item.text:'\ufff0table:'+item.id;
   return {field,text:block.text,occurrence:matches.findIndex(item=>item.id===block.id)+1,count,...(count>1?{before:neighbour(content.blocks[index-1]),after:neighbour(content.blocks[index+1])}:{})};
 }
-function sourceStyle(block,path){return block.type==='paragraph'?paragraphStyle(block):{header:path.caption?block.header:block.header&&block.rows[0].id===path.row,columns:block.rows[0].cells.length};}
-function source(block,path,text,content,field='body'){return {...(block.type==='paragraph'?paragraphIdentity(block,content,field):{field,text,occurrence:1,count:1}),content:{block:block.id,...path},contentStyle:sourceStyle(block,path)};}
+function sourceStyle(block,path,section){const style=block.type==='paragraph'?paragraphStyle(block):{header:path.caption?block.header:block.header&&block.rows[0].id===path.row,columns:block.rows[0].cells.length};const annex=section?annexAt(section,block.id):null;return annex?{...style,annex:{...annex,part:block.id===annex.start?'label':block.id===annex.title?'title':'content'}}:style;}
+function source(block,path,text,content,field='body'){return {...(block.type==='paragraph'?paragraphIdentity(block,content,field):{field,text,occurrence:1,count:1}),content:{block:block.id,...path},contentStyle:sourceStyle(block,path,content)};}
 export function paragraphContentSources(value){return value?[...value.blocks.filter(block=>block.type==='paragraph').map(block=>source(block,{},block.text,value)),...(value.postscript?.blocks||[]).filter(block=>block.type==='paragraph').map(block=>source(block,{},block.text,value.postscript,'postscript'))]:[];}
 export function resolveContentSource(anchor,value){
   if(!value||!anchor?.content)return null;
@@ -86,7 +88,7 @@ export function resolveContentSource(anchor,value){
     if(!Number.isInteger(part)||part<0||part>=lines.length)return null;
     text=lines[part];start=lines.slice(0,part).reduce((n,line)=>n+line.length+1,0);
   }
-  const style=sourceStyle(block,anchor.content);
+  const style=sourceStyle(block,anchor.content,value);
   if(text!==anchor.text||JSON.stringify(style)!==JSON.stringify(anchor.contentStyle))return null;
   return {text,line:index+1,start,end:start+text.length,content:anchor.content,...(tableRow?{row:tableRow,column:tableColumn}:{})};
 }
@@ -125,8 +127,8 @@ export function applyBodyContent(model,value){
   for(let i=0;i<compiled.length;i++)if(compiled[i].table){
     let labels=0;for(let j=i-1;j>=0&&labels<2;j--){const p=compiled[j].paragraph;if(!p||['signature','date'].includes(p.role))break;const text=p.text.trim();if(!text){p.keepNext=true;continue;}if(text.length>60||/[。！？!?]/.test(text))break;p.keepNext=true;labels++;}
   }
-  return compiled;};
-  const body=compile(content,original,'body');
+  return compileAnnexes(section,compiled,model.page.width-model.page.left-model.page.right);};
+  const allBody=compile(content,original,'body'),annexIndex=allBody.findIndex(b=>b.paragraph?.role==='attachment-label'),body=annexIndex<0?allBody:allBody.slice(0,annexIndex),bodyAnnex=annexIndex<0?[]:allBody.slice(annexIndex);
   const blocks=[];let inserted=false;
   for(const block of model.blocks){if(bodyRoles.has(block.paragraph?.role)){if(!inserted){blocks.push(...body);inserted=true;}}else blocks.push(block);}
   if(!inserted){let index=blocks.findIndex(block=>['attachment-description','signature','date','note','imprint'].includes(block.paragraph?.role));if(index<0)index=blocks.length;blocks.splice(index,0,...body);}
@@ -138,6 +140,7 @@ export function applyBodyContent(model,value){
     let index=first<0?kept.findIndex(block=>block.paragraph?.role==='imprint'):first;if(index<0)index=kept.length;
     kept.splice(index,0,...notes);blocks.splice(0,blocks.length,...kept);
   }
+  if(bodyAnnex.length){let at=blocks.findIndex(b=>b.paragraph?.role==='attachment-label'||b.paragraph?.role==='imprint');if(at<0)at=blocks.length;blocks.splice(at,0,...bodyAnnex);}
   return {...model,blocks,_writerSources:sources};
 }
 export function splitContentParagraph(value,id,position,idFactory=uid){
