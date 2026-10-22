@@ -195,3 +195,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 25px 0 10px; }
 .material-table-preview { overflow: auto; max-height: 240px; margin-top: 10px; }
 .material-table-preview table { border-collapse: collapse; width: 100%; }
 .material-table-preview td { border: 1px solid var(--line); padding: 6px 8px; white-space: pre-wrap; min-width: 60px; }
+
+/* Original Word uses the same editor, navigation, checks and preview shell. */
+.word-mode [data-panel="0"]>:not(h1):not(.lead):not(#word-basic),.word-mode [data-panel="1"]>:not(h1):not(.lead):not(#word-body),.word-mode #material-source{display:none}
+.word-workspace{min-width:0}.word-workspace>button{margin:8px 8px 8px 0}.word-paragraph{margin:12px 0}.word-paragraph>label{display:block;font-size:12px;color:var(--muted,#5e6b7b)}.word-paragraph textarea{min-height:42px;resize:vertical}.word-paragraph textarea[readonly]{background:#f1f3f6}.word-section{margin:24px 0 12px;padding-top:12px;border-top:1px solid #dce2ea;font-weight:650}.word-format{font-size:12px}.word-format label{display:inline-block;width:45%;margin:8px 4% 4px 0}.word-table-scroll{max-width:100%;overflow:auto}.word-table table{border-collapse:collapse;min-width:600px}.word-table td,.word-table th{border:1px solid #aeb9c8;min-width:100px;padding:6px;vertical-align:top}.word-table textarea{min-width:90px}.word-table .word-paragraph{margin:0 0 8px}.word-table .word-format{font-weight:400}.word-table h2{font-size:17px}#word-body{padding:0;border:0}#word-basic #word-name{margin:8px 0 16px}

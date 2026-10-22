@@ -317,11 +317,23 @@ func Open(data []byte) (*Package, error) {
 		}
 		return r
 	}
+	sectionStart := 0
 	for _, e := range body.ChildElements() {
 		switch e.Tag {
 		case "p":
 			r := paragraph(e)
 			p.Model.Blocks = append(p.Model.Blocks, Block{Paragraph: &r})
+			if section := child(child(e, "pPr"), "sectPr"); section != nil {
+				pg := sectionPage(section)
+				if sectionStart < len(p.Model.Blocks) {
+					p.Model.Blocks[sectionStart].Page = &pg
+				}
+				sectionStart = len(p.Model.Blocks)
+				if kind := attr(child(section, "type"), "val"); kind != "" && kind != "nextPage" {
+					p.Model.PDFUnsupported = true
+					p.Model.Warnings = append(p.Model.Warnings, "连续或奇偶分节原样保留在Word；当前PDF不支持此类分节。")
+				}
+			}
 		case "tbl":
 			t := Table{Rows: []Row{}, Borders: strings.Contains(attr(child(child(e, "tblPr"), "tblStyle"), "val"), "Grid"), BorderStyle: "grid"}
 			t.Align = attr(child(child(e, "tblPr"), "jc"), "val")
@@ -371,6 +383,34 @@ func Open(data []byte) (*Package, error) {
 						}
 					}
 					cell.Margins = &margins
+					if shd := child(child(tc, "tcPr"), "shd"); shd != nil {
+						fill := attr(shd, "fill")
+						if len(fill) == 6 {
+							cell.Fill = fill
+						}
+						if style := attr(shd, "val"); style != "" && style != "clear" && style != "nil" {
+							p.Model.PDFUnsupported = true
+							p.Model.Warnings = append(p.Model.Warnings, "单元格图案底纹暂不支持PDF；原样保留在Word。")
+						}
+					}
+					if borders := child(child(tc, "tcPr"), "tcBorders"); borders != nil {
+						cell.Borders = map[string]CellBorder{}
+						for _, side := range []string{"top", "bottom", "left", "right"} {
+							if border := child(borders, side); border != nil {
+								style := attr(border, "val")
+								color := attr(border, "color")
+								if color == "" || color == "auto" {
+									color = "000000"
+								}
+								cell.Borders[side] = CellBorder{Style: style, Color: color, Width: number(attr(border, "sz"), 4) * 25.4 / 72 / 8}
+								if style != "" && style != "nil" && style != "none" && style != "single" {
+									p.Model.PDFUnsupported = true
+									p.Model.Warnings = append(p.Model.Warnings, "单元格特殊线型暂不支持PDF；原样保留在Word。")
+								}
+							}
+						}
+					}
+
 					if borders := child(child(tc, "tcPr"), "tcBorders"); borders != nil {
 						cell.NoBorders = true
 						for _, border := range borders.ChildElements() {
@@ -415,7 +455,15 @@ func Open(data []byte) (*Package, error) {
 				}
 			}
 		case "sectPr":
+			if kind := attr(child(e, "type"), "val"); kind != "" && kind != "nextPage" {
+				p.Model.PDFUnsupported = true
+				p.Model.Warnings = append(p.Model.Warnings, "连续或奇偶分节原样保留在Word；当前PDF不支持此类分节。")
+			}
 			p.readPage(e)
+			pg := p.Model.Page
+			if sectionStart < len(p.Model.Blocks) {
+				p.Model.Blocks[sectionStart].Page = &pg
+			}
 		default:
 			if e.Tag != "bookmarkStart" && e.Tag != "bookmarkEnd" {
 				return nil, fmt.Errorf("正文含暂不支持的结构 %s，原件未改变", e.Tag)
@@ -522,10 +570,11 @@ func childElements(e *etree.Element, name string) []*etree.Element {
 	}
 	return out
 }
-func (p *Package) readPage(e *etree.Element) {
+func sectionPage(e *etree.Element) Page {
+	page := DefaultPage()
 	sz := child(e, "pgSz")
 	margin := child(e, "pgMar")
-	pg := &p.Model.Page
+	pg := &page
 	pg.Width = number(attr(sz, "w"), 11906) / 56.6929
 	pg.Height = number(attr(sz, "h"), 16838) / 56.6929
 	pg.Top = number(attr(margin, "top"), 2098) / 56.6929
@@ -536,8 +585,13 @@ func (p *Package) readPage(e *etree.Element) {
 	pg.GridType = attr(grid, "type")
 	pg.LinePitch = int(number(attr(grid, "linePitch"), 0))
 	pg.CharSpace = int(number(attr(grid, "charSpace"), 0))
+	return page
+}
+func (p *Package) readPage(e *etree.Element) {
+	p.Model.Page = sectionPage(e)
 	p.Model.HideFirstPageNumber = child(e, "titlePg") != nil
 }
+
 func applyProps(p *Paragraph, pp, rp *etree.Element) {
 	if pp != nil {
 		if v := attr(child(pp, "jc"), "val"); v != "" {

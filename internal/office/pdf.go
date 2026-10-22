@@ -168,6 +168,7 @@ type PDFResult struct {
 	Warnings []string
 }
 type pdfWriter struct {
+	pageFormats   map[int]Page
 	charSpacing   float64
 	firstFooter   []Paragraph
 	f             *fpdf.Fpdf
@@ -204,9 +205,13 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 	if m.PDFUnsupported {
 		return PDFResult{}, fmt.Errorf("此文档包含不能可靠转换的对象，暂不能生成 PDF；Word 原件及对象会保留")
 	}
-	w := &pdfWriter{ctx: ctx, page: m.Page, loaded: map[string]string{}, warnings: map[string]bool{}, hideFirst: m.HideFirstPageNumber, header: m.Header, firstHeader: m.FirstHeader, firstFooter: m.FirstFooter}
+	initialPage := m.Page
+	if len(m.Blocks) > 0 && m.Blocks[0].Page != nil {
+		initialPage = *m.Blocks[0].Page
+	}
+	w := &pdfWriter{ctx: ctx, page: initialPage, loaded: map[string]string{}, warnings: map[string]bool{}, hideFirst: m.HideFirstPageNumber, header: m.Header, firstHeader: m.FirstHeader, firstFooter: m.FirstFooter}
 	w.newDocument = m.SourceID == ""
-	w.f = fpdf.NewCustom(&fpdf.InitType{UnitStr: "mm", Size: fpdf.SizeType{Wd: m.Page.Width, Ht: m.Page.Height}})
+	w.f = fpdf.NewCustom(&fpdf.InitType{UnitStr: "mm", Size: fpdf.SizeType{Wd: initialPage.Width, Ht: initialPage.Height}})
 	w.f.SetMargins(m.Page.Left, m.Page.Top, m.Page.Right)
 	w.f.SetCellMargin(0)
 	w.f.SetAutoPageBreak(false, m.Page.Bottom)
@@ -214,10 +219,11 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 	w.f.SetTitle("公文", true)
 	w.f.SetCreator("Doc2GovPDF", true)
 	w.f.SetFooterFunc(func() {
+		page := w.pageFormats[w.f.PageNo()]
 		if w.f.PageNo() == 1 {
 			for _, p := range w.firstFooter {
 				if p.BorderTop || p.BorderBottom {
-					w.drawBorder(p, 20, w.page.Height-20, 170)
+					w.drawBorder(p, 20, page.Height-20, 170)
 				}
 			}
 		}
@@ -226,7 +232,7 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 		}
 		w.setFont(Paragraph{Font: "宋体", Size: 14})
 		w.f.SetTextColor(0, 0, 0)
-		footerY := m.Page.Height - m.Page.Bottom + 7 - 3 - .3*14*25.4/72
+		footerY := page.Height - page.Bottom + 7 - 3 - .3*14*25.4/72
 		// Glyph bounds include non-inking font padding. Calibrated against the
 		// rendered SimSun dash at 144 dpi on Windows; keep ink about 7 mm below
 		// the text area instead of positioning the footer by an arbitrary edge.
@@ -240,18 +246,26 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 			}
 		}
 		footerIndent := 14.0 * 25.4 / 72
-		w.f.SetXY(m.Page.Left+footerIndent, footerY)
+		w.f.SetXY(page.Left+footerIndent, footerY)
 		alignment := "R"
 		if w.f.PageNo()%2 == 0 {
 			alignment = "L"
 		}
-		w.f.CellFormat(m.Page.Width-m.Page.Left-m.Page.Right-2*footerIndent, 6, fmt.Sprintf("— %d —", w.f.PageNo()), "", 0, alignment, false, 0, "")
+		w.f.CellFormat(page.Width-page.Left-page.Right-2*footerIndent, 6, fmt.Sprintf("— %d —", w.f.PageNo()), "", 0, alignment, false, 0, "")
 	})
 	w.newPage()
 	var anchored []Paragraph
 	for index, b := range m.Blocks {
 		if e := ctx.Err(); e != nil {
 			return PDFResult{}, e
+		}
+		if b.Page != nil && index > 0 {
+			if e := w.drawAnchored(anchored); e != nil {
+				return PDFResult{}, e
+			}
+			anchored = nil
+			w.page = *b.Page
+			w.newPage()
 		}
 		if b.Paragraph != nil {
 			if b.Paragraph.AnchorBottom {
@@ -262,6 +276,9 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 				height := w.paragraphHeight(*b.Paragraph, 0)
 				ownHeight := height
 				for next := index + 1; next < len(m.Blocks); next++ {
+					if m.Blocks[next].Page != nil {
+						break
+					}
 					p := m.Blocks[next].Paragraph
 					if table := m.Blocks[next].Table; table != nil {
 						if table.Caption != nil {
@@ -310,33 +327,8 @@ func RenderPDF(ctx context.Context, m Model) (PDFResult, error) {
 			return PDFResult{}, fmt.Errorf("排版超过 100 页，请拆分文档")
 		}
 	}
-	if len(anchored) > 0 {
-		height := 0.0
-		for _, p := range anchored {
-			w.setFont(p)
-			line := p.Line
-			if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
-				line = p.Size * 25.4 / 72 * 1.3
-			}
-			lines := len(w.wrapIndented(p.Prefix+p.Text, m.Page.Width-m.Page.Left-m.Page.Right-p.LeftIndent-p.RightIndent, p.Indent-p.Hanging))
-			if len(p.Tabs) > 0 && !strings.Contains(p.Text, "\n") {
-				lines = 1
-			}
-			height += p.Before + p.After + line*float64(lines)
-			if p.BorderBottom {
-				height += borderWidth(p)
-			}
-		}
-		if e := w.room(height); e != nil {
-			return PDFResult{}, e
-		}
-		w.y = m.Page.Height - m.Page.Bottom - height
-		for _, p := range anchored {
-			p.KeepNext = false
-			if e := w.paragraph(p); e != nil {
-				return PDFResult{}, e
-			}
-		}
+	if e := w.drawAnchored(anchored); e != nil {
+		return PDFResult{}, e
 	}
 	var out bytes.Buffer
 	if e := w.f.Output(&out); e != nil {
@@ -367,7 +359,7 @@ func (w *pdfWriter) setFont(p Paragraph) {
 		w.loaded[sum] = family
 	}
 	if strings.HasPrefix(fd.name, "Noto Serif SC") && p.Font != fd.name {
-		w.warnings["缺少或无法识别字体“"+p.Font+"”，PDF 使用已嵌入的 "+fd.name+" 备用字体。"] = true
+		w.warnings["当前排版引擎未取得可用字体“"+p.Font+"”，PDF 使用已嵌入的 "+fd.name+" 备用字体，仅供草拟，不代表全文国标检查通过。"] = true
 	}
 	w.f.SetFont(family, "", p.Size)
 	w.faceName = fd.name
@@ -436,7 +428,12 @@ func (w *pdfWriter) newPage() {
 		w.f.SetError(fmt.Errorf("排版超过 100 页，请拆分文档"))
 		return
 	}
-	w.f.AddPage()
+	if w.pageFormats == nil {
+		w.pageFormats = map[int]Page{}
+	}
+	w.pageFormats[w.pages+1] = w.page
+	w.f.AddPageFormat("P", fpdf.SizeType{Wd: w.page.Width, Ht: w.page.Height})
+	w.f.SetMargins(w.page.Left, w.page.Top, w.page.Right)
 	w.pages++
 	w.y = w.page.Top
 	lines := w.header
@@ -944,7 +941,38 @@ func (w *pdfWriter) table(t Table) error {
 		}
 		for i, c := range row.Cells {
 			cw := cellWidths[i]
-			if t.Borders && !c.NoBorders && t.BorderStyle != "three-line" {
+			if c.Fill != "" {
+				red, green, blue := hexColor(c.Fill)
+				w.f.SetFillColor(red, green, blue)
+				w.f.Rect(x, w.y, cw, height, "F")
+			}
+			if c.Borders != nil {
+				for _, side := range []string{"top", "bottom", "left", "right"} {
+					border, explicit := c.Borders[side]
+					if !explicit {
+						if !t.Borders || c.NoBorders || t.BorderStyle == "three-line" {
+							continue
+						}
+						border = CellBorder{Style: "single", Width: .2, Color: "282828"}
+					}
+					if border.Style == "nil" || border.Style == "none" || border.Style == "" {
+						continue
+					}
+					red, green, blue := hexColor(border.Color)
+					w.f.SetDrawColor(red, green, blue)
+					w.f.SetLineWidth(border.Width)
+					switch side {
+					case "top":
+						w.f.Line(x, w.y, x+cw, w.y)
+					case "bottom":
+						w.f.Line(x, w.y+height, x+cw, w.y+height)
+					case "left":
+						w.f.Line(x, w.y, x, w.y+height)
+					case "right":
+						w.f.Line(x+cw, w.y, x+cw, w.y+height)
+					}
+				}
+			} else if t.Borders && !c.NoBorders && t.BorderStyle != "three-line" {
 				w.f.SetDrawColor(40, 40, 40)
 				w.f.SetLineWidth(.2)
 				w.f.Rect(x, w.y, cw, height, "D")
@@ -1150,4 +1178,41 @@ func (w *pdfWriter) tableRowHeight(row Row, widths []float64) float64 {
 		}
 	}
 	return h
+}
+
+func (w *pdfWriter) drawAnchored(anchored []Paragraph) error {
+	if len(anchored) > 0 {
+		height := 0.0
+		for _, p := range anchored {
+			w.setFont(p)
+			line := p.Line
+			if strings.TrimSpace(p.Text) != "" && line < p.Size*25.4/72*1.15 {
+				line = p.Size * 25.4 / 72 * 1.3
+			}
+			lines := len(w.wrapIndented(p.Prefix+p.Text, w.page.Width-w.page.Left-w.page.Right-p.LeftIndent-p.RightIndent, p.Indent-p.Hanging))
+			if len(p.Tabs) > 0 && !strings.Contains(p.Text, "\n") {
+				lines = 1
+			}
+			height += p.Before + p.After + line*float64(lines)
+			if p.BorderBottom {
+				height += borderWidth(p)
+			}
+		}
+		if e := w.room(height); e != nil {
+			return e
+		}
+		w.y = w.page.Height - w.page.Bottom - height
+		for _, p := range anchored {
+			p.KeepNext = false
+			if e := w.paragraph(p); e != nil {
+				return e
+			}
+		}
+	}
+	return nil
+}
+
+func hexColor(color string) (int, int, int) {
+	n, _ := strconv.ParseUint(color, 16, 32)
+	return int(n >> 16), int(n >> 8 & 255), int(n & 255)
 }

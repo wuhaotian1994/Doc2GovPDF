@@ -1,7 +1,14 @@
 // This small classic script is inlined into the delivered HTML before the form.
 // Protect typing and navigation even if any application module cannot load.
 (() => {
+  let nativeActive=null;try{const v=JSON.parse(localStorage.getItem('gongwen-writer-active-v1'));if(v?.kind==='word')nativeActive=v.id;}catch{}
   const key='gongwen-writer-pending-v1';
+  async function nativeBackup(){
+    const db=await new Promise((resolve,reject)=>{const q=indexedDB.open('gongwen-web-v1',1);q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(Error('无法读取Word工作稿，原数据未改变。'));});
+    const get=key=>new Promise((resolve,reject)=>{const tx=db.transaction('files'),q=tx.objectStore('files').get(key);tx.oncomplete=()=>resolve(q.result);tx.onerror=()=>reject(Error('工作稿读取未完成。'));});
+    try{const value=await get('writer-word:'+nativeActive);if(!value)throw Error('当前Word记录没有找到，其他记录未改变。');const data=value.document?.sourceId?(await get('writer-source:'+value.document.sourceId)||await get('source:'+value.document.sourceId)):null;const blob=new Blob([JSON.stringify({...value,source:data?{name:value.origin?.name||value.name,data}:null},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Word-恢复工作稿.gongwen-word.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);}finally{db.close();}
+  }
+
   const recoveryPrefix='gongwen-writer-recovery-v1:', recoveryId=crypto.randomUUID();
   let recoveryKey='';
   let acknowledgements=[];
@@ -37,6 +44,7 @@
     fields.letterhead=Boolean(document.getElementById('letterhead')?.checked);return fields;
   };
   function snapshot(){
+    if(nativeActive&&!window.writerReady)return pending;
     const fields=read();const step=Number(document.querySelector('[data-panel]:not([hidden])')?.dataset.panel || 0);
     const count=document.getElementById('body-count');if(count)count.textContent=fields.body.length.toLocaleString('zh-CN')+' 字';
     if(!touched.size){
@@ -60,8 +68,9 @@
     const notice=document.getElementById('startup-notice');if(!notice)return;
     notice.hidden=false;document.getElementById('startup-message').textContent=message;
   }
-  function fail(){failed=true;status(contentSnapshot?'段落与表格编辑暂未打开，当前稿已保留。可继续填写其他信息，或先下载草稿再重试。':'页面暂时没有完整打开。已填文字仍在，可以继续写或先下载一份草稿，再重新打开。');}
+  function fail(){failed=true;if(nativeActive){status('Word工作稿尚未完整打开，原件与工作稿均保留。可下载包含原件的恢复工作稿后重试。');return;}status(contentSnapshot?'段落与表格编辑暂未打开，当前稿已保留。可继续填写其他信息，或先下载草稿再重试。':'页面暂时没有完整打开。已填文字仍在，可以继续写或先下载一份草稿，再重新打开。');}
   function move(next,push=true){
+    if(nativeActive&&!window.writerReady){fail();return;}
     const current=Number(document.querySelector('[data-panel]:not([hidden])')?.dataset.panel || 0);
     const fields=read();let invalid='';
     if(next>current){if(!fields.title.trim())invalid='title';else if(fields.letterhead&&!fields.agency.trim())invalid='agency';else if(next===2&&!fields.body.trim()&&!contentSnapshot?.blocks?.some(block=>block.type==='table'))invalid='body';}
@@ -106,6 +115,7 @@
     if(button&&!window.writerReady){event.preventDefault();event.stopImmediatePropagation();snapshot();move(Number(button.dataset.next ?? button.dataset.back ?? button.dataset.step));return;}
     if(event.target.closest?.('#save-document')&&!window.writerReady){event.preventDefault();event.stopImmediatePropagation();snapshot();document.getElementById('save-status').textContent=stored?'已保存到此浏览器':'保存失败，请下载草稿';return;}
     if(!window.writerReady&&event.target.closest?.('button')&&!event.target.closest?.('#startup-download,#startup-retry')){event.preventDefault();event.stopImmediatePropagation();status('页面正在恢复草稿，已填内容会保留。可以继续填写，或先下载填写草稿。');return;}
+    if(event.target.closest?.('#startup-download')&&nativeActive&&!window.writerReady){event.preventDefault();nativeBackup().catch(e=>status(e.message));return;}
     if(event.target.closest?.('#startup-download')){
       const value=snapshot() || {fields:read(),step:0};
       const blob=new Blob([JSON.stringify({type:'gongwen-form',version:contentSnapshot?.postscript?5:contentSnapshot?4:value.fields.postscript?3:value.fields.sourceMaterial||value.fields.pendingMaterial?2:1,fields:value.fields,...(contentSnapshot?{content:contentSnapshot}:{}),step:value.step},null,2)],{type:'application/json'});
@@ -119,6 +129,8 @@
   window.writerBoot={
     pending:()=>pending,fail,recoveries,acknowledge(records){acknowledgements=records;},
     hydrate(){
+      if(nativeActive){document.documentElement.classList.add('word-restoring');const style=document.createElement('style');style.textContent='.word-restoring #writer-form,.word-restoring .workflow-actions{visibility:hidden}';document.head.append(style);status('正在恢复原Word工作稿。原件和填写稿分别保留，可下载恢复稿。');document.getElementById('startup-download').textContent='下载Word恢复工作稿';return;}
+
       const initial=pending || savedDraft;if(!initial)return;
       for(const name of names){const input=document.getElementById(name);if(input&&typeof initial.fields[name]==='string')input.value=initial.fields[name].slice(0,input.maxLength>0?input.maxLength:100000);}
       document.getElementById('letterhead').checked=initial.fields.letterhead===true;
@@ -144,7 +156,7 @@
         acknowledgements=[];
       }catch{}
     },
-    complete(){document.getElementById('startup-notice').hidden=true;},
+    complete(){document.documentElement.classList.remove('word-restoring');nativeActive=null;document.getElementById('startup-download').textContent='下载填写草稿';document.getElementById('startup-notice').hidden=true;},
   };
   document.addEventListener('DOMContentLoaded',()=>{
     if(failed)fail();

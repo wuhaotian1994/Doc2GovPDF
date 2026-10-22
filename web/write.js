@@ -1,3 +1,4 @@
+import {installWordWorkspace} from './write-word-workspace.js';
 import {WriterEngine} from './write-engine.js';
 import {DRAFT_KEY,DRAFT_MAX_BYTES,materialNames, names, blank, draft, validateDraft, validDate, fieldsForEngine, applySignature, textContent, safeName} from './write-model.js';
 import {COMMON_KEY, LIBRARY_KEY, defaultCommon, validateCommon, commonFrom, freshFields, copyFields, validateLibrary, archiveDocument} from './write-library.js';
@@ -39,7 +40,8 @@ let materialAnalysis=null;
 let referenceChoice=null,referenceUndo=null,referenceDismissed=null,referencePointerTarget=null;
 const confirmed = new Set();
 const decisions = new ReviewDecisions();
-const engine = new WriterEngine(() => fontStore);
+const engine = new WriterEngine(() => wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore);
+let wordWorkspace,pdfReadyRevision=-1,wordDisabled=[],outputWarnings=[];
 function currentDraft(nextFields=fields){
   decisions.retain(nextFields,currentId,bodyContent);
   return draft(nextFields,step,currentId,decisions.snapshot(currentId),bodyContent);
@@ -77,6 +79,7 @@ function download(name, data, type) {
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 function readFields() {
+  if(wordWorkspace?.active)return;
   if(bodyContent)$('body').value=contentText(bodyContent);
   if(bodyContent?.postscript)$('postscript').value=contentText(bodyContent.postscript);
   for (const name of names) fields[name] = $(name).value;
@@ -96,6 +99,7 @@ function fillFields() {
   renderReferenceFeedback();
 }
 function persist() {
+  if(wordWorkspace?.active)return wordWorkspace.persist();
   if (!hasLock || blockedSave) return;
   if (fields.date && !validDate(fields.date) || $('date').validity.badInput) {
     $('save-status').textContent = '日期待修正，其他内容已保存';
@@ -137,6 +141,7 @@ function fieldError(name, message) {
   if(name==='body')$('content-workspace').setAttribute('aria-invalid',String(Boolean(message)));
 }
 function validate(target) {
+  if(wordWorkspace?.active){if(wordWorkspace.pending){showStep(0);error('请先补齐旧稿的标题和正文。');return false;}return true;}
   const errors = [];
   if (!fields.title.trim()) errors.push(['title','请填写一个文档标题。']);
   if (fields.letterhead && !fields.agency.trim()) errors.push(['agency','显示红头时，请填写发文单位。']);
@@ -180,6 +185,11 @@ window.addEventListener('popstate', () => {
   showStep(next, false);
 });
 function updateExport() {
+  if(wordWorkspace?.active){
+    const format=document.querySelector('[name=format]:checked').value,unresolved=(inspection?.issues||[]).some(i=>i.severity==='error'||i.severity==='review'&&!confirmed.has(i.id));
+    const reason=exporting?'文件正在生成…':!hasLock?'另一标签页正在编辑。':wordWorkspace.pending?'请先补齐旧稿内容。':format==='txt'?'原Word含表格或其他结构，请选择Word或PDF另存，避免丢失结构。':readyRevision!==revision?'正在核对当前原文，请稍候。':unresolved?'请先处理提醒，或明确确认保留原文。':format==='pdf'&&(pdfReadyRevision!==revision||!wordWorkspace.pdfAllowed())?'PDF需要当前预览完成，并确认字体、分节与表格分页。Word另存保留原结构。':'';
+    $('export').textContent=exporting?'正在生成文件…':'下载 '+({docx:'Word',pdf:'PDF',txt:'纯文本'}[format]);$('export').disabled=Boolean(reason)||fontBusy;$('export-guidance').textContent=reason;return;
+  }
   const format = document.querySelector('[name=format]:checked').value;
   $('export').textContent = exporting ? '正在生成文件…' : '下载 '+({docx:'Word',pdf:'PDF',txt:'纯文本'}[format]);
   const issues = inspection?.issues || [];
@@ -189,6 +199,7 @@ function updateExport() {
   $('export-guidance').textContent=exporting?'文件正在生成，请稍候。':fontBusy?'字体正在更新，完成预览后即可下载。':dateBlocked?'请在“正文内容”中修正或清空日期，再继续预览与下载。':format!=='txt'&&previewFailed?'预览尚未完成，请点击“重新生成预览”。':format!=='txt'&&readyRevision!==revision?'预览正在更新，完成后即可下载。':format!=='txt'&&unresolved?'请先处理上方提醒，或确认保留原文，再下载文件。':'';
 }
 function renderSummary() {
+  if(wordWorkspace?.active)return wordWorkspace.summary();
   const rows = [
     ['标题',fields.title,0,'title'],['正文',bodySummary(),1,'body'],
     ['落款',fields.signature || '未单独填写；如已在正文中保留，无需重复添加。',1,'signature'],['日期',fieldsForEngine(fields).date || '未单独填写；如已在正文中保留，无需重复添加。',1,'date'],
@@ -236,6 +247,7 @@ function locateIssue(entry) {
   input.scrollIntoView({block:'center'});
 }
 function renderChecks() {
+  if(wordWorkspace?.active){wordWorkspace.checks(readyRevision===revision?inspection:null,confirmed);updateExport();return;}
   $('check-list').replaceChildren();
   if (readyRevision!==revision) { $('checks-status').textContent='内容更新后会重新核对。'; return; }
   const entries=reviewItems(model,inspection,fields,currentId,bodyContent).sort((a,b)=>({error:0,review:1,suggestion:2}[a.issue.severity] ?? 3)-({error:0,review:1,suggestion:2}[b.issue.severity] ?? 3));
@@ -288,23 +300,24 @@ function renderChecks() {
     }
     $('check-list').append(item);
   }
+  if(outputWarnings.length){const warning=document.createElement('details');warning.className='output-warnings';const summary=document.createElement('summary');summary.textContent='当前为备用草拟排版，不能据此认定全文符合国标';warning.append(summary);for(const message of outputWarnings){const p=document.createElement('p');p.textContent=message;warning.append(p);}$('check-list').append(warning);}
   updateExport();persist();
 }
 async function preview() {
   clearTimeout(previewTimer);
   if(fontBusy){$('preview-status').textContent='字体正在更新，完成后会继续预览';updateExport();return;}
-  if(fields.date&&!validDate(fields.date)||$('date').validity.badInput){
+  if(!wordWorkspace?.active&&(fields.date&&!validDate(fields.date)||$('date').validity.badInput)){
     fieldError('date','请选择 1900 年及以后的有效日期，或清空日期。');
     $('preview-status').textContent='日期尚未有效，请在“正文内容”中修正；下方仍为上一版';updateExport();return;
   }
-  if (!fields.title.trim()) {
+  if (!wordWorkspace?.active&&!fields.title.trim()) {
     $('preview-status').textContent='填写标题后自动更新';
     if (pdf) $('preview-status').textContent='标题尚未填写，下方为上一版';
     return;
   }
-  if (readyRevision===revision) return;
+  if (readyRevision===revision&&(!wordWorkspace?.active||pdfReadyRevision===revision||wordWorkspace.document.pdfUnsupported)) return;
   if (rendering) { repeatPreview=true; return; }
-  rendering=true;previewFailed=false;updateExport(); const requested=revision,run=++previewRun; const snapshot={...fields},snapshotContent=bodyContent?structuredClone(bodyContent):null;
+  rendering=true;previewFailed=false;updateExport(); const requested=revision,run=++previewRun; const snapshot={...fields},snapshotContent=bodyContent?structuredClone(bodyContent):null,wordSnapshot=wordWorkspace?.active?structuredClone(wordWorkspace.document):null;
   let loading,worker,deadlineTimer,expired=false;
   const stale=()=>{if(run!==previewRun)return true;if(requested!==revision){repeatPreview=true;return true;}return false;};
   const deadline=new Promise((_,reject)=>{deadlineTimer=setTimeout(()=>{
@@ -317,10 +330,16 @@ async function preview() {
   $('preview-canvas').setAttribute('aria-busy','true'); $('preview-status').textContent=pdf?'正在更新成品…':'首次准备排版与预览，可继续填写…';
   try {
     await Promise.race([deadline,(async()=>{
-    const nextModel=applyBodyContent(applySignature(await engine.call('BuildDocument',fieldsForEngine(snapshot,true,snapshotContent)),snapshot),snapshotContent);
+    const nextModel=wordSnapshot||applyBodyContent(applySignature(await engine.call('BuildDocument',fieldsForEngine(snapshot,true,snapshotContent)),snapshot),snapshotContent);
+    if(wordSnapshot){
+      const checked=await engine.call('InspectDocument',nextModel);if(stale())return;model=nextModel;inspection=checked;readyRevision=requested;renderChecks();updateExport();
+      if(nextModel.pdfUnsupported){$('preview-status').textContent='原文结构暂不支持PDF；可继续编辑并另存Word';$('preview-empty').querySelector('h3').textContent='这份Word暂不能生成PDF';$('preview-empty').querySelector('p').textContent='原件及Word另存可用；具体受影响结构见左侧说明。';return;}
+    }
     if(stale())return;
     const result=await engine.call('PreviewDocument',nextModel);
     if(stale())return;
+    outputWarnings=result.warnings||[];
+    if(wordSnapshot)wordWorkspace.showPDFWarnings(result.warnings);
     const pdfjs=await previewLibrary();
     if(stale())return;
     const checking=engine.call('InspectDocument',nextModel);
@@ -336,10 +355,10 @@ async function preview() {
     pageNumber=Math.min(pageNumber,pdf.numPages);
     await renderPage(requested,run);
     if(stale())return;
-    readyRevision=requested;
+    readyRevision=requested;pdfReadyRevision=requested;
     if(lastPreviewError&&$('global-error').textContent===lastPreviewError)clearError();lastPreviewError='';
-    const incomplete=!(snapshotContent?hasContent(snapshotContent):snapshot.body.trim()) || (snapshot.letterhead&&!snapshot.agency.trim());
-    $('preview-status').textContent=incomplete?'填写中 · 待填内容仅用于预览':'已更新 · '+pdf.numPages+' 页';
+    const incomplete=!wordSnapshot&&(!(snapshotContent?hasContent(snapshotContent):snapshot.body.trim()) || (snapshot.letterhead&&!snapshot.agency.trim()));
+    $('preview-status').textContent=incomplete?'填写中 · 待填内容仅用于预览':'已更新 · '+pdf.numPages+' 页'+(outputWarnings.length?' · 存在排版降级':'');
     renderChecks(); updateExport();
     })()]);
   } catch(e) {
@@ -376,18 +395,20 @@ async function exportFile() {
   readFields();if(!validate(1))return;
   const format=document.querySelector('[name=format]:checked').value;
   if(format!=='txt'&&readyRevision!==revision){error('预览正在更新，请稍后下载。');return;}
+  if(wordWorkspace?.active){updateExport();if($('export').disabled)return;}
   exporting=true;$('editable').disabled=true;updateExport();clearError();
   try {
     if(format==='txt') download(safeName(fields.title)+'.txt','\ufeff'+textContent(fields),'text/plain;charset=utf-8');
     else {
       const checked=structuredClone(model); checked.confirmedIssues=[...confirmed];
-      const file=await engine.call('ExportDocument',checked,format,false,null);
-      download(file.name,bytes(file.data),format==='pdf'?'application/pdf':'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+      const file=await engine.call('ExportDocument',checked,format,false,wordWorkspace?.active?await wordWorkspace.source():null);
+      download(wordWorkspace?.active?wordWorkspace.filename(format):file.name,bytes(file.data),format==='pdf'?'application/pdf':'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     }
     $('export-status').textContent='文件已生成并开始下载，可在浏览器下载列表中查看。';
   }catch(e){error(e.message);}finally{exporting=false;$('editable').disabled=!hasLock;updateExport();}
 }
 function saveDraft() {
+  if(wordWorkspace?.active){wordWorkspace.backup().catch(e=>error(e.message));return;}
   readFields();
   if(fields.date&&!validDate(fields.date)||$('date').validity.badInput){error('请先修正日期，再下载可继续填写的草稿。');return;}
   download(safeName(fields.title)+'.gongwen.json',JSON.stringify(currentDraft(),null,2),'application/json');
@@ -499,6 +520,7 @@ function applyMaterial(){
   }
 }
 function requestReplace(next, direct=false) {
+  if(wordWorkspace?.active){wordWorkspace.leave().then(()=>requestReplace(next,direct)).catch(e=>error(e.message));return false;}
   if(!hasLock){error('另一标签页正在编辑，请关闭它后刷新本页。');return;}
   if(blockedSave&&!rawRecovery){error('原有文档尚未成功归档，切换已取消。请先下载当前草稿，腾出本地空间后刷新此页重试恢复。');return;}
   if(exporting||fontBusy){error('请等待当前文件或字体处理完成，再切换文档。');return;}
@@ -558,9 +580,11 @@ function newDocument() {
   if(requestReplace(next,true)){document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();}
 }
 function renderLibrary() {
+
   const root=$('recent-documents');root.replaceChildren();
   $('copy-current').disabled=!fields.title.trim()&&!fields.body.trim();
-  const current=document.createElement('p');current.className='current-document';current.textContent='正在编辑：'+(fields.title || '未命名文档');root.append(current);
+  const current=document.createElement('p');current.className='current-document';current.textContent=wordWorkspace?.active?'填写稿也保留在这里：'+(fields.title||'未命名填写稿'):'正在编辑：'+(fields.title || '未命名文档');root.append(current);
+  if(wordWorkspace?.active){$('copy-current').disabled=false;const resume=document.createElement('button');resume.type='button';resume.className='secondary';resume.textContent='继续这份填写稿';resume.onclick=()=>wordWorkspace.leave().then(()=>{fillFields();showStep(step);$('draft-dialog').close();schedulePreview();}).catch(e=>error(e.message));root.append(resume);}
   const items=library.items.filter(item=>item.id!==currentId);
   if(!items.length){const empty=document.createElement('p');empty.className='hint';empty.textContent='新建或打开另一份文档后，上一份会出现在这里。';root.append(empty);}
   for(const item of items){
@@ -575,6 +599,7 @@ function renderLibrary() {
     action('删除',()=>{deleteId=item.id;$('delete-document-name').textContent=heading.textContent;$('delete-document-dialog').showModal();});
     row.append(heading,meta,actions);root.append(row);
   }
+  wordWorkspace?.appendLibrary(root);
 }
 async function openFontDB() {
   return new Promise((resolve,reject)=>{
@@ -594,7 +619,7 @@ async function writeFonts(value) {
 async function showFonts() {
   engineFonts=await engine.call('Fonts');
   $('font-status').replaceChildren(...engineFonts.map(font=>{
-    const p=document.createElement('p');p.textContent=font.name+'：'+(fontStore[font.name]?'已选择授权字体':'内置备用字体');return p;
+    const p=document.createElement('p');p.textContent=font.name+'：'+((wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore)[font.name]?'已选择的本地字体':'尚未读取本机字体；当前为备用草拟');return p;
   }));
 }
 async function changeFont(file, reset=false) {
@@ -603,7 +628,7 @@ async function changeFont(file, reset=false) {
   const role=$('font-role').value;
   $('font-message').textContent='正在处理字体…';$('font-reset').disabled=true;$('font-file').disabled=true;$('font-file-open').disabled=true;
   try {
-    const next={...fontStore};
+    const next={...(wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore)};
     if(reset)delete next[role];
     else {
       if(!file)return;
@@ -612,7 +637,7 @@ async function changeFont(file, reset=false) {
       // Register validates font bytes in the shared Go engine; restart restores old fonts on failure.
       await engine.call('RegisterFont',role,data);next[role]=data;
     }
-    await writeFonts(next);fontStore=next;
+    if(wordWorkspace?.active)await wordWorkspace.setFonts(next);else {await writeFonts(next);fontStore=next;}
     engine.reset();await showFonts();
     $('font-message').textContent='字体已保存，预览将重新排版。';
   }catch(e){engine.reset();$('font-message').textContent=e.message;}
@@ -688,17 +713,24 @@ async function boot() {
   document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();
   const restoredSubmission=pending?.source==='legacy-submit'&&!window.writerBoot?.pending();
   history.replaceState({writerStep:step},'', location.pathname+(restoredSubmission?'':location.search)+'#step-'+(step+1));
+  wordWorkspace=installWordWorkspace({engine,fonts:()=>fontStore,busy:value=>{if(value){wordDisabled=[...document.querySelectorAll('#editable,.header-actions button,#draft-dialog button')].map(e=>[e,e.disabled]);wordDisabled.forEach(([e])=>e.disabled=true);$('save-status').textContent='正在打开文档，当前稿仍保留…';}else{wordDisabled.forEach(([e,v])=>e.disabled=v);wordDisabled=[];}},canEdit:()=>hasLock&&!exporting&&!blockedSave,step:()=>step,bytes,download,error:message=>error(message?.message||message),summary:renderSummary,showStep,schedule:schedulePreview,updateExport,
+    changed:invalidate,reset:()=>{$('preview-empty').querySelector('h3').textContent='你的内容，会在这里成为文档';$('preview-empty').querySelector('p').textContent='填写标题后即可看到排版效果。正文、落款和日期会随填写自动更新。';outputWarnings=[];engine.reset();currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;readyRevision=-1;pdfReadyRevision=-1;pageNumber=1;$('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='尚未生成';$('prev-page').disabled=$('next-page').disabled=true;previewRun++;},
+    prepareForm:async()=>{readFields();if(fields.date&&!validDate(fields.date)||$('date').validity.badInput)throw Error('请先修正或清空填写稿日期，以完整保留原输入。');persist();if(lastSaveError||blockedSave)throw Error(lastSaveError||'填写稿保存尚未完成，打开已取消。');},
+    openForm:async value=>{const next=validateDraft(value);if(wordWorkspace.active)await wordWorkspace.leave();requestReplace({...next,id:crypto.randomUUID(),review:undefined,reuseMessage:'已打开草稿副本，原稿仍保留。'});},
+    openText:async text=>{if(wordWorkspace.active)await wordWorkspace.leave();requestReplace({...draft({...blank(),pendingMaterial:text},0),reuseMessage:'已载入文字材料，请明确核对整理用途。'});}
+  });
+  try{await wordWorkspace.restore();}catch(e){error(e.message);$('reuse-status').hidden=false;$('reuse-status').textContent='Word工作稿尚未恢复，原记录没有覆盖。可重试旧入口或在“我的文档”下载保存记录。';}
   window.writerReady=true;
   window.writerBoot?.complete();
   // Warm the actual engines while the author starts writing, without blocking
   // input or showing an approximate document. These promises retry on use.
   engine.call('Fonts').catch(()=>{});
   previewLibrary().then(library=>previewWorker(library).promise).catch(()=>{});
-  if(fields.title.trim())preview();
+  if(wordWorkspace.active||fields.title.trim())preview();
 }
 
 function onWriterInput(event){
-  if(!window.writerReady || !hasLock || event.target.name==='format'||event.target.closest('.content-workspace'))return;
+  if(wordWorkspace?.active||!window.writerReady || !hasLock || event.target.name==='format'||event.target.closest('.content-workspace'))return;
   readFields();$('agency-field').hidden=!fields.letterhead;
   if(['letterhead','agency'].includes(event.target.id))renderLetterheadState();
   if(materialNames.includes(event.target.id)){persist();return;}
@@ -765,9 +797,11 @@ $('postscript').addEventListener('paste',event=>{
 });
 if($('save-document'))$('save-document').onclick=()=>{readFields();persist();};
 $('load-draft-open').onclick=()=>$('load-draft').click();
+$('open-document').onclick=()=>$('load-draft').click();
+$('open-word-footer').onclick=()=>$('load-draft').click();
 $('backup-before-replace').onclick=saveDraft;
 $('new-document').onclick=newDocument;
-$('copy-current').onclick=()=>requestReplace({...draft(copyFields(fields),0,undefined,undefined,bodyContent),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true);
+$('copy-current').onclick=()=>wordWorkspace?.active?wordWorkspace.copy().catch(e=>error(e.message)):requestReplace({...draft(copyFields(fields),0,undefined,undefined,bodyContent),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true);
 $('confirm-replace').onclick=()=>replace(replacement);
 $('undo-replace').onclick=()=>{if(previous)requestReplace(previous);};
 $('rescue-draft').onclick=()=>download('公文-恢复数据.json',JSON.stringify({current:rawRecovery || localStorage.getItem(DRAFT_KEY),previous:localStorage.getItem(DRAFT_KEY+'-previous'),library:localStorage.getItem(LIBRARY_KEY),common:localStorage.getItem(COMMON_KEY)},null,2),'application/json');
@@ -803,19 +837,20 @@ new MutationObserver(()=>$('mobile-save').textContent=$('save-status').textConte
 $('load-draft').onchange=async event=>{
   const file=event.target.files[0];event.target.value='';if(!file)return;
   try {
+    if(wordWorkspace){await wordWorkspace.open(file);return;}
     if(file.size>DRAFT_MAX_BYTES)throw Error('草稿文件超过 2 MB，请选择本工具下载的填写草稿。');
     const next=validateDraft(JSON.parse(await file.text()));
     // A downloaded snapshot is a new local copy. Reusing its ID can hide and later
     // overwrite a newer version that is already archived in this browser.
     requestReplace({...next,id:crypto.randomUUID(),review:undefined,reuseMessage:'已打开草稿副本，请重新核对内容提醒。原稿保留在“我的文档”。'});
-  }catch(e){$('draft-status').textContent=e instanceof SyntaxError?'草稿不是有效的 JSON 文件，当前内容未改变。':e.message;}
+  }catch(e){const message=e instanceof SyntaxError?'文件不是有效的工作稿JSON，当前内容未改变。':e.message;$('draft-status').textContent=message;error(message);}
 };
 $('settings-open').onclick=()=>{$('settings-dialog').showModal();showFonts().catch(e=>$('font-message').textContent=e.message);};
 $('font-file').onchange=event=>changeFont(event.target.files[0]);
 $('font-file-open').onclick=()=>$('font-file').click();
 $('font-reset').onclick=()=>changeFont(null,true);
 window.addEventListener('beforeunload',event=>{
-  if($('save-status').textContent==='自动保存失败' || blockedSave&&names.some(name=>fields[name]) || fields.date&&!validDate(fields.date)||$('date').validity.badInput){event.preventDefault();event.returnValue='';}
+  if(wordWorkspace?.dirty||$('save-status').textContent==='自动保存失败' || !wordWorkspace?.active&&(blockedSave&&names.some(name=>fields[name]) || fields.date&&!validDate(fields.date)||$('date').validity.badInput)){event.preventDefault();event.returnValue='';}
 });
 document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='s'){event.preventDefault();if(window.writerReady)persist();}});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});

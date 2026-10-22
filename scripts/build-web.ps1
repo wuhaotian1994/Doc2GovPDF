@@ -4,7 +4,7 @@ Set-Location (Split-Path -Parent $PSScriptRoot)
 $env:GOMODCACHE="$PWD/tmp/gomod";$env:GOCACHE="$PWD/tmp/gocache"
 New-Item -ItemType Directory -Force -Path $Output | Out-Null
 Copy-Item -Path web/* -Destination $Output -Recurse -Force
-Copy-Item -LiteralPath web/index.html -Destination (Join-Path $Output 'advanced.html') -Force
+Copy-Item -LiteralPath web/advanced.html -Destination (Join-Path $Output 'advanced.html') -Force
 Copy-Item -LiteralPath web/write.html -Destination (Join-Path $Output 'index.html') -Force
 $writerHTML=Get-Content -LiteralPath web/write.html -Raw
 $writerBoot=Get-Content -LiteralPath web/write-boot.js -Raw
