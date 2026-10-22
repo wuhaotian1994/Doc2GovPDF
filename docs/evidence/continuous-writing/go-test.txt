@@ -1,0 +1,17 @@
+ok  	doc2govpdf	(cached)
+?   	doc2govpdf/assets	[no test files]
+?   	doc2govpdf/cmd/launcher	[no test files]
+?   	doc2govpdf/cmd/maintenance	[no test files]
+?   	doc2govpdf/cmd/setup	[no test files]
+?   	doc2govpdf/cmd/signrelease	[no test files]
+?   	doc2govpdf/cmd/updater	[no test files]
+ok  	doc2govpdf/cmd/webserve	(cached)
+ok  	doc2govpdf/internal/desktopintegration	(cached)
+ok  	doc2govpdf/internal/document	(cached)
+ok  	doc2govpdf/internal/install	(cached)
+ok  	doc2govpdf/internal/office	21.338s
+?   	doc2govpdf/internal/release	[no test files]
+ok  	doc2govpdf/internal/update	(cached)
+ok  	doc2govpdf/internal/userdata	(cached)
+ok  	doc2govpdf/internal/webengine	(cached)
+?   	doc2govpdf/tmp	[no test files]
