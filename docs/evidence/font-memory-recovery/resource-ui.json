@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "empty page does not download fallback font files",
+    "common document renders with only common fallback faces",
+    "service worker does not start a competing engine download",
+    "warm reload reuses verified engine and font bytes",
+    "rare body loads only the needed complete face",
+    "Word downloads complete fallback faces only at export",
+    "previously prepared document still previews and exports offline",
+    "explicitly selected covering faces avoid every fallback download",
+    "first model uses the same real font metrics as a warmed engine",
+    "no document upload requests",
+    "no runtime errors"
+  ],
+  "errors": [],
+  "timings": {
+    "editableMs": 352,
+    "firstPreviewMs": 2254,
+    "warmPreviewMs": 1142
+  },
+  "passed": true
+}

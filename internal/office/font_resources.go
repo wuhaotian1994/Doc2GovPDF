@@ -1,6 +1,7 @@
 package office
 
 import (
+	"bytes"
 	"fmt"
 	"sort"
 	"strings"
@@ -114,7 +115,17 @@ func RegisterFallbackFont(name string, data []byte, complete bool) error {
 	if !fallbackName(name) || len(data) > 32<<20 || !embeddingAllowed(data) {
 		return fmt.Errorf("备用字体资源无效")
 	}
-	face, err := sfnt.Parse(data)
+	fontCatalog()
+	if current := fonts[name]; len(current.data) > 0 && bytes.Equal(current.data, data) {
+		// Repeated registration must not allocate another full face. An exact
+		// match was already validated; completeness can only be upgraded.
+		fallbackComplete[name] = fallbackComplete[name] || complete
+		return nil
+	}
+	// sfnt retains its source slice. Copy once before parsing so the parsed
+	// face and PDF/Word bytes share the same immutable owned allocation.
+	owned := append([]byte(nil), data...)
+	face, err := sfnt.Parse(owned)
 	if err != nil {
 		return fmt.Errorf("备用字体资源损坏")
 	}
@@ -122,11 +133,10 @@ func RegisterFallbackFont(name string, data []byte, complete bool) error {
 	if err != nil || !strings.HasPrefix(family, "Noto Serif SC") {
 		return fmt.Errorf("备用字体身份不匹配")
 	}
-	fontCatalog()
 	if fallbackComplete[name] && !complete {
 		return nil
 	}
-	fonts[name] = fontData{name, append([]byte(nil), data...)}
+	fonts[name] = fontData{name, owned}
 	fontMaps[name] = face
 	fallbackComplete[name] = complete
 	return nil

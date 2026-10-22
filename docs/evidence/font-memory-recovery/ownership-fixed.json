@@ -1,0 +1,13 @@
+{
+  "scope": "Isolated font ownership and protocol probes; not a reproduction of the unavailable 415-character manuscript",
+  "fontBytes": 14854712,
+  "retainedHeapBytes": 15066280,
+  "retainedRatio": 1.014,
+  "maxSimultaneousFontDownloads": 1,
+  "settledResourcePromises": 0,
+  "goTargetedPassed": 7,
+  "nodeTargetedPassed": 7,
+  "officeFullPassed": true,
+  "webengineFullPassed": true,
+  "vetPassed": true
+}
