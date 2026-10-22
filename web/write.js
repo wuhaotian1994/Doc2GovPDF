@@ -44,7 +44,7 @@ let fontChoiceRequired=false,fontReading=false,offlineStarted=false;
 const fontChoiceKey='gongwen-font-start-v1';
 function chooseFontPath(){fontChoiceRequired=false;$('font-start').hidden=true;try{localStorage.setItem(fontChoiceKey,'chosen');}catch{}schedulePreview();}
 function prepareOffline(){if(offlineStarted||!('serviceWorker' in navigator))return;offlineStarted=true;navigator.serviceWorker.register('./sw.js').catch(()=>{offlineStarted=false;});}
-let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId;
+let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId,copyingCurrent=false;
 const stepScrolls=[0,0,0];
 let materialAnalysis=null,assemblyView;
 function renderAssembly(){if(assemblyView)queueMicrotask(()=>assemblyView.render());}
@@ -196,7 +196,18 @@ window.addEventListener('popstate', () => {
   if (next===2 && !validate(1)) return;
   showStep(next, false);
 });
+function updateCopyCurrent(){
+  $('copy-current').disabled=!window.writerReady||!hasLock||exporting||fontBusy||fontReading||blockedSave||copyingCurrent||wordDisabled.length>0||!wordWorkspace?.active&&!fields.title.trim()&&!fields.body.trim()&&!fields.postscript.trim()&&!hasContent(bodyContent)&&!hasContent(bodyContent?.postscript);
+}
+async function copyCurrentRevision(){
+  updateCopyCurrent();if($('copy-current').disabled)return;
+  copyingCurrent=true;updateCopyCurrent();
+  try{if(wordWorkspace?.active){await wordWorkspace.copy();return;}
+    readFields();requestReplace({...draft({...fields},step,undefined,undefined,bodyContent),reuseMessage:'已建立独立修订副本，日期、文号和内容保持不变。原稿与已有判断保留在“我的文档”；副本请按修改重新核对。'},true);
+  }catch(e){error(e.message);}finally{copyingCurrent=false;updateCopyCurrent();}
+}
 function updateExport() {
+  updateCopyCurrent();
   if(wordWorkspace?.active){
     const format=document.querySelector('[name=format]:checked').value,unresolved=(inspection?.issues||[]).some(i=>i.severity==='error'||i.severity==='review'&&!confirmed.has(i.id));
     const reason=exporting?'文件正在生成…':!hasLock?'另一标签页正在编辑。':wordWorkspace.pending?'请先补齐旧稿内容。':format==='txt'?'原Word含表格或其他结构，请选择Word或PDF另存，避免丢失结构。':readyRevision!==revision?'正在核对当前原文，请稍候。':unresolved?'请先处理提醒，或明确确认保留原文。':format==='pdf'&&(pdfReadyRevision!==revision||!wordWorkspace.pdfAllowed())?'PDF需要当前预览完成，并确认字体、分节与表格分页。Word另存保留原结构。':'';
@@ -616,9 +627,9 @@ function newDocument() {
 function renderLibrary() {
 
   const root=$('recent-documents');root.replaceChildren();
-  $('copy-current').disabled=!fields.title.trim()&&!fields.body.trim();
+  updateCopyCurrent();
   const current=document.createElement('p');current.className='current-document';current.textContent=wordWorkspace?.active?'填写稿也保留在这里：'+(fields.title||'未命名填写稿'):'正在编辑：'+(fields.title || '未命名文档');root.append(current);
-  if(wordWorkspace?.active){$('copy-current').disabled=false;const resume=document.createElement('button');resume.type='button';resume.className='secondary';resume.textContent='继续这份填写稿';resume.onclick=()=>wordWorkspace.leave().then(()=>{fillFields();showStep(step);$('draft-dialog').close();schedulePreview();}).catch(e=>error(e.message));root.append(resume);}
+  if(wordWorkspace?.active){const resume=document.createElement('button');resume.type='button';resume.className='secondary';resume.textContent='继续这份填写稿';resume.onclick=()=>wordWorkspace.leave().then(()=>{fillFields();showStep(step);$('draft-dialog').close();schedulePreview();}).catch(e=>error(e.message));root.append(resume);}
   const items=library.items.filter(item=>item.id!==currentId);
   if(!items.length){const empty=document.createElement('p');empty.className='hint';empty.textContent='新建或打开另一份文档后，上一份会出现在这里。';root.append(empty);}
   for(const item of items){
@@ -765,7 +776,7 @@ async function boot() {
   document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();
   const restoredSubmission=pending?.source==='legacy-submit'&&!window.writerBoot?.pending();
   history.replaceState({writerStep:step},'', location.pathname+(restoredSubmission?'':location.search)+'#step-'+(step+1));
-  wordWorkspace=installWordWorkspace({engine,fonts:()=>fontStore,busy:value=>{if(value){wordDisabled=[...document.querySelectorAll('#editable,.header-actions button,#draft-dialog button')].map(e=>[e,e.disabled]);wordDisabled.forEach(([e])=>e.disabled=true);$('save-status').textContent='正在打开文档，当前稿仍保留…';}else{wordDisabled.forEach(([e,v])=>e.disabled=v);wordDisabled=[];}},canEdit:()=>hasLock&&!exporting&&!fontBusy&&!fontReading&&!blockedSave,step:()=>step,bytes,download,error:message=>error(message?.message||message),summary:renderSummary,showStep,schedule:schedulePreview,updateExport,
+  wordWorkspace=installWordWorkspace({engine,fonts:()=>fontStore,busy:value=>{if(value){wordDisabled=[...document.querySelectorAll('#editable,.header-actions button,#draft-dialog button')].map(e=>[e,e.disabled]);wordDisabled.forEach(([e])=>e.disabled=true);$('save-status').textContent='正在打开文档，当前稿仍保留…';}else{wordDisabled.forEach(([e,v])=>e.disabled=v);wordDisabled=[];updateCopyCurrent();}},canEdit:()=>hasLock&&!exporting&&!fontBusy&&!fontReading&&!blockedSave,step:()=>step,bytes,download,error:message=>error(message?.message||message),summary:renderSummary,showStep,schedule:schedulePreview,updateExport,
     changed:invalidate,reset:()=>{$('preview-empty').querySelector('h3').textContent='你的内容，会在这里成为文档';$('preview-empty').querySelector('p').textContent='填写标题后即可看到排版效果。正文、落款和日期会随填写自动更新。';outputWarnings=[];engine.reset();currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;readyRevision=-1;pdfReadyRevision=-1;pageNumber=1;$('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='尚未生成';$('prev-page').disabled=$('next-page').disabled=true;previewRun++;},
     prepareForm:async()=>{readFields();if(fields.date&&!validDate(fields.date)||$('date').validity.badInput)throw Error('请先修正或清空填写稿日期，以完整保留原输入。');persist();if(lastSaveError||blockedSave)throw Error(lastSaveError||'填写稿保存尚未完成，打开已取消。');},
     openForm:async value=>{const next=validateDraft(value);if(wordWorkspace.active)await wordWorkspace.leave();requestReplace({...next,id:crypto.randomUUID(),review:undefined,reuseMessage:'已打开草稿副本，原稿仍保留。'});},
@@ -774,6 +785,7 @@ async function boot() {
   try{await wordWorkspace.restore();}catch(e){error(e.message);$('reuse-status').hidden=false;$('reuse-status').textContent='Word工作稿尚未恢复，原记录没有覆盖。可重试旧入口或在“我的文档”下载保存记录。';}
   window.writerReady=true;
   window.writerBoot?.complete();
+  updateCopyCurrent();
   // Warm the actual engines while the author starts writing, without blocking
   // input or showing an approximate document. These promises retry on use.
   engine.call('Fonts').catch(()=>{});
@@ -876,7 +888,7 @@ $('feedback-open')?.addEventListener('click',openFeedbackLazily);
 
 $('backup-before-replace').onclick=saveDraft;
 $('new-document').onclick=newDocument;
-$('copy-current').onclick=()=>wordWorkspace?.active?wordWorkspace.copy().catch(e=>error(e.message)):requestReplace({...draft(copyFields(fields),0,undefined,undefined,bodyContent),reuseMessage:'已复制旧稿，日期和文号已清空。请核对正文中的时间、数字和事实。'},true);
+$('copy-current').onclick=copyCurrentRevision;
 $('confirm-replace').onclick=()=>replace(replacement);
 $('undo-replace').onclick=()=>{if(previous)requestReplace(previous);};
 $('rescue-draft').onclick=()=>download('公文-恢复数据.json',JSON.stringify({current:rawRecovery || localStorage.getItem(DRAFT_KEY),previous:localStorage.getItem(DRAFT_KEY+'-previous'),library:localStorage.getItem(LIBRARY_KEY),common:localStorage.getItem(COMMON_KEY)},null,2),'application/json');
