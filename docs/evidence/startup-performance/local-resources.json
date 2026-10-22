@@ -1,0 +1,26 @@
+{
+  "url": "http://127.0.0.1:11328",
+  "browser": "155.0.8059.86",
+  "checks": [
+    "empty page does not download fallback font files",
+    "common document renders with only common fallback faces",
+    "service worker does not start a competing engine download",
+    "warm reload reuses verified engine and font bytes",
+    "rare body loads only the needed complete face",
+    "Word downloads complete fallback faces only at export",
+    "previously prepared document still previews and exports offline",
+    "original Word renders with the split font resources",
+    "original Word export preserves exact original bytes",
+    "explicitly selected covering faces avoid every fallback download",
+    "first model uses the same real font metrics as a warmed engine",
+    "no document upload requests",
+    "no runtime errors"
+  ],
+  "errors": [],
+  "timings": {
+    "editableMs": 341,
+    "firstPreviewMs": 1253,
+    "warmPreviewMs": 819
+  },
+  "passed": true
+}

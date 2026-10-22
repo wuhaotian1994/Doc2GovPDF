@@ -22,6 +22,7 @@ export class WriterEngine {
       worker.onerror = () => {if(worker===this.worker)this.reset(Error('排版暂时中断，填写内容仍保留。请点击刷新预览重试。'));};
       worker.onmessage = async ({data}) => {
         if (worker !== this.worker) return;
+        if (data.resource) { this.onResource?.(data.resource); return; }
         if (data.fatal) { this.reset(Error('排版引擎加载失败，请检查网络后刷新预览。')); return; }
         if (data.ready) {
           try {

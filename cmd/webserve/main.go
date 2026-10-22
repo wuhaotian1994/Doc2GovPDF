@@ -50,6 +50,8 @@ func staticHandler(root string) http.Handler {
 			w.Header().Set("Content-Type", "application/javascript")
 		case ".wasm":
 			w.Header().Set("Content-Type", "application/wasm")
+		case ".ttf":
+			w.Header().Set("Content-Type", "font/ttf")
 		case ".css":
 			w.Header().Set("Content-Type", "text/css; charset=utf-8")
 		case ".html":
@@ -70,15 +72,8 @@ func staticHandler(root string) http.Handler {
 			http.ServeContent(w, r, "sw.js", time.Time{}, worker)
 			return
 		}
-		if r.URL.Path == "/document-engine.wasm" && strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
-			p := filepath.Join(root, "document-engine.wasm.gz")
-			if _, e := os.Stat(p); e == nil {
-				w.Header().Set("Content-Encoding", "gzip")
-				w.Header().Set("Content-Type", "application/wasm")
-				w.Header().Set("Vary", "Accept-Encoding")
-				http.ServeFile(w, r, p)
-				return
-			}
+		if serveCompressed(w, r, root) {
+			return
 		}
 		files.ServeHTTP(w, r)
 	})

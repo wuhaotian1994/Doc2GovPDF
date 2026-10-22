@@ -508,6 +508,9 @@ func formattedRun(text, font string, size float64, color string) string {
 	return out.String()
 }
 func CreateDOCX(m Model) ([]byte, error) {
+	if len(RequiredFallbackFonts(m, true)) > 0 {
+		return nil, fmt.Errorf("Word完整字体资源尚未准备完成，请重试")
+	}
 	var fitErr error
 	m, fitErr = fitMarks(m)
 	if fitErr != nil {
