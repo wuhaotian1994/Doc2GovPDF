@@ -43,7 +43,7 @@ export function installHome({list,create,open,rename,remove,save,canEdit,onError
       for(const [label,kind] of [['重命名','rename'],['删除','delete']]){const button=document.createElement('button');button.type='button';button.className='quiet';button.textContent=label;button.dataset.articleAction=kind;button.disabled=busy||!canEdit();button.onclick=()=>editAction(item,kind);actions.append(button);}
       card.append(openButton,actions);card.onclick=event=>{if(!event.target.closest('button'))act(()=>open(item));};grid.append(card);
     }
-    $('home-empty').hidden=items.length>0;
+
     $('home-count').textContent=ready?(items.length?`${items.length} 篇文章，仅保存在此浏览器`:'还没有文章，从新建开始'):'正在读取本地文章…';
     $('home-page').textContent=`${page+1} / ${pages}`;$('home-prev').disabled=page===0||busy;$('home-next').disabled=page+1>=pages||busy;
     $('home-pagination').hidden=pages<=1;
