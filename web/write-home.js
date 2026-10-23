@@ -35,11 +35,11 @@ export function installHome({list,create,open,rename,remove,save,canEdit,onError
       const card=document.createElement('article');card.className='article-card';card.dataset.articleId=item.id;
       const openButton=document.createElement('button');openButton.type='button';openButton.className='article-open';openButton.disabled=busy||!canEdit();
       const title=document.createElement('h2');title.textContent=item.title||'未命名文章';
-      const excerpt=document.createElement('p');excerpt.className='article-excerpt';excerpt.textContent=item.body||'尚未填写正文';
+      const excerpt=document.createElement('p');excerpt.className='article-excerpt';excerpt.textContent=item.body?.replace(/\s+/g,' ').trim()||'尚未填写正文';
       const meta=document.createElement('span');meta.className='article-meta';
       const date=new Date(item.savedAt);meta.textContent=(item.kind==='word'?'Word 工作稿 · ':'')+(Number.isFinite(+date)?new Intl.DateTimeFormat('zh-CN',{month:'long',day:'numeric'}).format(date):'本地文章');
-      openButton.append(title,excerpt,meta);openButton.onclick=()=>act(()=>open(item));
-      const actions=document.createElement('div');actions.className='article-actions';
+      openButton.append(title,excerpt);openButton.onclick=()=>act(()=>open(item));
+      const actions=document.createElement('div');actions.className='article-actions';actions.append(meta);
       for(const [label,kind] of [['重命名','rename'],['删除','delete']]){const button=document.createElement('button');button.type='button';button.className='quiet';button.textContent=label;button.dataset.articleAction=kind;button.disabled=busy||!canEdit();button.onclick=()=>editAction(item,kind);actions.append(button);}
       card.append(openButton,actions);card.onclick=event=>{if(!event.target.closest('button'))act(()=>open(item));};grid.append(card);
     }

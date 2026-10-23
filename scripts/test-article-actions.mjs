@@ -5,14 +5,14 @@ import assert from 'node:assert/strict';
 import {startWebServer} from './browser-tests/server.mjs';
 const require=createRequire(new URL('./browser-tests/package.json',import.meta.url)),{chromium}=require('playwright');
 const out=new URL('../build/qa/article-actions/',import.meta.url);await mkdir(out,{recursive:true});
-const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/scroll-preview-web',import.meta.url)));
+const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/intro-settings-web',import.meta.url)));
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  const card=name=>page.locator('[data-article-id]').filter({has:page.getByRole('heading',{name,exact:true})});
  const settle=()=>page.waitForFunction(()=>window.writerReady&&!document.querySelector('#home-new').disabled);
  const confirm=async()=>{await page.locator('#article-action-confirm').click();await page.waitForFunction(()=>!document.querySelector('#article-action-dialog').open);};
- await page.goto(server.url);await settle();
+ await page.addInitScript(()=>localStorage.setItem('gongwen-welcome-v1','seen'));await page.goto(server.url);await settle();
  await page.locator('#material-open').click();
  assert.equal(await page.locator('#line-paste-status').textContent(),'');
  const box=await page.locator('.line-paste-paper').boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height-45);

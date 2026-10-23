@@ -5,11 +5,11 @@ import assert from 'node:assert/strict';
 import {startWebServer} from './browser-tests/server.mjs';
 const require=createRequire(new URL('./browser-tests/package.json',import.meta.url)),{chromium}=require('playwright');
 const out=new URL('../build/qa/regions-preview/',import.meta.url);await mkdir(out,{recursive:true});
-const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/scroll-preview-web',import.meta.url)));
+const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/intro-settings-web',import.meta.url)));
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(server.url);await page.waitForFunction(()=>window.writerReady&&!document.querySelector('#home-new').disabled);await page.locator('#material-open').click();
+ await page.addInitScript(()=>localStorage.setItem('gongwen-welcome-v1','seen'));await page.goto(server.url);await page.waitForFunction(()=>window.writerReady&&!document.querySelector('#home-new').disabled);await page.locator('#material-open').click();
  await page.locator('#line-paste-text').fill('测试标题\n第一段正文。\n第二段正文。\n第三段正文。\n第四段正文。');
  const row=await page.locator('[data-line="2"]').boundingBox();await page.mouse.click(row.x+30,row.y+14);
  assert.ok((await page.locator('.line-paste-toolbar span').textContent()).includes('整片'));
