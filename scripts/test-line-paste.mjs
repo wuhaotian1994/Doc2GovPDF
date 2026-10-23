@@ -18,7 +18,7 @@ const out=new URL('../build/qa/line-paste/',import.meta.url);await mkdir(out,{re
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];
  page.on('pageerror',error=>errors.push(error.message));
- await page.addInitScript(()=>localStorage.setItem('gongwen-welcome-v1','seen'));await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);await page.locator('#home-new').click();
+ await page.addLocatorHandler(page.locator('#welcome-dialog'),async()=>{await page.keyboard.press('Escape');});await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);await page.locator('#home-new').click();
  assert.equal(await page.locator('#save-document').count(),0);assert.equal(await page.locator('#open-word-footer').count(),0);
  await page.locator('#title').fill('原稿标题');
  await page.locator('#back-home').click();await page.locator('#material-open').click();

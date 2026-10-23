@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="填写标题和正文，在线预览并导出 Word、PDF。文档在浏览器本地处理。">
-  <title>公文 · 把内容写好，格式交给我们</title>
+  <title>码什么冬梅</title>
   <link rel="stylesheet" href="write.css">
   <link rel="stylesheet" href="write-workspace.css">
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
@@ -16,8 +16,8 @@
 <body class="home-mode">
   <a class="skip" href="#writing">跳到文档填写</a>
   <header class="app-header">
-    <a class="brand" href="./" aria-label="公文首页"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M7 3h10l5 5v17H7zM17 3v6h5M11 14h7M11 18h7" /></svg><span>公文<span class="brand-caption">简单写，规范排</span></span></a>
-    <div class="header-actions"><button id="back-home" class="quiet" type="button">返回首页</button><span id="save-status" role="status">内容仅保存在此浏览器</span><button id="open-document" type="button" class="quiet">打开文档</button><button id="copy-current" class="quiet" type="button" disabled title="完整复制当前内容继续修订，原稿保留；日期、文号和数字不变">复制后修订</button><button id="new-document" class="quiet" type="button">新建文档</button><button id="draft-menu" class="quiet" type="button">文档管理</button><button id="common-open" class="quiet" type="button">常用设置</button><button id="about-open" class="quiet" type="button">关于</button></div>
+    <a class="brand" href="./" aria-label="码什么冬梅首页"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M7 3h10l5 5v17H7zM17 3v6h5M11 14h7M11 18h7" /></svg><span>码什么冬梅<span class="brand-caption">简单写，规范排</span></span></a>
+    <div class="header-actions"><button id="back-home" class="quiet" type="button">返回首页</button><span id="save-status" role="status">内容仅保存在此浏览器</span><button id="copy-current" class="quiet" type="button" disabled title="完整复制当前内容继续修订，原稿保留；日期、文号和数字不变">复制后修订</button><button id="new-document" class="quiet" type="button">新建文档</button><button id="common-open" class="quiet" type="button">常用设置</button><button id="about-open" class="quiet" type="button">关于</button></div>
   </header>
   <div id="global-error" class="global-message" role="alert" hidden></div>
   <div id="startup-notice" class="global-message" role="status" hidden><span id="startup-message"></span><button type="button" id="startup-download" class="secondary">下载填写草稿</button><button type="button" id="startup-retry" class="secondary">重试加载</button></div>
@@ -102,8 +102,8 @@
   <dialog id="replace-dialog" aria-labelledby="replace-heading"><h2 id="replace-heading">保留当前文档吗？</h2><p>开始新的工作前，建议先下载草稿。替换后也可在“我的草稿”中恢复上一份。</p><div class="dialog-actions"><button class="secondary" type="button" data-close="replace-dialog">取消</button><button class="secondary" id="backup-before-replace" type="button">先下载当前草稿</button><button class="primary" id="confirm-replace" type="button">替换并继续</button></div></dialog>
 
 
-  <dialog id="welcome-dialog" aria-labelledby="welcome-heading"><div class="welcome-shell"><section class="welcome-copy"><h2 id="welcome-heading">msmdm.cn</h2><p class="welcome-mnemonic">马什么冬梅.cn</p><p class="welcome-description">把内容写好，<br>格式交给我们。</p><div class="welcome-actions"><button type="button" class="primary" id="welcome-start">开始写文章</button><button type="button" class="secondary" id="welcome-copy">复制网址</button></div><p id="welcome-copy-status" role="status"></p></section><div class="welcome-art"><img src="images/welcome-msmdm.png" alt="纸马与梅花" width="1536" height="1024"></div></div><p class="welcome-note">文章保存在此浏览器，需要留存时请下载文档。</p></dialog>
-  <dialog id="about-dialog" aria-labelledby="about-heading"><div class="dialog-heading"><h2 id="about-heading">关于公文</h2><button class="quiet" type="button" data-close="about-dialog">关闭</button></div><a class="about-domain" href="https://msmdm.cn" target="_blank" rel="noopener">msmdm.cn</a><p>马什么冬梅.cn · 简单写，规范排</p><div class="about-details"><p>从空白文章或已有文字开始，填写内容、查看成品，再导出 Word 或 PDF。</p><p>文章与字体在本浏览器处理。清理浏览器数据前，请下载需要保留的文档。反馈仅在你主动提交时发送所选内容。</p><p>字库、字号和行距由系统统一处理。内容事实与最终成品仍需你核对。</p></div><button type="button" id="welcome-again" class="secondary">再看欢迎页</button></dialog>
+  <dialog id="welcome-dialog" aria-labelledby="welcome-heading"><div class="welcome-shell"><section class="welcome-copy"><h2 id="welcome-heading">msmdm.cn</h2><p class="welcome-mnemonic">码什么冬梅</p><p class="welcome-description">把内容写好，<br>格式交给我们。</p><div class="welcome-actions"><button type="button" class="primary" id="welcome-start">开始写文章</button><button type="button" class="secondary" id="welcome-copy">复制网址</button></div><p id="welcome-copy-status" role="status"></p></section><div class="welcome-art"><img src="images/welcome-msmdm.png" alt="纸马与梅花" width="1536" height="1024"></div></div><p class="welcome-note">文章保存在此浏览器，需要留存时请下载文档。</p></dialog>
+  <dialog id="about-dialog" aria-labelledby="about-heading"><div class="dialog-heading"><h2 id="about-heading">关于码什么冬梅</h2><button class="quiet" type="button" data-close="about-dialog">关闭</button></div><a class="about-domain" href="https://msmdm.cn" target="_blank" rel="noopener">msmdm.cn</a><p>码什么冬梅 · 简单写，规范排</p><div class="about-details"><p>从空白文章或已有文字开始，填写内容、查看成品，再导出 Word 或 PDF。</p><p>文章与字体在本浏览器处理。清理浏览器数据前，请下载需要保留的文档。反馈仅在你主动提交时发送所选内容。</p><p>字库、字号和行距由系统统一处理。内容事实与最终成品仍需你核对。</p></div><button type="button" id="welcome-again" class="secondary">再看欢迎页</button></dialog>
   <noscript><p class="global-message">请启用浏览器 JavaScript，才能本地排版和导出文档。</p></noscript>
   <script>window.writerBoot?.hydrate();</script>
   <script type="module" src="write.js" onerror="window.writerBoot?.fail()"></script>

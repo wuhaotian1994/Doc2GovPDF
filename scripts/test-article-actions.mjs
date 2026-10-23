@@ -12,7 +12,7 @@ try{
  const card=name=>page.locator('[data-article-id]').filter({has:page.getByRole('heading',{name,exact:true})});
  const settle=()=>page.waitForFunction(()=>window.writerReady&&!document.querySelector('#home-new').disabled);
  const confirm=async()=>{await page.locator('#article-action-confirm').click();await page.waitForFunction(()=>!document.querySelector('#article-action-dialog').open);};
- await page.addInitScript(()=>localStorage.setItem('gongwen-welcome-v1','seen'));await page.goto(server.url);await settle();
+ await page.addLocatorHandler(page.locator('#welcome-dialog'),async()=>{await page.keyboard.press('Escape');});await page.goto(server.url);await settle();
  await page.locator('#material-open').click();
  assert.equal(await page.locator('#line-paste-status').textContent(),'');
  const box=await page.locator('.line-paste-paper').boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height-45);

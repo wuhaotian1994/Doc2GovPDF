@@ -59,7 +59,8 @@ function currentDraft(nextFields=fields){
   return draft(nextFields,step,currentId,decisions.snapshot(currentId),bodyContent);
 }
 const error = message => {
-  $('global-error').textContent=message;$('global-error').hidden=false;
+  $('global-error').textContent=message;$('global-error').dataset.message=message;$('global-error').hidden=false;
+  if(/保存|空间|草稿|恢复|归档|文档列表/.test(message)){const button=document.createElement('button');button.type='button';button.className='secondary';button.textContent='保存与恢复选项';button.onclick=openRecoveryDialog;$('global-error').append(button);}
   if($('draft-dialog').open)$('draft-status').textContent=message;
   if($('material-dialog').open)$('material-message').textContent=message;
   if(step===2){$('export-status').textContent=message;$('export-status').classList.add('failed');}
@@ -138,7 +139,7 @@ function persist() {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(currentDraft()));
     window.writerBoot?.saved(currentId,bodyContent);
     $('save-status').textContent = '已保存到此浏览器';
-    if(lastSaveError&&$('global-error').textContent===lastSaveError)clearError();lastSaveError='';
+    if(lastSaveError&&$('global-error').dataset.message===lastSaveError)clearError();lastSaveError='';
   } catch {
     $('save-status').textContent = '自动保存失败';
     lastSaveError='浏览器未能保存最新内容。请打开“我的文档”下载草稿，避免关闭页面后丢失。';error(lastSaveError);
@@ -412,7 +413,7 @@ async function preview() {
     await renderPage(requested,run);
     if(stale())return;
     readyRevision=requested;pdfReadyRevision=requested;prepareOffline();
-    if(lastPreviewError&&$('global-error').textContent===lastPreviewError)clearError();lastPreviewError='';
+    if(lastPreviewError&&$('global-error').dataset.message===lastPreviewError)clearError();lastPreviewError='';
     const incomplete=!wordSnapshot&&(!(snapshotContent?hasContent(snapshotContent):snapshot.body.trim()) || (snapshot.letterhead&&!snapshot.agency.trim()));
     $('preview-status').textContent=incomplete?'填写中 · 待填内容仅用于预览':'已更新 · '+pdf.numPages+' 页'+(outputWarnings.length?' · 存在排版降级':'');
     renderChecks(); updateExport();
@@ -607,7 +608,7 @@ function replace(next) {
   $('undo-replace').hidden=false;
   $('replace-dialog').close();$('draft-dialog').close();
   clearError();
-  $('reuse-status').textContent=next.reuseMessage || (prior.fields.title.trim()||prior.fields.body.trim()?'上一份已保存在“我的文档”。可以随时切换回来。':'已打开文档，修改会自动保存。');
+  $('reuse-status').textContent=next.reuseMessage || (prior.fields.title.trim()||prior.fields.body.trim()?'上一份已保留在首页，可以随时继续编辑。':'已打开文档，修改会自动保存。');
   $('reuse-status').hidden=false;
   document.querySelector(`[data-panel="${step}"] h1`).focus();
   return true;
@@ -624,8 +625,9 @@ function populateCommon(next=common) {
 }
 function newDocument() {
   const hasCommon=Object.values(common.fields).some(Boolean);
-  const next={...draft(freshFields(common),0),reuseMessage:hasCommon?'已带入常用信息。标题、正文、日期和文号请按本次内容填写。':'已新建空白文档，填写标题即可开始。已有旧稿会保留在“我的文档”。'};
-  if(requestReplace(next,true)){document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();}
+  const next={...draft(freshFields(common),0),reuseMessage:hasCommon?'已带入常用信息。标题、正文、日期和文号请按本次内容填写。':'已新建空白文档，填写标题即可开始。已有文章会保留在首页。'};
+  if(requestReplace(next,true)){document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();return true;}
+  return false;
 }
 function renderLibrary() {
 
@@ -744,7 +746,7 @@ async function boot() {
   previewLibrary().then(library=>previewWorker(library).promise).catch(()=>{});
   await home.show({persist:false,push:false});
   history.replaceState({home:true},'','#home');
-  intro.firstVisit();
+  intro.showOnOpen();
 }
 
 function onWriterInput(event){
@@ -779,7 +781,6 @@ document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>$(b
 $('export').onclick=exportFile;
 $('return-checks').onclick=()=>{navigate(2);$('checks').scrollIntoView({block:'start'});};
 $('refresh-preview').onclick=()=>{clearError();readyRevision=-1;preview();};
-$('draft-menu').onclick=()=>{renderLibrary();$('draft-dialog').showModal();};
 $('save-draft').onclick=saveDraft;
 document.addEventListener('pointerdown',event=>{referencePointerTarget=event.target.closest?.('button')||null;},true);
 document.addEventListener('keydown',()=>{referencePointerTarget=null;},true);
@@ -814,7 +815,6 @@ $('postscript').addEventListener('paste',event=>{
 });
 if($('save-document'))$('save-document').onclick=()=>{readFields();persist();};
 $('load-draft-open').onclick=()=>$('load-draft').click();
-$('open-document').onclick=()=>$('load-draft').click();
 
 // Feedback is loaded only after an explicit action and cannot block writing.
 let feedbackController;
@@ -885,7 +885,8 @@ $('load-draft').onchange=async event=>{
   }catch(e){const message=e instanceof SyntaxError?'文件不是有效的工作稿JSON，当前内容未改变。':e.message;$('draft-status').textContent=message;error(message);}
 };
 assemblyView=installAssemblyView({hasOriginal:()=>false,canUndo:()=>Boolean(previous),ready:()=>readyRevision===revision,kept:entry=>decisions.has(entry),entries:()=>model&&inspection?reviewItems(model,inspection,fields,currentId,bodyContent).filter(e=>e.issue._assembly):[],keep:(entry,value)=>{if(readyRevision!==revision)return;decisions.set(entry,value);persist();renderChecks();},apply:entry=>{if(readyRevision!==revision)return;try{const next=applyAssemblyQuestion(fields,bodyContent,entry.issue._assembly);requestReplace({...draft(next.fields,1,currentId,decisions.snapshot(currentId),next.content),reuseMessage:'已调整这一处，其余原文保持；可撤销上次整理。'},true);}catch(e){error(e.message);}},undo:()=>{if(previous)requestReplace({...previous,reuseMessage:'已撤销上次整理，原稿与原材料保持。'},true);}});
-const intro=installIntro();
+function openRecoveryDialog(){renderLibrary();$('draft-dialog').showModal();}
+const intro=installIntro({onRecovery:openRecoveryDialog,onStart:async()=>{if(wordWorkspace?.active)await wordWorkspace.leave();readFields();if(!newDocument())throw Error($('global-error').dataset.message||'当前文章尚未保存，未新建。请稍后重试。');}});
 window.addEventListener('beforeunload',event=>{
   if(wordWorkspace?.dirty||$('save-status').textContent==='自动保存失败' || !wordWorkspace?.active&&(blockedSave&&names.some(name=>fields[name]) || dateProblems().length)){event.preventDefault();event.returnValue='';}
 });

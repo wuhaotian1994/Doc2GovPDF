@@ -16,7 +16,7 @@ const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.addInitScript(()=>localStorage.setItem('gongwen-welcome-v1','seen'));await page.goto(server.url);await page.waitForFunction(()=>window.writerReady&&document.querySelector('#home-new')&&!document.querySelector('#home-new').disabled);
+ await page.addLocatorHandler(page.locator('#welcome-dialog'),async()=>{await page.keyboard.press('Escape');});await page.goto(server.url);await page.waitForFunction(()=>window.writerReady&&document.querySelector('#home-new')&&!document.querySelector('#home-new').disabled);
  const noScroll=async()=>assert.ok(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight+1));
  assert.equal(await page.locator('[data-article-id]').count(),0);await noScroll();
  await page.screenshot({path:fileURLToPath(new URL('empty-home.png',out))});
