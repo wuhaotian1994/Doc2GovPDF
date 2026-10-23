@@ -5,8 +5,8 @@ import {paragraph,table,contentFromText,contentText,validateContent,splitContent
 const labels={auto:'自动识别',body:'正文',title:'标题',heading:'一级标题',heading2:'二级标题',heading3:'三级标题',heading4:'四级标题',article:'条文正文',signature:'署名',date:'日期'};
 export function installContentEditor({getContent:readContent,onChange,onError,canEdit,onSettled,onPending,onRender,region='body'}){
   const $=id=>document.getElementById(region==='body'?id:id.startsWith('content-')?'postscript-'+id:id.replace(/^body/,'postscript')),root=$('content-workspace'),blocks=$('content-blocks'),toolbar=$('content-toolbar'),body=$('body');
-  blocks.setAttribute('aria-label',region==='body'?'正文文稿':'落款后的文稿');blocks.setAttribute('aria-describedby',region==='body'?'body-hint body-error':'postscript-hint postscript-error');
-  root.setAttribute('aria-describedby',region==='body'?'body-hint body-error':'postscript-hint postscript-error');
+  blocks.setAttribute('aria-label',region==='body'?'正文文稿':'落款后的文稿');blocks.setAttribute('aria-describedby',region==='body'?'body-error':'postscript-hint postscript-error');
+  root.setAttribute('aria-describedby',region==='body'?'body-error':'postscript-hint postscript-error');
   let selected=null,past=[],future=[],request=null,formatOpen=false,editSession=null,displayContent=null,contextOpen=false,textSelection=null,textTableView=null;
   const getContent=()=>readContent()||displayContent;
   const snapshot=()=>{const input=inputFor(selected)||body;return {content:readContent()?structuredClone(readContent()):null,body:body.value,plainIndex:displayContent?.blocks.findIndex(b=>b.id===selected?.block)??0,selected:selected?{...selected}:null,range:{start:input.selectionStart,end:input.selectionEnd}};};

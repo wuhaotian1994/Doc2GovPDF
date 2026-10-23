@@ -118,3 +118,17 @@ body { position: fixed; inset: 0; width: 100%; height: 100dvh; display: flex; fl
 .text-table-dialog>footer.text-table-dialog-footer{display:block}.text-table-dialog-footer>.text-table-operation-message{margin:0 0 10px;font-size:13px;line-height:1.65;overflow-wrap:anywhere}.text-table-dialog-footer>.dialog-actions{margin:0;justify-content:flex-start;gap:10px}.text-table-blank-choices{border-top:1px solid var(--line,#dce2ea);border-bottom:1px solid var(--line,#dce2ea);margin:14px 0}.text-table-blank-choices>summary{min-height:44px;padding:10px 0;color:var(--blue,#2458b8);font-size:13px}.text-table-blank-choices .text-table-source-choice{margin-block:10px}
 
 .text-table-show-preview{display:inline-block;min-height:28px;padding:0 4px;font-size:13px;line-height:1.65;vertical-align:baseline;background:transparent;border:0;color:var(--blue,#2458b8)}
+
+/* Reserve space inside the scrolling clip for the input focus outline. */
+.form-scroll{padding-left:6px}
+body:not(.word-mode) h1.form-intro{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+body:not(.word-mode) p.form-intro{display:none}
+.writing-footer{justify-content:flex-end}
+#welcome-heading:focus{outline:none}
+
+.export-heading{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.export-description{display:none!important}
+#export-review-dialog{width:min(680px,calc(100% - 32px))}
+#export-review-dialog .dialog-heading{position:sticky;top:-26px;background:var(--paper);z-index:1;padding-top:8px}
+#export-review-open{margin:6px 0;font-size:14px}
+#reuse-status a{text-decoration:underline;text-underline-offset:3px}

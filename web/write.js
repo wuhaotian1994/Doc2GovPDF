@@ -48,6 +48,7 @@ let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,it
 const stepScrolls=[0,0,0];
 let materialAnalysis=null,assemblyView,home,openLineArticle;
 function renderAssembly(){if(assemblyView)queueMicrotask(()=>assemblyView.render());}
+let commonNeedsUpdate=false,commonAutoError='';
 let referenceChoice=null,referenceUndo=null,referenceDismissed=null,referencePointerTarget=null;
 const confirmed = new Set();
 const decisions = new ReviewDecisions();
@@ -70,12 +71,12 @@ const clearError = () => {
   if($('export-status').classList.contains('failed')){$('export-status').textContent='';$('export-status').classList.remove('failed');}
 };
 const contentEditor=installContentEditor({getContent:()=>bodyContent?{version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})}:null,onSettled:schedulePreview,onPending:invalidate,onRender:renderAssembly,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
-  bodyContent=bodyContent?.postscript?{...(next||contentFromText(text)),postscript:bodyContent.postscript}:next;$('body').value=text;readFields();if(text.trim())fieldError('body','');decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();renderAssembly();if(!composing)schedulePreview();
+  bodyContent=bodyContent?.postscript?{...(next||contentFromText(text)),postscript:bodyContent.postscript}:next;$('body').value=text;readFields();commonNeedsUpdate=true;if(text.trim())fieldError('body','');decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();renderAssembly();if(!composing)schedulePreview();
 }});
 const postscriptEditor=installContentEditor({region:'postscript',getContent:()=>bodyContent?.postscript||null,onSettled:schedulePreview,onPending:invalidate,onRender:renderAssembly,canEdit:()=>hasLock&&!exporting,onError:error,onChange:(next,text,{composing}={})=>{
   const hadBody=Boolean(bodyContent);
   if(next)bodyContent={...(bodyContent||contentFromText(fields.body)),postscript:next};else if(bodyContent){const {postscript,...body}=bodyContent;bodyContent=body;}
-  $('postscript').value=text;readFields();if(!hadBody&&bodyContent)contentEditor.set({version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})});decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();renderAssembly();if(!composing)schedulePreview();
+  $('postscript').value=text;readFields();commonNeedsUpdate=true;if(!hadBody&&bodyContent)contentEditor.set({version:1,blocks:bodyContent.blocks,...(bodyContent.annexes?{annexes:bodyContent.annexes}:{})});decisions.bindContent(fields,currentId,bodyContent);updateBodyCount();invalidate();persist();renderAssembly();if(!composing)schedulePreview();
 }});
 function bodySummary(){
   if(!bodyContent)return fields.body.length.toLocaleString('zh-CN')+' 字';
@@ -140,9 +141,26 @@ function persist() {
     window.writerBoot?.saved(currentId,bodyContent);
     $('save-status').textContent = '已保存到此浏览器';
     if(lastSaveError&&$('global-error').dataset.message===lastSaveError)clearError();lastSaveError='';
+    rememberArticleCommon();
   } catch {
     $('save-status').textContent = '自动保存失败';
     lastSaveError='浏览器未能保存最新内容。请打开“我的文档”下载草稿，避免关闭页面后丢失。';error(lastSaveError);
+  }
+}
+function rememberArticleCommon(){
+  if(!commonNeedsUpdate||!fields.title.trim()||!(fields.body.trim()||hasContent(bodyContent))||fields.letterhead&&!fields.agency.trim())return;
+  try{
+    const next=commonFrom(fields,common.format);
+    if(JSON.stringify(next)!==JSON.stringify(common))saveCommon(next);
+    commonNeedsUpdate=false;
+    if(commonAutoError&&$('global-error').dataset.message===commonAutoError)clearError();commonAutoError='';
+  }catch{const message='文章已保存，但常用信息暂未更新。请检查浏览器存储空间后重试。';if(commonAutoError!==message)error(message);commonAutoError=message;}
+}
+function showReuseMessage(message){
+  const root=$('reuse-status');root.textContent=message;
+  if(message==='已带入常用信息。点击这里修改常用信息。'){
+    const link=document.createElement('a');link.href='#common-settings';link.textContent='这里';link.onclick=event=>{event.preventDefault();openCommon();};
+    root.replaceChildren(document.createTextNode('已带入常用信息。点击'),link,document.createTextNode('修改常用信息。'));
   }
 }
 function invalidate() {
@@ -180,6 +198,7 @@ function validate(target) {
   return true;
 }
 function showStep(next, push = true) {
+  if(next!==2)$('export-review-dialog')?.close();
   const scroll=document.querySelector('.form-scroll');if(scroll)stepScrolls[step]=scroll.scrollTop;
   step = next;
   if(step===2)$('issue-location').hidden=true;
@@ -211,6 +230,7 @@ window.addEventListener('popstate', () => {
   showStep(next, false);
 });
 function updateCopyCurrent(){
+  if(!$('copy-current'))return;
   $('copy-current').disabled=!window.writerReady||!hasLock||exporting||fontBusy||fontReading||blockedSave||copyingCurrent||wordDisabled.length>0||!wordWorkspace?.active&&!fields.title.trim()&&!fields.body.trim()&&!fields.postscript.trim()&&!metadataNames.some(name=>fields[name].trim())&&!hasContent(bodyContent)&&!hasContent(bodyContent?.postscript);
 }
 async function copyCurrentRevision(){
@@ -222,18 +242,21 @@ async function copyCurrentRevision(){
 }
 function updateExport() {
   updateCopyCurrent();
+  $('export-review-open').hidden=true;
   if(wordWorkspace?.active){
     const format=document.querySelector('[name=format]:checked').value,unresolved=(inspection?.issues||[]).some(i=>i.severity==='error'||i.severity==='review'&&!confirmed.has(i.id));
-    const reason=exporting?'文件正在生成…':!hasLock?'另一标签页正在编辑。':wordWorkspace.pending?'请先补齐旧稿内容。':format==='txt'?'原Word含表格或其他结构，请选择Word或PDF另存，避免丢失结构。':readyRevision!==revision?'正在核对当前原文，请稍候。':unresolved?'请先处理提醒，或明确确认保留原文。':format==='pdf'&&(pdfReadyRevision!==revision||!wordWorkspace.pdfAllowed())?'PDF需要当前预览完成，并确认字体、分节与表格分页。Word另存保留原结构。':'';
+    const reason=exporting?'文件正在生成…':!hasLock?'另一标签页正在编辑。':wordWorkspace.pending?'请先补齐旧稿内容。':format==='txt'?'原Word含表格或其他结构，请选择Word或PDF另存，避免丢失结构。':readyRevision!==revision?'正在核对当前原文，请稍候。':unresolved?'请点击“查看导出提醒”处理需要确认的内容。':format==='pdf'&&(pdfReadyRevision!==revision||!wordWorkspace.pdfAllowed())?'PDF需要当前预览完成，并确认字体、分节与表格分页。Word另存保留原结构。':'';
+    $('export-review-open').hidden=!(readyRevision===revision&&(unresolved||format==='pdf'&&!wordWorkspace.pdfAllowed()));
     $('export').textContent=exporting?'正在生成文件…':'下载 '+({docx:'Word',pdf:'PDF',txt:'纯文本'}[format]);$('export').disabled=Boolean(reason)||fontBusy;$('export-guidance').textContent=reason;return;
   }
   const format = document.querySelector('[name=format]:checked').value;
   $('export').textContent = exporting ? '正在生成文件…' : '下载 '+({docx:'Word',pdf:'PDF',txt:'纯文本'}[format]);
   const issues = inspection?.issues || [];
   const unresolved = issues.some(issue => issue.severity==='error' || (issue.severity==='review' && !confirmed.has(issue.id))) || Boolean(model&&inspection&&reviewItems(model,inspection,fields,currentId,bodyContent).some(entry=>entry.issue._assembly&&!decisions.has(entry)));
+  $('export-review-open').hidden=!(format!=='txt'&&readyRevision===revision&&unresolved);
   const dateBlocked=dateProblems().length>0,metadataBlocked=issuanceProblems().length>0;
   $('export').disabled = exporting || fontBusy || !hasLock || dateBlocked || metadataBlocked || (format!=='txt' && (readyRevision!==revision || unresolved));
-  $('export-guidance').textContent=exporting?'文件正在生成，请稍候。':fontBusy?'字体正在更新，完成预览后即可下载。':dateBlocked?dateProblems()[0][1]:metadataBlocked?issuanceProblems()[0][1]:format!=='txt'&&previewFailed?'预览尚未完成，请点击“重新生成预览”。':format!=='txt'&&readyRevision!==revision?'预览正在更新，完成后即可下载。':format!=='txt'&&unresolved?'请先处理上方提醒，或确认保留原文，再下载文件。':'';
+  $('export-guidance').textContent=exporting?'文件正在生成，请稍候。':fontBusy?'字体正在更新，完成预览后即可下载。':dateBlocked?dateProblems()[0][1]:metadataBlocked?issuanceProblems()[0][1]:format!=='txt'&&previewFailed?'预览尚未完成，请点击“重新生成预览”。':format!=='txt'&&readyRevision!==revision?'预览正在更新，完成后即可下载。':format!=='txt'&&unresolved?'请点击“查看导出提醒”处理需要确认的内容。':'';
 }
 function renderSummary() {
   if(wordWorkspace?.active)return wordWorkspace.summary();
@@ -583,6 +606,7 @@ function requestReplace(next, direct=false) {
   if(names.some(name=>fields[name]) || rawRecovery) $('replace-dialog').showModal(); else replace(next);
 }
 function replace(next) {
+  const created=!next.id;
   const prior=currentDraft();
   try{
     if(libraryBroken)throw Error('最近文档列表无法读取，切换已取消。请在“我的文档”下载恢复数据和当前草稿。');
@@ -598,7 +622,7 @@ function replace(next) {
   catch(e){error(e.name==='QuotaExceededError'?'浏览器空间不足，切换已取消。请先下载当前草稿并清理不再需要的旧稿。':e.message);return;}
   previous=prior;currentId=next.id;
   referenceChoice=null;referenceUndo=null;referenceDismissed=null;
-  fields={...next.fields};bodyContent=next.content||null;blockedSave=false;rawRecovery=null;
+  fields={...next.fields};bodyContent=next.content||null;commonNeedsUpdate=created;blockedSave=false;rawRecovery=null;
   decisions.restore(next.review,fields,currentId,bodyContent);
   for(const name of ['title','agency','body','date',...metadataNames])fieldError(name,'');
   currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;
@@ -608,7 +632,7 @@ function replace(next) {
   $('undo-replace').hidden=false;
   $('replace-dialog').close();$('draft-dialog').close();
   clearError();
-  $('reuse-status').textContent=next.reuseMessage || (prior.fields.title.trim()||prior.fields.body.trim()?'上一份已保留在首页，可以随时继续编辑。':'已打开文档，修改会自动保存。');
+  showReuseMessage(next.reuseMessage || (prior.fields.title.trim()||prior.fields.body.trim()?'上一份已保留在首页，可以随时继续编辑。':'已打开文档，修改会自动保存。'));
   $('reuse-status').hidden=false;
   document.querySelector(`[data-panel="${step}"] h1`).focus();
   return true;
@@ -617,7 +641,7 @@ function saveCommon(next) {
   if(!hasLock)throw Error('请关闭正在编辑的另一标签页后重试。');
   const checked=validateCommon(next);
   if(checked.fields.letterhead&&!checked.fields.agency.trim())throw Error('默认显示红头时，请填写常用发文单位。');
-  localStorage.setItem(COMMON_KEY,JSON.stringify(checked));common=checked;
+  localStorage.setItem(COMMON_KEY,JSON.stringify(checked));common=checked;commonNeedsUpdate=false;if(commonAutoError&&$('global-error').dataset.message===commonAutoError)clearError();commonAutoError='';
 }
 function populateCommon(next=common) {
   for(const name of ['recipient','agency','signature','copyTo'])$('common-'+name).value=next.fields[name];
@@ -625,7 +649,7 @@ function populateCommon(next=common) {
 }
 function newDocument() {
   const hasCommon=Object.values(common.fields).some(Boolean);
-  const next={...draft(freshFields(common),0),reuseMessage:hasCommon?'已带入常用信息。标题、正文、日期和文号请按本次内容填写。':'已新建空白文档，填写标题即可开始。已有文章会保留在首页。'};
+  const next={...draft(freshFields(common),0),reuseMessage:hasCommon?'已带入常用信息。点击这里修改常用信息。':'已新建空白文档，填写标题即可开始。已有文章会保留在首页。'};
   if(requestReplace(next,true)){document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();return true;}
   return false;
 }
@@ -726,6 +750,7 @@ async function boot() {
     if(Number.isInteger(pending.step)&&pending.step>=0&&pending.step<=2)step=pending.step;
     if(plainOverStructure){$('reuse-status').textContent='已恢复本次输入，原有段落与表格稿保留在“我的文档”。';$('reuse-status').hidden=false;}
   }
+  if(pending?.touched?.length)commonNeedsUpdate=true;
   fillFields();showStep(step,false);
   document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();
   const restoredSubmission=pending?.source==='legacy-submit'&&!window.writerBoot?.pending();
@@ -751,7 +776,7 @@ async function boot() {
 
 function onWriterInput(event){
   if(wordWorkspace?.active||!window.writerReady || !hasLock || event.target.name==='format'||event.target.closest('.content-workspace'))return;
-  readFields();$('agency-field').hidden=!fields.letterhead;
+  readFields();commonNeedsUpdate=true;$('agency-field').hidden=!fields.letterhead;
   if(['letterhead','agency'].includes(event.target.id))renderLetterheadState();
   if(materialNames.includes(event.target.id)){persist();return;}
   if(event.target.id==='reference'){
@@ -779,7 +804,8 @@ document.querySelectorAll('[data-back]').forEach(button=>button.onclick=()=>navi
 document.querySelectorAll('[name=format]').forEach(input=>input.onchange=updateExport);
 document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>$(button.dataset.close).close());
 $('export').onclick=exportFile;
-$('return-checks').onclick=()=>{navigate(2);$('checks').scrollIntoView({block:'start'});};
+$('export-review-open').onclick=()=>{renderChecks();$('export-review-dialog').showModal();};
+$('return-checks').onclick=()=>{navigate(2);if(step===2){renderChecks();$('export-review-dialog').showModal();}};
 $('refresh-preview').onclick=()=>{clearError();readyRevision=-1;preview();};
 $('save-draft').onclick=saveDraft;
 document.addEventListener('pointerdown',event=>{referencePointerTarget=event.target.closest?.('button')||null;},true);
@@ -840,7 +866,7 @@ $('feedback-open')?.addEventListener('click',openFeedbackLazily);
 
 $('backup-before-replace').onclick=saveDraft;
 $('new-document').onclick=newDocument;
-$('copy-current').onclick=copyCurrentRevision;
+
 $('confirm-replace').onclick=()=>replace(replacement);
 $('undo-replace').onclick=()=>{if(previous)requestReplace(previous);};
 $('rescue-draft').onclick=()=>download('公文-恢复数据.json',JSON.stringify({current:rawRecovery || localStorage.getItem(DRAFT_KEY),previous:localStorage.getItem(DRAFT_KEY+'-previous'),library:localStorage.getItem(LIBRARY_KEY),common:localStorage.getItem(COMMON_KEY)},null,2),'application/json');
@@ -860,11 +886,6 @@ $('common-form').onsubmit=event=>{
   catch(e){$('common-message').textContent=e.message;}
 };
 $('common-clear').onclick=()=>{try{saveCommon(defaultCommon());populateCommon();$('common-message').textContent='已清空常用信息，当前文档不变。';}catch(e){$('common-message').textContent=e.message;}};
-$('remember-common').onclick=()=>{
-  readFields();
-  try{saveCommon(commonFrom(fields,document.querySelector('[name=format]:checked').value));$('common-hint').textContent='已记住，下次新建自动带入。可在顶部“常用设置”修改或清空。';}
-  catch(e){$('common-hint').textContent='未能保存：'+e.message;}
-};
 $('use-today').onclick=()=>{
   const now=new Date();$('date').value=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
   $('date').dispatchEvent(new Event('input',{bubbles:true}));
