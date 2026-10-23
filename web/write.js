@@ -489,7 +489,7 @@ function selectedMaterial(){return Object.fromEntries([...document.querySelector
 function renderLetterheadState(){
   $('agency').setAttribute('aria-required',String(fields.letterhead));
   $('agency-required').classList.toggle('is-missing',fields.letterhead&&!fields.agency.trim());
-  $('letterhead-state').textContent=fields.letterhead?(fields.agency.trim()?'发文单位已有内容，请在预览更新后核对红头与单位名称。':''):(fields.agency.trim()?'当前不显示红头，已填发文单位仍保留。':'');
+  $('letterhead-state').textContent=fields.letterhead?(fields.agency.trim()?'':''):(fields.agency.trim()?'当前不显示红头，已填发文单位仍保留。':'');
 }
 function renderReferenceFeedback(force=false){
   const value=$('reference').value,advice=referenceAdvice(value);

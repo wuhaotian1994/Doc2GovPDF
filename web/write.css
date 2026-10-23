@@ -220,3 +220,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 25px 0 10px; }
 
 #agency-required.is-missing{color:var(--error)}
 #letterhead-state:empty{display:none}
+
+/* Pointer selection uses the card border; keyboard focus stays visible. */
+.format-picker input[type=radio]:focus{outline:none}
+.format-picker>label:has(input:focus-visible){outline:2px solid var(--blue);outline-offset:3px}
+input:is([type=checkbox],[type=radio]):focus:not(:focus-visible){outline:none}

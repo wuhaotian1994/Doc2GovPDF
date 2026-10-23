@@ -9,7 +9,11 @@ export function createPDFViewer({pdf,container,scroll,isCurrent,onError}) {
   function release(item){if(item.canvas){item.canvas.width=0;item.canvas.height=0;placeholder(item);}}
   async function paint(item){
     if(!current()||item.canvas)return;
-    const viewport=item.page.getViewport({scale:96/72*Math.min(devicePixelRatio||1,2)});
+    // Supersample fine Chinese strokes even on 1x screens. Bound each bitmap
+    // to eight megapixels while retaining the nearby-page eviction policy.
+    const base=item.page.getViewport({scale:96/72});
+    const density=Math.min(Math.max(2,(window.devicePixelRatio||1)*2),3,Math.sqrt(8000000/(base.width*base.height)));
+    const viewport=item.page.getViewport({scale:96/72*density});
     const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
     canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`文档第 ${item.number} 页，正文可在填写区阅读`);
     task=item.page.render({canvasContext:canvas.getContext('2d'),viewport});
