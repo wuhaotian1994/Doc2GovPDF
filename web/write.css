@@ -203,3 +203,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 25px 0 10px; }
 .font-start { margin: 0 24px 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }.font-start h3 { margin: 0 0 8px; font-size: 17px; }.font-start p { margin: 8px 0; font-size: 14px; line-height: 1.6; }.font-start .dialog-actions { justify-content: flex-start; flex-wrap: wrap; }.font-batch-roles { display: grid; gap: 12px; margin: 16px 0; }.font-batch-roles label { font-size: 14px; }.font-batch-roles select { width: 100%; margin-top: 6px; }#font-batch { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
 
 #local-font-dialog { width: min(620px,calc(100% - 32px)); }#local-font-dialog > p,#font-batch-message { font-size: 13px; line-height: 1.6; }.font-batch-roles { grid-template-columns: repeat(2,minmax(0,1fr)); }.font-batch-roles label:last-child { grid-column: 1 / -1; }#local-font-dialog #font-batch { border: 0; padding: 0; margin: 0; }.local-font-actions { position: sticky; bottom: -26px; background: var(--paper); padding: 16px 0; margin-bottom: 0; }.word-mode #font-start { display: none; }@media(max-width:480px){.font-batch-roles{grid-template-columns:1fr;}}
+
+/* Continuous PDF pages; 100% uses 96 CSS pixels per physical inch. */
+#pdf-pages{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;max-width:none;min-width:0}
+.pdf-page{position:relative;flex:none;width:min(100%,var(--page-width));margin:0 auto;overflow:hidden}
+.pdf-page-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px}
+.preview-canvas.zoomed #pdf-pages{width:max-content;min-width:100%;max-width:none}
+.preview-canvas.zoomed .pdf-page{width:var(--page-width);max-width:none}

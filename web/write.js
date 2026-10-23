@@ -1,3 +1,4 @@
+import {createPDFViewer} from './write-pdf-viewer.js';
 import {installHome} from './write-home.js';
 import {installLinePaste} from './write-line-paste.js';
 import {assembleArticle,applyAssemblyQuestion} from './write-assembly.js';
@@ -36,7 +37,7 @@ async function previewLibrary() {
 
 const $ = id => document.getElementById(id);
 let fields = blank(), step = 0, revision = 0, readyRevision = -1, lastEditAt=0;
-let model, inspection, pdf, pageNumber = 1, currentRender,bodyContent=null;
+let model, inspection, pdf, currentRender,bodyContent=null;
 let previewTimer, rendering = false, repeatPreview = false, exporting = false, fontBusy = false, hasLock = false, blockedSave = false;
 let previewRun=0;
 const previewDeadlineMS=30000;
@@ -412,7 +413,6 @@ async function preview() {
     currentRender?.cancel();await pdf?.destroy().catch(()=>{});
     if(stale()){await nextPDF.destroy();return;}
     pdf=nextPDF; model=nextModel; inspection=checked;
-    pageNumber=Math.min(pageNumber,pdf.numPages);
     await renderPage(requested,run);
     if(stale())return;
     readyRevision=requested;pdfReadyRevision=requested;prepareOffline();
@@ -435,20 +435,11 @@ async function preview() {
 }
 async function renderPage(expectedRevision,expectedRun) {
   if(!pdf)return;
-  currentRender?.cancel();
-  const source=pdf, number=pageNumber;
-  const page=await source.getPage(number);
-  const viewport=page.getViewport({scale:1.35});
-  const wrapper=document.createElement('div'); wrapper.className='pdf-page';
-  const canvas=document.createElement('canvas'); canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
-  canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`文档第 ${number} 页，正文可在填写区阅读`);
-  wrapper.append(canvas);
-  const render=currentRender=page.render({canvasContext:canvas.getContext('2d'),viewport});
-  try{await render.promise;}catch(e){if(e.name==='RenderingCancelledException')return;throw e;}
-  if(source!==pdf||number!==pageNumber||expectedRevision!==undefined&&expectedRevision!==revision||expectedRun!==undefined&&expectedRun!==previewRun)return;
-  $('pdf-pages').replaceChildren(wrapper);$('preview-empty').hidden=true;
-  $('page-count').textContent=`${number} / ${pdf.numPages} 页`;
-  $('prev-page').disabled=number<=1;$('next-page').disabled=number>=pdf.numPages;
+  currentRender?.cancel();const source=pdf;
+  const viewer=currentRender=createPDFViewer({pdf:source,container:$('pdf-pages'),scroll:$('preview-canvas'),isCurrent:()=>source===pdf&&(expectedRun===undefined||expectedRun===previewRun),onError:()=>error('预览页面显示失败，请点击“重新生成预览”；文章仍保留。')});
+  await viewer.ready;
+  if(source!==pdf||expectedRevision!==undefined&&expectedRevision!==revision||expectedRun!==undefined&&expectedRun!==previewRun)return;
+  $('preview-empty').hidden=true;$('page-count').textContent=`共 ${pdf.numPages} 页`;
 }
 async function exportFile() {
   if(exporting||fontBusy||!hasLock)return;
@@ -613,9 +604,9 @@ function replace(next) {
   fields={...next.fields};bodyContent=next.content||null;blockedSave=false;rawRecovery=null;
   decisions.restore(next.review,fields,currentId,bodyContent);
   for(const name of ['title','agency','body','date',...metadataNames])fieldError(name,'');
-  currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;pageNumber=1;
+  currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;
   $('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='A4 纸张';
-  $('prev-page').disabled=true;$('next-page').disabled=true;
+
   home?.enter();fillFields();invalidate();showStep(next.step || 0);persist();schedulePreview();
   $('undo-replace').hidden=false;
   $('replace-dialog').close();$('draft-dialog').close();
@@ -793,7 +784,7 @@ async function boot() {
   const restoredSubmission=pending?.source==='legacy-submit'&&!window.writerBoot?.pending();
   history.replaceState({writerStep:step},'', location.pathname+(restoredSubmission?'':location.search)+'#step-'+(step+1));
   wordWorkspace=installWordWorkspace({engine,fonts:()=>fontStore,busy:value=>{if(value){wordDisabled=[...document.querySelectorAll('#editable,.header-actions button,#draft-dialog button')].map(e=>[e,e.disabled]);wordDisabled.forEach(([e])=>e.disabled=true);$('save-status').textContent='正在打开文档，当前稿仍保留…';}else{wordDisabled.forEach(([e,v])=>e.disabled=v);wordDisabled=[];updateCopyCurrent();}},canEdit:()=>hasLock&&!exporting&&!fontBusy&&!fontReading&&!blockedSave,step:()=>step,bytes,download,error:message=>error(message?.message||message),summary:renderSummary,showStep:(next,push)=>{if(window.writerReady)home?.enter();showStep(next,push);},schedule:schedulePreview,updateExport,
-    changed:invalidate,reset:()=>{$('preview-empty').querySelector('h3').textContent='你的内容，会在这里成为文档';$('preview-empty').querySelector('p').textContent='填写标题后即可看到排版效果。正文、落款和日期会随填写自动更新。';outputWarnings=[];engine.reset();currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;readyRevision=-1;pdfReadyRevision=-1;pageNumber=1;$('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='尚未生成';$('prev-page').disabled=$('next-page').disabled=true;previewRun++;},
+    changed:invalidate,reset:()=>{$('preview-empty').querySelector('h3').textContent='你的内容，会在这里成为文档';$('preview-empty').querySelector('p').textContent='填写标题后即可看到排版效果。正文、落款和日期会随填写自动更新。';outputWarnings=[];engine.reset();currentRender?.cancel();pdf?.destroy().catch(()=>{});pdf=null;model=null;inspection=null;readyRevision=-1;pdfReadyRevision=-1;$('pdf-pages').replaceChildren();$('preview-empty').hidden=false;$('page-count').textContent='尚未生成';previewRun++;},
     prepareForm:async()=>{readFields();if(dateProblems().length)throw Error('请先修正或清空填写稿日期，以完整保留原输入。');persist();if(lastSaveError||blockedSave)throw Error(lastSaveError||'填写稿保存尚未完成，打开已取消。');},
     openForm:async value=>{const next=validateDraft(value);if(wordWorkspace.active)await wordWorkspace.leave();requestReplace({...next,id:crypto.randomUUID(),review:undefined,reuseMessage:'已打开草稿副本，原稿仍保留。'});},
     openText:async text=>{if(wordWorkspace.active)await wordWorkspace.leave();openLineArticle(text);}
@@ -842,8 +833,6 @@ document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>$(b
 $('export').onclick=exportFile;
 $('return-checks').onclick=()=>{navigate(2);$('checks').scrollIntoView({block:'start'});};
 $('refresh-preview').onclick=()=>{clearError();readyRevision=-1;preview();};
-$('prev-page').onclick=()=>{if(pageNumber>1){pageNumber--;renderPage().catch(e=>error(e.message));}};
-$('next-page').onclick=()=>{if(pdf&&pageNumber<pdf.numPages){pageNumber++;renderPage().catch(e=>error(e.message));}};
 $('draft-menu').onclick=()=>{renderLibrary();$('draft-dialog').showModal();};
 $('save-draft').onclick=saveDraft;
 document.addEventListener('pointerdown',event=>{referencePointerTarget=event.target.closest?.('button')||null;},true);
@@ -936,7 +925,7 @@ $('use-today').onclick=()=>{
 };
 $('jump-preview').onclick=()=>{document.querySelector('.app-main').classList.add('preview-mode');$('preview-heading').focus({preventScroll:true});};
 $('back-writing').onclick=()=>{document.querySelector('.app-main').classList.remove('preview-mode');document.querySelector(`[data-panel="${step}"] h1`).focus({preventScroll:true});};
-$('zoom-preview').onclick=()=>{const zoomed=$('preview-canvas').classList.toggle('zoomed');$('zoom-preview').setAttribute('aria-pressed',String(zoomed));$('zoom-preview').textContent=zoomed?'适合屏幕':'放大预览';};
+$('zoom-preview').onclick=()=>{const zoomed=$('preview-canvas').classList.toggle('zoomed');$('zoom-preview').setAttribute('aria-pressed',String(zoomed));$('zoom-preview').textContent=zoomed?'适合宽度':'100%显示';};
 new MutationObserver(()=>$('mobile-save').textContent=$('save-status').textContent).observe($('save-status'),{childList:true,subtree:true,characterData:true});
 $('load-draft').onchange=async event=>{
   const file=event.target.files[0];event.target.value='';if(!file)return;

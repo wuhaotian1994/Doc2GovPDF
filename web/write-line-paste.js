@@ -62,17 +62,17 @@ export function reconcileMarks(before, after, marks) {
 export function installLinePaste({apply,initial}) {
   const dialog=document.createElement('dialog');dialog.id='line-paste-dialog';dialog.setAttribute('aria-labelledby','line-paste-heading');
   dialog.innerHTML=`<header class="dialog-heading"><h2 id="line-paste-heading">从已有文字开始</h2><button type="button" class="quiet" data-dismiss>关闭</button></header>
-    <p class="line-paste-help" id="line-paste-help">粘贴全文后会预选每行用途。请核对左侧标记，点击某行或选中多行即可修改。</p>
+    <p class="line-paste-help" id="line-paste-help">点击区域可整体修改标记；选中其中几段可单独修改，并拆成新的区域。</p>
     <div class="line-paste-scroll"><div class="line-paste-paper"><div class="line-paste-mirror" aria-hidden="true"></div><textarea id="line-paste-text" aria-label="粘贴文章全文" aria-describedby="line-paste-help" spellcheck="false" placeholder="在这里粘贴文章……"></textarea></div></div>
     <div class="line-paste-toolbar" role="group" aria-label="标记所选行" hidden><span>标记为</span>${Object.entries(lineRoles).map(([role,label])=>`<button type="button" data-role="${role}">${label}</button>`).join('')}<button type="button" data-role="">取消标记</button></div>
     <footer class="line-paste-footer"><p id="line-paste-status" role="status"></p><button type="button" class="secondary" data-dismiss>取消</button><button type="button" class="primary" id="line-paste-confirm">确定</button></footer>`;
   document.body.append(dialog);
   const input=dialog.querySelector('textarea'),mirror=dialog.querySelector('.line-paste-mirror'),toolbar=dialog.querySelector('.line-paste-toolbar'),scroll=dialog.querySelector('.line-paste-scroll'),status=dialog.querySelector('[role=status]');
-  let text='',marks={},selection=[0,0],opened=false,showTools=false;
+  let text='',marks={},selection=[0,0],opened=false,showTools=false,toolbarLine=0,lastSelection='';
   function range(){const start=input.selectionStart,end=input.selectionEnd;return [input.value.slice(0,start).split('\n').length-1,input.value.slice(0,end>start&&input.value[end-1]==='\n'?end-1:end).split('\n').length-1];}
   function position(){
     if(!dialog.open)return;
-    const row=mirror.querySelector(`[data-line="${selection[0]}"]`),rect=row?.getBoundingClientRect(),bounds=dialog.getBoundingClientRect(),viewport=scroll.getBoundingClientRect();
+    const row=mirror.querySelector(`[data-line="${toolbarLine}"]`),rect=row?.getBoundingClientRect(),bounds=dialog.getBoundingClientRect(),viewport=scroll.getBoundingClientRect();
     toolbar.hidden=!showTools||!input.value.trim()||!rect||rect.bottom<viewport.top||rect.top>viewport.bottom;
     if(toolbar.hidden)return;
     toolbar.querySelectorAll('[data-role]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.role===(marks[selection[0]]||''))));
@@ -92,8 +92,16 @@ export function installLinePaste({apply,initial}) {
     mirror.replaceChildren(...groups);
     input.style.height=mirror.offsetHeight+'px';position();
   }
-  function select(event){const next=range();if(event&&['select','selectionchange'].includes(event.type)&&next[0]===selection[0]&&next[1]===selection[1])return;showTools=true;selection=next;position();}
-  input.addEventListener('input',()=>{marks={...guessLineRoles(input.value),...reconcileMarks(text,input.value,marks)};text=input.value;showTools=false;selection=range();render();status.textContent='';});
+  function select(event){
+    const next=range(),signature=`${input.selectionStart}:${input.selectionEnd}`;
+    if(event&&['select','selectionchange'].includes(event.type)&&signature===lastSelection)return;
+    lastSelection=signature;toolbarLine=next[0];selection=next;
+    const whole=input.selectionStart===input.selectionEnd;
+    if(whole){const group=mirror.querySelector(`[data-line="${next[0]}"]`)?.parentElement;if(group)selection=[Number(group.firstElementChild.dataset.line),Number(group.lastElementChild.dataset.line)];}
+    toolbar.querySelector('span').textContent=whole?'整片标记为':'选中段落标记为';
+    showTools=true;position();
+  }
+  input.addEventListener('input',()=>{marks={...guessLineRoles(input.value),...reconcileMarks(text,input.value,marks)};text=input.value;showTools=false;selection=range();toolbarLine=selection[0];lastSelection=`${input.selectionStart}:${input.selectionEnd}`;render();status.textContent='';});
   input.addEventListener('paste',event=>{const pasted=event.clipboardData?.getData('text/plain')||'';if(input.value.length-(input.selectionEnd-input.selectionStart)+pasted.replace(/\r\n?/g,'\n').length>100000){event.preventDefault();status.textContent='文章超过 100000 字符，未替换输入，请分篇整理。';}});
   for(const name of ['click','keyup','select'])input.addEventListener(name,select);
   document.addEventListener('selectionchange',event=>{if(dialog.open&&document.activeElement===input)select(event);});
@@ -105,7 +113,11 @@ export function installLinePaste({apply,initial}) {
     showTools=false;render();status.textContent=`第 ${selection[0]+1}${selection[1]>selection[0]?'–'+(selection[1]+1):''} 行${role?'已标记为'+lineRoles[role]:'已取消标记'}。`;
   });
   scroll.addEventListener('scroll',position);
-  scroll.addEventListener('click',event=>{if(event.target!==input&&!event.target.closest('button')){input.focus();input.setSelectionRange(input.value.length,input.value.length);select();}});
+  scroll.addEventListener('click',event=>{if(event.target!==input&&!event.target.closest('button')){
+    const row=[...mirror.querySelectorAll('.line-paste-row')].find(row=>{const r=row.getBoundingClientRect();return event.clientY>=r.top&&event.clientY<r.bottom;});
+    const offset=row?input.value.split('\n').slice(0,Number(row.dataset.line)).reduce((sum,line)=>sum+line.length+1,0):input.value.length;
+    input.focus();input.setSelectionRange(offset,offset);select();
+  }});
   new ResizeObserver(()=>{if(dialog.open){input.style.height=mirror.offsetHeight+'px';position();}}).observe(mirror);
   dialog.querySelectorAll('[data-dismiss]').forEach(button=>button.onclick=()=>dialog.close());
   dialog.querySelector('#line-paste-confirm').onclick=()=>{
