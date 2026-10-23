@@ -488,7 +488,8 @@ function saveDraft() {
 function selectedMaterial(){return Object.fromEntries([...document.querySelectorAll('#material-candidates input')].map(input=>[input.dataset.materialField,input.checked]));}
 function renderLetterheadState(){
   $('agency').setAttribute('aria-required',String(fields.letterhead));
-  $('letterhead-state').textContent=fields.letterhead?(fields.agency.trim()?'发文单位已有内容，请在预览更新后核对红头与单位名称。':'还需填写发文单位。填写前不会生成红头，不会用收文对象或落款代填。'):(fields.agency.trim()?'当前不显示红头，已填发文单位仍保留。':'勾选红头后还需填写发文单位；未填写前不会生成红头。');
+  $('agency-required').classList.toggle('is-missing',fields.letterhead&&!fields.agency.trim());
+  $('letterhead-state').textContent=fields.letterhead?(fields.agency.trim()?'发文单位已有内容，请在预览更新后核对红头与单位名称。':''):(fields.agency.trim()?'当前不显示红头，已填发文单位仍保留。':'');
 }
 function renderReferenceFeedback(force=false){
   const value=$('reference').value,advice=referenceAdvice(value);

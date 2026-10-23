@@ -104,6 +104,7 @@
     if(!event.target.closest?.('#writer-form'))return;
     const name=event.target.id;if(!names.includes(name)&&name!=='letterhead')return;
     touched.add(name);snapshot();
+    document.getElementById('agency-required')?.classList.toggle('is-missing',document.getElementById('letterhead').checked&&!document.getElementById('agency').value.trim());
     if(name==='letterhead'){document.getElementById('agency-field').hidden=!event.target.checked;document.getElementById('agency').setAttribute('aria-required',String(event.target.checked));}
   },true);
   document.addEventListener('paste',event=>{
@@ -138,6 +139,7 @@
       document.getElementById('letterhead').checked=initial.fields.letterhead===true;
       document.getElementById('agency-field').hidden=!initial.fields.letterhead;
       document.getElementById('agency').setAttribute('aria-required',String(initial.fields.letterhead));
+      document.getElementById('agency-required')?.classList.toggle('is-missing',initial.fields.letterhead&&!initial.fields.agency.trim());
       document.getElementById('letterhead').closest('details').open=Boolean(initial.fields.letterhead||initial.fields.reference||initial.fields.signer);
       document.getElementById('body-count').textContent=initial.fields.body.length.toLocaleString('zh-CN')+' 字';
       if(contentSnapshot){document.getElementById('body').readOnly=true;if(contentSnapshot.postscript)document.getElementById('postscript').readOnly=true;status('正在恢复当前稿的段落与表格，其他信息仍可填写。');}
