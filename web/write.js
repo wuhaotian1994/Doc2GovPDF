@@ -1,3 +1,4 @@
+import {installLinePaste} from './write-line-paste.js';
 import {assembleArticle,applyAssemblyQuestion} from './write-assembly.js';
 import {installAssemblyView} from './write-assembly-view.js';
 import {installFontPicker} from './write-font-picker.js';
@@ -857,7 +858,7 @@ $('reference-keep').onclick=keepReference;
 $('reference-later').onclick=()=>{referenceDismissed=$('reference').value;renderReferenceFeedback();};
 $('reference-reopen').onclick=()=>{referenceDismissed=null;renderReferenceFeedback(true);};
 $('reference-return').onclick=()=>{showStep(0);$('reference').closest('details').open=true;referenceDismissed=null;renderReferenceFeedback(true);$('reference').focus();};
-$('material-open').onclick=openMaterial;
+$('material-open').onclick=installLinePaste({initial:()=>fields.pendingMaterial,apply:next=>{readFields();return requestReplace({...next,reuseMessage:'已按行标记整理，原文与上一份文档均已保留。'},true);}});
 $('assembly-original').onclick=()=>{showStep(0);$('material-source').open=true;$('sourceMaterial').focus({preventScroll:true});$('material-source').scrollIntoView({block:'nearest'});};
 $('material-apply').onclick=applyMaterial;
 $('material-join').onchange=renderMaterialPreview;
@@ -876,7 +877,7 @@ $('postscript').addEventListener('paste',event=>{
 if($('save-document'))$('save-document').onclick=()=>{readFields();persist();};
 $('load-draft-open').onclick=()=>$('load-draft').click();
 $('open-document').onclick=()=>$('load-draft').click();
-$('open-word-footer').onclick=()=>$('load-draft').click();
+
 // Feedback is loaded only after an explicit action and cannot block writing.
 let feedbackController;
 async function openFeedbackLazily(){
