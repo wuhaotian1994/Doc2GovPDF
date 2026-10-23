@@ -7,7 +7,7 @@ export function installContentEditor({getContent:readContent,onChange,onError,ca
   const $=id=>document.getElementById(region==='body'?id:id.startsWith('content-')?'postscript-'+id:id.replace(/^body/,'postscript')),root=$('content-workspace'),blocks=$('content-blocks'),toolbar=$('content-toolbar'),body=$('body');
   blocks.setAttribute('aria-label',region==='body'?'正文文稿':'落款后的文稿');blocks.setAttribute('aria-describedby',region==='body'?'body-error':'postscript-hint postscript-error');
   root.setAttribute('aria-describedby',region==='body'?'body-error':'postscript-hint postscript-error');
-  let selected=null,past=[],future=[],request=null,formatOpen=false,editSession=null,displayContent=null,contextOpen=false,textSelection=null,textTableView=null;
+  let selected=null,past=[],future=[],request=null,editSession=null,displayContent=null,contextOpen=false,textSelection=null,textTableView=null;
   const getContent=()=>readContent()||displayContent;
   const snapshot=()=>{const input=inputFor(selected)||body;return {content:readContent()?structuredClone(readContent()):null,body:body.value,plainIndex:displayContent?.blocks.findIndex(b=>b.id===selected?.block)??0,selected:selected?{...selected}:null,range:{start:input.selectionStart,end:input.selectionEnd}};};
   const status=text=>{$('content-status').textContent=text;};
@@ -66,25 +66,14 @@ export function installContentEditor({getContent:readContent,onChange,onError,ca
   }
   function organizeText(candidate=textSelection){if(!canEdit())return;textTableView.open(candidate);}
   function renderToolbar(){
-    const open=toolbar.querySelector('.content-format');if(open)formatOpen=open.open;const prior=toolbar.querySelector('[data-continuous-context]');if(prior)contextOpen=prior.open;
-    const block=current();toolbar.replaceChildren();if(!block)return;fitControls();
+    const prior=toolbar.querySelector('[data-continuous-context]');if(prior)contextOpen=prior.open;
+    const block=current();toolbar.replaceChildren();if(!block)return;fitControls();if(block.type==='paragraph'){if(textSelection)toolbar.append(button('组织成表格',()=>organizeText(textSelection)));return;}
     const index=getContent().blocks.indexOf(block),actions=document.createElement('div');actions.className='content-actions';
-    if(block.type==='paragraph'){
-      const marked=getContent().annexes?.find(a=>a.start===block.id||a.title===block.id);if(marked||/^附件\s*[0-9]*$/.test(block.text.trim()))actions.append(button(marked?'取消实际附件身份':'作为实际附件，另面起排',()=>{try{commit(setAnnex(getContent(),marked?.start||block.id,!marked),{message:marked?'已取消附件身份，原文仍保留。':'已确认实际附件：另面起排并核对附件说明，修改可撤销。'});}catch(e){onError(e.message);}}));
-      if(!marked)actions.append(select('段落类型',Object.entries(labels),block.role,value=>updateBlock({role:value})),button('拆分段落',split),button('与上一段合并',merge,index===0||getContent().blocks[index-1].type!=='paragraph'));
-    }else{
       const rowIndex=block.rows.findIndex(row=>row.id===selected?.row),columnIndex=rowIndex<0?-1:block.rows[rowIndex].cells.findIndex(cell=>cell.id===selected?.cell);
       const caption=document.createElement('strong');caption.textContent=`表格 · ${block.rows.length} 行 ${block.rows[0].cells.length} 列`+(rowIndex>=0&&columnIndex>=0?`；当前第 ${rowIndex+1} 行，第 ${columnIndex+1} 列`:'');actions.append(caption,button('下方加一行',()=>tableChange('add-row'),block.rows.length>=100),button('右侧加一列',()=>tableChange('add-column'),block.rows[0].cells.length>=10),button('删除当前行',()=>tableChange('remove-row'),block.rows.length<=1),button('删除当前列',()=>tableChange('remove-column'),block.rows[0].cells.length<=1));
       const header=document.createElement('label');header.className='check';const input=document.createElement('input');input.type='checkbox';input.checked=block.header;input.onchange=()=>mutate(next=>next.blocks.find(item=>item.id===block.id).header=input.checked,{message:'表头设置已更新，可撤销。'});header.append(input,document.createTextNode('第一行为表头'));actions.append(header);
-    }
-    if(getContent().annexes?.some(a=>a.start===block.id||a.title===block.id)){const note=document.createElement('p');note.className='hint';note.textContent='此处已声明实际附件：标识顶格、标题居中，导出另面起排。需恢复普通段落时先取消附件身份。';toolbar.append(note);}
-    actions.append(button('上移',()=>move(-1),index===0),button('下移',()=>move(1),index===getContent().blocks.length-1),button(block.type==='table'?'移除表格':'删除本段',removeBlock));toolbar.append(actions);
-    if(block.type==='paragraph'&&!getContent().annexes?.some(a=>a.start===block.id||a.title===block.id)){
-      const details=document.createElement('details');details.className='content-format';const summary=document.createElement('summary');summary.textContent='对齐、缩进与段间距';details.append(summary);details.open=formatOpen;details.ontoggle=()=>{formatOpen=details.open;};
-      const settings=document.createElement('div');settings.className='content-format-fields';
-      settings.append(select('对齐',[['auto','随段落类型'],['left','左对齐'],['center','居中'],['right','右对齐'],['both','两端对齐']],block.align,value=>updateBlock({align:value})),select('首行缩进',[['auto','随段落类型'],['none','不缩进'],['two','两个字']],block.indent,value=>updateBlock({indent:value})),select('段前间距',[['auto','随段落类型'],['none','不留空'],['half','半行'],['one','一行']],block.before,value=>updateBlock({before:value})),select('段后间距',[['auto','随段落类型'],['none','不留空'],['half','半行'],['one','一行']],block.after,value=>updateBlock({after:value})));details.append(settings);toolbar.append(details);
-    }
-    const controls=[...toolbar.childNodes];toolbar.replaceChildren();const details=document.createElement('details');details.dataset.continuousContext='true';details.className='writing-context';details.open=contextOpen;details.ontoggle=()=>contextOpen=details.open;const summary=document.createElement('summary');summary.textContent=block.type==='table'?'表格设置':'段落与排版';details.append(summary,...controls);toolbar.append(details);
+    actions.append(button('上移',()=>move(-1),index===0),button('下移',()=>move(1),index===getContent().blocks.length-1),button('移除表格',removeBlock));toolbar.append(actions);
+    const controls=[...toolbar.childNodes];toolbar.replaceChildren();const details=document.createElement('details');details.dataset.continuousContext='true';details.className='writing-context';details.open=contextOpen;details.ontoggle=()=>contextOpen=details.open;const summary=document.createElement('summary');summary.textContent='表格设置';details.append(summary,...controls);toolbar.append(details);
     if(block.type==='table')toolbar.prepend(button('下方加一行',()=>tableChange('add-row'),block.rows.length>=100));
     if(textSelection)toolbar.prepend(button('组织成表格',()=>organizeText(textSelection)));
   }
@@ -126,8 +115,8 @@ export function installContentEditor({getContent:readContent,onChange,onError,ca
     const involved=new Set(next.blocks.slice(at,end+1).map(b=>b.id));if(next.annexes?.some(v=>involved.has(v.start)||involved.has(v.title))&&(end!==at||(parts.length!==1&&parts.find(p=>p.id===base.id)?.text!==base.text)))throw Error('附件标识或标题不能从中间拆开；可在行首或行尾继续写，或先取消附件身份。');
     next.blocks.splice(at,end-at+1,...parts);const caretLine=text.split('\n').length-1;commit(next,{before,path:{block:parts[caretLine].id},range:{start:caretLine?text.split('\n').at(-1).length:prefix.length+text.length}});editSession=null;
   }
-  const surface=mountContinuous({host:blocks,entries,canEdit,onError,recover:draw,settled:onSettled,unsupported:status,controls:toolbar,onBlur:()=>{toolbar.replaceChildren();contextOpen=false;formatOpen=false;const active=document.activeElement;if(!textTableView?.isOpen&&active!==$('content-add-table')&&!$('content-table-dialog').contains(active))textSelection=null;},suspend:()=>onPending?.(),
-    onSelect(entry,range){const changed=selected?.block!==entry.path.block||selected?.cell!==entry.path.cell,hadTextSelection=Boolean(textSelection);ensure();selected=entry.path;textSelection=selectedTextCandidate(range);if(changed||hadTextSelection!==Boolean(textSelection)||!toolbar.childElementCount){contextOpen=false;formatOpen=false;renderToolbar();}},
+  const surface=mountContinuous({host:blocks,entries,canEdit,onError,recover:draw,settled:onSettled,unsupported:status,controls:toolbar,onBlur:()=>{toolbar.replaceChildren();contextOpen=false;const active=document.activeElement;if(!textTableView?.isOpen&&active!==$('content-add-table')&&!$('content-table-dialog').contains(active))textSelection=null;},suspend:()=>onPending?.(),
+    onSelect(entry,range){const changed=selected?.block!==entry.path.block||selected?.cell!==entry.path.cell,hadTextSelection=Boolean(textSelection);ensure();selected=entry.path;textSelection=selectedTextCandidate(range);if(changed||hadTextSelection!==Boolean(textSelection)||!toolbar.childElementCount){contextOpen=false;renderToolbar();}},
     apply(values,meta){ensure();const next=structuredClone(getContent()),all=entries();for(const v of values){const entry=all.find(e=>e.key===v.key);if(entry)setText(next,entry,v.text);}
       const key=meta.selection?.start.key||selected?.block,now=Date.now(),fresh=!editSession||editSession.key!==key||now-editSession.time>1000||meta.beforeSelection&&!meta.beforeSelection.collapsed||/Paste|Replacement/.test(meta.inputType);const before=snapshot();if(meta.beforeSelection)before.range={start:meta.beforeSelection.start.offset,end:meta.beforeSelection.end.offset};
       if(!commit(next,{record:fresh,render:false,composing:meta.composing,before})){draw();if(selected)focus(selected);return;}editSession={key,time:now};},

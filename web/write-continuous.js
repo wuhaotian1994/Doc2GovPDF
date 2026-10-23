@@ -68,7 +68,7 @@ export function mountContinuous({host,entries,apply,replace,split,join,undo,redo
     if(range){if(text)guard(()=>{replace(range,text,{inputType:'insertCompositionText'});if(!consistent()){recover?.();focusKey(range.start.key,range.start.offset+text.length);}},true);else recover?.();}settled?.();
   }
   const unsupportedFormat=type=>/^(format|insertOrderedList|insertUnorderedList|insertHorizontalRule)/.test(type||'');
-  const formatBoundary=()=>{const message='此处按文稿段落排版，任意行内加粗、斜体或下划线未提供；字号和对齐等可在“段落与排版”中调整。';unsupported?unsupported(message):onError(message);};
+  const formatBoundary=()=>{const message='此处按文稿段落自动排版，不支持单独设置行内加粗、斜体或下划线。';unsupported?unsupported(message):onError(message);};
   function read(event){
     if(unsupportedFormat(event.inputType)){recover?.();formatBoundary();return;}
     if(trailingComposition&&event.inputType==='insertCompositionText'&&!event.isComposing&&event.data===trailingComposition.text){const caret=trailingComposition.caret;trailingComposition=null;const all=entries();if(!consistent()||fields().some(n=>all.find(e=>e.key===n.dataset.editorKey)?.text!==editorText(n))){recover?.();if(caret)focusKey(caret.end.key,caret.end.offset);}settled?.();return;}

@@ -10,7 +10,7 @@ export function findingKey(issue,inspection,model){const p=paragraphs(model).fin
 function encode(data){let s='';for(let i=0;i<data.length;i+=32768)s+=String.fromCharCode(...data.subarray(i,i+32768));return btoa(s);}
 
 export function installWordWorkspace(h){
-  let selectedWord=null,lastWordEdit=0,nativeKeys=[];
+  let lastWordEdit=0,nativeKeys=[];
   let record=null,saveQueue=Promise.resolve(),saveVersion=0,savedVersion=0,saveFailure='',undo=[],redo=[],lastUndoId='',busy=false,pdfAcknowledged=false,pdfWarnings=[];
   const headings=[...document.querySelectorAll('[data-panel] h1')].map(e=>e.textContent),leads=[...document.querySelectorAll('[data-panel]>.lead')].map(e=>e.textContent);
   const basic=node('section',undefined,'word-workspace');basic.id='word-basic';
@@ -64,23 +64,12 @@ export function installWordWorkspace(h){
       pending.append(button('保留原填写值并生成文稿',async()=>{try{if(!record.pendingForm.title?.trim()||!record.pendingForm.body?.trim())throw Error('请补齐标题和正文。');record.document=await h.engine.call('BuildDocument',record.pendingForm);delete record.pendingForm;renderBasic();renderBody();changed();}catch(e){h.error(e.message);}}));
     }
   }
-  const formatPanel=node('details',undefined,'writing-context word-selection-format');formatPanel.append(node('summary','段落与排版'));toolbar.append(formatPanel);formatPanel.hidden=true;
-  function showWordFormat(p){
-    selectedWord=p?.id;formatPanel.hidden=!p||p.protected||p.formatLocked;if(formatPanel.hidden)return;const wasOpen=formatPanel.open;formatPanel.replaceChildren(node('summary','段落与排版'));
-    formatPanel.append(node('p',`当前原段落：${p.font} · ${p.size}磅；保留原段落及表结构。`,'hint'));
-    for(const [key,text,options] of [['align','对齐',['left','center','right','both']],['size','字号（磅）'],['before','段前（毫米）'],['after','段后（毫米）'],['indent','首行缩进（毫米）']]){
-      const label=node('label',text),control=node(options?'select':'input');control.dataset.wordFormat=key;
-      if(options)options.forEach((v,i)=>{const option=node('option',['左对齐','居中','右对齐','两端对齐'][i]);option.value=v;control.append(option);});else{control.type='number';control.step='0.5';control.min=key==='size'?'6':'0';control.max=key==='size'?'72':'50';}
-      control.value=p[key]??0;control.onchange=()=>{if(!canEdit()||!control.reportValidity())return;remember(p.id+'-'+key);p[key]=options?control.value:Number(control.value);changed();};label.append(control);formatPanel.append(label);
-    }formatPanel.open=wasOpen;
-  }
   function paragraph(p,context){
     nativeKeys.push(p.id);const input=continuousField(p.text,p.id,{label:context,readonly:Boolean(p.protected)});input.id='word-paragraph-'+p.id;input.dataset.paragraphId=p.id;input.dataset.wordParagraph=p.id;input.dataset.role=p.role;input.style.textAlign=p.align==='both'?'justify':p.align;
     if(p.protected)input.title='原有对象或修订，保留原文；此段只读。';return input;
   }
-  const continuous=mountContinuous({host:blocks,canEdit,onError:message=>h.error(message),recover:renderBody,settled:()=>h.schedule(),suspend:()=>h.changed(),controls:toolbar,onBlur:()=>{formatPanel.hidden=true;formatPanel.open=false;},
+  const continuous=mountContinuous({host:blocks,canEdit,onError:message=>h.error(message),recover:renderBody,settled:()=>h.schedule(),suspend:()=>h.changed(),controls:toolbar,
     entries:()=>record?paragraphs(record.document).filter(p=>nativeKeys.includes(p.id)).map(p=>({key:p.id,text:p.text,readonly:Boolean(p.protected),kind:blocks.querySelector(`[data-editor-key="${p.id}"]`)?.closest('td,th')?'cell':'paragraph'})):[],
-    onSelect(entry){if(selectedWord!==entry.key||formatPanel.hidden){formatPanel.open=false;showWordFormat(paragraphs(record.document).find(p=>p.id===entry.key));}},
     apply(values,meta){if(!record)return;const all=paragraphs(record.document),updates=values.filter(v=>all.find(p=>p.id===v.key)?.text!==v.text);if(!updates.length){if(!meta.composing)h.schedule();return;}
       for(const v of updates){const p=all.find(p=>p.id===v.key);if(!p||p.protected)throw Error('原有对象或修订段落只读，原文未改变。');if(v.text.length>8000)throw Error('这个原段落超过8000字符，请缩短本次新增文字；原内容仍保留。');}
       const now=Date.now();if(now-lastWordEdit>1000||updates.length>1||meta.beforeSelection&&!meta.beforeSelection.collapsed||/Paste|Replacement/.test(meta.inputType))lastUndoId='';remember(updates[0].key);for(const v of updates)all.find(p=>p.id===v.key).text=v.text;lastWordEdit=now;changed(meta.composing);},
@@ -88,7 +77,7 @@ export function installWordWorkspace(h){
     split(range){const p=paragraphs(record.document).find(p=>p.id===range.start.key);if(range.start.key!==range.end.key||!p||p.protected)throw Error('请在可编辑的同一原段落内换行，原表与原分节保持。');lastUndoId='';remember(p.id);p.text=p.text.slice(0,range.start.offset)+'\n'+p.text.slice(range.end.offset);renderBody();changed();continuous.focus(p.id,range.start.offset+1);},
     join(){h.error('原Word保留原段落与表结构。可在该原段落内修改或换行，原件仍可下载。');},undo:()=>history(false),redo:()=>history(true)});
   function renderBody(){
-    blocks.replaceChildren();nativeKeys=[];selectedWord=null;formatPanel.hidden=true;let n=0,t=0;
+    blocks.replaceChildren();nativeKeys=[];let n=0,t=0;
     for(const b of record.document.blocks){
       if(b.page){const section=node('p',`原第${++n}节 · ${b.page.width>b.page.height?'横向':'纵向'}页面`,'word-section');section.contentEditable='false';blocks.append(section);}
       if(b.paragraph)blocks.append(paragraph(b.paragraph,'原文段落 '+b.paragraph.id));

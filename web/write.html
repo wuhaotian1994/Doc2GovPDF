@@ -17,8 +17,9 @@
   <a class="skip" href="#writing">跳到文档填写</a>
   <header class="app-header">
     <a class="brand" href="./" aria-label="码什么冬梅首页"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M7 3h10l5 5v17H7zM17 3v6h5M11 14h7M11 18h7" /></svg><span>码什么冬梅<span class="brand-caption">简单写，规范排</span></span></a>
-    <div class="header-actions"><button id="back-home" class="quiet" type="button">返回首页</button><span id="save-status" role="status">内容仅保存在此浏览器</span><button id="new-document" class="quiet" type="button">新建文档</button><button id="common-open" class="quiet" type="button">常用设置</button><button id="about-open" class="quiet" type="button">关于</button></div>
+    <div class="header-actions"><button id="back-home" class="quiet" type="button">返回首页</button><span id="save-status" role="status" hidden>内容仅保存在此浏览器</span><button id="new-document" class="quiet" type="button">新建文档</button><button id="common-open" class="quiet" type="button">常用设置</button><button id="feedback-open" class="quiet" type="button">我要提需求</button><button id="about-open" class="quiet" type="button">关于</button></div>
   </header>
+  <p id="feedback-launch-status" class="global-message" role="status" hidden></p>
   <div id="global-error" class="global-message" role="alert" hidden></div>
   <div id="startup-notice" class="global-message" role="status" hidden><span id="startup-message"></span><button type="button" id="startup-download" class="secondary">下载填写草稿</button><button type="button" id="startup-retry" class="secondary">重试加载</button></div>
   <main id="article-home" aria-labelledby="home-heading">
@@ -85,7 +86,7 @@
         </div>
         <div class="workflow-actions"><div data-action-panel="0"><div class="form-actions"><button class="primary" type="button" data-next="1">下一步，写正文<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5M3 10h10"/></svg></button></div></div><div data-action-panel="1" hidden><div class="form-actions"><button class="secondary" type="button" data-back="0">上一步</button><button class="primary" type="button" data-next="2">下一步，预览导出<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5M3 10h10"/></svg></button></div></div><div data-action-panel="2" hidden><p id="export-guidance" class="hint" role="status"></p><button id="export-review-open" type="button" class="secondary" hidden>查看导出提醒</button><div class="form-actions"><button class="secondary" type="button" data-back="1">继续修改</button><button id="export" class="primary" type="button" disabled>下载 Word</button></div><p id="export-status" class="export-status" role="status"></p></div></div>
       </form>
-      <p id="feedback-launch-status" class="hint" role="status" hidden></p><footer class="writing-footer"><button type="button" id="feedback-open" class="text-button">反馈使用问题</button></footer>
+      
     </section>
     <aside class="preview" aria-label="文档实时预览">
       <div class="preview-toolbar"><div><h2 tabindex="-1" id="preview-heading">成品预览</h2><span id="preview-status" role="status">填写后自动更新</span></div><div class="preview-actions"><button id="back-writing" class="quiet mobile-only" type="button">返回填写</button><button id="zoom-preview" class="quiet" type="button" aria-pressed="false">100%显示</button><button id="refresh-preview" class="quiet" type="button">重新生成预览</button></div></div>
