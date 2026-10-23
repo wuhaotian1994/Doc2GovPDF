@@ -1,6 +1,7 @@
 // This small classic script is inlined into the delivered HTML before the form.
 // Protect typing and navigation even if any application module cannot load.
 (() => {
+  history.replaceState({home:true},'',location.pathname+location.search+'#home');
   let nativeActive=null;try{const v=JSON.parse(localStorage.getItem('gongwen-writer-active-v1'));if(v?.kind==='word')nativeActive=v.id;}catch{}
   const key='gongwen-writer-pending-v1';
   async function nativeBackup(){

@@ -9,6 +9,16 @@ export function installIntro({onStart,onRecovery}){
     catch(error){$('welcome-copy-status').textContent=error.message;recovery.hidden=false;}
     finally{starting=false;$('welcome-start').disabled=false;}
   };
-  $('welcome-dialog').addEventListener('click',event=>{if(!event.target.closest('button'))$('welcome-dialog').close();});
+  const welcome=$('welcome-dialog');let gesture=null;
+  welcome.addEventListener('pointerdown',event=>{gesture={x:event.clientX,y:event.clientY,dragged:false};});
+  welcome.addEventListener('pointermove',event=>{if(gesture&&Math.hypot(event.clientX-gesture.x,event.clientY-gesture.y)>4)gesture.dragged=true;});
+  welcome.addEventListener('pointercancel',()=>{gesture=null;});
+  welcome.addEventListener('click',event=>{
+    const dragged=gesture?.dragged;gesture=null;
+    if(event.target.closest('button')||dragged)return;
+    const selection=window.getSelection();
+    if(selection&&!selection.isCollapsed&&welcome.contains(selection.anchorNode)&&welcome.contains(selection.focusNode))return;
+    welcome.close();
+  });
   return {showOnOpen:openWelcome};
 }

@@ -22,7 +22,7 @@ export async function captureFeedbackFrame({beforeCapture=()=>{},afterCapture=()
     if(navigator.userActivation&&navigator.userActivation.isActive===false)throw captureError('activation','请直接点击截图按钮开始，再按浏览器提示选择来源；也可以粘贴或拖入截图。');
     // Do not place an await before this call: transient user activation belongs
     // to this original click. Never request audio or choose a tab on the user's behalf.
-    const permission=navigator.mediaDevices.getDisplayMedia({video:true,audio:false});
+    const permission=navigator.mediaDevices.getDisplayMedia({video:{displaySurface:'browser'},audio:false,preferCurrentTab:true,selfBrowserSurface:'include',surfaceSwitching:'exclude'});
     const cancellation=new Promise((_,reject)=>{
       if(!signal)return;const onAbort=()=>{discardStream=true;reject(aborted());};signal.addEventListener('abort',onAbort,{once:true});cleanups.push(()=>signal.removeEventListener('abort',onAbort));if(signal.aborted)onAbort();
     });
