@@ -9,6 +9,8 @@ let inspection=null, revision=0, busy=false, saveTimer,checkTimer,previewTimer,t
 let saveChain=Promise.resolve(), queued='',saveFailed=false, history=[],pdfTask=null,pdfDocument=null,observer=null,lastResult=[];
 let previewRevision=-1,fontWarnings=[],selectedParagraph='';
 let currentScreen='welcome',resumeTarget=null,previewRequest=0,tableAnchor='';
+const fromWriter=location.hash==='#from-writer';
+if(fromWriter)for(const selector of ['.welcome-top','.drop-area','.welcome-bottom','.home-foot'])document.querySelector(selector).hidden=true;
 let preferenceChain=Promise.resolve();
 let composing=false,historyNavigation=false;
 const clone=value=>structuredClone(value);
@@ -28,7 +30,7 @@ function pendingReview(){const ignored=new Set(work.ignored||[]);return inspecti
 function exportReady(){return Boolean(api&&inspection&&!pendingReview()&&!inspection.issues.some(f=>f.severity==='error')&&work.document.blocks.length&&!busy&&($('output-format').value==='docx'||(!work.document.pdfUnsupported&&previewRevision===revision&&(!fontWarnings.length||$('font-ack').checked))));}
 function updateButtons(){
  $('export-open').disabled=!exportReady();$('undo').disabled=!history.length||busy;
- for(const id of ['import-home','import-work','new-document','paste-home','template-home','sample-home','settings-open','home-open','resume-work','review-pdf'])$(id).disabled=busy||!api;
+ for(const id of ['import-home','import-work','import-writer-draft','new-document','paste-home','template-home','sample-home','settings-open','home-open','resume-work','review-pdf'])$(id).disabled=busy||!api;
  $('workspace').inert=busy;$('compose').inert=busy;
  let reason='';
  if(busy)reason='正在处理，请稍候。';
@@ -44,6 +46,7 @@ function updateButtons(){
 }
 function setBusy(value){busy=value;document.body.classList.toggle('busy',value);updateButtons();}
 function screen(name){
+ $('writer-handoff').hidden=!fromWriter||name!=='welcome';
  currentScreen=name;work.screen=name;document.body.dataset.screen=name;if(window.appReady&&!historyNavigation&&location.hash!=='#'+name)window.history.pushState({screen:name},'', '#'+name);
  if(name!=='welcome')resumeTarget=name;work.resumeTarget=resumeTarget;
  for(const id of ['welcome','compose','workspace'])$(id).hidden=id!==name;
@@ -235,7 +238,7 @@ $('repair-dialog').addEventListener('close',()=>{repairPlan=null;});
 $('include-comments').onchange=()=>{work.includeComments=$('include-comments').checked;updateButtons();persist().catch(()=>{});};
 
 
-$('import-home').onclick=()=>importFile();$('import-work').onclick=()=>importFile();$('paste-home').onclick=()=>compose('plain');$('template-home').onclick=()=>compose('notice');$('new-document').onclick=()=>compose('notice');$('compose-cancel').onclick=goHome;
+$('import-home').onclick=()=>importFile();$('import-work').onclick=()=>importFile();$('import-writer-draft').onclick=()=>importFile();$('paste-home').onclick=()=>compose('plain');$('template-home').onclick=()=>compose('notice');$('new-document').onclick=()=>compose('notice');$('compose-cancel').onclick=goHome;
 $('sample-home').onclick=async()=>{if(busy)return;setBusy(true);try{const fields={kind:'notice',letterhead:true,title:'示例单位办公室关于开展办公环境整理工作的通知',agency:'示例单位办公室',reference:'办发【2026】第012号',date:'2026年10月08日',recipient:'各部门',body:'为营造整洁、有序的办公环境，现将有关事项通知如下。\n一、整理范围\n请各部门整理办公区域和纸质档案。\n二、工作安排\n请于本周五前完成整理。重要文件按规定归档。',attachments:[]};const model=await api.BuildDocument(fields);await load({name:'办公环境整理通知 · 示例',document:model,fields});}catch(e){error(e);}finally{setBusy(false);}};
 $('paragraph-role').onchange=async()=>{if(!selectedParagraph||busy)return;setBusy(true);try{const next=await api.SetParagraphRole(clone(work.document),selectedParagraph,$('paragraph-role').value);snapshot();work.document=next;record('role',selectedParagraph,'',$('paragraph-role').value);changed({render:true});}catch(e){error(e);}finally{setBusy(false);}};$('preview-tab').onclick=()=>{view(false);persist().catch(()=>{});$('edit-tab').focus();};$('edit-tab').onclick=()=>{view(true);persist().catch(()=>{});const input=document.querySelector('#edit-panel textarea:not(:disabled)');input?.focus({preventScroll:true});};
 $('undo').onclick=()=>{if(history.length){const editing=work.editing;work=history.pop();work.editing=editing;changed({render:true});}};$('refresh-preview').onclick=preview;$('cancel-preview').onclick=()=>{previewRequest++;previewRevision=-1;clearTimeout(previewTimer);api.CancelPreview();$('cancel-preview').hidden=true;$('pdf-state').hidden=false;$('pdf-state').textContent=($('pdf-pages').children.length?'下方仍为上一版。':'')+'排版已取消，可点击“刷新预览”。';updateButtons();};$('normalize-format').onclick=async()=>{if(busy)return;setBusy(true);try{const model=await api.NormalizeDocument(clone(work.document));snapshot();work.document=model;record('format','','','统一公文格式');changed({render:true});await check();await preview();}catch(e){error(e);}finally{setBusy(false);}};$('font-ack').onchange=updateButtons;$('output-format').onchange=()=>{updateButtons();savePreferences({...prefs,outputFormat:$('output-format').value}).catch(error);};$('reset-ignored').onclick=()=>{work.ignored=[];renderIssues();persist().catch(()=>{});};$('dismiss-error').onclick=dismissError;

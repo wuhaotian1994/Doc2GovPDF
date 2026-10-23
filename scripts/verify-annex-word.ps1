@@ -1,0 +1,11 @@
+param([string]$QA='build/qa/annex/chrome')
+$ErrorActionPreference='Stop';$dest=(Resolve-Path $QA).Path;$word=$null;$rows=@()
+function FindPage($doc,[string]$text){$page=$null;foreach($p in $doc.Paragraphs){$value=[regex]::Replace($p.Range.Text,'[\r\x07]','').Trim();if($value -eq $text){$page=[int]$p.Range.Information(3)}};if($null -eq $page){throw ('Native paragraph not found: '+$text)};return $page}
+try{$word=New-Object -ComObject Word.Application;$word.Visible=$false;$word.DisplayAlerts=0;$word.AutomationSecurity=3
+foreach($name in @('admissions','multiple')){$doc=$null;try{
+ $file=Join-Path $dest ($name+'.docx');$doc=$word.Documents.Open($file,$false,$true,$false);$doc.Repaginate();$logical=[regex]::Replace($doc.Content.Text,'[\s\x07]','');$map=[ordered]@{}
+ if($name -eq 'admissions'){$map.label=FindPage $doc '附件';$map.title=FindPage $doc '盘锦市2025年普通高中招生计划表';$map.signature=FindPage $doc '盘锦市教育局';$map.firstSchool=FindPage $doc '盘锦市高级中学';$map.lastSchool=FindPage $doc '盘锦德馨学校';$map.total=FindPage $doc '9000';if($map.label -le $map.signature -or $map.label -ne $map.title -or $map.title -ne $map.firstSchool -or $map.lastSchool -ne $map.total){throw 'Native attachment placement or final data/total relationship failed'}}
+ else{$map.firstLabel=FindPage $doc '附件1';$map.firstTitle=FindPage $doc '模拟清单';$map.secondLabel=FindPage $doc '附件2';$map.secondTitle=FindPage $doc '模拟回执';if($map.firstLabel -ne $map.firstTitle -or $map.secondLabel -ne $map.secondTitle -or $map.firstLabel -ge $map.secondLabel){throw 'Native multiple attachment starts failed'}}
+ $rows+=[ordered]@{file=$name;wordVersion=$word.Version;sourceSHA256=(Get-FileHash -LiteralPath $file).Hash;pages=$doc.ComputeStatistics(2);tables=$doc.Tables.Count;logicalTextSHA256=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($logical)));pageMap=$map};$doc.ExportAsFixedFormat((Join-Path $dest ($name+'.word.pdf')),17);ConvertTo-Json -InputObject @($rows) -Depth 6|Set-Content -LiteralPath (Join-Path $dest 'word-native.json');Write-Output ($name+' '+$doc.ComputeStatistics(2)+' Word pages; attachment map verified')
+}finally{if($doc){$doc.Close(0)}}}
+}finally{if($word){$word.Quit()}}

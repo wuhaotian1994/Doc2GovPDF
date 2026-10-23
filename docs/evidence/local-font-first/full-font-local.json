@@ -1,0 +1,118 @@
+{
+  "browser": "155.0.8059.86",
+  "url": "http://127.0.0.1:1587",
+  "method": "Synthetic permission and enumeration; real public OFL font bytes, no customer installed fonts accessed. Timings include automated choices, not human permission-reading time.",
+  "checks": [
+    "known family matching prefers regular and visibly substitutes missing title face",
+    "first preview offers local fonts without silently querying or downloading fallback",
+    "one explicit permission lists all five document uses",
+    "one confirmation prepares all roles with no fallback font request",
+    "saved local fonts are reused without another permission request",
+    "document and font data stay local",
+    "no runtime errors"
+  ],
+  "errors": [],
+  "timings": {
+    "editableMs": 491,
+    "firstPreviewMs": 2792,
+    "adoptToPreviewMs": 1461,
+    "warmPreviewMs": 1229
+  },
+  "passed": true,
+  "fixtureBytes": [
+    14854712,
+    14854760
+  ],
+  "firstWorkerTimings": [
+    {
+      "method": "Fonts",
+      "ms": 18.299999952316284
+    },
+    {
+      "method": "RegisterFontBytes",
+      "ms": 32.300000071525574
+    },
+    {
+      "method": "RegisterFontBytes",
+      "ms": 16.700000047683716
+    },
+    {
+      "method": "AliasFont",
+      "ms": 1.1999999284744263
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.30000007152557373
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.2999999523162842
+    },
+    {
+      "method": "Fonts",
+      "ms": 1.5
+    },
+    {
+      "method": "BuildDocument",
+      "ms": 16
+    },
+    {
+      "method": "PrepareFonts",
+      "ms": 1.1999999284744263
+    },
+    {
+      "method": "PreviewDocument",
+      "ms": 248.70000004768372
+    },
+    {
+      "method": "InspectDocument",
+      "ms": 10.299999952316284
+    },
+    {
+      "method": "ExportDocument",
+      "ms": 239.60000002384186
+    }
+  ],
+  "workerTimings": [
+    {
+      "method": "RegisterFontBytes",
+      "ms": 37.39999997615814
+    },
+    {
+      "method": "RegisterFontBytes",
+      "ms": 14.199999928474426
+    },
+    {
+      "method": "AliasFont",
+      "ms": 6.5
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.19999992847442627
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.19999992847442627
+    },
+    {
+      "method": "Fonts",
+      "ms": 1.600000023841858
+    },
+    {
+      "method": "BuildDocument",
+      "ms": 13
+    },
+    {
+      "method": "PrepareFonts",
+      "ms": 0.8000000715255737
+    },
+    {
+      "method": "PreviewDocument",
+      "ms": 235.39999997615814
+    },
+    {
+      "method": "InspectDocument",
+      "ms": 11.100000023841858
+    }
+  ]
+}

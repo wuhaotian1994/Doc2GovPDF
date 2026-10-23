@@ -1,0 +1,20 @@
+[
+  {
+    "name": "education",
+    "profile": "webkit",
+    "baseline": true,
+    "engineSHA256": "08838e74813ab1dbc1bf478aac7a2ae8259102ed7bb8896ed4cc9b4a87bce22e",
+    "sameIdentityAndContent": true,
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "composite",
+    "profile": "webkit",
+    "baseline": true,
+    "engineSHA256": "08838e74813ab1dbc1bf478aac7a2ae8259102ed7bb8896ed4cc9b4a87bce22e",
+    "sameIdentityAndContent": true,
+    "errors": [],
+    "passed": true
+  }
+]

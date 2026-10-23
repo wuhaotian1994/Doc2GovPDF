@@ -1,0 +1,39 @@
+{
+  "errors": [],
+  "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+  "downloads": [
+    {
+      "format": "docx",
+      "bytes": 17069680,
+      "sha256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c"
+    },
+    {
+      "format": "pdf",
+      "bytes": 156773,
+      "sha256": "d7f1db6b773f0ac69e60ad3d014481558c48e8ba9acf992f8143311dfa8297a3"
+    }
+  ],
+  "restoredExactly": true,
+  "reopenedExactly": true,
+  "blockCount": 39,
+  "tableShapes": [
+    {
+      "rows": 3,
+      "columns": 2,
+      "blanks": 0
+    },
+    {
+      "rows": 9,
+      "columns": 5,
+      "blanks": 9
+    },
+    {
+      "rows": 5,
+      "columns": 6,
+      "blanks": 20
+    }
+  ],
+  "reviewCount": 2,
+  "exportKeptOriginal": true,
+  "passed": true
+}

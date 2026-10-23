@@ -1,0 +1,200 @@
+[
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "immediate-input",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "enter-key",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "delayed-module",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "missing-module",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "missing-preview",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "delayed-storage",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "legacy-query",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "pending-query-reload",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "different-current-draft",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "recovery-archive-failure",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "version": "155.0.8059.85",
+    "scenario": "javascript-disabled",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "immediate-input",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "enter-key",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "delayed-module",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "missing-module",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "missing-preview",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "delayed-storage",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "legacy-query",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "pending-query-reload",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "different-current-draft",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "recovery-archive-failure",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "scenario": "javascript-disabled",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "immediate-input",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "enter-key",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "delayed-module",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "missing-module",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "missing-preview",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "delayed-storage",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "legacy-query",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "pending-query-reload",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "different-current-draft",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "recovery-archive-failure",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "scenario": "javascript-disabled",
+    "passed": true
+  }
+]

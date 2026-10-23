@@ -1,0 +1,71 @@
+(node:67408) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-assembly.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ safe structure produces a readable editable draft before any questionnaire (7.0262ms)
+✔ same existing title is not duplicated; previous unrelated fields never spill into the new article (0.6893ms)
+✔ different existing title remains an explicit local conflict, and using source title is reversible data-only change (0.8085ms)
+✔ mixed citation and agency plus year discrepancy are never silently promoted to joint signature (1.0738ms)
+✔ explicit TSV and blank cells survive assembly and later confirmed closing move (1.2039ms)
+✔ unresolved local decisions persist through existing review metadata and never become engine approval IDs (4.6623ms)
+✔ unsafe or unrecognised first line is retained instead of inventing a title/date (0.307ms)
+✔ numeric TSV first row is data, not an invented repeating header (0.5011ms)
+✔ multiple clean closing candidates remain one local business question with all dates preserved (0.4471ms)
+✔ ordinary in-sentence historical citations do not turn a clean closing into a date questionnaire (0.3679ms)
+✔ generic addressee words or an instruction ending in 会 are not silently promoted to signing agencies (0.333ms)
+(node:6656) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-model.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ article paragraphs and multiple signature lines keep subsequent reminders at the correct source line (2.3226ms)
+✔ unadopted source metadata does not revoke document-scoped decisions (1.2546ms)
+✔ line offsets preserve CRLF, blank lines, emoji and identical occurrences (0.3548ms)
+✔ title and unrelated body edits retain a decision and export the current engine ID (0.3058ms)
+✔ editing a reviewed paragraph revokes immediately, including edit-then-undo before reinspection (0.2924ms)
+✔ identical paragraphs are separate decisions; ambiguous duplicate changes revoke both (0.2912ms)
+✔ moving indistinguishable paragraphs into different context never transfers confirmation (0.3308ms)
+✔ rule severity, basis, proposed text, paragraph formatting and inspection version are decision dependencies (0.6355ms)
+✔ cross-paragraph rules revoke when related content changes even if the flagged paragraph stays unchanged (0.3491ms)
+✔ switching drafts, disappearing findings and explicit unchecking clear decisions (0.3457ms)
+✔ reference, signature, attachment and copy-to findings resolve to the authored field, not body (0.4876ms)
+✔ saved review keys restore only after matching a fresh inspection for the same draft (3.8328ms)
+✔ restored decisions revoke for rule, basis, severity, formatting and version changes (1.1269ms)
+✔ restored source changes revoke immediately and malformed metadata never destroys the draft text (0.5549ms)
+✔ opening same-draft paragraph editing preserves an unchanged decision and its saved source (4.8443ms)
+✔ paragraph judgment never moves to a table cell containing the same words (0.947ms)
+✔ document-scoped rich decisions and malformed optional anchors cannot corrupt the draft (0.69ms)
+✔ post-signature paragraph judgments restore precisely and do not transfer into cells (1.2216ms)
+(node:61896) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-materials.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ hospital preamble stays body while genuine addressees remain optional candidates (2.9326ms)
+✔ existing opt-in hospital cleanup retains each paragraph and all facts in order (0.9718ms)
+✔ public joint notice requires confirmation and preserves both signatories before the authored date (2.6146ms)
+✔ whole source is only a proposal: no roles are extracted without author selections (0.3911ms)
+✔ confirmed notification fields move exactly once while deadline and authored date remain distinct (1.385ms)
+✔ unselected and uncertain lines stay in prose; relative and invalid dates are not guessed (0.4815ms)
+✔ conflicting uses of the same line and duplicate title choices require a decision (0.4744ms)
+✔ hard-wrap merging is opt-in, preserves the original and does not silently concatenate numeric tokens (1.1179ms)
+✔ legacy v1 drafts migrate with empty metadata; source-bearing drafts explicitly use v2 (1.2159ms)
+✔ source and pending material survive archives and do not contaminate reusable office details (0.9214ms)
+✔ draft byte limit accommodates preserved source, working body and pending source even with escaped controls (6.8497ms)
+(node:70592) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-content.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ table blanks become two scoped nonblocking groups without changing content (16.4056ms)
+✔ author decision persists through actual draft validation and unrelated edits (17.4882ms)
+✔ editing a different table preserves this table decision; edits to this range explain recheck (8.4426ms)
+✔ structure, headers and inspection basis invalidate; group IDs never approve engine findings (16.6526ms)
+✔ error-level empty cells and unrelated facts are never grouped or hidden (2.7421ms)
+✔ same table moved into postscript retains exact identity; imported copy cannot inherit (4.6352ms)
+✔ changed inspection basis revokes only the affected table range decision (4.124ms)
+ℹ tests 47
+ℹ suites 0
+ℹ pass 47
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 239.5626

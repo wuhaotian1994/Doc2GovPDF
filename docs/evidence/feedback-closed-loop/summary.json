@@ -1,0 +1,34 @@
+{
+  "source": {
+    "web/write.js": "1128f19d907310485d362ac00e1b52e3694f7a0c81bf5c1e027b793fdc26a786",
+    "web/write.html": "1e4a9b97d6437aefdd80dc433a312265a297262ba37f8cc2b5150673b110752e",
+    "web/write-engine.js": "a3b9385a1b529ecccc4c0f2af45d176861889b611f122830db90d8f302e1636b",
+    "web/write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "web/write-feedback.css": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892",
+    "web/write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "web/write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604",
+    "web/feedback-admin.js": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e",
+    "web/feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+    "internal/feedback/service.go": "29c24939f443a24760395cbbf83e08cc97da37840f5f1d060576d6fcc9c63289",
+    "internal/feedback/attachment.go": "bf80455494e3f174f4357b5285b15e095b72b9ed453585d765117406868921b4",
+    "internal/feedback/migrations/001_feedback.sql": "bcae192b89b0e35b2102c2590c3f423b5ba8b23665a80842560c15fb7a0a9e5f",
+    "cmd/feedbackd/main.go": "e8c2f12ee09f0702dda1aa016e2d0cd02409ea3c75b90cdcefcc7e78a408f8dd"
+  },
+  "uiContractChecks": 138,
+  "evidenceBrowserChecks": 51,
+  "entryIsolationChecks": 8,
+  "integratedWriterChecks": 12,
+  "startupChecks": 33,
+  "realPostgres": true,
+  "actualEvidenceArtifacts": 6,
+  "postgresContentTablesAfterDeletion": {
+    "threads": 0,
+    "messages": 0,
+    "attachments": 0,
+    "events": 0
+  },
+  "privateFilesAfterDeletion": 0,
+  "shortLivedRequestHashTombstonesRemain": true,
+  "realCollectionEnabled": false,
+  "method": "Exclusively fictional feedback tasks. No private receipt files, admin tokens, user original drafts or system fonts are committed."
+}

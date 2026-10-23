@@ -1,4 +1,5 @@
 import {blank, draft, validateDraft} from './write-model.js';
+import {hasContent} from './write-content.js';
 
 export const COMMON_KEY='gongwen-writer-common-v1';
 export const LIBRARY_KEY='gongwen-writer-library-v1';
@@ -19,7 +20,7 @@ export function freshFields(common) {
   return {...blank(),...validateCommon(common).fields};
 }
 export function copyFields(fields) {
-  return {...fields,date:'',reference:''};
+  return {...fields,date:'',reference:'',issueDate:''};
 }
 export function validateLibrary(value) {
   if(!value || value.version!==1 || !Array.isArray(value.items) || value.items.length>MAX_DOCUMENTS)throw Error('最近文档列表无法读取，原始数据已保留。请先下载恢复数据。');
@@ -32,7 +33,7 @@ export function validateLibrary(value) {
 }
 export function archiveDocument(library,id,document,now=new Date().toISOString()) {
   const checked=validateDraft(document);
-  if(!Object.values(checked.fields).some(value=>typeof value==='string'?value.trim():value))return library;
+  if(!Object.values(checked.fields).some(value=>typeof value==='string'?value.trim():value)&&!hasContent(checked.content)&&!hasContent(checked.content?.postscript))return library;
   const items=library.items.filter(item=>item.id!==id);
   if(items.length>=MAX_DOCUMENTS)throw Error(`已保存 ${MAX_DOCUMENTS} 份文档。请在“我的文档”下载并删除不再需要的旧稿，再新建。当前内容仍保留。`);
   return validateLibrary({version:1,items:[{id,savedAt:now,document:checked},...items]});

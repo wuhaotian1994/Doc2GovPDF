@@ -1,0 +1,73 @@
+{
+  "variant": "final",
+  "version": "155.0.8059.85",
+  "definition": "Complete previously accepted street draft, including title, recipient, signature, historical date and both notes. Synthetic timing suffix only; current page 1. Canvas commit plus two frames.",
+  "rows": [
+    {
+      "kind": "open-existing-street",
+      "visibleMS": 2139.5,
+      "readyMS": 2115.2000000476837
+    },
+    {
+      "kind": "cached-existing-street",
+      "visibleMS": 1223.199999988079,
+      "readyMS": 1198.1000000238419
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 0,
+      "visibleMS": 994.6000000238419,
+      "readyMS": 974.1000000238419,
+      "inputHandlerMS": 1.699999988079071
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 1,
+      "visibleMS": 841.8000000119209,
+      "readyMS": 831.6000000238419,
+      "inputHandlerMS": 0.8999999761581421
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 2,
+      "visibleMS": 847.1999999880791,
+      "readyMS": 827.5,
+      "inputHandlerMS": 0.7000000476837158
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 3,
+      "visibleMS": 1176.9000000357628,
+      "readyMS": 1167.5,
+      "inputHandlerMS": 0.7999999523162842
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 4,
+      "visibleMS": 862.8999999761581,
+      "readyMS": 855.3999999761581,
+      "inputHandlerMS": 0.699999988079071
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 5,
+      "visibleMS": 845.8000000119209,
+      "readyMS": 834.9000000357628,
+      "inputHandlerMS": 0.699999988079071
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 6,
+      "visibleMS": 813.4000000357628,
+      "readyMS": 804.4000000357628,
+      "inputHandlerMS": 0.7999999523162842
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 7,
+      "visibleMS": 829.5999999642372,
+      "readyMS": 819.5999999642372,
+      "inputHandlerMS": 0.6000000238418579
+    }
+  ]
+}

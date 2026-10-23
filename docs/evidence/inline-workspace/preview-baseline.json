@@ -1,0 +1,11 @@
+[
+  {
+    "profile": "chrome",
+    "baseline": true,
+    "checks": [
+      "baseline keeps an updating preview despite an already reported invalid date"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

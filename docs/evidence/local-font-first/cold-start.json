@@ -1,0 +1,22 @@
+{
+  "baseline": false,
+  "checks": [
+    "download longer than rendering deadline stays editable without a false failure",
+    "delayed real engine completes and renders the PDF",
+    "warm processing still has a bounded failure and stale export stays disabled",
+    "explicit retry recovers after a stalled processing request",
+    "recovered preview exports an actual PDF",
+    "no runtime errors"
+  ],
+  "errors": [],
+  "passed": true,
+  "coldState": {
+    "fault": {
+      "drop": false,
+      "dropped": 0,
+      "terminations": 0
+    },
+    "status": "正在准备预览…",
+    "error": ""
+  }
+}

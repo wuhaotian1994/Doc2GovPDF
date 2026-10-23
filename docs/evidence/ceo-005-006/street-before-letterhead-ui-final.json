@@ -1,0 +1,73 @@
+{
+  "variant": "final",
+  "version": "155.0.8059.85",
+  "definition": "Complete previously accepted street draft, including title, recipient, signature, historical date and both notes. Synthetic timing suffix only; current page 1. Canvas commit plus two frames.",
+  "rows": [
+    {
+      "kind": "open-existing-street",
+      "visibleMS": 4689.199999988079,
+      "readyMS": 4681.099999964237
+    },
+    {
+      "kind": "cached-existing-street",
+      "visibleMS": 3080.5,
+      "readyMS": 3067.5
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 0,
+      "visibleMS": 2260.100000023842,
+      "readyMS": 2238.5,
+      "inputHandlerMS": 2.600000023841858
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 1,
+      "visibleMS": 1436.3999999761581,
+      "readyMS": 1429.199999988079,
+      "inputHandlerMS": 1.5
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 2,
+      "visibleMS": 1211.199999988079,
+      "readyMS": 1186.9000000357628,
+      "inputHandlerMS": 1.300000011920929
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 3,
+      "visibleMS": 946.5,
+      "readyMS": 935.6000000238419,
+      "inputHandlerMS": 1
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 4,
+      "visibleMS": 1163.800000011921,
+      "readyMS": 1155.0999999642372,
+      "inputHandlerMS": 0.699999988079071
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 5,
+      "visibleMS": 1197.2000000476837,
+      "readyMS": 1174.7000000476837,
+      "inputHandlerMS": 0.5
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 6,
+      "visibleMS": 963.0999999642372,
+      "readyMS": 945.3000000119209,
+      "inputHandlerMS": 0.800000011920929
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 7,
+      "visibleMS": 946.8999999761581,
+      "readyMS": 926.6999999880791,
+      "inputHandlerMS": 0.7000000476837158
+    }
+  ]
+}

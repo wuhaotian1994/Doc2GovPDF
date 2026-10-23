@@ -14,15 +14,26 @@ func prepareNewLayout(m Model) Model {
 	}
 	m = m.Clone()
 	m = RenumberDocument(m)
+	m = relaxNumberedProseFlow(m)
 	// Keep some preceding content with the closing signature. Otherwise a
 	// short document can end with a page containing only the agency and date.
 	for i, block := range m.Blocks {
+
+		// A short authored note immediately following the date belongs to the same
+		// closing unit. Do not drag a long postscript, an explicit break or a table.
+		if p := block.Paragraph; p != nil && p.Role == "date" && !p.Protected && !p.FormatLocked && i+1 < len(m.Blocks) {
+			if note := m.Blocks[i+1].Paragraph; note != nil && note.Role == "note" && !note.Protected && !note.FormatLocked && !note.PageBreak && !note.AnchorBottom && strings.TrimSpace(note.Text) != "" && len([]rune(note.Text)) <= 48 && strings.Count(note.Text, "\n") <= 1 {
+				p.KeepNext = true
+			}
+		}
 		if block.Paragraph != nil && block.Paragraph.Role == "signature" && i > 0 {
 			if previous := m.Blocks[i-1].Paragraph; previous != nil && !previous.AnchorBottom {
 				previous.KeepNext = true
 			}
 		}
 	}
+	m = keepHeadingGaps(m)
+	m = keepCompactTableNotes(m)
 	for _, block := range m.Blocks {
 		if block.Table != nil {
 			for _, row := range block.Table.Rows {
@@ -106,6 +117,59 @@ func prepareNewLayout(m Model) Model {
 		}
 		out = append(out, string(runes[start:]))
 		p.Text = strings.Join(out, "\n")
+	}
+	return m
+}
+
+// A numbered paragraph can contain a complete prose item while retaining its
+// authored hierarchy and font. Do not turn several such multi-line items into
+// one KeepNext chain spanning the rest of the document. Short labels, titles,
+// explicit breaks, protected layout and imported originals remain untouched.
+func relaxNumberedProseFlow(m Model) Model {
+	for _, block := range m.Blocks {
+		p := block.Paragraph
+		if p == nil || !p.KeepNext || p.PageBreak || p.Protected || p.FormatLocked {
+			continue
+		}
+		if p.Role != "heading2" && p.Role != "heading3" && p.Role != "heading4" {
+			continue
+		}
+		text := strings.TrimSpace(p.Prefix + p.Text)
+		if !manualHeadingPrefix.MatchString(text) {
+			continue
+		}
+		prose := manualHeadingPrefix.ReplaceAllString(text, "")
+		if !strings.ContainsAny(prose, "。；！？.!?;") {
+			continue
+		}
+		width := m.Page.Width - m.Page.Left - m.Page.Right - p.LeftIndent - p.RightIndent
+		if width > 0 && textAdvanceMM(text, p.Font, p.Size) > 2*width {
+			p.KeepNext = false
+		}
+	}
+	return m
+}
+
+// An authored blank line is spacing, not the heading's following content.
+// Keep it, and carry the heading plus the gap to the next substantive block.
+func keepHeadingGaps(m Model) Model {
+	for i, b := range m.Blocks {
+		p := b.Paragraph
+		if p == nil || !p.KeepNext || p.Protected || p.FormatLocked || strings.TrimSpace(p.Text) == "" {
+			continue
+		}
+		switch p.Role {
+		case "title", "heading", "heading2", "heading3", "heading4":
+		default:
+			continue
+		}
+		for j := i + 1; j < len(m.Blocks); j++ {
+			gap := m.Blocks[j].Paragraph
+			if gap == nil || gap.PageBreak || gap.AnchorBottom || gap.Protected || gap.FormatLocked || strings.TrimSpace(gap.Text) != "" {
+				break
+			}
+			gap.KeepNext = true
+		}
 	}
 	return m
 }

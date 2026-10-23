@@ -1,0 +1,157 @@
+{
+  "url": "http://127.0.0.1:4173",
+  "pid": 65964,
+  "feedbackCollectionEnabled": false,
+  "originalUI": {
+    "errors": [],
+    "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+    "downloads": [
+      {
+        "format": "docx",
+        "bytes": 17069680,
+        "sha256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c"
+      },
+      {
+        "format": "pdf",
+        "bytes": 156773,
+        "sha256": "f5da3822e0a77eaaf18a7d583eeb3d419631db753d43d90dd899e8911b5104bb"
+      }
+    ],
+    "feedbackRequests": 0,
+    "restoredExactly": true,
+    "reopenedExactly": true,
+    "blockCount": 39,
+    "tableShapes": [
+      {
+        "rows": 3,
+        "columns": 2,
+        "blanks": 0
+      },
+      {
+        "rows": 9,
+        "columns": 5,
+        "blanks": 9
+      },
+      {
+        "rows": 5,
+        "columns": 6,
+        "blanks": 20
+      }
+    ],
+    "reviewCount": 2,
+    "exportKeptOriginal": true,
+    "passed": true
+  },
+  "actualAssets": {
+    "advanced.html": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+    "browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+    "document-elements.js": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f",
+    "document-engine.wasm": "5bb98e67980c5c5a2e39a9e541cbe1070bca495eac995662e7b9d2fdefca5a74",
+    "engine-assets.js": "b0503f6b64a7b20736ff071f54cab7504a20bd24c9a76265fe20c0457a12c1ed",
+    "engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+    "engine-worker.js": "0e12424abcca7c75dd805be9304206a33304881ffefa5097fd6c313061dd9f37",
+    "favicon.svg": "821ca465670104db4275460d8f4bca41c4c86a7994161dabc428021e37941660",
+    "feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+    "feedback-admin.js": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e",
+    "fonts/document-fonts-OFL.txt": "64538aaa923b7e75559725ecf64eff7b18f623857b8e6d31a7347743ab27e907",
+    "fonts/OFL.txt": "7accca2f29220c9ab44e4950799b821f36ebf5bbe6b5fb5342724b32228a8daf",
+    "fonts/README.md": "5eee9c372f0be67f845a670aa8632b498e26041417bb4c78db4d33e9cc96a956",
+    "fonts/serif-black-core.ttf": "332d60d946a3b1183cf65dd512eaa922acca086996f419aa8651600f1cc69239",
+    "fonts/serif-black-full.ttf": "0f048849cd9c0514f9915e25673801d37196c57af8e3b804f0185a3b23b53ac1",
+    "fonts/serif-core.ttf": "163b8bd972ad89bc0388e857d88428456ef4bb67c15a46f3481ebe5815c03ca0",
+    "fonts/serif-full.ttf": "9502147ceba7b5bc7fd3415083f6a5d133f22d8f9efb4974d4b85f3a97ea2d3a",
+    "fonts/ui-400.woff": "337daf2da524c61a295e4cc100659986f4c72de696432c758b23a399e799d198",
+    "fonts/ui-700.woff": "d32d6203c7c7c46e895baf011d7018271d4fe7be3f1cb4f3863b126948cd183e",
+    "index.html": "7101f0279e9205c0a23bfa8ddd1af204754d640cdfa23408c90bc5ae2b61e0f9",
+    "pdf-review.js": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
+    "sw.js": "51b2eecd100160293ffb5cd28e6a278274af97be46fa49a72dfdea76015a77c5",
+    "THIRD_PARTY_NOTICES.txt": "0d7399fc0a0652cb1eae56df8ee641f542543fede3eb5cfd3e8834b8fa4cc67b",
+    "vendor/pdfjs/LICENSE": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+    "vendor/pdfjs/pdf.js": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+    "vendor/pdfjs/pdf.mjs": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+    "vendor/pdfjs/pdf.worker.js": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+    "vendor/pdfjs/pdf.worker.mjs": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+    "wasm_exec.js": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+    "web.css": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
+    "workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+    "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+    "write-assembly-view.js": "75d76c67bab6e16334173e05acae681d64d1013a9b7e71dc05f4eee8c44a8a76",
+    "write-assembly.js": "4f84cd37a4cf1af86b75f5ba98699f5f9ac123fa9a3b0701ab3d4458b02b2e82",
+    "write-boot.js": "c9bb444f6ea0e28c7345e34842e045d5bd47fe47bfe955dfe5fb12ce4ff796d2",
+    "write-bytes.js": "579e2336061b151432a320b1824d18425921272dc150e1dc825664f185c00d12",
+    "write-checks.js": "043c0a991996eaf83d24ae519ba9f58a83122fa93cbc556dba7e9d70626a91c3",
+    "write-content-editor.js": "929e86b38756a4cc12508c1c652bea0b2d3bd8d556e70f13857d80fe132f1790",
+    "write-content.js": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+    "write-continuous.js": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef",
+    "write-engine.js": "a3b9385a1b529ecccc4c0f2af45d176861889b611f122830db90d8f302e1636b",
+    "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604",
+    "write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "write-feedback.css": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892",
+    "write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "write-font-picker.js": "2c5386863abfd6ff7fb8842fdb53d7f4ece68a332b1a256881b4586e79e36d57",
+    "write-font-source.js": "cc0fae0985b828491dc193c344482137faa2f74b54600f971e88e4e604b8574d",
+    "write-library.js": "233c318481fbaf3ec8d134aa9ea076d6de9cb0e335bde4e539b592947ad8f532",
+    "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+    "write-materials.js": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+    "write-model.js": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143",
+    "write-reference.js": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178",
+    "write-table-blanks.js": "18b2aeb9499374f25df4765ba8555d737feb7b2fa70f829829783df74f91f7f3",
+    "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+    "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+    "write-word-workspace.js": "efdb289ae86719aebb57adc6dd634dbe2c83c30b96fab0738582a5e5c3a53d71",
+    "write-workspace.css": "e61246d3c046ba6065205bf8c1908cfb5cc1d41f6148e412c3be2785785925d4",
+    "write.css": "9c040ed7003b6520a0967d84e7bbe89c47b0b921067894bf6ed56dbe00f35fa3",
+    "write.html": "1e4a9b97d6437aefdd80dc433a312265a297262ba37f8cc2b5150673b110752e",
+    "write.js": "1128f19d907310485d362ac00e1b52e3694f7a0c81bf5c1e027b793fdc26a786"
+  },
+  "source": {
+    "web/write.js": "1128f19d907310485d362ac00e1b52e3694f7a0c81bf5c1e027b793fdc26a786",
+    "web/write.html": "1e4a9b97d6437aefdd80dc433a312265a297262ba37f8cc2b5150673b110752e",
+    "web/write-engine.js": "a3b9385a1b529ecccc4c0f2af45d176861889b611f122830db90d8f302e1636b",
+    "web/write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "web/write-feedback.css": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892",
+    "web/write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "web/write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604",
+    "web/feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+    "web/feedback-admin.js": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e",
+    "web/engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+    "internal/office/font_resources.go": "f6df54ae43939789328c76f3610d8c9a8f2c55ff3d055a5d3b99dd53902f7a61",
+    "internal/feedback/service.go": "29c24939f443a24760395cbbf83e08cc97da37840f5f1d060576d6fcc9c63289",
+    "internal/feedback/attachment.go": "bf80455494e3f174f4357b5285b15e095b72b9ed453585d765117406868921b4",
+    "cmd/feedbackd/main.go": "e8c2f12ee09f0702dda1aa016e2d0cd02409ea3c75b90cdcefcc7e78a408f8dd"
+  },
+  "DOCXMatchesNativeWordReviewedBytes": true,
+  "PDFStreamsAndAll7PixelsMatchReviewed": [
+    {
+      "page": 1,
+      "pixelSHA256": "1c9f98ea4d22c40a7f5f2dc5c66e3062fa4f82d9fa3eaaaa58d067e906c1061b"
+    },
+    {
+      "page": 2,
+      "pixelSHA256": "8fa3aaf2c525806122f19919db31d91123c3a42b6669f4152bad92263312e7e9"
+    },
+    {
+      "page": 3,
+      "pixelSHA256": "07d7a992fa9531dbff8cfaa18701137f13d8d999904e29ec4295e26db3383785"
+    },
+    {
+      "page": 4,
+      "pixelSHA256": "35f9057801c4b7db36ea8e444d9fecdc2bf358018dcda5d83427e396b5111989"
+    },
+    {
+      "page": 5,
+      "pixelSHA256": "28687f6732e80c76c64ebd55c20b134545f924ba39639773726b1b40d0c11d94"
+    },
+    {
+      "page": 6,
+      "pixelSHA256": "3267796ff8c07793db393eb1aa654ca86dc3a316df9074397050d4cf9ba7f7ec"
+    },
+    {
+      "page": 7,
+      "pixelSHA256": "c9790b4140a1b65cddc007469a2f3aa692ecd870e121862026d66bb57c42fc8e"
+    }
+  ],
+  "WasmSHA256": "5bb98e67980c5c5a2e39a9e541cbe1070bca495eac995662e7b9d2fdefca5a74",
+  "buildAtHeadWithDocumentedSourceChanges": "2c1193303d574eeab96eee5fa40a2cdf3c6bbb95",
+  "method": "Actual constant local service after copying verified assets without rebuilding; complete original never calls feedback API. Original PDFs, draft, images and private test credentials remain local."
+}

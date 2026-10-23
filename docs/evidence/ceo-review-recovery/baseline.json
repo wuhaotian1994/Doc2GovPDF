@@ -1,0 +1,13 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "baseline": true,
+    "checks": [
+      "explicit retention is applied to the current finding",
+      "baseline reproduces lost retention after save and reload"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

@@ -1,0 +1,218 @@
+[
+  {
+    "profile": "chrome",
+    "kind": "fresh-context",
+    "before": {
+      "n": 3,
+      "medianMS": 1577.3,
+      "p95MS": 1975.7,
+      "maxMS": 1975.7,
+      "maxInputHandlerMS": 0
+    },
+    "after": {
+      "n": 3,
+      "medianMS": 1029.3,
+      "p95MS": 1344,
+      "maxMS": 1344,
+      "maxInputHandlerMS": 0
+    }
+  },
+  {
+    "profile": "chrome",
+    "kind": "cached-reopen",
+    "before": {
+      "n": 1,
+      "medianMS": 1342.8,
+      "p95MS": 1342.8,
+      "maxMS": 1342.8,
+      "maxInputHandlerMS": 0
+    },
+    "after": {
+      "n": 1,
+      "medianMS": 691.5,
+      "p95MS": 691.5,
+      "maxMS": 691.5,
+      "maxInputHandlerMS": 0
+    }
+  },
+  {
+    "profile": "chrome",
+    "kind": "warm-short",
+    "before": {
+      "n": 20,
+      "medianMS": 1197.9,
+      "p95MS": 1690.8,
+      "maxMS": 1712.8,
+      "maxInputHandlerMS": 1
+    },
+    "after": {
+      "n": 20,
+      "medianMS": 438.7,
+      "p95MS": 478,
+      "maxMS": 493,
+      "maxInputHandlerMS": 0.9
+    }
+  },
+  {
+    "profile": "chrome",
+    "kind": "warm-long",
+    "before": {
+      "n": 8,
+      "medianMS": 1749.7,
+      "p95MS": 1980.5,
+      "maxMS": 1980.5,
+      "maxInputHandlerMS": 0.9
+    },
+    "after": {
+      "n": 8,
+      "medianMS": 756.3,
+      "p95MS": 847.6,
+      "maxMS": 847.6,
+      "maxInputHandlerMS": 0.8
+    }
+  },
+  {
+    "profile": "firefox",
+    "kind": "fresh-context",
+    "before": {
+      "n": 3,
+      "medianMS": 1668,
+      "p95MS": 1754,
+      "maxMS": 1754,
+      "maxInputHandlerMS": 0
+    },
+    "after": {
+      "n": 3,
+      "medianMS": 613,
+      "p95MS": 622,
+      "maxMS": 622,
+      "maxInputHandlerMS": 0
+    }
+  },
+  {
+    "profile": "firefox",
+    "kind": "cached-reopen",
+    "before": {
+      "n": 1,
+      "medianMS": 1071,
+      "p95MS": 1071,
+      "maxMS": 1071,
+      "maxInputHandlerMS": 0
+    },
+    "after": {
+      "n": 1,
+      "medianMS": 941,
+      "p95MS": 941,
+      "maxMS": 941,
+      "maxInputHandlerMS": 0
+    }
+  },
+  {
+    "profile": "firefox",
+    "kind": "warm-short",
+    "before": {
+      "n": 20,
+      "medianMS": 1212.5,
+      "p95MS": 1311,
+      "maxMS": 1324,
+      "maxInputHandlerMS": 1
+    },
+    "after": {
+      "n": 20,
+      "medianMS": 479.0,
+      "p95MS": 546,
+      "maxMS": 546,
+      "maxInputHandlerMS": 2
+    }
+  },
+  {
+    "profile": "firefox",
+    "kind": "warm-long",
+    "before": {
+      "n": 8,
+      "medianMS": 1602.0,
+      "p95MS": 1895,
+      "maxMS": 1895,
+      "maxInputHandlerMS": 2
+    },
+    "after": {
+      "n": 8,
+      "medianMS": 813.0,
+      "p95MS": 863,
+      "maxMS": 863,
+      "maxInputHandlerMS": 2
+    }
+  },
+  {
+    "profile": "webkit",
+    "kind": "fresh-context",
+    "before": {
+      "n": 3,
+      "medianMS": 1736,
+      "p95MS": 1791,
+      "maxMS": 1791,
+      "maxInputHandlerMS": 0
+    },
+    "after": {
+      "n": 3,
+      "medianMS": 801,
+      "p95MS": 908,
+      "maxMS": 908,
+      "maxInputHandlerMS": 0
+    }
+  },
+  {
+    "profile": "webkit",
+    "kind": "cached-reopen",
+    "before": {
+      "n": 1,
+      "medianMS": 1092,
+      "p95MS": 1092,
+      "maxMS": 1092,
+      "maxInputHandlerMS": 0
+    },
+    "after": {
+      "n": 1,
+      "medianMS": 1089,
+      "p95MS": 1089,
+      "maxMS": 1089,
+      "maxInputHandlerMS": 0
+    }
+  },
+  {
+    "profile": "webkit",
+    "kind": "warm-short",
+    "before": {
+      "n": 20,
+      "medianMS": 1408.0,
+      "p95MS": 1880,
+      "maxMS": 1913,
+      "maxInputHandlerMS": 536
+    },
+    "after": {
+      "n": 20,
+      "medianMS": 766.0,
+      "p95MS": 1233,
+      "maxMS": 1563,
+      "maxInputHandlerMS": 4
+    }
+  },
+  {
+    "profile": "webkit",
+    "kind": "warm-long",
+    "before": {
+      "n": 8,
+      "medianMS": 1738.5,
+      "p95MS": 1954,
+      "maxMS": 1954,
+      "maxInputHandlerMS": 1
+    },
+    "after": {
+      "n": 8,
+      "medianMS": 978.0,
+      "p95MS": 1030,
+      "maxMS": 1030,
+      "maxInputHandlerMS": 1
+    }
+  }
+]

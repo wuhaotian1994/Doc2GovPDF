@@ -1,0 +1,155 @@
+{
+  "method": "Controlled fictional mechanism fixture; not the CEO health-office saved draft",
+  "files": [
+    {
+      "profile": "chrome",
+      "file": "before-choice",
+      "docxSHA256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+      "pdfSHA256": "23f7bd141f6a21c0d4dd18bec6cf5675aaf580219a6a0f107ecf22cb1763306c",
+      "pages": 2,
+      "blankCounts": [
+        9,
+        20
+      ],
+      "relationships": {
+        "模拟核对安排": [
+          1
+        ],
+        "说明：模拟记录只用于本地核验": [
+          1
+        ],
+        "接收方回执": [
+          1
+        ],
+        "注：未填写的事实由接收方补充": [
+          2
+        ]
+      }
+    },
+    {
+      "profile": "chrome",
+      "file": "kept-blanks",
+      "docxSHA256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+      "pdfSHA256": "3d73d8dc5406ef0ee37fba479d9ba4784bc1c783da9f6fddcd2bb98cd5572977",
+      "pages": 2,
+      "blankCounts": [
+        9,
+        20
+      ],
+      "relationships": {
+        "模拟核对安排": [
+          1
+        ],
+        "说明：模拟记录只用于本地核验": [
+          1
+        ],
+        "接收方回执": [
+          1
+        ],
+        "注：未填写的事实由接收方补充": [
+          2
+        ]
+      }
+    },
+    {
+      "profile": "firefox",
+      "file": "before-choice",
+      "docxSHA256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+      "pdfSHA256": "bd59afcae6ee9bdc7f8c70f9a852604e2d0e591d5f3a004b74e32b89ba1f5343",
+      "pages": 2,
+      "blankCounts": [
+        9,
+        20
+      ],
+      "relationships": {
+        "模拟核对安排": [
+          1
+        ],
+        "说明：模拟记录只用于本地核验": [
+          1
+        ],
+        "接收方回执": [
+          1
+        ],
+        "注：未填写的事实由接收方补充": [
+          2
+        ]
+      }
+    },
+    {
+      "profile": "firefox",
+      "file": "kept-blanks",
+      "docxSHA256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+      "pdfSHA256": "6b4678785aa4721b5bae63236928ff818607e4bcdc34d8858a94b4fdf7aec53f",
+      "pages": 2,
+      "blankCounts": [
+        9,
+        20
+      ],
+      "relationships": {
+        "模拟核对安排": [
+          1
+        ],
+        "说明：模拟记录只用于本地核验": [
+          1
+        ],
+        "接收方回执": [
+          1
+        ],
+        "注：未填写的事实由接收方补充": [
+          2
+        ]
+      }
+    },
+    {
+      "profile": "webkit",
+      "file": "before-choice",
+      "docxSHA256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+      "pdfSHA256": "fec4961b6fd4dab18336dfbe9d073687b0cbae09e8c16aae41ae29baf5af3e0c",
+      "pages": 2,
+      "blankCounts": [
+        9,
+        20
+      ],
+      "relationships": {
+        "模拟核对安排": [
+          1
+        ],
+        "说明：模拟记录只用于本地核验": [
+          1
+        ],
+        "接收方回执": [
+          1
+        ],
+        "注：未填写的事实由接收方补充": [
+          2
+        ]
+      }
+    },
+    {
+      "profile": "webkit",
+      "file": "kept-blanks",
+      "docxSHA256": "a76668287d7e2487b335a05799814d5a36a5b7ec74124128e9e70d131476a205",
+      "pdfSHA256": "134aac378a01ac7d5f23479f53053d806303d97406bd333170735d34bf373ae9",
+      "pages": 2,
+      "blankCounts": [
+        9,
+        20
+      ],
+      "relationships": {
+        "模拟核对安排": [
+          1
+        ],
+        "说明：模拟记录只用于本地核验": [
+          1
+        ],
+        "接收方回执": [
+          1
+        ],
+        "注：未填写的事实由接收方补充": [
+          2
+        ]
+      }
+    }
+  ]
+}

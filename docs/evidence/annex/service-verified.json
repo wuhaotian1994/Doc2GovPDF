@@ -1,0 +1,27 @@
+[
+  {
+    "profile": "service/chrome",
+    "case": "admissions",
+    "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+    "pdfSHA256": "5f3971783853122a1fb9cab9c361c8bc07458ece8eaaefa4db016bfd756e9b28",
+    "pdfPages": 3,
+    "labels": [
+      "附件"
+    ],
+    "paragraphs": 65,
+    "tables": 1
+  },
+  {
+    "profile": "service/chrome",
+    "case": "multiple",
+    "docxSHA256": "14a90167f90afb6b01ceb5c4fe7259bbfec35ca769ada2d41f7921b8a3b9a981",
+    "pdfSHA256": "540d2e0c9355d552afd750f222a9c447c4dbd7656939e0bcfaea4931000232df",
+    "pdfPages": 3,
+    "labels": [
+      "附件1",
+      "附件2"
+    ],
+    "paragraphs": 16,
+    "tables": 1
+  }
+]

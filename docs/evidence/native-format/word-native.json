@@ -1,0 +1,143 @@
+[
+  {
+    "file": "chrome/untouched",
+    "wordVersion": "16.0",
+    "sourceSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "orientation": 0,
+        "width": 595.2999877929688
+      },
+      {
+        "height": 595.2999877929688,
+        "orientation": 1,
+        "width": 841.9000244140625
+      }
+    ],
+    "sample": null,
+    "originalEmptyCell": {
+      "font": "宋体",
+      "text": "\r\u0007",
+      "sizePt": 11.0
+    },
+    "logicalCharacters": 1443,
+    "logicalTextSHA256": "7def99dbd4efd5dcc645e266c312aef31e534fa6f9c6bdff11b90ffe87ced1d9"
+  },
+  {
+    "file": "before/edited",
+    "wordVersion": "16.0",
+    "sourceSHA256": "149891baaefc3b4fa981d97c28314c67dbe3bb85ae62a1389cf6920d4675bd54",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "orientation": 0,
+        "width": 595.2999877929688
+      },
+      {
+        "height": 595.2999877929688,
+        "orientation": 1,
+        "width": 841.9000244140625
+      }
+    ],
+    "sample": {
+      "text": "模拟待核",
+      "requestedFontFarEast": "+Body Asian",
+      "sizePt": 10.5,
+      "page": 4,
+      "paragraphAlignment": 3,
+      "firstLineIndentPt": 0.0,
+      "lineSpacingRule": 0,
+      "lineSpacingPt": 12.0
+    },
+    "originalEmptyCell": null,
+    "logicalCharacters": 1454,
+    "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+  },
+  {
+    "file": "chrome/edited",
+    "wordVersion": "16.0",
+    "sourceSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "orientation": 0,
+        "width": 595.2999877929688
+      },
+      {
+        "height": 595.2999877929688,
+        "orientation": 1,
+        "width": 841.9000244140625
+      }
+    ],
+    "sample": {
+      "text": "模拟待核",
+      "requestedFontFarEast": "宋体",
+      "sizePt": 11.0,
+      "page": 4,
+      "paragraphAlignment": 3,
+      "firstLineIndentPt": 0.0,
+      "lineSpacingRule": 0,
+      "lineSpacingPt": 12.0
+    },
+    "originalEmptyCell": null,
+    "logicalCharacters": 1454,
+    "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+  },
+  {
+    "file": "chrome/saved-new-admissions",
+    "wordVersion": "16.0",
+    "sourceSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+    "pages": 3,
+    "tables": 1,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "orientation": 0,
+        "width": 595.2999877929688
+      }
+    ],
+    "sample": null,
+    "originalEmptyCell": null,
+    "logicalCharacters": 383,
+    "logicalTextSHA256": "165f909882cf4cb9753948c481bb3ddd75bcb14ce8f455e53322a846e8b3725e"
+  },
+  {
+    "file": "chrome/legacy-restored",
+    "wordVersion": "16.0",
+    "sourceSHA256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "height": 841.9000244140625,
+        "orientation": 0,
+        "width": 595.2999877929688
+      },
+      {
+        "height": 595.2999877929688,
+        "orientation": 1,
+        "width": 841.9000244140625
+      }
+    ],
+    "sample": {
+      "text": "模拟待核",
+      "requestedFontFarEast": "FangSong",
+      "sizePt": 16.0,
+      "page": 4,
+      "paragraphAlignment": 3,
+      "firstLineIndentPt": 0.0,
+      "lineSpacingRule": 0,
+      "lineSpacingPt": 12.0
+    },
+    "originalEmptyCell": null,
+    "logicalCharacters": 1454,
+    "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+  }
+]

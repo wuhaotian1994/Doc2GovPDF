@@ -1,0 +1,74 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "checks": [
+      "natural whole-material choices keep the real signing/date and receipt in its following region",
+      "existing four-column header and two blank source rows are offered for conversion",
+      "cancelling keeps every natural field and the original draft identity",
+      "conversion refuses a dimension that would truncate the original rows",
+      "conversion creates the actual receipt in the original post-signature region without retyping",
+      "adding after an existing table does not implicitly convert its following imprint",
+      "table conversion can undo to the original note text",
+      "body undo does not overwrite a later receipt edit",
+      "receipt undo preserves the current body and restores its header",
+      "receipt cell finding names the post-signature source and real row/column",
+      "cell finding focuses the actual receipt input",
+      "receipt cell judgment survives saving and reopening the same draft",
+      "close/reopen and a basic title change preserve the same table signing and date",
+      "all work stayed in one normal page without chooser or transport downloads",
+      "last receipt cell is reachable above persistent actions in a short viewport",
+      "keyboard reaches the following imprint without moving the outer page",
+      "main next action remains visible while editing the last following paragraph",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "version": "157.0",
+    "checks": [
+      "natural whole-material choices keep the real signing/date and receipt in its following region",
+      "existing four-column header and two blank source rows are offered for conversion",
+      "cancelling keeps every natural field and the original draft identity",
+      "conversion refuses a dimension that would truncate the original rows",
+      "conversion creates the actual receipt in the original post-signature region without retyping",
+      "adding after an existing table does not implicitly convert its following imprint",
+      "table conversion can undo to the original note text",
+      "body undo does not overwrite a later receipt edit",
+      "receipt undo preserves the current body and restores its header",
+      "receipt cell finding names the post-signature source and real row/column",
+      "cell finding focuses the actual receipt input",
+      "receipt cell judgment survives saving and reopening the same draft",
+      "close/reopen and a basic title change preserve the same table signing and date",
+      "all work stayed in one normal page without chooser or transport downloads",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "version": "27.2",
+    "checks": [
+      "natural whole-material choices keep the real signing/date and receipt in its following region",
+      "existing four-column header and two blank source rows are offered for conversion",
+      "cancelling keeps every natural field and the original draft identity",
+      "conversion refuses a dimension that would truncate the original rows",
+      "conversion creates the actual receipt in the original post-signature region without retyping",
+      "adding after an existing table does not implicitly convert its following imprint",
+      "table conversion can undo to the original note text",
+      "body undo does not overwrite a later receipt edit",
+      "receipt undo preserves the current body and restores its header",
+      "receipt cell finding names the post-signature source and real row/column",
+      "cell finding focuses the actual receipt input",
+      "receipt cell judgment survives saving and reopening the same draft",
+      "close/reopen and a basic title change preserve the same table signing and date",
+      "all work stayed in one normal page without chooser or transport downloads",
+      "no browser runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

@@ -1,0 +1,286 @@
+{
+  "groups": [
+    {
+      "label": "before-pdf-education",
+      "pages": 5,
+      "pdfSHA256": "6e545242698778796310ae6a1875694e7abe3246c11120f7c6e0973ced5a0d8b"
+    },
+    {
+      "label": "before-pdf-composite",
+      "pages": 8,
+      "pdfSHA256": "ae5113a78eb9adce0be30dc2d742823de9d5e19fcf6c0536f5312a84301f5151"
+    },
+    {
+      "label": "before-word-education",
+      "pages": 5,
+      "pdfSHA256": "fd0e12289ab553bc2a119ff7d2bb169fd6cec9fc85e7f1e9bf549dd45fb05870"
+    },
+    {
+      "label": "before-word-composite",
+      "pages": 7,
+      "pdfSHA256": "87d86af4d690b5876030a9c7aa8d16f303dcce5214f70088d9cb480f59ee6c5c"
+    },
+    {
+      "label": "after-pdf-education",
+      "pages": 5,
+      "pdfSHA256": "528e6d64cebaf46005105b22db72e289cbd3cd9841f3aca6a6c66493348e5bd9"
+    },
+    {
+      "label": "after-pdf-composite",
+      "pages": 6,
+      "pdfSHA256": "2ea2478ce4cc45f1ae12cc5ffa49d241dcfbffae20a81b10aebea2e7af63d09a"
+    },
+    {
+      "label": "after-word-education",
+      "pages": 5,
+      "pdfSHA256": "13fd262e3beee05835ff2f585ae6bf58d55a03b992b2c43823768cde8ce7d217"
+    },
+    {
+      "label": "after-word-composite",
+      "pages": 7,
+      "pdfSHA256": "586645aac1f4de24e152bae6fadfc8ea425c914600f82e7be3f8a198f1276166"
+    }
+  ],
+  "totalPages": 48,
+  "uniquePages": 38,
+  "deduplicatedPages": [
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-education\\page-1.png",
+      "labels": [
+        "before-pdf-education p1",
+        "after-pdf-education p1"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-education\\page-2.png",
+      "labels": [
+        "before-pdf-education p2"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-education\\page-3.png",
+      "labels": [
+        "before-pdf-education p3"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-education\\page-4.png",
+      "labels": [
+        "before-pdf-education p4"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-education\\page-5.png",
+      "labels": [
+        "before-pdf-education p5"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-1.png",
+      "labels": [
+        "before-pdf-composite p1"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-2.png",
+      "labels": [
+        "before-pdf-composite p2"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-3.png",
+      "labels": [
+        "before-pdf-composite p3"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-4.png",
+      "labels": [
+        "before-pdf-composite p4"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-5.png",
+      "labels": [
+        "before-pdf-composite p5"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-6.png",
+      "labels": [
+        "before-pdf-composite p6"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-7.png",
+      "labels": [
+        "before-pdf-composite p7"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-pdf-composite\\page-8.png",
+      "labels": [
+        "before-pdf-composite p8"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-education\\page-1.png",
+      "labels": [
+        "before-word-education p1",
+        "after-word-education p1"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-education\\page-2.png",
+      "labels": [
+        "before-word-education p2",
+        "after-word-education p2"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-education\\page-3.png",
+      "labels": [
+        "before-word-education p3"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-education\\page-4.png",
+      "labels": [
+        "before-word-education p4"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-education\\page-5.png",
+      "labels": [
+        "before-word-education p5"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-composite\\page-1.png",
+      "labels": [
+        "before-word-composite p1",
+        "after-word-composite p1"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-composite\\page-2.png",
+      "labels": [
+        "before-word-composite p2",
+        "after-word-composite p2"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-composite\\page-3.png",
+      "labels": [
+        "before-word-composite p3",
+        "after-word-composite p3"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-composite\\page-4.png",
+      "labels": [
+        "before-word-composite p4",
+        "after-word-composite p4"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-composite\\page-5.png",
+      "labels": [
+        "before-word-composite p5",
+        "after-word-composite p5"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-composite\\page-6.png",
+      "labels": [
+        "before-word-composite p6",
+        "after-word-composite p6"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\before-word-composite\\page-7.png",
+      "labels": [
+        "before-word-composite p7",
+        "after-word-composite p7"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-education\\page-2.png",
+      "labels": [
+        "after-pdf-education p2"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-education\\page-3.png",
+      "labels": [
+        "after-pdf-education p3"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-education\\page-4.png",
+      "labels": [
+        "after-pdf-education p4"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-education\\page-5.png",
+      "labels": [
+        "after-pdf-education p5"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-composite\\page-1.png",
+      "labels": [
+        "after-pdf-composite p1"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-composite\\page-2.png",
+      "labels": [
+        "after-pdf-composite p2"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-composite\\page-3.png",
+      "labels": [
+        "after-pdf-composite p3"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-composite\\page-4.png",
+      "labels": [
+        "after-pdf-composite p4"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-composite\\page-5.png",
+      "labels": [
+        "after-pdf-composite p5"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-pdf-composite\\page-6.png",
+      "labels": [
+        "after-pdf-composite p6"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-word-education\\page-3.png",
+      "labels": [
+        "after-word-education p3"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-word-education\\page-4.png",
+      "labels": [
+        "after-word-education p4"
+      ]
+    },
+    {
+      "path": "build\\qa\\readability\\page-review\\after-word-education\\page-5.png",
+      "labels": [
+        "after-word-education p5"
+      ]
+    }
+  ]
+}

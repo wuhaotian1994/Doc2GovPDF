@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "c1a771f2ec80039caccbadf3605b600a2a618077",
+  "sourceHashes": {
+    "internal/office/source_footer.go": "1f1d5ac345cebbf28829a055161e8096faf3706e4b16371319da00f9b5713113",
+    "internal/office/page_footer.go": "0be5e67ff8484a7b86cd2a082f51c5eb8f52c4b6feb5e3ad77ace22b6c7ffc9a",
+    "internal/office/source_footer_style_test.go": "b40dc77bc9fa75a4b8bbcb19ff54f2b11dd1d66fa47943e58ca4c3cc24939964",
+    "internal/office/page_footer_format_test.go": "8378f7de970ffcd8755a0b7479d4cbfb26e4d373ff18576ebc740cabd6b15ae7",
+    "internal/office/pdf.go": "40e91d15f1c67e945235295cf8df9487a2235dca8feadf4b6caad11376f36f7b",
+    "internal/office/templates.go": "f7b05c93a2fb4291b69b4cdd538654ee0349b1e40d403b9cfc6a9267b44e4aa9",
+    "scripts/probe-health-normalized-word/main.go": "c9cb128c8dbb214c5d16bd00a5548f0054d3b17114615367714cfc319bb45c43",
+    "scripts/test-normalized-word-restore.mjs": "f7265cefae6cb276966b687daa1672046c81bf3b23f36a20e915be6cda29daa0"
+  },
+  "sourceWordSHA256": "f53393e97c5be20febaf04ae8336b82f0dbaea12a27be179c769d473777f7ee8",
+  "baselineNormalizedWordSHA256": "9999d64384a4bc878092fb15f1e1e45891c59c3cca08d1488a0be93a0b7ba76b",
+  "finalNormalizedWordSHA256": "5719c4942d46f235e1b59ae330591f3acfde3953459f76c68f522cff723e2941",
+  "normalizedModelSHA256": "eafbae6487a532af82b90c3217da8ab6bfb068631ff5121e52213d12debb9afc",
+  "textSHA256": "4875c9d074d62863963d2261e0a1df91694f4de029c6a0399b8c0aef38423534",
+  "tables": {
+    "cells": 81,
+    "blanks": 29,
+    "tables": 3,
+    "matrixSHA256": "6d5d8f9d76be57b34c20c34cadba6021709060f60b52e7352bdeea241713e95a"
+  },
+  "fontSizeChanges": 0,
+  "sourceBytesAndModelUnchanged": true,
+  "baselineActual": {
+    "normalBrowserChecks": 8,
+    "downloads": 6,
+    "Word16DigitSizePoints": 15.96,
+    "LO26811DigitSizePoints": 16,
+    "dashSizePoints": 14
+  },
+  "finalNative": {
+    "Word16": {
+      "passed": true,
+      "PDFSHA256": "c22d5a6580daa0297e325a65b250a047b79d23acf35b8a98d890e71204373450",
+      "pages": 7,
+      "nonspaceFooterGlyphs": 21,
+      "matchingNonemptyOutlines": 21,
+      "sizePoints": [
+        14.04
+      ],
+      "expectedFontSHA256": "1526ac24375f51f6eb73bc2d3f8072dbe4a80a3a65217677c9d9a84f67dab2ab",
+      "explicitFaceIndex": 0
+    },
+    "LO26811": {
+      "passed": true,
+      "PDFSHA256": "5440f47754f08d61051e6d0baabadc1cdf926a3e4f47f9352ff8584c42ad1858",
+      "pages": 7,
+      "nonspaceFooterGlyphs": 21,
+      "matchingNonemptyOutlines": 21,
+      "sizePoints": [
+        14.0
+      ],
+      "expectedFontSHA256": "1526ac24375f51f6eb73bc2d3f8072dbe4a80a3a65217677c9d9a84f67dab2ab",
+      "explicitFaceIndex": 0
+    },
+    "freshFinalSourceWordEqualsActuallyRenderedInput": true,
+    "noFalseRerenderClaim": "Final metadata guard changes preserve exact5719 DOCX; actual Word/LO renders are bound to that identical input."
+  },
+  "nativeBodyComparison": {
+    "passed": true,
+    "pages": 14,
+    "charactersGeometrySizeFamilyAndPixelsEqual": true,
+    "reportSHA256": "c1d91e091212a7b108897b6f695e165a218fb8a86a83af02a86268b4701463f0",
+    "changedDOCXParts": [
+      "word/styles.xml",
+      "word/footer-doc2govpdf-default.xml",
+      "word/footer-doc2govpdf-even.xml"
+    ],
+    "documentXMLByteIdentical": true,
+    "existingStylesDefaultsEqual": true
+  },
+  "candidateBrowsers": {
+    "normalizedRestore": {
+      "passed": true,
+      "checks": 8,
+      "downloads": 6,
+      "wasmSHA256": "e630e147e6d0b89be026cead46f80500d1532c193fbe05e252aec77f167a87ce",
+      "externalRequests": 0,
+      "uploadRequests": 0,
+      "feedbackRequests": 0
+    },
+    "protectedOriginal": {
+      "passed": true,
+      "checks": 6,
+      "downloads": 4,
+      "wasmSHA256": "e630e147e6d0b89be026cead46f80500d1532c193fbe05e252aec77f167a87ce",
+      "externalRequests": 0,
+      "uploadRequests": 0,
+      "feedbackRequests": 0
+    },
+    "newHealth": {
+      "passed": true,
+      "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+      "downloads": [
+        {
+          "format": "docx",
+          "bytes": 17069479,
+          "sha256": "9adce7bb7f628671041c0a6105eb2a4e07e9aea2e16b1e4cc492c5b31a2d6a7e"
+        },
+        {
+          "format": "pdf",
+          "bytes": 155875,
+          "sha256": "db996479ca175664197ad8f2a43bc3dc59bb0cec152196ce047ab30c1c167f87"
+        }
+      ],
+      "restoredExactly": true,
+      "reopenedExactly": true,
+      "blockCount": 39,
+      "tableShapes": [
+        {
+          "rows": 3,
+          "columns": 2,
+          "blanks": 0
+        },
+        {
+          "rows": 9,
+          "columns": 5,
+          "blanks": 9
+        },
+        {
+          "rows": 5,
+          "columns": 6,
+          "blanks": 20
+        }
+      ],
+      "uploadRequests": 0,
+      "feedbackRequests": 0
+    }
+  },
+  "businessComparison": {
+    "passed": true,
+    "pairs": 5,
+    "PDFPages": 31,
+    "pixelPagesEqual": 31,
+    "fontProgramsMappingsContentMatricesEqual": true,
+    "reportSHA256": "e1a958dcfa47ad195baf122f816388013beff9d94c276f60b4525b8bb0068193",
+    "protectedAndNewGeneratedWordBytesExact": true,
+    "normalizedWordOnlyReplacementFooterStyleChanges": true
+  },
+  "tests": {
+    "targetGroups": 15,
+    "targetSubcases": 19,
+    "targetOfficeSeconds": 8.497,
+    "fullOfficeSeconds": 38.794,
+    "fullWebengineSeconds": 0.932,
+    "vetPassed": true,
+    "independentThreeOverlaySeconds": 0.875,
+    "independentReviewPassed": true
+  },
+  "build": {
+    "engineVersion": "5969898bf0dead1c682d",
+    "wasmSHA256": "e630e147e6d0b89be026cead46f80500d1532c193fbe05e252aec77f167a87ce",
+    "cache": "gongwen-web-v2-c2f1e4ae249cf9f0",
+    "assetCount": 64,
+    "encodingsSourceInlineAndCacheBound": true,
+    "manifestSHA256": "e15423f84ef926d3a19a19fe2523e4e6835132583620da8c23c96cc6d5b0cf3f"
+  },
+  "persistentLocalService": {
+    "url": "http://127.0.0.1:4173",
+    "originalPID": 65964,
+    "actualHTTPAssetsMatched": 64,
+    "realFeedbackCollectionEnabled": false,
+    "browser": {
+      "passed": true,
+      "checks": 8,
+      "downloads": 6,
+      "wasmSHA256": "e630e147e6d0b89be026cead46f80500d1532c193fbe05e252aec77f167a87ce",
+      "externalRequests": 0,
+      "uploadRequests": 0,
+      "feedbackRequests": 0
+    },
+    "assetsCopiedFromValidatedBuildWithoutRebuild": true
+  },
+  "visualReview": {
+    "allBeforeAfterNativeFooterBands": true,
+    "fullPagesReviewed": {
+      "Word16": [
+        6,
+        7
+      ],
+      "LO26811": [
+        6,
+        7
+      ]
+    },
+    "otherBodyPagesBoundByPixelEquality": true,
+    "imagesRemainLocal": true
+  },
+  "boundaries": [
+    "Only newly created replacement footers after the existing explicit normalization decision. Existing good/raw or arbitrary custom footers are not broadly upgraded.",
+    "No new normalization UI, no source text/size edits and no manuscript or system font upload.",
+    "No full-standard, arbitrary Word/font or physical-print certification; real small-Song and exact CEO variants remain unverified.",
+    "No PR merge, public website deployment or real feedback collection."
+  ],
+  "passed": true,
+  "implementationCommit": "0d2ac7c1ac78d576410243239037e9c317f64563"
+}

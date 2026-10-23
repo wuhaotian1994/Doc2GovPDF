@@ -1,0 +1,17 @@
+[
+  {
+    "profile": "chrome",
+    "latestActualPDFFieldsMatch": true,
+    "latestActualWordFieldsMatch": true
+  },
+  {
+    "profile": "firefox",
+    "latestActualPDFFieldsMatch": true,
+    "latestActualWordFieldsMatch": null
+  },
+  {
+    "profile": "webkit",
+    "latestActualPDFFieldsMatch": true,
+    "latestActualWordFieldsMatch": null
+  }
+]

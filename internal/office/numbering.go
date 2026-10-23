@@ -33,6 +33,17 @@ func RenumberDocument(m Model) Model {
 		if p == nil || p.Protected || p.PageBreak {
 			continue
 		}
+		if m.Template == "plain" && p.Role == "article" {
+			// Generic documents retain an article's authored number instead of
+			// adding a heading-list prefix to a paragraph of clause prose.
+			if p.AutoNumbered {
+				p.Text = p.Prefix + p.Text
+				p.Prefix, p.PrefixFont = "", ""
+			}
+			p.AutoNumbered = false
+			p.OutlineLevel = 0
+			continue
+		}
 		level := 0
 		switch p.Role {
 		case "heading":

@@ -1,0 +1,132 @@
+{
+  "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+  "sourceBytes": 34688,
+  "blocks": 39,
+  "tables": [
+    {
+      "rows": 3,
+      "columns": 2,
+      "blanks": 0
+    },
+    {
+      "rows": 9,
+      "columns": 5,
+      "blanks": 9
+    },
+    {
+      "rows": 5,
+      "columns": 6,
+      "blanks": 20
+    }
+  ],
+  "formatUnchangedExceptKeepNext": true,
+  "otherDOCXMembersByteIdentical": true,
+  "wordSizeHalfPoints": [
+    "28",
+    "32",
+    "44"
+  ],
+  "restoredExactly": true,
+  "reopenedExactly": true,
+  "exportKeptOriginal": true,
+  "browserErrors": [],
+  "directPDF": {
+    "pages": 7,
+    "receiptTitlePages": [
+      6
+    ],
+    "unitPages": [
+      6
+    ],
+    "receiptLeadPages": [
+      6
+    ],
+    "tableHeaderPages": [
+      [
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6
+      ]
+    ],
+    "compactCaptionPages": [
+      4
+    ],
+    "compactNotePages": [
+      4
+    ]
+  },
+  "nativeWordPDF": {
+    "pages": 7,
+    "receiptTitlePages": [
+      6
+    ],
+    "unitPages": [
+      6
+    ],
+    "receiptLeadPages": [
+      6
+    ],
+    "tables": [
+      {
+        "columns": 2,
+        "startPage": 4,
+        "endPage": 4,
+        "rows": 3
+      },
+      {
+        "columns": 5,
+        "startPage": 5,
+        "endPage": 6,
+        "rows": 9
+      },
+      {
+        "columns": 6,
+        "startPage": 6,
+        "endPage": 6,
+        "rows": 5
+      }
+    ],
+    "compactCaptionPages": [
+      4
+    ],
+    "compactNotePages": [
+      4
+    ],
+    "method": "Word16 Find/Range.Information with source DOCX SHA256 plus all-page rendered PDF inspection; not PDF text-prefix inference."
+  },
+  "wordVersion": "16.0",
+  "outputHashes": {
+    "original.docx": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c",
+    "original.pdf": "1245287ef647c09c7dd6877a838ce66107546d5db8762b53117e4010ae752133",
+    "original.word.pdf": "63928ae11a773991eb52ea2388ffa60fb081d8d9cda6b7073c0b04ed517858d3"
+  },
+  "sourceFiles": {
+    "web/write-content.js": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+    "internal/office/pdf.go": "87ecee6afc2733ed46be9dea0df9f06baf3affb3c9f689ebad6f1aea5901dcab",
+    "internal/office/title_layout.go": "d9c26f89c6ae9d43f97a37d52bdc88e01d57f2ddab957543e7e4b47b3cd38283"
+  },
+  "pageImages": {
+    "actual-1.png": "b3c9eeea4eb3ada832831de8db001e60ee94342c92e1729a993e74b2da50d52d",
+    "actual-2.png": "87aaaf76f692684843382efcddaa81f5abe54cb0b6ffdfb7841d1852ebbbef1f",
+    "actual-3.png": "d5c9afa3c589406627af3767dfc72de1f6344f1faba6147c5eb99c2ced5bdc8c",
+    "actual-4.png": "17257cad8882e42280133fc1eb7dce951a0a1746d9a08628004b0afc5d6556ed",
+    "actual-5.png": "d17b3feceeabe6172a0d460167645a16847701053fb3ed35773ad8be26edda76",
+    "actual-6.png": "e47e0103b93bc702069cf82c3fcedbbd2a93a5c28f01a4815dc71573c59fc138",
+    "actual-7.png": "fbd2cb4b08a84d9fa4f0be334a8512491679d16757165aaa5edef4ca07d9789f",
+    "native-1.png": "3b8a6d4d6620754aa4bfc20cc41e495237cd7b8b07e2290c0a64525a67d45479",
+    "native-2.png": "d4bac7419586188f3530ca202bbd4a13dd1118e5a223605b98c448343d8b6b22",
+    "native-3.png": "8417299e9092fbd732af4ee1806164e7f48d7e3422ad9cc77ee541a382cb17df",
+    "native-4.png": "f2a992333f4e46046dca515500a6bbe371cb96e23de4710dd0fb14c85467da60",
+    "native-5.png": "03b56c67462cd3282b77e9e4c95e2561c3b2f9b5dd5b136ddeb0ea898513efb1",
+    "native-6.png": "babe4e57476f13ee6b172b57b2d15a50e7957ea884ba4e7e1bab3375a7349542",
+    "native-7.png": "124388c0eff9a7bcde51ac26cf25d2ee1846c243a1b4564493a3dbd10edcff65",
+    "native-group-1.png": "da95afff26fe6ddf9962123c8197d7361f289a0ccaa0b06fe5ee141a65dcef27",
+    "native-group-2.png": "3597b5bb02c4bfecc82d1bced3e189de4778baf98bba7a74ef5aff638d26b123"
+  },
+  "method": "Supplied original through normal visible import, save/reopen and actual exports. Original manuscript and rendered pages remain local, not committed. No deletion, smaller fonts or margin changes."
+}

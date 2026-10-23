@@ -1,0 +1,32 @@
+[
+  {
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "checks": [
+      "keyboard reaches the material confirmation in the short viewport",
+      "dialog navigation does not move the outer document",
+      "Tab reaches the last date field above the persistent actions",
+      "next action remains visible after the keyboard jump",
+      "invalid date returns to its visible field and a clear stopped preview",
+      "valid content recovers without refreshing"
+    ],
+    "passed": true
+  },
+  {
+    "viewport": {
+      "width": 1024,
+      "height": 480
+    },
+    "checks": [
+      "keyboard reaches the material confirmation in the short viewport",
+      "dialog navigation does not move the outer document",
+      "Tab reaches the last date field above the persistent actions",
+      "next action remains visible after the keyboard jump",
+      "invalid date returns to its visible field and a clear stopped preview",
+      "valid content recovers without refreshing"
+    ],
+    "passed": true
+  }
+]

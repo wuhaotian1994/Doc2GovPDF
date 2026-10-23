@@ -12,3 +12,7 @@
 
 .preview-scroll.fit-page #pdf-pages{max-width:min(100%,var(--page-width,440px))}.preview-size-label{margin:0}.preview-size-label select{min-height:36px;padding:7px 9px;font-size:12px}.inspector>.check-summary{border-top:3px solid var(--accent);padding-top:16px}.sample-tag{right:-10px;top:-12px}.mini-paper>strong{margin-top:6px}
 @media(max-width:600px){.sample-paper{display:block}.sample-paper .mini-paper,.sample-paper .sample-tag{display:none}.sample-caption{margin:0;text-decoration:underline;text-underline-offset:4px}.drop-area{gap:14px;min-height:320px}.preview-scroll.fit-page #pdf-pages{max-width:100%}}
+
+.writer-handoff{max-width:1060px;margin:40px auto 0;padding:0 24px}
+.writer-handoff h2{font-size:26px;line-height:1.5;margin:0 0 16px}
+.writer-handoff p{max-width:70ch;line-height:1.8;color:var(--muted)}

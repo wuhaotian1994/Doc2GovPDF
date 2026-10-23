@@ -1,0 +1,14 @@
+[
+  {
+    "file": "education.docx",
+    "pages": 5,
+    "wordVersion": "16.0",
+    "sha256": "4CC55C20150C40B6BEBABDDBF20F5C93C20CDA08AEDC3F3ACCA976D13DD3B0B7"
+  },
+  {
+    "file": "composition.docx",
+    "pages": 1,
+    "wordVersion": "16.0",
+    "sha256": "DC3DCC588432FAD8007DAF9ADC74B255BE0AFDE6AD9CEFE4F018A16359A07BBA"
+  }
+]

@@ -1,0 +1,36 @@
+import {createRequire} from 'node:module';import {mkdir,writeFile} from 'node:fs/promises';import {resolve} from 'node:path';import assert from 'node:assert/strict';import {startWebServer} from './browser-tests/server.mjs';
+const require=createRequire(new URL('./browser-tests/package.json',import.meta.url)),{chromium,firefox,webkit}=require('playwright');
+const root=resolve(import.meta.dirname,'..'),out=resolve(root,'build/qa/ceo-006'),server=await startWebServer(resolve(root,'build/qa/ceo-005-web')),raw='街办发 [2026] 005号',corrected='街办发〔2026〕5号',results=[];await mkdir(out,{recursive:true});
+try{for(const profile of [{id:'chrome',engine:chromium,channel:'chrome'},{id:'firefox',engine:firefox},{id:'webkit',engine:webkit}]){
+ const browser=await profile.engine.launch({headless:true,...(profile.channel?{channel:profile.channel}:{}),env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',http_proxy:'',https_proxy:'',all_proxy:'',NO_PROXY:'127.0.0.1,localhost'},...(profile.id==='firefox'?{firefoxUserPrefs:{'network.proxy.type':0}}:{})}),context=await browser.newContext({viewport:{width:1440,height:1000},locale:'zh-CN',serviceWorkers:'block',acceptDownloads:true}),page=await context.newPage();page.setDefaultTimeout(30000);
+ const folder=resolve(out,profile.id);await mkdir(folder,{recursive:true});const result={profile:profile.id,version:browser.version(),checks:[],errors:[],passed:false};page.on('pageerror',e=>result.errors.push(e.message));
+ const check=(name,value)=>{assert.ok(value,name);result.checks.push(name);console.log(profile.id+': '+name);};
+ const finding=()=>page.locator('.review-issue[data-rule="reference.format"]');
+ const ready=()=>page.waitForFunction(()=>document.getElementById('preview-status').textContent.startsWith('已更新'),{},{timeout:120000});
+ async function exports(variant,expected){
+  for(const format of profile.id==='chrome'?['docx','pdf','txt']:['pdf']){await page.locator(`[name=format][value=${format}]`).check();await page.locator('#export:not([disabled])').waitFor();const waiting=page.waitForEvent('download',{timeout:120000});await page.locator('#export').click();const file=await waiting;assert.equal(await file.failure(),null);await file.saveAs(resolve(folder,variant+'.'+format));}
+  const fields=await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')).fields);assert.equal(fields.reference,expected);await writeFile(resolve(folder,variant+'.json'),JSON.stringify(fields,null,2));
+ }
+ let release;const gate=new Promise(r=>release=r);
+ try{
+  await context.route('**/engine-worker.js',async route=>{await gate;await route.continue();});await page.goto(server.url);await page.waitForFunction(()=>window.writerReady===true);await page.locator('#title').fill('文号帮助测试稿');await page.locator('[data-next="1"]').click();await page.locator('#body').fill('请各部门核对工作安排并保留原始记录。');await page.locator('[data-step="0"]').click();await page.locator('details:has(#reference) summary').click();
+  await page.locator('#reference').fill(raw);await page.locator('#title').focus();
+  check('field help appears before the document engine or full preview is ready',await page.locator('#reference-feedback').isVisible()&&!(await page.locator('#preview-status').innerText()).startsWith('已更新'));
+  const message=await page.locator('#reference-message').innerText();check('specific brackets and leading-zero advice retains the complete year',message.includes('六角括号')&&message.includes('前导零')&&!message.includes('年份格式错误')&&await page.locator('#reference-proposal').innerText()===corrected);
+  await page.locator('#reference-later').click();check('postponing advice keeps the exact authored input and offers reopening',await page.locator('#reference').inputValue()===raw&&await page.locator('#reference-feedback').isHidden()&&await page.locator('#reference-reopen').isVisible());
+  await page.locator('#reference-reopen').click();await page.locator('#reference-keep').click();release();await context.unrouteAll({behavior:'wait'});await page.locator('[data-step="2"]').click();await ready();
+  check('early retention becomes the same final finding confirmation without another checkbox action',await finding().count()===1&&await finding().locator('input').isChecked());await exports('retained',raw);
+  await page.locator('[data-step="0"]').click();await page.locator('#title').fill('文号帮助测试稿（无关标题修改）');await page.locator('[data-step="2"]').click();await ready();check('unrelated title editing retains the original reference decision',await finding().locator('input').isChecked());
+  await finding().locator('input').uncheck();await page.locator('[data-step="0"]').click();check('unchecking the final finding revokes the field-time retained state',(await page.locator('#reference-keep').innerText()).includes('保留原文'));
+  await page.locator('#reference-apply').click();check('explicit correction uses the proposal while preserving the original for undo',await page.locator('#reference').inputValue()===corrected&&await page.locator('#reference-undo').isVisible()&&(await page.locator('#reference-original').innerText()).includes(raw));
+  await page.locator('[data-step="2"]').click();await ready();check('corrected input removes its matching finding',await finding().count()===0);await exports('corrected',corrected);
+  await page.locator('[data-step="0"]').click();await page.locator('#reference-undo').click();check('undo restores all original characters and spaces',await page.locator('#reference').inputValue()===raw);
+  await page.locator('[data-step="2"]').click();await ready();check('editing then undoing requires fresh judgment rather than transferring an old receipt',await finding().count()===1&&!await finding().locator('input').isChecked());
+  await page.locator('[data-step="0"]').click();await page.locator('#reference-keep').click();await page.locator('[data-step="2"]').click();await ready();await exports('undone-retained',raw);
+  await page.locator('[data-step="0"]').click();await page.locator('#reference').fill('街办发 [2026] 006号');await page.locator('#title').focus();await page.locator('[data-step="2"]').click();await ready();check('changing the supplied sequence number revokes the prior decision',await finding().count()===1&&!await finding().locator('input').isChecked());
+  for(const input of ['', '登记编号2026-005','街办发〔2026〕105号']){await page.locator('[data-step="0"]').click();await page.locator('#reference').fill(input);await page.locator('#title').focus();check('blank/other registration/canonical three-digit input is not falsely flagged: '+input,await page.locator('#reference-feedback').isHidden());}
+  if(profile.id==='chrome'){await page.locator('#reference').fill(raw);await page.locator('#title').focus();await page.locator('#reference').scrollIntoViewIfNeeded();await page.screenshot({path:resolve(folder,'field-help.png')});}
+  check('no browser runtime errors',result.errors.length===0);result.passed=true;
+ }catch(e){result.error=e.stack;await page.screenshot({path:resolve(folder,'failure.png'),fullPage:true}).catch(()=>{});throw e;}
+ finally{release();await context.unrouteAll({behavior:'wait'});results.push(result);await writeFile(resolve(out,'result.json'),JSON.stringify(results,null,2));await context.close();await browser.close();}
+}}finally{await server.close();}

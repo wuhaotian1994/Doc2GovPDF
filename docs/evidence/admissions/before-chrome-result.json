@@ -1,0 +1,18 @@
+{
+  "baseline": true,
+  "profile": "chrome",
+  "version": "155.0.8059.86",
+  "source": "https://jyj.panjin.gov.cn/2025_05/14_10/content-520850.html",
+  "method": "Implementation role-task verification; not a blind-user study. Normal UI; no draft/localStorage injection.",
+  "checks": [
+    "authored notice and date remain independent with complete source material",
+    "all school rows original blank cells and 9000 inclusion total survive without retyping",
+    "saved same draft reopens with exact complete table and signing/date",
+    "actual engine response bytes match the intended build",
+    "no runtime errors"
+  ],
+  "errors": [],
+  "passed": true,
+  "engineSHA256": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6",
+  "preview": "已更新 · 2 页"
+}

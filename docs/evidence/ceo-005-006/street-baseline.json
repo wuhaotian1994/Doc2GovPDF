@@ -1,0 +1,73 @@
+{
+  "variant": "baseline",
+  "version": "155.0.8059.85",
+  "definition": "Complete previously accepted street draft, including title, recipient, signature, historical date and both notes. Synthetic timing suffix only; current page 1. Canvas commit plus two frames.",
+  "rows": [
+    {
+      "kind": "open-existing-street",
+      "visibleMS": 3710.399999976158,
+      "readyMS": 3682.800000011921
+    },
+    {
+      "kind": "cached-existing-street",
+      "visibleMS": 1901.699999988079,
+      "readyMS": 1883.300000011921
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 0,
+      "visibleMS": 2010.5,
+      "readyMS": 2005.8999999761581,
+      "inputHandlerMS": 1.9000000357627869
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 1,
+      "visibleMS": 2043.0999999642372,
+      "readyMS": 2009.300000011921,
+      "inputHandlerMS": 1.199999988079071
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 2,
+      "visibleMS": 2279.100000023842,
+      "readyMS": 2264.100000023842,
+      "inputHandlerMS": 1.0999999642372131
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 3,
+      "visibleMS": 1713.1000000238419,
+      "readyMS": 1691.5,
+      "inputHandlerMS": 0.7999999523162842
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 4,
+      "visibleMS": 2228,
+      "readyMS": 2219.199999988079,
+      "inputHandlerMS": 1
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 5,
+      "visibleMS": 4080.699999988079,
+      "readyMS": 4061.599999964237,
+      "inputHandlerMS": 1.600000023841858
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 6,
+      "visibleMS": 2505.100000023842,
+      "readyMS": 2490.100000023842,
+      "inputHandlerMS": 1.0999999642372131
+    },
+    {
+      "kind": "warm-existing-street",
+      "sample": 7,
+      "visibleMS": 2691,
+      "readyMS": 2661.699999988079,
+      "inputHandlerMS": 1.100000023841858
+    }
+  ]
+}

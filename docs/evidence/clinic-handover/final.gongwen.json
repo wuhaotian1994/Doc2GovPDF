@@ -1,0 +1,194 @@
+{
+  "type": "gongwen-form",
+  "version": 5,
+  "updatedAt": "2026-10-22T00:05:06.746Z",
+  "fields": {
+    "title": "关于做好门诊辅助岗位值班交接的通知（虚构模拟）（补充轮值）",
+    "recipient": "各科室",
+    "agency": "",
+    "reference": "",
+    "body": "本材料仅用于产品体验，机构、岗位安排和日期均为虚构，不用于实际医疗工作。\n一、工作安排\n请按附件核对辅助岗位轮值安排，交接时逐项确认未办事项。\n二、交接要求\n临时调整须经办公室确认；原定人员未到岗前，不得仅凭此表认定交接完成。",
+    "signature": "模拟镇卫生院办公室",
+    "date": "2026-10-22",
+    "attachments": "",
+    "copyTo": "",
+    "postscript": "附件：门诊辅助岗位值班安排（模拟）\n日期\t时段\t值班岗位\t交接事项\n2026-10-23\t08:00—12:00\t导诊岗（虚构）\t交接未办事项记录；现场核对后签认\n2026-10-23\t12:00—16:00\t后勤岗（虚构）\t核对物资登记\n2026-10-24\t08:00—12:00\t导诊岗（虚构）\t交接待办登记及临时调整记录\n说明：本表仅为模拟；岗位名称不代表真实人员，临时调整以办公室核对结果为准。",
+    "sourceMaterial": "关于做好门诊辅助岗位值班交接的通知（虚构模拟）\n各科室：\n本材料仅用于产品体验，机构、岗位安排和日期均为虚构，不用于实际医疗工作。\n一、工作安排\n请按附件核对辅助岗位轮值安排，交接时逐项确认未办事项。\n二、交接要求\n临时调整须经办公室确认；原定人员未到岗前，不得仅凭此表认定交接完成。\n模拟镇卫生院办公室\n2026年10月22日\n附件：门诊辅助岗位值班安排（模拟）\n日期\t时段\t值班岗位\t交接事项\n2026-10-23\t08:00—12:00\t导诊岗（虚构）\t交接未办事项记录\n2026-10-23\t12:00—16:00\t后勤岗（虚构）\t核对物资登记\n说明：本表仅为模拟；岗位名称不代表真实人员，临时调整以办公室核对结果为准。",
+    "pendingMaterial": "",
+    "letterhead": false
+  },
+  "content": {
+    "version": 1,
+    "blocks": [
+      {
+        "type": "paragraph",
+        "id": "c70ed9fa-6f42-411f-b6d0-492308f2f7cd",
+        "text": "本材料仅用于产品体验，机构、岗位安排和日期均为虚构，不用于实际医疗工作。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "392295d0-e084-4d6f-8e0f-3c1900367d90",
+        "text": "一、工作安排",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "e03b8177-9cc4-4e86-853d-30f33bbd4076",
+        "text": "请按附件核对辅助岗位轮值安排，交接时逐项确认未办事项。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "13c30152-45af-436c-bf86-4c7cacd21148",
+        "text": "二、交接要求",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "3b56754d-c45d-4bb1-979a-e3f8073f913b",
+        "text": "临时调整须经办公室确认；原定人员未到岗前，不得仅凭此表认定交接完成。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    ],
+    "postscript": {
+      "version": 1,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "dc118533-50b3-464e-98ed-7795567cd090",
+          "text": "附件：门诊辅助岗位值班安排（模拟）",
+          "role": "auto",
+          "align": "auto",
+          "indent": "auto",
+          "before": "auto",
+          "after": "auto"
+        },
+        {
+          "type": "table",
+          "id": "09c39099-d464-4999-ab87-9f249b84a1ff",
+          "caption": "",
+          "header": true,
+          "rows": [
+            {
+              "id": "80d7ebbf-30cc-4780-9b3b-93f09f91d749",
+              "cells": [
+                {
+                  "id": "d6e4c7e2-2ac4-41fc-8de8-c126168ee742",
+                  "text": "日期"
+                },
+                {
+                  "id": "30fa8310-8821-41dc-b1ea-904c4fa349f3",
+                  "text": "时段"
+                },
+                {
+                  "id": "77e8f4e8-4ab9-4cb1-b2b7-8ac13f9f451b",
+                  "text": "值班岗位"
+                },
+                {
+                  "id": "7bbba524-115d-404d-9310-518b88529958",
+                  "text": "交接事项"
+                }
+              ]
+            },
+            {
+              "id": "297e6986-6aae-48c3-84af-2c484201cfe3",
+              "cells": [
+                {
+                  "id": "ed9a98a1-01c1-476b-a035-a734439715d3",
+                  "text": "2026-10-23"
+                },
+                {
+                  "id": "93b3bb34-556a-4da8-8986-e72d38c34bfd",
+                  "text": "08:00—12:00"
+                },
+                {
+                  "id": "f1f75bfc-334e-497f-84d9-7e054af26969",
+                  "text": "导诊岗（虚构）"
+                },
+                {
+                  "id": "bb714201-8ca0-48e3-a879-699b22306f36",
+                  "text": "交接未办事项记录；现场核对后签认"
+                }
+              ]
+            },
+            {
+              "id": "4c821173-ed79-4100-8403-6d772f32b147",
+              "cells": [
+                {
+                  "id": "11d991b5-113d-4322-bf2f-bbe81ea24ded",
+                  "text": "2026-10-23"
+                },
+                {
+                  "id": "40f0d789-e62e-454d-894a-48213a41cb18",
+                  "text": "12:00—16:00"
+                },
+                {
+                  "id": "66e40099-54cd-440b-8148-7d31879b55c6",
+                  "text": "后勤岗（虚构）"
+                },
+                {
+                  "id": "d7d07934-faf5-414e-ad29-c6f627c9273b",
+                  "text": "核对物资登记"
+                }
+              ]
+            },
+            {
+              "id": "fd390670-8c92-4efd-acd0-8ea4f031fd15",
+              "cells": [
+                {
+                  "id": "f7292cd6-be7e-4ff0-8e7a-1d61251fbdc1",
+                  "text": "2026-10-24"
+                },
+                {
+                  "id": "8eb7d1fb-27e7-4a9b-aa20-d95f61cc031f",
+                  "text": "08:00—12:00"
+                },
+                {
+                  "id": "40edc7bc-9a5b-4db7-9cf4-89416611a2d7",
+                  "text": "导诊岗（虚构）"
+                },
+                {
+                  "id": "ac224a55-e165-4671-b6c7-7b0e96e5675b",
+                  "text": "交接待办登记及临时调整记录"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "9d2cea6b-d79a-43ee-92bf-17cc285addba",
+          "text": "说明：本表仅为模拟；岗位名称不代表真实人员，临时调整以办公室核对结果为准。",
+          "role": "auto",
+          "align": "auto",
+          "indent": "auto",
+          "before": "auto",
+          "after": "auto"
+        }
+      ]
+    }
+  },
+  "step": 2,
+  "id": "4aa0687c-654f-4c13-b1a2-8bf3c11c713e"
+}

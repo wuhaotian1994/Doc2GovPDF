@@ -1,0 +1,12 @@
+[
+  {
+    "case": "admissions",
+    "wordByteEqualToNativeRepresentative": true,
+    "pdfContentPageAndEmbeddedFontBytesEqualToViewedRepresentative": true
+  },
+  {
+    "case": "multiple",
+    "wordByteEqualToNativeRepresentative": true,
+    "pdfContentPageAndEmbeddedFontBytesEqualToViewedRepresentative": true
+  }
+]

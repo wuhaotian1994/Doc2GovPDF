@@ -1,0 +1,463 @@
+{
+  "type": "gongwen-form",
+  "version": 4,
+  "updatedAt": "2026-10-22T08:45:42.102Z",
+  "fields": {
+    "title": "卫生办安排与回执（明确虚构）",
+    "recipient": "模拟接收单位",
+    "agency": "",
+    "reference": "",
+    "body": "本稿为卫生办空白范围机制测试；全部核对项目均明确模拟，不是实际发文。\n模拟核对安排\n时段\t核对项目\t原记录\t责任范围\t地点\n模拟1-1\t模拟1-2\t\t\t模拟1-5\n模拟2-1\t模拟2-2\t模拟2-3\t\t模拟2-5\n模拟3-1\t模拟3-2\t\t模拟3-4\t模拟3-5\n模拟4-1\t模拟4-2\t模拟4-3\t\t模拟4-5\n模拟5-1\t模拟5-2\t\t模拟5-4\t模拟5-5\n模拟6-1\t模拟6-2\t模拟6-3\t\t模拟6-5\n模拟7-1\t模拟7-2\t\t模拟7-4\t模拟7-5\n模拟8-1\t模拟8-2\t模拟8-3\t\t模拟8-5\n说明：模拟记录只用于本地核验，不能当作实际安排。\n接收方回执\n接收方姓名\t年龄\t电话\t考核类别\t用餐\t备注\n待填写1\t\t\t\t\t\n待填写2\t\t\t\t\t\n待填写3\t\t\t\t\t\n待填写4\t\t\t\t\t\n注：未填写的事实由接收方补充，不自动编造人员、电话或数值。",
+    "signature": "模拟卫生办公室",
+    "date": "2026-10-22",
+    "attachments": "",
+    "copyTo": "",
+    "postscript": "",
+    "sourceMaterial": "",
+    "pendingMaterial": "",
+    "letterhead": false
+  },
+  "content": {
+    "version": 1,
+    "blocks": [
+      {
+        "type": "paragraph",
+        "id": "1b59065f-76e7-4a31-bfed-0fcb5b464f3c",
+        "text": "本稿为卫生办空白范围机制测试；全部核对项目均明确模拟，不是实际发文。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "42173aa7-9534-4b6f-b137-9796dd1897f6",
+        "text": "模拟核对安排",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "table",
+        "id": "c8889144-4af9-489c-bbcd-b97cac6740da",
+        "caption": "",
+        "header": true,
+        "rows": [
+          {
+            "id": "a9f1f281-817d-461c-964c-0ba2e3fe5c97",
+            "cells": [
+              {
+                "id": "36f32639-4f06-4811-8dad-a7efb7003ac6",
+                "text": "时段"
+              },
+              {
+                "id": "8b0e7d9c-24fc-402e-bb1f-513349ef9eb3",
+                "text": "核对项目"
+              },
+              {
+                "id": "2ef1893a-ff46-485e-b029-07c5bb903e87",
+                "text": "原记录"
+              },
+              {
+                "id": "20bb1e68-a8bd-426b-8f76-ef4a1dbda631",
+                "text": "责任范围"
+              },
+              {
+                "id": "1f24dc63-1f5d-4ac1-8d10-b0a78fccb878",
+                "text": "地点"
+              }
+            ]
+          },
+          {
+            "id": "d56346f5-2f81-44cc-b798-96cd7aff9c1e",
+            "cells": [
+              {
+                "id": "a89fa016-5f5f-47f7-81b9-8032df29861a",
+                "text": "模拟1-1"
+              },
+              {
+                "id": "629fb387-6717-4665-b0e9-7e0dec77f598",
+                "text": "模拟1-2"
+              },
+              {
+                "id": "d64b1f0f-bf00-4424-9c5c-74499e33a4fa",
+                "text": ""
+              },
+              {
+                "id": "a1577d18-0df4-491a-b1ff-c61ff178feed",
+                "text": ""
+              },
+              {
+                "id": "22613db4-7c2f-49d5-9a4c-8898cac0f045",
+                "text": "模拟1-5"
+              }
+            ]
+          },
+          {
+            "id": "44dcf00f-2051-4709-a19b-44025dd310e3",
+            "cells": [
+              {
+                "id": "ee034911-ee2b-464d-9d81-bec7ff1c777c",
+                "text": "模拟2-1"
+              },
+              {
+                "id": "ecf65bf2-b81d-4cf3-8439-133bfc15f2b5",
+                "text": "模拟2-2"
+              },
+              {
+                "id": "e9aaada9-f918-4c14-b326-13b94cfdbea9",
+                "text": "模拟2-3"
+              },
+              {
+                "id": "d081e259-ca38-4fbb-8bd7-9bb87413fd87",
+                "text": ""
+              },
+              {
+                "id": "f183ed4c-40f5-4280-9078-8e96c56005f9",
+                "text": "模拟2-5"
+              }
+            ]
+          },
+          {
+            "id": "dd72eef2-75c9-4553-9860-4d88297894be",
+            "cells": [
+              {
+                "id": "bc8769bf-3003-417d-b43b-46c40a60e902",
+                "text": "模拟3-1"
+              },
+              {
+                "id": "96042721-b0c5-405a-98e6-4487776bad41",
+                "text": "模拟3-2"
+              },
+              {
+                "id": "dac0804f-3baf-48ad-8497-92b7e8a4bc12",
+                "text": ""
+              },
+              {
+                "id": "3979f2bd-5475-47e5-9765-5c343dd47da1",
+                "text": "模拟3-4"
+              },
+              {
+                "id": "1e11ab8b-9182-432e-bb72-0797951f8390",
+                "text": "模拟3-5"
+              }
+            ]
+          },
+          {
+            "id": "ec192e5c-a08e-4165-bb20-5faa0a54e4bf",
+            "cells": [
+              {
+                "id": "03a5e5d2-5a7d-4044-b840-af67a7a58ddc",
+                "text": "模拟4-1"
+              },
+              {
+                "id": "6d08c42f-3d7b-4ac2-8e2d-759d9ffb801a",
+                "text": "模拟4-2"
+              },
+              {
+                "id": "1e22ce66-7223-457e-8042-9310283c46d0",
+                "text": "模拟4-3"
+              },
+              {
+                "id": "9dc623a5-6b1b-4545-bc21-a08a011d7583",
+                "text": ""
+              },
+              {
+                "id": "7c06d176-8730-4268-8e27-adc10c793f86",
+                "text": "模拟4-5"
+              }
+            ]
+          },
+          {
+            "id": "0eaeb7e1-9ccf-423a-a09c-0eb1a564a4ae",
+            "cells": [
+              {
+                "id": "af7b02dd-b1fa-47dc-a682-6a841a0af0c2",
+                "text": "模拟5-1"
+              },
+              {
+                "id": "16c3319e-abec-4a16-bbb8-bce549f5d3f1",
+                "text": "模拟5-2"
+              },
+              {
+                "id": "059f4001-8f98-44ce-8a85-483e6379b134",
+                "text": ""
+              },
+              {
+                "id": "b0e23721-57e1-432c-8bae-d812689c6b8f",
+                "text": "模拟5-4"
+              },
+              {
+                "id": "0b45720d-44d5-4ac6-b440-e4da66a09169",
+                "text": "模拟5-5"
+              }
+            ]
+          },
+          {
+            "id": "20adb204-96ae-4f46-acdb-bbc41aa8ed30",
+            "cells": [
+              {
+                "id": "73e32796-6041-4361-9bb4-ada9183309ee",
+                "text": "模拟6-1"
+              },
+              {
+                "id": "b4305359-30a4-4dc2-af25-e3ce2ed840ec",
+                "text": "模拟6-2"
+              },
+              {
+                "id": "f6757c86-4641-48c2-9096-887336802762",
+                "text": "模拟6-3"
+              },
+              {
+                "id": "14d8fe77-34d2-44b4-9512-b9cfa33cd06e",
+                "text": ""
+              },
+              {
+                "id": "391860b6-5596-4bcf-abfb-f57de3860c41",
+                "text": "模拟6-5"
+              }
+            ]
+          },
+          {
+            "id": "bd2a443a-d7ac-4e3b-a834-cfdc4aae6cc7",
+            "cells": [
+              {
+                "id": "dcbd7d57-2197-48ad-bde0-595635c555d0",
+                "text": "模拟7-1"
+              },
+              {
+                "id": "059e9410-5f41-49a7-a3ab-0e881263e29a",
+                "text": "模拟7-2"
+              },
+              {
+                "id": "76016c72-0a30-4370-8d06-7495884f1170",
+                "text": ""
+              },
+              {
+                "id": "35314b46-5991-4f10-9a62-88d0def888c2",
+                "text": "模拟7-4"
+              },
+              {
+                "id": "7563f944-39f4-4dff-bbb9-da8a0be92e7b",
+                "text": "模拟7-5"
+              }
+            ]
+          },
+          {
+            "id": "2a82abf2-87ec-4103-91b8-38666256f2b1",
+            "cells": [
+              {
+                "id": "f3a3b6e5-3c88-4f7c-ba12-4460fe66707d",
+                "text": "模拟8-1"
+              },
+              {
+                "id": "b3f6ce58-cc1d-453e-b174-312895ac1f8f",
+                "text": "模拟8-2"
+              },
+              {
+                "id": "84da5efb-26b7-427a-aba9-351cb6a5b564",
+                "text": "模拟8-3"
+              },
+              {
+                "id": "7a202d84-adba-477d-b6a0-96d4e0f09c7c",
+                "text": ""
+              },
+              {
+                "id": "fe01ffca-9933-44f2-8ca9-1031e93f47b8",
+                "text": "模拟8-5"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "id": "f4e97dbb-fa5c-4f99-9d5a-98a6c93eb7f4",
+        "text": "说明：模拟记录只用于本地核验，不能当作实际安排。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "d088ead1-4290-4a3c-945b-bde99f43e4c2",
+        "text": "接收方回执",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "table",
+        "id": "1fd96e81-f4dc-419e-aad6-d7ebd88d59bc",
+        "caption": "",
+        "header": true,
+        "rows": [
+          {
+            "id": "5179ac05-534e-4f81-9836-dbeed5be9088",
+            "cells": [
+              {
+                "id": "a948ec07-b65e-4161-bba0-33f60a635aae",
+                "text": "接收方姓名"
+              },
+              {
+                "id": "fde37003-9c36-44c1-a039-43cf93c0de7a",
+                "text": "年龄"
+              },
+              {
+                "id": "21c91668-565d-411a-9d29-0adcd3077714",
+                "text": "电话"
+              },
+              {
+                "id": "1be72499-7e81-4353-bc01-1abe310a2c46",
+                "text": "考核类别"
+              },
+              {
+                "id": "979efc0b-2e0c-42e8-8127-fb87b743cda2",
+                "text": "用餐"
+              },
+              {
+                "id": "6cc33ee1-d294-49f7-bf98-68f84d4d16fd",
+                "text": "备注"
+              }
+            ]
+          },
+          {
+            "id": "2dc80498-f489-41a4-bad7-5d8ba79e0d54",
+            "cells": [
+              {
+                "id": "25da52d7-5088-4267-b8d4-858bdfe254b6",
+                "text": "待填写1"
+              },
+              {
+                "id": "84e9f630-f431-485f-a646-c87c1dc8528e",
+                "text": ""
+              },
+              {
+                "id": "8b549d78-a53c-4bf2-ad02-a622dd123a86",
+                "text": ""
+              },
+              {
+                "id": "b1090491-259d-4ec4-842e-7dbbd3035254",
+                "text": ""
+              },
+              {
+                "id": "c5c6a2e0-0e39-44a8-bca1-20fdb3da8714",
+                "text": ""
+              },
+              {
+                "id": "ac52ce28-12b6-4b70-9053-1f4bf7a4fabf",
+                "text": ""
+              }
+            ]
+          },
+          {
+            "id": "d03e33ac-338c-46d3-9481-709cf207dd32",
+            "cells": [
+              {
+                "id": "20ffa127-05c9-43e4-abff-9a3adb4f25ce",
+                "text": "待填写2"
+              },
+              {
+                "id": "c58fdd89-ff62-476d-a1b6-1ed16b5d7ba8",
+                "text": ""
+              },
+              {
+                "id": "4200ffc4-f02f-4867-8566-ef9c9a965673",
+                "text": ""
+              },
+              {
+                "id": "7049bd4d-1aa8-4c9b-86d3-cea727bdb8a1",
+                "text": ""
+              },
+              {
+                "id": "cc6bd382-37cb-4d1d-a621-29f9cab523c8",
+                "text": ""
+              },
+              {
+                "id": "70382097-7911-4305-9ea1-982ae51728fd",
+                "text": ""
+              }
+            ]
+          },
+          {
+            "id": "86b0e1e1-11ea-4f29-bf6e-04db006ee409",
+            "cells": [
+              {
+                "id": "9552220a-10b8-4715-b261-72c56997f263",
+                "text": "待填写3"
+              },
+              {
+                "id": "75252f97-198d-4fa8-af6f-741bc7529ed3",
+                "text": ""
+              },
+              {
+                "id": "72063145-aade-425a-a4e9-1c83740143b1",
+                "text": ""
+              },
+              {
+                "id": "d2b40749-a34c-4c83-9f06-62b42030d36a",
+                "text": ""
+              },
+              {
+                "id": "baa40326-515e-4e2f-b399-b9d91a3cb55b",
+                "text": ""
+              },
+              {
+                "id": "62a947ac-d909-4a92-9eb5-5c619953c4f9",
+                "text": ""
+              }
+            ]
+          },
+          {
+            "id": "d92c73d4-685e-4aeb-bde0-f571ab442285",
+            "cells": [
+              {
+                "id": "33b7940b-7489-493d-9639-4496f72af8a7",
+                "text": "待填写4"
+              },
+              {
+                "id": "9f819efb-b542-44d8-91c5-a62f1d58d839",
+                "text": ""
+              },
+              {
+                "id": "96a8302f-7ae6-4b4c-90b3-0b1486c54d1a",
+                "text": ""
+              },
+              {
+                "id": "7a7a6385-562c-460d-a51f-6987db6b8fd1",
+                "text": ""
+              },
+              {
+                "id": "28ee459d-ab32-4b12-8fc6-93dd57ecf84d",
+                "text": ""
+              },
+              {
+                "id": "09c298e6-7328-4945-a84d-927339191734",
+                "text": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "id": "b4156910-44fc-45a5-a0a0-b667c5d9294d",
+        "text": "注：未填写的事实由接收方补充，不自动编造人员、电话或数值。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    ]
+  },
+  "step": 1,
+  "id": "blank-range-fixture"
+}

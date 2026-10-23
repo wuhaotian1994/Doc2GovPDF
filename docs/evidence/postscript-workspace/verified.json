@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "profile": "chrome",
+      "task": "postscript-receipt",
+      "sourceCharactersWithoutWhitespace": 1540,
+      "exactSourceOrder": true,
+      "tables": 1,
+      "pdfPages": 5,
+      "wordSHA256": "4cc55c20150c40b6bebabddbf20f5c93c20cda08aedc3f3acca976d13dd3b0b7"
+    },
+    {
+      "profile": "chrome",
+      "task": "structure-ime",
+      "sourceCharactersWithoutWhitespace": 48,
+      "exactSourceOrder": true,
+      "tables": 2,
+      "pdfPages": 1,
+      "wordSHA256": "dc3dcc588432fad8007daf9adc74b255be0afde6ad9cefe4f018a16359a07bba"
+    },
+    {
+      "profile": "firefox",
+      "task": "postscript-receipt",
+      "sourceCharactersWithoutWhitespace": 1540,
+      "exactSourceOrder": true,
+      "tables": 1,
+      "pdfPages": 5,
+      "wordSHA256": "4cc55c20150c40b6bebabddbf20f5c93c20cda08aedc3f3acca976d13dd3b0b7"
+    },
+    {
+      "profile": "firefox",
+      "task": "structure-ime",
+      "sourceCharactersWithoutWhitespace": 48,
+      "exactSourceOrder": true,
+      "tables": 2,
+      "pdfPages": 1,
+      "wordSHA256": "dc3dcc588432fad8007daf9adc74b255be0afde6ad9cefe4f018a16359a07bba"
+    },
+    {
+      "profile": "webkit",
+      "task": "postscript-receipt",
+      "sourceCharactersWithoutWhitespace": 1540,
+      "exactSourceOrder": true,
+      "tables": 1,
+      "pdfPages": 5,
+      "wordSHA256": "4cc55c20150c40b6bebabddbf20f5c93c20cda08aedc3f3acca976d13dd3b0b7"
+    },
+    {
+      "profile": "webkit",
+      "task": "structure-ime",
+      "sourceCharactersWithoutWhitespace": 48,
+      "exactSourceOrder": true,
+      "tables": 2,
+      "pdfPages": 1,
+      "wordSHA256": "dc3dcc588432fad8007daf9adc74b255be0afde6ad9cefe4f018a16359a07bba"
+    }
+  ],
+  "sources": {
+    "web/write.js": "ff624d7a136a6efe5bd8eafdf294af0b37458f081c41074046e12c64527f9ddb",
+    "web/write-engine.js": "bae98466cb51f192e52115092385fc4e8b9a0b8aa18b0d5cc0c82ea4af84b48b",
+    "web/write-content.js": "294519b617e3af28291570f16201a187afd9d50b043192e1d6d7465a26cad261",
+    "web/write-content-editor.js": "67fef3990194d23384eaa29025c592447ae48ff52d41da1580585b8d5af535ac",
+    "web/write-model.js": "b912986604c39301c6a983333dec0f54ee9d5d231fc9647cf617b48d3d3cc406",
+    "web/write-checks.js": "12856dcf130d716aeadc3e59f5135b7c9da3508a642e159abd3c1e13719ef99e",
+    "web/write-library.js": "233c318481fbaf3ec8d134aa9ea076d6de9cb0e335bde4e539b592947ad8f532",
+    "web/write-boot.js": "22c91824cc3685dba655151ee772d1eef91805002e7bc7c6ac334c370282c179",
+    "web/browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+    "web/write.css": "2a073e2b491c38e221bc596d0477f14a154db6fa803a315c3ddad09f56e85ec9",
+    "web/write-workspace.css": "fa9768103c26aa3079b40273893210eaa0a8c7c7e5b9da2db6664f8329896f48",
+    "web/fonts/ui-400.woff": "337daf2da524c61a295e4cc100659986f4c72de696432c758b23a399e799d198",
+    "web/fonts/ui-700.woff": "d32d6203c7c7c46e895baf011d7018271d4fe7be3f1cb4f3863b126948cd183e",
+    "web/write.html": "11fa737c35a21edf52910879f575b6e75fda39bf332a381f596633d5c762ac93"
+  }
+}

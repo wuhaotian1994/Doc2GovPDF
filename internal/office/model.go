@@ -40,6 +40,7 @@ type Paragraph struct {
 	Before         float64     `json:"before"`
 	After          float64     `json:"after"`
 	Line           float64     `json:"line"`
+	LineMultiple   float64     `json:"lineMultiple,omitempty"` // Native automatic line spacing (240ths of a line).
 	Indent         float64     `json:"indent"`
 	LeftIndent     float64     `json:"leftIndent,omitempty"`
 	RightIndent    float64     `json:"rightIndent,omitempty"`
@@ -47,6 +48,8 @@ type Paragraph struct {
 	PageBreak      bool        `json:"pageBreak,omitempty"`
 	BreakOffsets   []int       `json:"breakOffsets,omitempty"`
 	KeepNext       bool        `json:"keepNext,omitempty"`
+	KeepLines      bool        `json:"keepLines,omitempty"`
+	WidowControl   *bool       `json:"widowControl,omitempty"` // nil follows Word's enabled default.
 	BorderBottom   bool        `json:"borderBottom,omitempty"`
 	BorderColor    string      `json:"borderColor,omitempty"`
 	BorderTop      bool        `json:"borderTop,omitempty"`
@@ -73,13 +76,20 @@ func (c Cell) padding() CellMargins {
 	return CellMargins{2, 2, 2, 2}
 }
 
+type CellBorder struct {
+	Style string  `json:"style"`
+	Width float64 `json:"width"`
+	Color string  `json:"color"`
+}
 type Cell struct {
-	VerticalAlign string       `json:"verticalAlign,omitempty"`
-	Paragraphs    []Paragraph  `json:"paragraphs"`
-	Span          int          `json:"span"`
-	Merge         string       `json:"merge,omitempty"`
-	Margins       *CellMargins `json:"margins,omitempty"`
-	NoBorders     bool         `json:"noBorders,omitempty"`
+	Borders       map[string]CellBorder `json:"borders,omitempty"`
+	Fill          string                `json:"fill,omitempty"`
+	VerticalAlign string                `json:"verticalAlign,omitempty"`
+	Paragraphs    []Paragraph           `json:"paragraphs"`
+	Span          int                   `json:"span"`
+	Merge         string                `json:"merge,omitempty"`
+	Margins       *CellMargins          `json:"margins,omitempty"`
+	NoBorders     bool                  `json:"noBorders,omitempty"`
 }
 type Row struct {
 	Cells  []Cell  `json:"cells"`
@@ -97,6 +107,7 @@ type Table struct {
 	Role        string     `json:"role,omitempty"`
 }
 type Block struct {
+	Page      *Page      `json:"page,omitempty"` // Original section begins at this block.
 	Paragraph *Paragraph `json:"paragraph,omitempty"`
 	Table     *Table     `json:"table,omitempty"`
 }
@@ -112,21 +123,22 @@ type Page struct {
 	CharSpace int     `json:"charSpace"`
 }
 type Model struct {
-	ConfirmedIssues     []string        `json:"confirmedIssues,omitempty"`
-	AutoNumbering       bool            `json:"autoNumbering,omitempty"`
-	LayoutNormalized    bool            `json:"layoutNormalized,omitempty"`
-	Preprinted          bool            `json:"preprinted,omitempty"`
-	ReviewComments      []ReviewComment `json:"reviewComments,omitempty"`
-	Blocks              []Block         `json:"blocks"`
-	Page                Page            `json:"page"`
-	Template            string          `json:"template"`
-	SourceID            string          `json:"sourceId,omitempty"`
-	Warnings            []string        `json:"warnings"`
-	PDFUnsupported      bool            `json:"pdfUnsupported"`
-	HideFirstPageNumber bool            `json:"hideFirstPageNumber"`
-	Header              []Paragraph     `json:"header,omitempty"`
-	FirstHeader         []Paragraph     `json:"firstHeader,omitempty"`
-	FirstFooter         []Paragraph     `json:"firstFooter,omitempty"`
+	ImportedFormatVersion int             `json:"importedFormatVersion,omitempty"`
+	ConfirmedIssues       []string        `json:"confirmedIssues,omitempty"`
+	AutoNumbering         bool            `json:"autoNumbering,omitempty"`
+	LayoutNormalized      bool            `json:"layoutNormalized,omitempty"`
+	Preprinted            bool            `json:"preprinted,omitempty"`
+	ReviewComments        []ReviewComment `json:"reviewComments,omitempty"`
+	Blocks                []Block         `json:"blocks"`
+	Page                  Page            `json:"page"`
+	Template              string          `json:"template"`
+	SourceID              string          `json:"sourceId,omitempty"`
+	Warnings              []string        `json:"warnings"`
+	PDFUnsupported        bool            `json:"pdfUnsupported"`
+	HideFirstPageNumber   bool            `json:"hideFirstPageNumber"`
+	Header                []Paragraph     `json:"header,omitempty"`
+	FirstHeader           []Paragraph     `json:"firstHeader,omitempty"`
+	FirstFooter           []Paragraph     `json:"firstFooter,omitempty"`
 }
 
 func DefaultPage() Page {
@@ -195,7 +207,7 @@ func (m *Model) Validate() error {
 			}
 			lastRange = r.End
 		}
-		for _, n := range []float64{p.Size, p.Before, p.After, p.Line, p.Indent, p.LeftIndent, p.RightIndent, p.Hanging} {
+		for _, n := range []float64{p.Size, p.Before, p.After, p.Line, p.LineMultiple, p.Indent, p.LeftIndent, p.RightIndent, p.Hanging} {
 			if math.IsNaN(n) || math.IsInf(n, 0) {
 				return fmt.Errorf("段落尺寸无效")
 			}
@@ -226,7 +238,7 @@ func (m *Model) Validate() error {
 				return fmt.Errorf("正文含不可写入的字符")
 			}
 		}
-		if p.Size < 5 || p.Size > 72 || p.Before < 0 || p.After < 0 || p.Line < 0 || p.Before > 250 || p.After > 250 || p.Line > 100 || p.Indent < 0 || p.Indent > 100 {
+		if p.Size < 5 || p.Size > 72 || p.Before < 0 || p.After < 0 || p.Line < 0 || p.Before > 250 || p.After > 250 || p.Line > 100 || p.LineMultiple < 0 || p.LineMultiple > 10 || p.Indent < 0 || p.Indent > 100 {
 			return fmt.Errorf("段落尺寸超出支持范围")
 		}
 	}
@@ -236,7 +248,20 @@ func (m *Model) Validate() error {
 	if strings.TrimSpace(m.Text()) == "" {
 		return fmt.Errorf("请填写正文")
 	}
+	activePage := m.Page
 	for _, b := range m.Blocks {
+		if b.Page != nil {
+			pg := *b.Page
+			for _, n := range []float64{pg.Width, pg.Height, pg.Top, pg.Bottom, pg.Left, pg.Right} {
+				if math.IsNaN(n) || math.IsInf(n, 0) {
+					return fmt.Errorf("分节页面尺寸无效")
+				}
+			}
+			if pg.Width < 100 || pg.Width > 450 || pg.Height < 100 || pg.Height > 600 || pg.Left < 0 || pg.Right < 0 || pg.Top < 0 || pg.Bottom < 0 || pg.Width-pg.Left-pg.Right < 40 || pg.Height-pg.Top-pg.Bottom < 40 {
+				return fmt.Errorf("分节页面尺寸无效")
+			}
+			activePage = pg
+		}
 		if (b.Paragraph == nil) == (b.Table == nil) {
 			return fmt.Errorf("文档块结构无效")
 		}
@@ -244,7 +269,7 @@ func (m *Model) Validate() error {
 			if len(b.Table.Rows) > 1000 || len(b.Table.Widths) > 30 {
 				return fmt.Errorf("表格过大")
 			}
-			if math.IsNaN(b.Table.Width) || math.IsInf(b.Table.Width, 0) || b.Table.Width < 0 || b.Table.Width > m.Page.Width {
+			if math.IsNaN(b.Table.Width) || math.IsInf(b.Table.Width, 0) || b.Table.Width < 0 || b.Table.Width > activePage.Width {
 				return fmt.Errorf("表格宽度无效")
 			}
 			for _, row := range b.Table.Rows {
@@ -252,6 +277,24 @@ func (m *Model) Validate() error {
 					return fmt.Errorf("表格列数过多")
 				}
 				for _, cell := range row.Cells {
+					if len(cell.Borders) > 4 {
+						return fmt.Errorf("单元格边线无效")
+					}
+					for side, border := range cell.Borders {
+						if side != "top" && side != "bottom" && side != "left" && side != "right" {
+							return fmt.Errorf("单元格边线位置无效")
+						}
+						if math.IsNaN(border.Width) || math.IsInf(border.Width, 0) || border.Width < 0 || border.Width > 10 {
+							return fmt.Errorf("单元格线宽无效")
+						}
+						if !validHexColor(border.Color) {
+							return fmt.Errorf("单元格边线颜色无效")
+						}
+					}
+					if cell.Fill != "" && !validHexColor(cell.Fill) {
+						return fmt.Errorf("单元格底色无效")
+					}
+
 					if cell.Span < 1 || cell.Span > 30 {
 						return fmt.Errorf("合并单元格无效")
 					}
@@ -279,4 +322,16 @@ func Plain(text string) Model {
 		m.Blocks = append(m.Blocks, Block{Paragraph: &p})
 	}
 	return m
+}
+
+func validHexColor(value string) bool {
+	if len(value) != 6 {
+		return false
+	}
+	for _, r := range value {
+		if !(r >= '0' && r <= '9' || r >= 'a' && r <= 'f' || r >= 'A' && r <= 'F') {
+			return false
+		}
+	}
+	return true
 }

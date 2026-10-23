@@ -1,0 +1,97 @@
+{
+  "source": "https://www.suzhou.gov.cn/szsrmzf/bmwj/202407/5c69d24ed36c4039ad68666612534856.shtml",
+  "sourceCharactersWithoutWhitespace": 1521,
+  "referenceCharacters": 13,
+  "cases": [
+    {
+      "profile": "chrome",
+      "variant": "guided",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 0,
+      "pdfPages": 5,
+      "wordXMLSHA256": "4c0413986bd9b2e97c37c8a178d713013615a50372b15160fbb4e244eb3f65d2"
+    },
+    {
+      "profile": "chrome",
+      "variant": "copied",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 0,
+      "pdfPages": 5,
+      "wordXMLSHA256": "4c0413986bd9b2e97c37c8a178d713013615a50372b15160fbb4e244eb3f65d2"
+    },
+    {
+      "profile": "chrome",
+      "variant": "receipt",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 1,
+      "pdfPages": 5,
+      "wordXMLSHA256": "30e66a30381f34c84a67be69c8f56dfadc2d35196698b291d1308e0dc49c58a3"
+    },
+    {
+      "profile": "firefox",
+      "variant": "guided",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 0,
+      "pdfPages": 5,
+      "wordXMLSHA256": "4c0413986bd9b2e97c37c8a178d713013615a50372b15160fbb4e244eb3f65d2"
+    },
+    {
+      "profile": "firefox",
+      "variant": "copied",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 0,
+      "pdfPages": 5,
+      "wordXMLSHA256": "4c0413986bd9b2e97c37c8a178d713013615a50372b15160fbb4e244eb3f65d2"
+    },
+    {
+      "profile": "firefox",
+      "variant": "receipt",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 1,
+      "pdfPages": 5,
+      "wordXMLSHA256": "30e66a30381f34c84a67be69c8f56dfadc2d35196698b291d1308e0dc49c58a3"
+    },
+    {
+      "profile": "webkit",
+      "variant": "guided",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 0,
+      "pdfPages": 5,
+      "wordXMLSHA256": "4c0413986bd9b2e97c37c8a178d713013615a50372b15160fbb4e244eb3f65d2"
+    },
+    {
+      "profile": "webkit",
+      "variant": "copied",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 0,
+      "pdfPages": 5,
+      "wordXMLSHA256": "4c0413986bd9b2e97c37c8a178d713013615a50372b15160fbb4e244eb3f65d2"
+    },
+    {
+      "profile": "webkit",
+      "variant": "receipt",
+      "charactersWithoutWhitespace": 1534,
+      "exactSourceOrder": true,
+      "tables": 1,
+      "pdfPages": 5,
+      "wordXMLSHA256": "30e66a30381f34c84a67be69c8f56dfadc2d35196698b291d1308e0dc49c58a3"
+    }
+  ],
+  "sources": {
+    "web/write-model.js": "cf705c1e4c9d587d727094275daf87ba7932fe44b63f4f9d804ba3bc0f5cda7b",
+    "web/browser-api.js": "75b81c140eb5e9316b24e8be7da483057fc0eee04837a2426cca2ba926ae7138",
+    "web/workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+    "web/write.js": "b59c94b9ca502de1c8dfacbccf99dd9b6f43af1c338269a1d432d7c12a73f973",
+    "web/index.html": "fe1e676b1e3d0677e95cac6e2703b2ab06245d14c1cfbf23adc0b3a893add511",
+    "web/write.html": "f85cfb8dc54d4bb2c8cfa5af00394ba9c699516e177ebaca2a60b10870d2b959",
+    "web/write-boot.js": "350627ae84375a70bdf6343c34a333a1c1fe21237cd517318bd7aca6f2de63f0"
+  }
+}

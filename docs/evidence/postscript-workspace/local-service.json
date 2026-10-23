@@ -1,0 +1,11 @@
+{
+  "url": "http://127.0.0.1:4173",
+  "sameAsVerifiedBuild": true,
+  "httpByteChecks": [
+    "write.js",
+    "write-content-editor.js",
+    "write-workspace.css",
+    "index.html"
+  ],
+  "writeJSSHA256": "ff624d7a136a6efe5bd8eafdf294af0b37458f081c41074046e12c64527f9ddb"
+}

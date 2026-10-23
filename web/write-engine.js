@@ -1,4 +1,5 @@
 // A private worker for the form writer. Existing Word-editor drafts remain separate.
+import {decodeBase64} from './write-bytes.js';
 export class WriterEngine {
   constructor(fonts = () => ({})) {
     this.fonts = fonts;
@@ -19,16 +20,24 @@ export class WriterEngine {
       catch (error) { reject(error); queueMicrotask(() => this.reset(error)); return; }
       this.rejectBoot = reject;
       this.timer = setTimeout(() => this.reset(Error('排版引擎加载超时，请点击刷新预览重试。')), 120000);
-      worker.onerror = () => this.reset(Error('排版暂时中断，填写内容仍保留。请点击刷新预览重试。'));
+      worker.onerror = () => {if(worker===this.worker)this.reset(Error('排版暂时中断，填写内容仍保留。请点击刷新预览重试。'));};
       worker.onmessage = async ({data}) => {
         if (worker !== this.worker) return;
+        if (data.resource) { this.onResource?.(data.resource); return; }
         if (data.fatal) { this.reset(Error('排版引擎加载失败，请检查网络后刷新预览。')); return; }
         if (data.ready) {
           try {
             const fonts = await this.fonts();
-            for (const [role, value] of Object.entries(fonts)) await this.send('RegisterFont', [role, value]);
+            if(worker!==this.worker)return;
+            const registered=new Map();
+            for (const [role, value] of Object.entries(fonts)){
+              if(worker!==this.worker)return;
+              if(registered.has(value))await this.send('AliasFont',[role,registered.get(value)]);
+              else{await this.send('RegisterFontBytes',[role,decodeBase64(value)]);registered.set(value,role);}
+            }
+            if(worker!==this.worker)return;
             clearTimeout(this.timer); this.rejectBoot = null; resolve();
-          } catch (error) { this.reset(error); }
+          } catch (error) { if(worker===this.worker)this.reset(error); }
           return;
         }
         const request = this.pending.get(data.id);
@@ -40,7 +49,7 @@ export class WriterEngine {
   send(method, args) {
     return new Promise((resolve, reject) => {
       const id = ++this.sequence;
-      const timer = setTimeout(() => this.reset(Error('排版处理超时，内容仍保留。请重试或缩短正文。')), 120000);
+      const timer = setTimeout(() => this.reset(Error('排版处理超时，内容仍保留。可先下载草稿备份，再重试。')), 120000);
       this.pending.set(id, {resolve, reject, timer});
       try { this.worker.postMessage({id, request:{method, args}}); }
       catch (error) { this.reset(error); }

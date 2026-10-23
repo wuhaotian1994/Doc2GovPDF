@@ -1,0 +1,536 @@
+{
+  "sourceSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+  "files": [
+    {
+      "profile": "chrome",
+      "file": "blank-table",
+      "docxSHA256": "f18360685f61cc561c6d0f5cec1cd87d473b675d9c97f00a3f27eeac51dcf03e",
+      "paragraphs": 11,
+      "tables": 1,
+      "sections": 1,
+      "pdfPages": 1,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ]
+      ],
+      "pdfLineObjects": [
+        0
+      ],
+      "pdfFilledRectangles": [
+        0
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "official-untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "official-edited",
+      "docxSHA256": "1b0662c952ba641052fef97fa1009f4696a7d1563147be30d876ea4d4349fef5",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "legacy-resumed",
+      "docxSHA256": "ee872ae48033fdbd4f9fb6097ce46616b2cce39fd6210f29bef6552703bdc9d4",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "legacy-compose",
+      "docxSHA256": "d4f794a09fe151ef739f13bb9b8757c9a7efa52309fc980c4b171fe073ff5b1b",
+      "paragraphs": 6,
+      "tables": 0,
+      "sections": 1,
+      "pdfPages": 1,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ]
+      ],
+      "pdfLineObjects": [
+        0
+      ],
+      "pdfFilledRectangles": [
+        0
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "blank-table",
+      "docxSHA256": "f18360685f61cc561c6d0f5cec1cd87d473b675d9c97f00a3f27eeac51dcf03e",
+      "paragraphs": 11,
+      "tables": 1,
+      "sections": 1,
+      "pdfPages": 1,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ]
+      ],
+      "pdfLineObjects": [
+        0
+      ],
+      "pdfFilledRectangles": [
+        0
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "official-untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "official-edited",
+      "docxSHA256": "1b0662c952ba641052fef97fa1009f4696a7d1563147be30d876ea4d4349fef5",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "legacy-resumed",
+      "docxSHA256": "ee872ae48033fdbd4f9fb6097ce46616b2cce39fd6210f29bef6552703bdc9d4",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "legacy-compose",
+      "docxSHA256": "d4f794a09fe151ef739f13bb9b8757c9a7efa52309fc980c4b171fe073ff5b1b",
+      "paragraphs": 6,
+      "tables": 0,
+      "sections": 1,
+      "pdfPages": 1,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ]
+      ],
+      "pdfLineObjects": [
+        0
+      ],
+      "pdfFilledRectangles": [
+        0
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "blank-table",
+      "docxSHA256": "f18360685f61cc561c6d0f5cec1cd87d473b675d9c97f00a3f27eeac51dcf03e",
+      "paragraphs": 11,
+      "tables": 1,
+      "sections": 1,
+      "pdfPages": 1,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ]
+      ],
+      "pdfLineObjects": [
+        0
+      ],
+      "pdfFilledRectangles": [
+        0
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "official-untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "official-edited",
+      "docxSHA256": "1b0662c952ba641052fef97fa1009f4696a7d1563147be30d876ea4d4349fef5",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "legacy-resumed",
+      "docxSHA256": "ee872ae48033fdbd4f9fb6097ce46616b2cce39fd6210f29bef6552703bdc9d4",
+      "paragraphs": 103,
+      "tables": 2,
+      "sections": 2,
+      "pdfPages": 5,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "pdfLineObjects": [
+        0,
+        0,
+        0,
+        142,
+        144
+      ],
+      "pdfFilledRectangles": [
+        0,
+        0,
+        0,
+        7,
+        9
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "legacy-compose",
+      "docxSHA256": "d4f794a09fe151ef739f13bb9b8757c9a7efa52309fc980c4b171fe073ff5b1b",
+      "paragraphs": 6,
+      "tables": 0,
+      "sections": 1,
+      "pdfPages": 1,
+      "pageSizesPoints": [
+        [
+          595.3,
+          841.9
+        ]
+      ],
+      "pdfLineObjects": [
+        0
+      ],
+      "pdfFilledRectangles": [
+        0
+      ]
+    }
+  ]
+}

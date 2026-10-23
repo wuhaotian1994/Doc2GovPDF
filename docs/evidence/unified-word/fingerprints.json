@@ -1,0 +1,59 @@
+{
+  "sourceAtBuild": "87230f1 with owned uncommitted implementation; exact file hashes below. Documentation-only changes do not rebuild the verified Wasm.",
+  "sourceSHA256": {
+    "web/write.js": "3d08bf8e430ecc1e6568b42900031409e2aeeeb178e2ec3d7f0a6d4c29d5d055",
+    "web/write.html": "e444d2696e8b372f56c5899a727b16585978ceaae0425f856b2117debd2edd1d",
+    "web/write.css": "9c040ed7003b6520a0967d84e7bbe89c47b0b921067894bf6ed56dbe00f35fa3",
+    "web/write-boot.js": "4d11d002656ea448ed05044701ad6cd7e573f0ebb6d4cea478a438c10b25afa4",
+    "web/write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+    "web/write-word-workspace.js": "68086ffc9a31f026a4ed1a97b5f3640dafbd232c2b5ce40cd3bd3aa81183c751",
+    "web/advanced.html": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+    "internal/office/model.go": "91b12a31f1ec23c4d2250800cfa8f1e7f8962140cb4fe8577401786d9ab32a76",
+    "internal/office/package.go": "5f189ee950c3d3501ccf3c7eda9f052ff22a914ecc234c802520a92a3c6e3318",
+    "internal/office/pdf.go": "ba78e4d67ce37232dc790c66ecf54d1a89daec230f1a3dfe223d03f74fea40a0",
+    "scripts/build-web.ps1": "1abd26d00df60c75750b362f5794332aa1e8112447d569f79cb0a0d5fd3cb8c8"
+  },
+  "assetsSHA256": {
+    "index.html": "fe06b5908babcb8d30b402613f371709cfa6aee6ce20c1a545d1194210c25bfb",
+    "write.js": "3d08bf8e430ecc1e6568b42900031409e2aeeeb178e2ec3d7f0a6d4c29d5d055",
+    "write-word-workspace.js": "68086ffc9a31f026a4ed1a97b5f3640dafbd232c2b5ce40cd3bd3aa81183c751",
+    "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+    "document-engine.wasm": "e808fc39d2047f27d392120891e2f925860b82eeb9d1ec7bf5442c30823bbb95",
+    "sw.js": "2ff7efe1dc1eafca053b0f1af63d53eecc1cd6992326b8c7f49511621c7f087c"
+  },
+  "positiveTaskChecks": 54,
+  "startupChecks": 33,
+  "nodeUnitChecks": 32,
+  "go": "go test ./... and go vet ./... passed",
+  "realOutputPairs": 15,
+  "directPDFTextPages": 51,
+  "nativeWordRepresentativeFiles": 5,
+  "nativeWordPages": 17,
+  "viewedPages": 34,
+  "distinctPageImages": 24,
+  "lastChange": "After the 54 task checks, unsupported-PDF empty-state wording alone was clarified; final actual-service positive 6 and unsupported-section 3 checks cover this exact final asset.",
+  "service": {
+    "url": "http://127.0.0.1:4173",
+    "checks": [
+      "实际服务模块和引擎字节与最终验收构建相同",
+      "本地服务新稿真实PDF可见",
+      "本地服务原Word同页恢复纵横分节和两表",
+      "实际服务另存Word和PDF",
+      "服务Word与官方原件逐字节相同",
+      "浏览器实际载入的Wasm字节已核对"
+    ],
+    "hashes": {
+      "write.js": "3d08bf8e430ecc1e6568b42900031409e2aeeeb178e2ec3d7f0a6d4c29d5d055",
+      "write-word-workspace.js": "68086ffc9a31f026a4ed1a97b5f3640dafbd232c2b5ce40cd3bd3aa81183c751",
+      "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+      "document-engine.wasm": "e808fc39d2047f27d392120891e2f925860b82eeb9d1ec7bf5442c30823bbb95"
+    },
+    "errors": [],
+    "wasmResponseHashes": [
+      "e808fc39d2047f27d392120891e2f925860b82eeb9d1ec7bf5442c30823bbb95",
+      "e808fc39d2047f27d392120891e2f925860b82eeb9d1ec7bf5442c30823bbb95"
+    ],
+    "wasmEvidenceMethod": "Playwright route.fetch records actual local response; identical bytes relayed unchanged to worker, encoding header updated after decompression.",
+    "passed": true
+  }
+}

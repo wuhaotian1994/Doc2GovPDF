@@ -1,0 +1,94 @@
+{
+  "url": "http://127.0.0.1:4173",
+  "assets": {
+    "advanced.html": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+    "browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+    "document-elements.js": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f",
+    "document-engine.wasm": "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "engine-worker.js": "e9a386a9deadb3889f2f3ee912e559b903747d65e83dc0d5aec474336f6b9ba8",
+    "index.html": "0c2e17bc147c4149f37d785e33e9bd9716e45a529626ee6868a6038c612d67b8",
+    "pdf-review.js": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
+    "sw.js": "b364a13abc8187cbf5cf6d5fa7d43b97d55fd2f9a8dd207c259d65b49ab2f78b",
+    "wasm_exec.js": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+    "web.css": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
+    "workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+    "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+    "write-boot.js": "c9bb444f6ea0e28c7345e34842e045d5bd47fe47bfe955dfe5fb12ce4ff796d2",
+    "write-bytes.js": "579e2336061b151432a320b1824d18425921272dc150e1dc825664f185c00d12",
+    "write-checks.js": "ec4da3c6ab4625df6cc344b6bbfd35d78249839dd974da2da0682f0e5f7485e3",
+    "write-content-editor.js": "3288d156ba4983fd5da191e1ec789aaa63b8a105ca3ab0debb6f139bc1e01a7a",
+    "write-content.js": "ff3f364a2e8d2d5e87d8f227e77dc25e8595ad82aaddd5ef09f4a9cef60c32c2",
+    "write-continuous.js": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef",
+    "write-engine.js": "bae98466cb51f192e52115092385fc4e8b9a0b8aa18b0d5cc0c82ea4af84b48b",
+    "write-library.js": "233c318481fbaf3ec8d134aa9ea076d6de9cb0e335bde4e539b592947ad8f532",
+    "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+    "write-materials.js": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+    "write-model.js": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143",
+    "write-reference.js": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178",
+    "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+    "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+    "write-word-workspace.js": "efdb289ae86719aebb57adc6dd634dbe2c83c30b96fab0738582a5e5c3a53d71",
+    "write-workspace.css": "95db22ce9fb710796179aaa3421dad4f80c3bcb992a49f89c54612cbaac2070a",
+    "write.css": "9c040ed7003b6520a0967d84e7bbe89c47b0b921067894bf6ed56dbe00f35fa3",
+    "write.html": "e950af504ab52a93fc131fd55d3269b76c6a84f6756c1b4f553a509636c49912",
+    "write.js": "4dfaa41e45e88ae2c70926cc89a229c7a0b11ba4154e7593f74d898e9aa04879"
+  },
+  "source": {
+    "advanced.html": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+    "browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+    "document-elements.js": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f",
+    "engine-worker.js": "e9a386a9deadb3889f2f3ee912e559b903747d65e83dc0d5aec474336f6b9ba8",
+    "index.html": "fe1e676b1e3d0677e95cac6e2703b2ab06245d14c1cfbf23adc0b3a893add511",
+    "pdf-review.js": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
+    "web.css": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
+    "workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+    "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+    "write-boot.js": "c9bb444f6ea0e28c7345e34842e045d5bd47fe47bfe955dfe5fb12ce4ff796d2",
+    "write-bytes.js": "579e2336061b151432a320b1824d18425921272dc150e1dc825664f185c00d12",
+    "write-checks.js": "ec4da3c6ab4625df6cc344b6bbfd35d78249839dd974da2da0682f0e5f7485e3",
+    "write-content-editor.js": "3288d156ba4983fd5da191e1ec789aaa63b8a105ca3ab0debb6f139bc1e01a7a",
+    "write-content.js": "ff3f364a2e8d2d5e87d8f227e77dc25e8595ad82aaddd5ef09f4a9cef60c32c2",
+    "write-continuous.js": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef",
+    "write-engine.js": "bae98466cb51f192e52115092385fc4e8b9a0b8aa18b0d5cc0c82ea4af84b48b",
+    "write-library.js": "233c318481fbaf3ec8d134aa9ea076d6de9cb0e335bde4e539b592947ad8f532",
+    "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+    "write-materials.js": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+    "write-model.js": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143",
+    "write-reference.js": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178",
+    "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+    "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+    "write-word-workspace.js": "efdb289ae86719aebb57adc6dd634dbe2c83c30b96fab0738582a5e5c3a53d71",
+    "write-workspace.css": "95db22ce9fb710796179aaa3421dad4f80c3bcb992a49f89c54612cbaac2070a",
+    "write.css": "9c040ed7003b6520a0967d84e7bbe89c47b0b921067894bf6ed56dbe00f35fa3",
+    "write.html": "e950af504ab52a93fc131fd55d3269b76c6a84f6756c1b4f553a509636c49912",
+    "write.js": "4dfaa41e45e88ae2c70926cc89a229c7a0b11ba4154e7593f74d898e9aa04879"
+  },
+  "outputs": [
+    {
+      "name": "clinic",
+      "docxSHA256": "482a5b45a33bc3ee70fee4c2beec1118a9400f3e90a7930a9691fc0b3c66f299",
+      "verified": "Exact Word bytes and PDF page geometry, uncompressed content and embedded font bytes match viewed representatives."
+    },
+    {
+      "name": "admissions",
+      "docxSHA256": "20da21408f358b39b87c490e3645e8a76c488466a8548544bb34706ca0e9e4b7",
+      "verified": "Exact Word bytes and PDF page geometry, uncompressed content and embedded font bytes match viewed representatives."
+    },
+    {
+      "name": "native-untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "verified": "Exact Word bytes and PDF page geometry, uncompressed content and embedded font bytes match viewed representatives."
+    },
+    {
+      "name": "native-edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "verified": "Exact Word bytes and PDF page geometry, uncompressed content and embedded font bytes match viewed representatives."
+    }
+  ],
+  "viewedPages": 28,
+  "viewedImagesStillExact": true,
+  "actualWasmSHA256": [
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+  ],
+  "passed": true
+}

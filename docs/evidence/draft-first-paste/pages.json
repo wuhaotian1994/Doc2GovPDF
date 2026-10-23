@@ -1,0 +1,56 @@
+{
+  "pages": [
+    {
+      "file": "safe.pdf",
+      "pdfSHA256": "6d46dd6bb545e9fd404759d08ac5af66c6de0a5d670764e4f6381b02e15c4872",
+      "image": "safe-1.png",
+      "imageSHA256": "a1f17f0817c4e301d02eb4514124355da73b171f792c4d0f75f5d6385c15424a"
+    },
+    {
+      "file": "safe.word.pdf",
+      "pdfSHA256": "0867b2cf5feb2c3caf7845b87038e4cac4cd6326a14e29b307bb0e1665b6d9d3",
+      "image": "safe.word-1.png",
+      "imageSHA256": "2190fd281a3acaf6a2c1b559985bb1cc63d89e7ac91bc2cf5fe904d4f30800f5"
+    },
+    {
+      "file": "mixed.pdf",
+      "pdfSHA256": "429eb2c54af57556e4024ecf15f4f2b73e2ad9540a46f708260028681b1ec699",
+      "image": "mixed-1.png",
+      "imageSHA256": "665c52c770a79d7828a5536cdcc7dba97c8a649e2a8dcc030a1a37769a4105a3"
+    },
+    {
+      "file": "mixed.word.pdf",
+      "pdfSHA256": "05b2b473b908c41fe2309f2dfeac4631b385bfe446f65abba2164ea8e8585aaf",
+      "image": "mixed.word-1.png",
+      "imageSHA256": "8e991b83a62eefb42f2862d50f004b9d77ebd116a62f8934b16013c1ac140cd9"
+    },
+    {
+      "file": "annex.pdf",
+      "pdfSHA256": "30641ad05a7c24b50acabffa987fb125ea7054fcc8a34e196bf3f60485e507b5",
+      "image": "annex-1.png",
+      "imageSHA256": "7ee9463289d54f678465a0a446286f51b5f750fc3ca2e27015d9da5520ddbe1d"
+    },
+    {
+      "file": "annex.pdf",
+      "pdfSHA256": "30641ad05a7c24b50acabffa987fb125ea7054fcc8a34e196bf3f60485e507b5",
+      "image": "annex-2.png",
+      "imageSHA256": "bb17073af8784f8227872b47016ad2d08e32551b862cd5999a6caf484dd190be"
+    },
+    {
+      "file": "annex.word.pdf",
+      "pdfSHA256": "8d9cf354e5f740ade1f01605d81e28d1065b0a1b486ae141a97156a638b52419",
+      "image": "annex.word-1.png",
+      "imageSHA256": "254897b9d9de09bc8b87d8d33064a40de97ba1bb54293f5cf7fd8cfeb5f2f672"
+    },
+    {
+      "file": "annex.word.pdf",
+      "pdfSHA256": "8d9cf354e5f740ade1f01605d81e28d1065b0a1b486ae141a97156a638b52419",
+      "image": "annex.word-2.png",
+      "imageSHA256": "09d4689cf998f15cb6f67dfc39b0f9cd21071c68b2c62c615746fdd624cc5ab1"
+    }
+  ],
+  "groups": [
+    "group-01.png",
+    "group-02.png"
+  ]
+}

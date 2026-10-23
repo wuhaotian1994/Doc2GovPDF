@@ -1,0 +1,234 @@
+{
+  "type": "gongwen-form",
+  "version": 5,
+  "updatedAt": "2026-10-22T00:23:32.553Z",
+  "fields": {
+    "title": "关于模拟装配线巡检问题整改与复查安排的通知（虚构模拟）",
+    "recipient": "各生产组、仓储组",
+    "agency": "",
+    "reference": "",
+    "body": "本稿仅用于产品体验，机构、问题及岗位均为虚构，不作为真实质量或安全作业要求。\n一、巡检问题清单\n问题编号\t发现情况\t责任岗位\t完成要求\nQ-001\t模拟记录的包装标识与登记项不一致\t装配资料岗（虚构）\t2026-10-24前补齐模拟记录\nQ-002\t模拟归档目录缺少复查记录\t仓储资料岗（虚构）\t日期待确认，不能自行推算\n二、复查安排\n保留问题原编号，复查结论另行记录；未核对项目仍为待复查，不因复制旧稿自动认定完成。",
+    "signature": "模拟制造公司质量办公室",
+    "date": "2026-10-22",
+    "attachments": "",
+    "copyTo": "",
+    "postscript": "附表：复查记录（虚构模拟）\n问题编号\t复查状态\t补充说明\t记录日期\nQ-001\t待复查\t等待资料核对\t未定\nQ-002\t待复查\t等待归档核对\t未定\n说明：全部数据仅为模拟，表中“未定”应原样保留。",
+    "sourceMaterial": "关于模拟装配线巡检问题整改与复查安排的通知（虚构模拟）\n各生产组、仓储组：\n本稿仅用于产品体验，机构、问题及岗位均为虚构，不作为真实质量或安全作业要求。\n一、巡检问题清单\n问题编号\t发现情况\t责任岗位\t完成要求\nQ-001\t模拟记录的包装标识与登记项不一致\t装配资料岗（虚构）\t2026-10-24前补齐模拟记录\nQ-002\t模拟归档目录缺少复查记录\t仓储资料岗（虚构）\t日期待确认，不能自行推算\n二、复查安排\n保留问题原编号，复查结论另行记录；未核对项目仍为待复查，不因复制旧稿自动认定完成。\n模拟制造公司质量办公室\n2026年10月22日\n附表：复查记录（虚构模拟）\n问题编号\t复查状态\t补充说明\t记录日期\nQ-001\t待复查\t等待资料核对\t未定\nQ-002\t待复查\t等待归档核对\t未定\n说明：全部数据仅为模拟，表中“未定”应原样保留。",
+    "pendingMaterial": "",
+    "letterhead": false
+  },
+  "content": {
+    "version": 1,
+    "blocks": [
+      {
+        "type": "paragraph",
+        "id": "0f1adf94-d328-456a-a662-d2836e1022db",
+        "text": "本稿仅用于产品体验，机构、问题及岗位均为虚构，不作为真实质量或安全作业要求。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "d9288faa-1d3b-4058-8988-2b903a467915",
+        "text": "一、巡检问题清单",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "table",
+        "id": "a2f733ec-4179-44b4-a3d0-fb026ddad6c7",
+        "caption": "",
+        "header": true,
+        "rows": [
+          {
+            "id": "131ee17d-3d9f-4c81-9f83-7a2c7f5c12e5",
+            "cells": [
+              {
+                "id": "e74b66f1-5db5-40c7-a59c-fd288effb760",
+                "text": "问题编号"
+              },
+              {
+                "id": "21337ac3-0b21-46bc-bd26-abe7bdf62756",
+                "text": "发现情况"
+              },
+              {
+                "id": "f6b533c9-146b-4527-9e01-3a69ce9beeca",
+                "text": "责任岗位"
+              },
+              {
+                "id": "65e7fea1-ba00-4da0-9236-594529969c5b",
+                "text": "完成要求"
+              }
+            ]
+          },
+          {
+            "id": "df528f1e-65ea-431a-8132-42fb0fd18ff3",
+            "cells": [
+              {
+                "id": "3b88d052-43d8-4288-87a6-5e20ed894d28",
+                "text": "Q-001"
+              },
+              {
+                "id": "0bc07d88-000f-496f-bf02-334e44b9eec8",
+                "text": "模拟记录的包装标识与登记项不一致"
+              },
+              {
+                "id": "aec0ae9a-1a7f-416d-8fa4-2a765022ab92",
+                "text": "装配资料岗（虚构）"
+              },
+              {
+                "id": "9fbc34de-4063-459d-9d6b-eb5998c7cc69",
+                "text": "2026-10-24前补齐模拟记录"
+              }
+            ]
+          },
+          {
+            "id": "efb28ec9-8d73-476b-b591-78f3b02cc527",
+            "cells": [
+              {
+                "id": "84bc5339-ae21-4aa6-b532-ccf0e3e660f7",
+                "text": "Q-002"
+              },
+              {
+                "id": "55d50f28-1c34-4d4b-bc65-825ca1557f35",
+                "text": "模拟归档目录缺少复查记录"
+              },
+              {
+                "id": "35a15399-789e-40c6-8226-6bd673d9a707",
+                "text": "仓储资料岗（虚构）"
+              },
+              {
+                "id": "03cbc82b-60f1-48d4-af78-2d45c2960f48",
+                "text": "日期待确认，不能自行推算"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "id": "a0829f47-fec8-4f0d-af8c-d26584cb0148",
+        "text": "二、复查安排",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      },
+      {
+        "type": "paragraph",
+        "id": "f43bed83-fa39-4c93-b9c8-b3e179a4166b",
+        "text": "保留问题原编号，复查结论另行记录；未核对项目仍为待复查，不因复制旧稿自动认定完成。",
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    ],
+    "postscript": {
+      "version": 1,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "id": "8adc0a38-8656-4885-a66a-d2eededaf2fe",
+          "text": "附表：复查记录（虚构模拟）",
+          "role": "auto",
+          "align": "auto",
+          "indent": "auto",
+          "before": "auto",
+          "after": "auto"
+        },
+        {
+          "type": "table",
+          "id": "9aeaf5f6-7061-4839-ab2b-e24325825a78",
+          "caption": "",
+          "header": true,
+          "rows": [
+            {
+              "id": "35625fa2-280d-4ed6-a910-77de476a693d",
+              "cells": [
+                {
+                  "id": "b0359901-9c5a-4e92-aa58-0c0d893fd513",
+                  "text": "问题编号"
+                },
+                {
+                  "id": "aee2cbfd-512e-4386-8f19-9a9e836773ef",
+                  "text": "复查状态"
+                },
+                {
+                  "id": "b078dc78-e6df-40df-ac3f-525652f0ba7c",
+                  "text": "补充说明"
+                },
+                {
+                  "id": "adc84b01-78c0-4254-9956-ab449548fa2a",
+                  "text": "记录日期"
+                }
+              ]
+            },
+            {
+              "id": "d8d4e644-fa88-42f1-8a8f-452e9e7d1e01",
+              "cells": [
+                {
+                  "id": "a0390218-0d5a-486b-a3dd-0af6c4ea0304",
+                  "text": "Q-001"
+                },
+                {
+                  "id": "28efa969-ab25-4249-b73c-fde2c5bf1708",
+                  "text": "待复查"
+                },
+                {
+                  "id": "a12f059b-a6e9-47fa-97ff-21f4fccac7d0",
+                  "text": "等待资料核对"
+                },
+                {
+                  "id": "4414b4b7-f6f5-4653-bd92-1382ac3c9abb",
+                  "text": "未定"
+                }
+              ]
+            },
+            {
+              "id": "80aab495-3ebb-4b4d-b1fb-3903abfef6c7",
+              "cells": [
+                {
+                  "id": "71d751e2-568d-4202-992a-1a295a2a67e8",
+                  "text": "Q-002"
+                },
+                {
+                  "id": "35a49068-6e57-4adf-a2cc-5e9341224861",
+                  "text": "待复查"
+                },
+                {
+                  "id": "a4ee40b9-fd2f-4d9e-803f-8950ea20ff57",
+                  "text": "等待归档核对"
+                },
+                {
+                  "id": "f9438a18-0322-4607-9403-cfe3f081daa4",
+                  "text": "未定"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "id": "ab099f4d-c6fc-467e-ae68-1ef1994dc27f",
+          "text": "说明：全部数据仅为模拟，表中“未定”应原样保留。",
+          "role": "auto",
+          "align": "auto",
+          "indent": "auto",
+          "before": "auto",
+          "after": "auto"
+        }
+      ]
+    }
+  },
+  "step": 2,
+  "id": "638d93ae-7925-43e9-978a-43839def540c"
+}

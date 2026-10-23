@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "scenario": "虚构基层卫生院办公室辅助岗位排班交接",
+  "roleTaskMethod": "实施者知情走查，不是无历史用户盲测",
+  "productImplementation": "f68f008232550b924cd00f3751ecb3c75febb37a",
+  "actualFiles": [
+    "final.docx",
+    "final.pdf",
+    "final.gongwen.json"
+  ],
+  "sameDraftId": "4aa0687c-654f-4c13-b1a2-8bf3c11c713e",
+  "exactNonWhitespaceCharacters": 347,
+  "tableRows": [
+    [
+      "日期",
+      "时段",
+      "值班岗位",
+      "交接事项"
+    ],
+    [
+      "2026-10-23",
+      "08:00—12:00",
+      "导诊岗（虚构）",
+      "交接未办事项记录；现场核对后签认"
+    ],
+    [
+      "2026-10-23",
+      "12:00—16:00",
+      "后勤岗（虚构）",
+      "核对物资登记"
+    ],
+    [
+      "2026-10-24",
+      "08:00—12:00",
+      "导诊岗（虚构）",
+      "交接待办登记及临时调整记录"
+    ]
+  ],
+  "sourceMaterialRetained": true,
+  "rawSourceSHA256": "ea12a2653c3df9ed508a3b194f181ff34c508d8634cf2d21018e7cbf6fe6a28d",
+  "fileSHA256": {
+    "final.docx": "41e6c803564bcd098d9d31be788be7400fec625e1011b960c3652333dec7fd71",
+    "final.pdf": "fdc773f4700dd7325e8a67f8f6a1d54833609743f3dc01abe79f49211321b510",
+    "final.gongwen.json": "a7592cb63eea3d84389a97e2976661b6eddf7948f8fea90d72c3bb700075d831"
+  },
+  "nativeWord": {
+    "file": "final.docx",
+    "sourceSHA256": "41E6C803564BCD098D9D31BE788BE7400FEC625E1011B960C3652333DEC7FD71",
+    "wordVersion": "16.0",
+    "pages": 2,
+    "logicalCharacters": 347,
+    "logicalTextSHA256": "4B64FB66E95213CCD7655248FA99DE4FF3601F7289B917E60674D11A2F0669ED"
+  },
+  "rendered": [
+    {
+      "kind": "pdf",
+      "pages": 2,
+      "sha256": "fdc773f4700dd7325e8a67f8f6a1d54833609743f3dc01abe79f49211321b510"
+    },
+    {
+      "kind": "word",
+      "pages": 2,
+      "sha256": "260f1554d2de3bc4d72831ac1c4dd71e9622ad83efd45d7c3b4700dc1c464532"
+    }
+  ],
+  "serviceHTTPWasmSHA256": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6",
+  "versionBoundary": "HTTP/source asset matched; no claim of browser actual loaded bytes hash",
+  "manualVisualReviewRecordedSeparately": true,
+  "productCodeChanged": false,
+  "limitations": [
+    "Synthetic industry task, no real clinic deployment, medical advice or real people",
+    "Chrome desktop only for this new task",
+    "No new native IME/mobile/physical-print validation"
+  ]
+}

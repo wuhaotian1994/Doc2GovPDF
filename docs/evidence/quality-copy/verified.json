@@ -1,0 +1,264 @@
+{
+  "cases": [
+    {
+      "phase": "before",
+      "profile": "chrome",
+      "kind": "original",
+      "exactCharacters": 337,
+      "tableCount": 2,
+      "tableCells": 24,
+      "pdfPages": 2,
+      "docxSHA256": "d3029dd3b5f4944e037fb0d39509821e36522723d7b8d3ebab7aeae3946daef7",
+      "pdfSHA256": "4c663ad463528c9962b5c132d1ab1e0b88d33d8408d3ed1e780abad354348ce9",
+      "identity": "638d93ae-7925-43e9-978a-43839def540c"
+    },
+    {
+      "phase": "before",
+      "profile": "chrome",
+      "kind": "copied",
+      "exactCharacters": 326,
+      "tableCount": 0,
+      "tableCells": 0,
+      "pdfPages": 1,
+      "docxSHA256": "60275bf67332ffaa4e8cf19804f3351a035bddea8eb2bdff56a5dd24aa59a82b",
+      "pdfSHA256": "6dafc5adbcde36bf0e829f0d1b08675f95efadc42b4577ea6bc206a1a7145539",
+      "identity": "3b16783b-38b3-4974-8460-a77e3910efe5"
+    },
+    {
+      "phase": "after",
+      "profile": "chrome",
+      "kind": "original",
+      "exactCharacters": 337,
+      "tableCount": 2,
+      "tableCells": 24,
+      "pdfPages": 2,
+      "docxSHA256": "d3029dd3b5f4944e037fb0d39509821e36522723d7b8d3ebab7aeae3946daef7",
+      "pdfSHA256": "a0ca88146b13950ceee33f2e3315271df9f0b4415ad7f01aefd17606e8ac505d",
+      "identity": "03057d44-73a9-4278-9eaf-331ca88c333b"
+    },
+    {
+      "phase": "after",
+      "profile": "chrome",
+      "kind": "copied",
+      "exactCharacters": 349,
+      "tableCount": 2,
+      "tableCells": 24,
+      "pdfPages": 2,
+      "docxSHA256": "9351f20f5910ce6d4c4962b80c99d2c6ab5da9788d4a6818c2ecc24b445bc22c",
+      "pdfSHA256": "f7c552b9e4bf1785529c720c1621a4142a69373b2b8bcbdd99972d2e83586adc",
+      "identity": "44e4f90c-bf8b-4200-9cc0-1745db412b91"
+    },
+    {
+      "phase": "after",
+      "profile": "firefox",
+      "kind": "original",
+      "exactCharacters": 337,
+      "tableCount": 2,
+      "tableCells": 24,
+      "pdfPages": 2,
+      "docxSHA256": "d3029dd3b5f4944e037fb0d39509821e36522723d7b8d3ebab7aeae3946daef7",
+      "pdfSHA256": "8d782e69b323f9609b555cdef378e2fba04d3040f8b2eccd4f212887807e49ff",
+      "identity": "2b73450d-253c-46c8-8b5d-996653c701b2"
+    },
+    {
+      "phase": "after",
+      "profile": "firefox",
+      "kind": "copied",
+      "exactCharacters": 349,
+      "tableCount": 2,
+      "tableCells": 24,
+      "pdfPages": 2,
+      "docxSHA256": "9351f20f5910ce6d4c4962b80c99d2c6ab5da9788d4a6818c2ecc24b445bc22c",
+      "pdfSHA256": "4d6ef2e551d899c673e61648b907267fe486e56f578bcf4fb0bb9d1df1ab218a",
+      "identity": "04b6e719-ba83-4ab8-9cfb-ae541908c094"
+    },
+    {
+      "phase": "after",
+      "profile": "webkit",
+      "kind": "original",
+      "exactCharacters": 337,
+      "tableCount": 2,
+      "tableCells": 24,
+      "pdfPages": 2,
+      "docxSHA256": "d3029dd3b5f4944e037fb0d39509821e36522723d7b8d3ebab7aeae3946daef7",
+      "pdfSHA256": "8d782e69b323f9609b555cdef378e2fba04d3040f8b2eccd4f212887807e49ff",
+      "identity": "a333b8e0-1984-46af-9693-53783693b067"
+    },
+    {
+      "phase": "after",
+      "profile": "webkit",
+      "kind": "copied",
+      "exactCharacters": 349,
+      "tableCount": 2,
+      "tableCells": 24,
+      "pdfPages": 2,
+      "docxSHA256": "9351f20f5910ce6d4c4962b80c99d2c6ab5da9788d4a6818c2ecc24b445bc22c",
+      "pdfSHA256": "4d6ef2e551d899c673e61648b907267fe486e56f578bcf4fb0bb9d1df1ab218a",
+      "identity": "b9b4605f-3ce6-4f8e-a2cd-2426286af55c"
+    }
+  ],
+  "nativeWord": [
+    {
+      "file": "before-original.docx",
+      "sourceSHA256": "D3029DD3B5F4944E037FB0D39509821E36522723D7B8D3EBAB7AEAE3946DAEF7",
+      "wordVersion": "16.0",
+      "pages": 2,
+      "logicalCharacters": 337,
+      "logicalTextSHA256": "5EB4C02FB500BD9A381718B64F2BCACC6EFFE9203DDDA284575FF6136F5FE8AE"
+    },
+    {
+      "file": "before-copied.docx",
+      "sourceSHA256": "60275BF67332FFAA4E8CF19804F3351A035BDDEA8EB2BDFF56A5DD24AA59A82B",
+      "wordVersion": "16.0",
+      "pages": 1,
+      "logicalCharacters": 326,
+      "logicalTextSHA256": "501C02CC1527DD3BDDC81FA2B0C94AECA747803597568328982C8722955495EC"
+    },
+    {
+      "file": "after-original.docx",
+      "sourceSHA256": "D3029DD3B5F4944E037FB0D39509821E36522723D7B8D3EBAB7AEAE3946DAEF7",
+      "wordVersion": "16.0",
+      "pages": 2,
+      "logicalCharacters": 337,
+      "logicalTextSHA256": "5EB4C02FB500BD9A381718B64F2BCACC6EFFE9203DDDA284575FF6136F5FE8AE"
+    },
+    {
+      "file": "after-copied.docx",
+      "sourceSHA256": "9351F20F5910CE6D4C4962B80C99D2C6AB5DA9788D4A6818C2ECC24B445BC22C",
+      "wordVersion": "16.0",
+      "pages": 2,
+      "logicalCharacters": 349,
+      "logicalTextSHA256": "2B7E13FAFB0DA999798A2B8A080AABB85538C443B22F53C5A25EA020C7646D8D"
+    }
+  ],
+  "productionChange": "Recent library copy now passes full content to existing draft validation; no generator/font/layout changes",
+  "sources": {
+    "web/write.js": "8f4201cf24a9a9ed3fda5740bea006a490ca075cfad01f972ebb10edb1a322a2",
+    "web/write-model.js": "b912986604c39301c6a983333dec0f54ee9d5d231fc9647cf617b48d3d3cc406",
+    "web/write-content.js": "294519b617e3af28291570f16201a187afd9d50b043192e1d6d7465a26cad261",
+    "web/write-library.js": "233c318481fbaf3ec8d134aa9ea076d6de9cb0e335bde4e539b592947ad8f532"
+  },
+  "rendered": {
+    "groups": [
+      {
+        "label": "before-original-pdf",
+        "pages": 2,
+        "sha256": "4c663ad463528c9962b5c132d1ab1e0b88d33d8408d3ed1e780abad354348ce9"
+      },
+      {
+        "label": "before-original-word",
+        "pages": 2,
+        "sha256": "8a56efc77aa08074c15e01258dc59a6f372638eaa70d789d5f63db966a558a4e"
+      },
+      {
+        "label": "before-copied-pdf",
+        "pages": 1,
+        "sha256": "6dafc5adbcde36bf0e829f0d1b08675f95efadc42b4577ea6bc206a1a7145539"
+      },
+      {
+        "label": "before-copied-word",
+        "pages": 1,
+        "sha256": "58a82bb5914902722b44ec5d6c1f5910f157e0f51e8790bb48d917b6817708b6"
+      },
+      {
+        "label": "after-original-pdf",
+        "pages": 2,
+        "sha256": "a0ca88146b13950ceee33f2e3315271df9f0b4415ad7f01aefd17606e8ac505d"
+      },
+      {
+        "label": "after-original-word",
+        "pages": 2,
+        "sha256": "98a670c3637e530f1c29136416643ee4dfd7f47f8608305f4292cd5c58fbeb08"
+      },
+      {
+        "label": "after-copied-pdf",
+        "pages": 2,
+        "sha256": "f7c552b9e4bf1785529c720c1621a4142a69373b2b8bcbdd99972d2e83586adc"
+      },
+      {
+        "label": "after-copied-word",
+        "pages": 2,
+        "sha256": "23c8e6f2e594dffb877cc7ef4b830cadc94a84bb582f661b343a3f2a7592e2b9"
+      }
+    ],
+    "totalPages": 14,
+    "uniquePages": 11,
+    "pageMapping": [
+      {
+        "path": "page-review\\before-original-pdf\\page-1.png",
+        "labels": [
+          "before-original-pdf p1",
+          "after-original-pdf p1"
+        ]
+      },
+      {
+        "path": "page-review\\before-original-pdf\\page-2.png",
+        "labels": [
+          "before-original-pdf p2",
+          "after-original-pdf p2"
+        ]
+      },
+      {
+        "path": "page-review\\before-original-word\\page-1.png",
+        "labels": [
+          "before-original-word p1"
+        ]
+      },
+      {
+        "path": "page-review\\before-original-word\\page-2.png",
+        "labels": [
+          "before-original-word p2",
+          "after-original-word p2"
+        ]
+      },
+      {
+        "path": "page-review\\before-copied-pdf\\page-1.png",
+        "labels": [
+          "before-copied-pdf p1"
+        ]
+      },
+      {
+        "path": "page-review\\before-copied-word\\page-1.png",
+        "labels": [
+          "before-copied-word p1"
+        ]
+      },
+      {
+        "path": "page-review\\after-original-word\\page-1.png",
+        "labels": [
+          "after-original-word p1"
+        ]
+      },
+      {
+        "path": "page-review\\after-copied-pdf\\page-1.png",
+        "labels": [
+          "after-copied-pdf p1"
+        ]
+      },
+      {
+        "path": "page-review\\after-copied-pdf\\page-2.png",
+        "labels": [
+          "after-copied-pdf p2"
+        ]
+      },
+      {
+        "path": "page-review\\after-copied-word\\page-1.png",
+        "labels": [
+          "after-copied-word p1"
+        ]
+      },
+      {
+        "path": "page-review\\after-copied-word\\page-2.png",
+        "labels": [
+          "after-copied-word p2"
+        ]
+      }
+    ],
+    "manualVisualReviewRecordedSeparately": true
+  },
+  "limitations": [
+    "Informed synthetic manufacturing-office task, not blind user research",
+    "Native Word render covers four Chrome representative downloads, other browser Word XML/PDF text verified individually",
+    "No native IME/mobile/physical printing completion claim"
+  ]
+}

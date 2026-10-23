@@ -20,13 +20,14 @@ go run ./cmd/webserve
 ## 使用与保存
 
 - 填写首页源文件为 `web/write.html`，构建后是 `index.html`。标题和正文必填，其余按需展开；不自动填写事实或生成文号。
-- 填写草稿保存在 localStorage，字体保存在独立 IndexedDB；“我的文档”可下载 `.gongwen.json`、重新打开和恢复替换前的文档。正文上限 10 万字符，草稿文件上限 1 MB。清理站点数据会删除本地副本，下载的文件不受影响。
+- 填写草稿保存在 localStorage，字体保存在独立 IndexedDB；“我的文档”可下载 `.gongwen.json`、重新打开和恢复替换前的文档。正文上限 10 万字符，填写草稿文件上限 2 MB。清理站点数据会删除本地副本，下载的文件不受影响。
 - “记住常用信息”保存单位、落款、收文对象等固定内容，新建自动带入；日期、文号、正文不自动沿用。“常用设置”可修改或清空，当前文档不受影响。
 - “我的文档”可切换旧稿、复制新稿、下载备份与删除。最多归档 20 份，满时提示处理，不静默删除。导入已下载的旧稿会保存为独立副本，不覆盖较新版本。
-- “整理已有 Word”进入 `advanced.html`，保留旧网页的复杂文档编辑、联合发文、表格、修订/批注和 PDF 核对。该界面源文件仍为 `web/index.html`；其既有草稿与新填写草稿隔离。
-- 浏览器不能直接读取电脑公文字体。默认使用内置开源备用字体；单位有指定要求时，在“字体设置”选择有权使用和嵌入的 TTF/TTC。备用字体不等于指定字体合规，Word 在另一电脑上可能重排。
+- “打开文档”接收DOCX和恢复草稿，在同一三步工作区编辑原段落与表格、核对、预览和另存。原件独立保留；受保护段落只读。旧 `advanced.html` 链接承接本浏览器旧Word任务，重复打开继续新修改；原有填写稿仍在“我的文档”。具体能力与边界见 [统一工作区验收](docs/UNIFIED-WORD-RESPONSE.md)。
+- 本机字体授权、真实身份与全文标准覆盖正在按最新P0完善，见 [国标产品约束](docs/STANDARDS-PRODUCT.md)。当前仍可手选有权使用/嵌入的TTF/TTC；引擎未读取到可用字体时明确显示备用草拟降级，不能据此认定全文符合。原Word另存保留其原字体依赖，跨电脑可能重排。
+- 原材料已有独立附件标识/标题时，可在核对中明确“实际附件”，或在段落编辑中确认：同稿另面、名称序号核对及连续页码，支持取消/撤销和v6恢复；不自动把附注或正文表格当附件。相同原表仅变位置保留确认，真实范围变化说明重核。见 [附件回应](docs/ANNEX-STRUCTURE-RESPONSE.md) 与 [标准覆盖/未核项](docs/STANDARDS-COVERAGE.md)。
 - 首次加载后静态资源在本地缓存，缓存就绪后可离线打开。网页更新在旧页面关闭、重新打开后生效，不中断编辑。
-- DOCX/TXT 上限 50 MB；PDF 核对上限 32 MB、100 页。复杂对象无法可靠转成 PDF 时明确提示，原 Word 优先保留。
+- DOCX上限50 MB，文字材料按10万字符控制；含原件和字体的Word恢复包另设350 MB读取保护。PDF排版最多100页，连续/奇偶分节、特殊对象或暂不支持线型明确阻止PDF，Word与原件仍可用。旧独立PDF核对等专用工具尚未迁入此工作区，源码和原数据未删除；不宣称整个历史高级工具集均已迁完。
 
 ## 验收与资料
 
@@ -53,7 +54,7 @@ node scripts/browser-tests/node_modules/playwright/cli.js install firefox webkit
 node scripts/test-writer-browsers.mjs
 ```
 
-该矩阵使用 Chrome、Edge、Firefox 测试构建、WebKit 测试引擎，以及 Android/iPhone/iPad 触控模拟。它不等于真实手机、macOS Safari 或系统软键盘已验证。具体环境、证据和边界见 [经常使用与跨浏览器验收](docs/RETURNING-USERS-QA.md)。
+该矩阵支持 Chrome、Edge、Firefox 测试构建、WebKit 测试引擎，以及 Android/iPhone/iPad 触控模拟。当前用户要求先验证桌面，可设置 `$env:WRITER_PROFILE='chrome-desktop,edge-desktop,firefox-desktop,webkit-desktop'`。首次打开即填写、保存关页重开和真实 Go 服务验收命令见 [首次填写与真实服务验收](docs/FIRST-USE-DELIVERY-QA.md)。模拟不等于真实手机、macOS Safari 或系统软键盘已验证。
 
 浏览器测试使用独立无头 Edge、真实 Wasm 引擎和实际下载。文档测试另用隐藏 Word/Poppler 对照成品，不操作鼠标键盘。最新证据与边界见 [填写式重写交接](docs/memory/handoffs/01a158b0-guided-writing.md)。[旧网页版验收](docs/WEB-2.0.md)、[上游功能映射](docs/UPSTREAM-PARITY.md)、[原始测试样例](testdata/upstream/gongwen-kit/README.md) 和 [新增负例](testdata/upstream/parity/README.md) 保留。
 

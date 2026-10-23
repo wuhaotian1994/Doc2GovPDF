@@ -1,0 +1,15 @@
+[
+ {"input":"街办发 [2026] 005号","proposal":"街办发〔2026〕5号","engineReplacement":"街办发 〔2026〕5号","reasons":["brackets","leading-zero"]},
+ {"input":"办发〔2026〕005号","proposal":"办发〔2026〕5号","engineReplacement":"办发〔2026〕5号","reasons":["leading-zero"]},
+ {"input":"办发[2026]5号","proposal":"办发〔2026〕5号","engineReplacement":"办发〔2026〕5号","reasons":["brackets"]},
+ {"input":"办发〔2026〕第005号","proposal":"办发〔2026〕5号","engineReplacement":"办发〔2026〕5号","reasons":["leading-zero","ordinal"]},
+ {"input":"办发【2026】105号","proposal":"办发〔2026〕105号","engineReplacement":"办发〔2026〕105号","reasons":["brackets"]},
+ {"input":"办发〔2026〕105号","proposal":null,"engineReplacement":null},
+ {"input":"办发〔2026〕5号","proposal":null,"engineReplacement":null},
+ {"input":"办发 〔2026〕5号","proposal":null,"engineReplacement":null},
+ {"input":"登记编号2026-005","proposal":null,"engineReplacement":null},
+ {"input":"AB-2026-005","proposal":null,"engineReplacement":null},
+ {"input":"办发[2026]","proposal":null,"engineReplacement":null},
+ {"input":"","proposal":null,"engineReplacement":null},
+ {"input":"   ","proposal":null,"engineReplacement":null}
+]

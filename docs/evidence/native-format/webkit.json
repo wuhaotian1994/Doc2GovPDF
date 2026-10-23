@@ -1,0 +1,90 @@
+{
+  "profile": "webkit",
+  "browserVersion": "27.2",
+  "oldBaseline": false,
+  "url": "http://127.0.0.1:13958",
+  "method": "Implementation-informed college office task with the same official DOCX; not an independent blind study. Saved new-form admissions is implementation fixture, not the unavailable CEO cloud recovery file.",
+  "checks": [
+    "原件进入统一工作区，纵横分节仍保留",
+    "空格原位置字号可见，未统一整表",
+    "本次填字可撤销且标题修改保留",
+    "关页重开保持两处模拟文字与插入字号",
+    "便携恢复包重新打开保留填字和原件身份",
+    "旧版恢复稿保留已保存字号，不批量改写源文格式",
+    "本机保存重开的填写稿首次Word/PDF下载完成"
+  ],
+  "errors": [],
+  "downloads": [
+    {
+      "name": "untouched.docx",
+      "bytes": 38431,
+      "sha256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "elapsedMs": 598
+    },
+    {
+      "name": "untouched.pdf",
+      "bytes": 109201,
+      "sha256": "f55f9ec9e08df864213e7232cd80b0f7b5ef05f6e60d81cda880fb51498fabd3",
+      "elapsedMs": 620
+    },
+    {
+      "name": "edited.docx",
+      "bytes": 36802,
+      "sha256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "elapsedMs": 726
+    },
+    {
+      "name": "edited.pdf",
+      "bytes": 109903,
+      "sha256": "c00702838f533d5718fbe46169b9f5ae1018cf3e15d727893d7405a1b9e50059",
+      "elapsedMs": 737
+    },
+    {
+      "name": "edited.gongwen-word.json",
+      "bytes": 567397,
+      "sha256": "e5c14c71a176e91055b8631ed06a818196cc71263c69718b98f88333cecd9f5b",
+      "elapsedMs": 444
+    },
+    {
+      "name": "restored.docx",
+      "bytes": 36802,
+      "sha256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "elapsedMs": 690
+    },
+    {
+      "name": "legacy-restored.docx",
+      "bytes": 36809,
+      "sha256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+      "elapsedMs": 836
+    },
+    {
+      "name": "legacy-restored.pdf",
+      "bytes": 109947,
+      "sha256": "88f19c3e6c25becd6faca18f33466f8784ba361b76f6123eb5856a2fde542a4c",
+      "elapsedMs": 598
+    },
+    {
+      "name": "saved-new-admissions.docx",
+      "bytes": 17066644,
+      "sha256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "elapsedMs": 4771
+    },
+    {
+      "name": "saved-new-admissions.pdf",
+      "bytes": 50709,
+      "sha256": "e5f63fc0a288e5528ecee18e09fbee1c5f1ebf5e1573f928b218a6aeba486a8b",
+      "elapsedMs": 641
+    }
+  ],
+  "wasm": [
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c",
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+  ],
+  "passed": true
+}

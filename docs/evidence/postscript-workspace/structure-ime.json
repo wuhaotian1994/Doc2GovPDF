@@ -1,0 +1,62 @@
+[
+  {
+    "profile": "chrome",
+    "baseline": false,
+    "syntheticCompositionEvents": true,
+    "nativeIME": false,
+    "checks": [
+      "composition end with no final input converges body-paragraph",
+      "an unchanged final input does not lose the completed preview body-paragraph",
+      "composition end with no final input converges body-cell",
+      "an unchanged final input does not lose the completed preview body-cell",
+      "composition end with no final input converges note-paragraph",
+      "an unchanged final input does not lose the completed preview note-paragraph",
+      "composition end with no final input converges note-cell",
+      "an unchanged final input does not lose the completed preview note-cell",
+      "current structured composition results produce actual Word and PDF",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "baseline": false,
+    "syntheticCompositionEvents": true,
+    "nativeIME": false,
+    "checks": [
+      "composition end with no final input converges body-paragraph",
+      "an unchanged final input does not lose the completed preview body-paragraph",
+      "composition end with no final input converges body-cell",
+      "an unchanged final input does not lose the completed preview body-cell",
+      "composition end with no final input converges note-paragraph",
+      "an unchanged final input does not lose the completed preview note-paragraph",
+      "composition end with no final input converges note-cell",
+      "an unchanged final input does not lose the completed preview note-cell",
+      "current structured composition results produce actual Word and PDF",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "baseline": false,
+    "syntheticCompositionEvents": true,
+    "nativeIME": false,
+    "checks": [
+      "composition end with no final input converges body-paragraph",
+      "an unchanged final input does not lose the completed preview body-paragraph",
+      "composition end with no final input converges body-cell",
+      "an unchanged final input does not lose the completed preview body-cell",
+      "composition end with no final input converges note-paragraph",
+      "an unchanged final input does not lose the completed preview note-paragraph",
+      "composition end with no final input converges note-cell",
+      "an unchanged final input does not lose the completed preview note-cell",
+      "current structured composition results produce actual Word and PDF",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

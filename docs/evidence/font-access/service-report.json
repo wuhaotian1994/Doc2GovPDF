@@ -1,0 +1,25 @@
+[
+  {
+    "profile": "chrome",
+    "checks": [
+      "不支持API说明兼容路径而非未安装",
+      "拒绝权限不会误报字体缺失",
+      "空列表保持未知并保留文件路径",
+      "本机枚举与实际字节名称不一致拒绝采用",
+      "文件集合列出两张真实字体面且未默认保存",
+      "第二张面真实身份与技术用途可见",
+      "取消字体选择不改变原稿或配置",
+      "所选集合第二面经实际引擎注册并保存真实身份",
+      "Word未嵌入与PDF回退边界明确可见",
+      "损坏文件不覆盖已存字体或正文",
+      "字体保存失败保留错误和旧身份，不能冒认采用成功",
+      "刷新后真实字体面与原稿保持",
+      "恢复备用只移除所选用途，不改文稿",
+      "主动本机读取契约匹配真实字节后才提供确认"
+    ],
+    "errors": [],
+    "method": "Headless actual UI with synthetic permission/list/blob contracts; real OFL TrueType/TTC bytes through the actual Go/Wasm registration. Not actual customer permission or Windows installed-font access.",
+    "browserVersion": "155.0.8059.86",
+    "passed": true
+  }
+]

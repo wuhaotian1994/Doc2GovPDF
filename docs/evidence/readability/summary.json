@@ -1,0 +1,20 @@
+{
+  "sameDraftBeforeAfter": true,
+  "pairedBrowserCases": 6,
+  "actualFiles": 24,
+  "directPDFTextPages": 72,
+  "nativeWordPages": 24,
+  "visualPages": 48,
+  "uniqueReviewedPages": 38,
+  "fullGoTest": true,
+  "goVet": true,
+  "focusedGoRegressions": 5,
+  "previewChecks": 30,
+  "liveFirstUseChecks": 16,
+  "legacyCacheRecovery": true,
+  "baselineProduct": "7ddb249743b45e4df7c061c939ea8d13a7e34bc6",
+  "targetCEOCommit": "b99c894f9731f8e604385c1185cd545d7dcf8cee",
+  "latestAcknowledgedCeoBlob": "2446d584d72100ba5b48ae3c54e36c0e4cc75ddf",
+  "finalEngineSHA256": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6",
+  "latestAcknowledgedCeoCommit": "8139345c41d3360cb6f8c3fdaaf8436228b5ddfe"
+}

@@ -1,0 +1,22 @@
+{
+  "baseline": false,
+  "profile": "firefox",
+  "version": "157.0",
+  "source": "https://jyj.panjin.gov.cn/2025_05/14_10/content-520850.html",
+  "method": "Implementation role-task verification; not a blind-user study. Normal UI; no draft/localStorage injection.",
+  "checks": [
+    "whole-material review directly presents the existing 14 by 4 table",
+    "conversion is an explicit unselected choice",
+    "confirmation shows all 56 source cells including total and public-fee notes",
+    "cancelling retains raw input and does not apply fields or tables",
+    "authored notice and date remain independent with complete source material",
+    "all school rows original blank cells and 9000 inclusion total survive without retyping",
+    "saved same draft reopens with exact complete table and signing/date",
+    "actual engine response bytes match the intended build",
+    "no runtime errors"
+  ],
+  "errors": [],
+  "passed": true,
+  "engineSHA256": "14e4674f8a5f329571f52201f637804e1fbd4621cc0128740050278d26611b88",
+  "preview": "已更新 · 2 页"
+}

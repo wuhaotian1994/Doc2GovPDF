@@ -1,0 +1,49 @@
+{
+  "method": "Two independent Node V8 processes on the same actual DOCX, not a cloud browser crash reproduction or a browser peak-memory measurement.",
+  "rows": [
+    {
+      "mode": "before",
+      "node": "v24.14.1",
+      "bytes": 17066644,
+      "sha256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "elapsedMs": 1506.4822000000001,
+      "before": {
+        "rss": 91918336,
+        "heapTotal": 8204288,
+        "heapUsed": 4957400,
+        "external": 42113351,
+        "arrayBuffers": 17083263
+      },
+      "after": {
+        "rss": 674263040,
+        "heapTotal": 569524224,
+        "heapUsed": 446317600,
+        "external": 59215102,
+        "arrayBuffers": 34149907
+      },
+      "maxRSSKiB": 658464
+    },
+    {
+      "mode": "after",
+      "node": "v24.14.1",
+      "bytes": 17066644,
+      "sha256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "elapsedMs": 78.6171,
+      "before": {
+        "rss": 91844608,
+        "heapTotal": 8204288,
+        "heapUsed": 4957472,
+        "external": 42113351,
+        "arrayBuffers": 17083263
+      },
+      "after": {
+        "rss": 126009344,
+        "heapTotal": 25272320,
+        "heapUsed": 22170632,
+        "external": 59215102,
+        "arrayBuffers": 34149907
+      },
+      "maxRSSKiB": 123060
+    }
+  ]
+}

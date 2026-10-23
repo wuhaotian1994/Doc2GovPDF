@@ -1,0 +1,74 @@
+{
+  "pages": [
+    {
+      "file": "chrome.pdf",
+      "pdfSHA256": "fb9a424dae673041b76f288bfe17c8974f13543842092806620a17a865983f7d",
+      "image": "chrome-1.png",
+      "imageSHA256": "6f8f7f9fdd162a651daa57055e800b5714ae0e6ac84647eafbd78d709ad79073"
+    },
+    {
+      "file": "chrome.word.pdf",
+      "pdfSHA256": "e46e53bdde4ec4d5c4b20b1bb392b59b0e5edb603bb374b14ba3871ee6e7a4ce",
+      "image": "chrome.word-1.png",
+      "imageSHA256": "d401807bfc0833f3ad5c52bc3ce64924cade48e73c5f54da3c96f125a21c1aea"
+    },
+    {
+      "file": "chrome-restored.pdf",
+      "pdfSHA256": "ac55479c3a5082a5586ba7a8d7af3d88bc3386f0c0d3cc8e4da85d484ffa58b4",
+      "image": "chrome-restored-1.png",
+      "imageSHA256": "6f8f7f9fdd162a651daa57055e800b5714ae0e6ac84647eafbd78d709ad79073"
+    },
+    {
+      "file": "chrome-restored.word.pdf",
+      "pdfSHA256": "f64f9f431d8dac5f35ea5a3a4094f8bf29ff6e5a4c38e481a9e7de447c1e4ee1",
+      "image": "chrome-restored.word-1.png",
+      "imageSHA256": "d401807bfc0833f3ad5c52bc3ce64924cade48e73c5f54da3c96f125a21c1aea"
+    },
+    {
+      "file": "chrome-reopened.pdf",
+      "pdfSHA256": "38724dffd1fd633ca4c322120a347d82ba6d4c1917c10c527e064491742321a9",
+      "image": "chrome-reopened-1.png",
+      "imageSHA256": "de6fddcfc7902eaeb551dc886edf4dada45e9021c55359b261fddcd27f85097b"
+    },
+    {
+      "file": "chrome-reopened.word.pdf",
+      "pdfSHA256": "35c7a5be97426a064b2a0a39386272077ddfde702c30b3be03386b211d037dbe",
+      "image": "chrome-reopened.word-1.png",
+      "imageSHA256": "d401807bfc0833f3ad5c52bc3ce64924cade48e73c5f54da3c96f125a21c1aea"
+    },
+    {
+      "file": "chrome-fallback.pdf",
+      "pdfSHA256": "7c5c37f19102358355e1cf73bb495172f5b35ce8e892dcdc4ef7968181c38b75",
+      "image": "chrome-fallback-1.png",
+      "imageSHA256": "ee8b91e8ca55131ad9ec8f0ba34140a5e939b9caa2597933de15d23c3e81fe4f"
+    },
+    {
+      "file": "chrome-fallback.word.pdf",
+      "pdfSHA256": "8ded822a8aab0c9d66479516411a8f538cbbf599dd45d8e98f59679ddd1a5e54",
+      "image": "chrome-fallback.word-1.png",
+      "imageSHA256": "5f589cea2204c1729df4e4afd8d4921e9363b0cc72d7159e82d6a2fc2fac5c39"
+    }
+  ],
+  "groups": [
+    {
+      "sample": "chrome",
+      "image": "chrome-direct-and-word.png",
+      "pages": 2
+    },
+    {
+      "sample": "chrome-restored",
+      "image": "chrome-restored-direct-and-word.png",
+      "pages": 2
+    },
+    {
+      "sample": "chrome-reopened",
+      "image": "chrome-reopened-direct-and-word.png",
+      "pages": 2
+    },
+    {
+      "sample": "chrome-fallback",
+      "image": "chrome-fallback-direct-and-word.png",
+      "pages": 2
+    }
+  ]
+}
