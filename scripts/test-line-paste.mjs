@@ -12,16 +12,16 @@ assert.equal(markedDraft(source,marks).fields.body,'请整理资料，保留原�
 assert.equal(markedDraft('未标记\n原文',{}).fields.body,'未标记\n原文');
 assert.deepEqual(reconcileMarks('甲\n乙\n丙','甲\n新行\n乙\n丙',{0:'title',2:'body'}),{0:'title',3:'body'});
 assert.throws(()=>markedDraft('甲'.repeat(181),{0:'title'}));
-const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(new URL('../build/qa/line-paste-web',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1'));
+const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(new URL('../build/qa/article-home-web',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1'));
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 const out=new URL('../build/qa/line-paste/',import.meta.url);await mkdir(out,{recursive:true});
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];
  page.on('pageerror',error=>errors.push(error.message));
- await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);
+ await page.goto(server.url);await page.waitForFunction(()=>window.writerReady);await page.locator('#home-new').click();
  assert.equal(await page.locator('#save-document').count(),0);assert.equal(await page.locator('#open-word-footer').count(),0);
  await page.locator('#title').fill('原稿标题');
- await page.locator('#material-open').click();
+ await page.locator('#back-home').click();await page.locator('#material-open').click();
  await page.locator('#line-paste-text').fill(source);
  for(const [index,role] of Object.entries(marks)){
    await page.locator('#line-paste-text').evaluate((el,i)=>{const offset=el.value.split('\n').slice(0,i).reduce((sum,line)=>sum+line.length+1,0);el.focus();el.setSelectionRange(offset,offset);el.dispatchEvent(new Event('click'));},Number(index));
@@ -40,11 +40,11 @@ try{
  assert.equal(await page.locator('#title').inputValue(),'关于资料归档的通知');
  assert.equal(await page.locator('#signer').inputValue(),'张三');
  assert.equal(await page.locator('#body').inputValue(),'请整理资料，保留原件。\n第二段正文。');
- assert.equal(await page.locator('#sourceMaterial').inputValue(),source);
+ assert.equal(await page.locator('#sourceMaterial').inputValue(),'');
  await page.reload();await page.waitForFunction(()=>window.writerReady);
  assert.equal(await page.locator('#signer').inputValue(),'张三');
- assert.equal(await page.locator('#sourceMaterial').inputValue(),source);
- await page.locator('[data-step="0"]').click();
+ assert.equal(await page.locator('#sourceMaterial').inputValue(),'');
+
  await page.locator('#material-open').click();
  const longText='<script>不可执行</script>\n'+('长段落文字。'.repeat(80))+'\n末行';
  await page.locator('#line-paste-text').fill(longText);
@@ -61,6 +61,6 @@ try{
  assert.equal(await page.locator('.line-paste-row[data-role=body]').count(),2);
  await page.locator('#line-paste-dialog [data-dismiss]').first().click();
  assert.deepEqual(errors,[]);
- await writeFile(new URL('result.json',out),JSON.stringify({passed:true,browser:browser.version(),checks:['removed buttons','row marking and caret','color labels','cancel preserves original','reopen preserves annotations','apply roles','original source retained','reload persistence','no runtime errors','model limits and line shifts']},null,2));
+ await writeFile(new URL('result.json',out),JSON.stringify({passed:true,browser:browser.version(),checks:['removed buttons','row marking and caret','color labels','cancel preserves original','reopen preserves annotations','apply roles','retained source removed','reload persistence','no runtime errors','model limits and line shifts']},null,2));
  console.log('PASS line paste model and browser workflow');
 }finally{await browser.close();await server.close();}

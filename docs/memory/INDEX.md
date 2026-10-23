@@ -6,6 +6,7 @@
 
 | 遇到的问题 | 先读 |
 | --- | --- |
+| 文章首页、逐行默认识别和日期标记如何使用？ | [最新首页交接](handoffs/01a1669f-line-paste.md) |
 | 整篇粘贴为何先给可编辑稿，署名日期疑点如何原位处理？ | [暂排主链与实际交付](../DRAFT-FIRST-PASTE-RESPONSE.md) |
 | 完整反馈/PostgreSQL是否开工、下一关口和估时？ | [实施排期与实际状态](../FEEDBACK-IMPLEMENTATION-PLAN.md) |
 | 有意留白回执怎样按表判断并保存，变化时为何重核？ | [空白范围决定与实物](../TABLE-BLANK-RANGE-RESPONSE.md) |
