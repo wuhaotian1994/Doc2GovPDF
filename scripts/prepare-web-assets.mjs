@@ -1,10 +1,12 @@
+import {prepareSystemFonts} from './prepare-system-fonts.mjs';
 import {readFile,writeFile,copyFile,mkdir,readdir} from 'node:fs/promises';
 import {resolve,relative,extname} from 'node:path';
 import {createHash} from 'node:crypto';
-import {brotliCompressSync,gzipSync,constants} from 'node:zlib';
+import {brotliCompressSync,gzipSync,brotliDecompressSync,gunzipSync,constants} from 'node:zlib';
 const root=resolve(import.meta.dirname,'..'),out=resolve(root,process.argv[2]||'dist/web');
 await mkdir(resolve(out,'fonts'),{recursive:true});
 const describe=async(url,type)=>{const bytes=await readFile(resolve(out,url));const digest=createHash('sha256').update(bytes);return {url:'./'+url,type,sha256:digest.copy().digest('hex'),integrity:'sha256-'+digest.digest('base64')};};
+const systemFonts=await prepareSystemFonts(out);
 const fonts=[];
 for(const [name,file,key] of [['Noto Serif SC','NotoSerifSC.ttf','serif'],['Noto Serif SC Black','NotoSerifSC-Black.ttf','serif-black']]){
   const core='fonts/'+key+'-core.ttf',full='fonts/'+key+'-full.ttf';
@@ -15,19 +17,20 @@ for(const [name,file,key] of [['Noto Serif SC','NotoSerifSC.ttf','serif'],['Noto
 await copyFile(resolve(root,'assets/fonts/OFL.txt'),resolve(out,'fonts/document-fonts-OFL.txt'));
 const wasm=await describe('document-engine.wasm','application/wasm');
 const coreCoverage=JSON.parse(await readFile(resolve(root,'assets/fonts/web/coverage.json'),'utf8'));
-const version=createHash('sha256').update(JSON.stringify({wasm,fonts,coreCoverage})).digest('hex').slice(0,20);
-await writeFile(resolve(out,'engine-assets.js'),'self.DOCUMENT_ENGINE_ASSETS='+JSON.stringify({version,wasm,fonts,coreCoverage})+';\n');
+const version=createHash('sha256').update(JSON.stringify({wasm,fonts,coreCoverage,systemFonts})).digest('hex').slice(0,20);
+await writeFile(resolve(out,'engine-assets.js'),'self.DOCUMENT_ENGINE_ASSETS='+JSON.stringify({version,wasm,fonts,coreCoverage,systemFonts})+';\n');
 const files=[];
 async function visit(folder){for(const item of await readdir(folder,{withFileTypes:true})){const path=resolve(folder,item.name);if(item.isDirectory())await visit(path);else if(!['.gz','.br'].includes(extname(path))&&item.name!=='sw.js')files.push(path);}}
 await visit(out);files.sort();
 for(const file of files.filter(file=>['.wasm','.ttf','.js','.mjs','.css','.html'].includes(extname(file)))){
   const bytes=await readFile(file);
   if(bytes.length<1024)continue;
-  await writeFile(file+'.gz',gzipSync(bytes,{level:9}));
-  await writeFile(file+'.br',brotliCompressSync(bytes,{params:{[constants.BROTLI_PARAM_QUALITY]:11}}));
+  let gzipValid=false,brValid=false;try{gzipValid=gunzipSync(await readFile(file+'.gz')).equals(bytes);}catch{}try{brValid=brotliDecompressSync(await readFile(file+'.br')).equals(bytes);}catch{}
+  if(!gzipValid)await writeFile(file+'.gz',gzipSync(bytes,{level:9}));
+  if(!brValid)await writeFile(file+'.br',brotliCompressSync(bytes,{params:{[constants.BROTLI_PARAM_QUALITY]:11}}));
 }
 // Precache the UI, not every font and a second concurrent engine download.
-const resources=new Set(['document-engine.wasm',...fonts.flatMap(font=>[font.core.url.slice(2),font.full.url.slice(2)])]);
+const resources=new Set([...systemFonts.map(font=>font.url.slice(2)),'document-engine.wasm',...fonts.flatMap(font=>[font.core.url.slice(2),font.full.url.slice(2)])]);
 // The active viewer uses .js; do not fetch duplicate PDF.js aliases during setup.
 resources.add('vendor/pdfjs/pdf.mjs');resources.add('vendor/pdfjs/pdf.worker.mjs');
 const precache=['./',...files.map(file=>relative(out,file).replaceAll('\\','/')).filter(file=>file!=='index.html'&&!resources.has(file)).map(file=>'./'+file)];

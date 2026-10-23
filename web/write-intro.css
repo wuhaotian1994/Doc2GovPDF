@@ -20,3 +20,20 @@
 @media(max-width:600px){.welcome-domain{left:20px;top:32px}.welcome-domain h2{font-size:30px}.welcome-domain p{font-size:14px}.welcome-copy{padding:20px}.welcome-actions{flex-wrap:wrap}}
 
 .article-actions .quiet:hover:not(:disabled),.article-actions .quiet:active:not(:disabled){background:transparent;border-color:transparent;box-shadow:none;transform:none}
+
+/* Operator-managed fonts, compact welcome, and hover-only action emphasis. */
+.article-actions [data-article-action=rename],.article-actions [data-article-action=delete]{color:var(--muted)}
+.article-actions [data-article-action=rename]:hover:not(:disabled){color:var(--blue)}
+.article-actions [data-article-action=delete]:hover:not(:disabled){color:var(--error,#aa2633)}
+#welcome-dialog{width:min(680px,calc(100% - 32px))}
+.welcome-shell{display:grid;grid-template-columns:56% 44%;min-height:320px}
+.welcome-copy{padding:36px 0 24px 32px;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center}
+.welcome-copy h2{margin:0 0 8px;color:var(--blue);font-size:40px;line-height:1.2;letter-spacing:-.025em}
+.welcome-copy .welcome-mnemonic{font-size:16px;color:var(--ink);font-weight:600}
+.welcome-copy .welcome-description{margin:24px 0 0;font-size:20px;line-height:1.6;color:var(--ink)}
+.welcome-art{height:auto;min-height:320px;background:#fff}
+.welcome-art img{width:100%;height:100%;object-fit:cover;object-position:right center}
+.welcome-actions{gap:10px;margin-top:24px;flex-wrap:nowrap}
+#welcome-copy-status{font-size:12px;min-height:20px;margin-top:8px;color:var(--muted)}
+.welcome-note{margin:0;padding:16px 32px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media(max-width:580px){.welcome-shell{grid-template-columns:1fr;min-height:0}.welcome-copy{padding:28px 24px 12px}.welcome-copy h2{font-size:36px}.welcome-art{display:none}.welcome-note{padding:16px 24px}.welcome-copy .welcome-description{margin-top:16px}}

@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// Only the OFL fallback faces are embedded. Installed system fonts are not
-// redistributed; a missing face is explicitly named as a fallback in the file.
+// Embed OFL fallback faces and the explicitly licensed website font package.
+// Ordinary user-selected fonts never inherit the website package provenance.
 func addFallbackFonts(parts map[string]string) (map[string][]byte, error) {
 	prepared := map[string]fontData{}
 	used := map[string]fontData{}
@@ -27,6 +27,15 @@ func addFallbackFonts(parts map[string]string) (map[string][]byte, error) {
 					continue
 				}
 				name, face, embedFallback := wordFontDeclaration(declared)
+				embedSystem := isSystemFont(face)
+				if embedSystem {
+					owned, ok := prepared[face.name]
+					if !ok {
+						owned = fontData{name, append([]byte(nil), face.data...)}
+						prepared[face.name] = owned
+					}
+					face = owned
+				}
 				if embedFallback {
 					derived, ok := prepared[face.name]
 					if !ok {
@@ -45,7 +54,7 @@ func addFallbackFonts(parts map[string]string) (map[string][]byte, error) {
 				}
 				// Decide from the original resolved provenance, never from the
 				// newly written family name (which may also start with Noto).
-				if embedFallback {
+				if embedFallback || embedSystem {
 					used[face.name] = face
 				}
 			}
@@ -71,7 +80,7 @@ func addFallbackFonts(parts map[string]string) (map[string][]byte, error) {
 		sum := sha256.Sum256(face.data)
 		key := fmt.Sprintf("{%X-%X-%X-%X-%X}", sum[:4], sum[4:6], sum[6:8], sum[8:10], sum[10:16])
 		// face.data is this export's validated owned derivative, never registered data.
-		data := face.data
+		data := append([]byte(nil), face.data...)
 		for n := 0; n < 32; n++ {
 			data[n] ^= sum[15-n%16]
 		}

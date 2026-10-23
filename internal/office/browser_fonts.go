@@ -33,6 +33,7 @@ func RegisterFont(role string, data []byte) error {
 		return fmt.Errorf("请选择有效的 TTF 字体文件")
 	}
 	fontCatalog()
+	delete(systemFontHashes, role)
 	fonts[role] = fontData{role, data}
 	fontMaps[role] = face
 	return nil
@@ -56,6 +57,7 @@ func AliasRegisteredFont(role, source string) error {
 	if !ok || len(face.data) == 0 || fontMaps[source] == nil {
 		return fmt.Errorf("所选来源字体尚未读取")
 	}
+	delete(systemFontHashes, role)
 	fonts[role] = fontData{role, face.data}
 	fontMaps[role] = fontMaps[source]
 	return nil

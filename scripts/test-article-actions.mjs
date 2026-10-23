@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {startWebServer} from './browser-tests/server.mjs';
 const require=createRequire(new URL('./browser-tests/package.json',import.meta.url)),{chromium}=require('playwright');
 const out=new URL('../build/qa/article-actions/',import.meta.url);await mkdir(out,{recursive:true});
-const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/intro-settings-web',import.meta.url)));
+const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/system-fonts-web',import.meta.url)));
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));

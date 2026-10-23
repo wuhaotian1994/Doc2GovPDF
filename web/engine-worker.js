@@ -1,6 +1,15 @@
 importScripts('./wasm_exec.js', './engine-assets.js', './engine-resources.js');
 const resources = new EngineResources(self.DOCUMENT_ENGINE_ASSETS);
-self.engineReady = () => postMessage({ready:true});
+self.engineReady = async () => {
+  try{
+    for(const font of self.DOCUMENT_ENGINE_ASSETS.systemFonts||[]){
+      postMessage({resource:'system-font'});
+      const data=new Uint8Array(await resources.bytes(font));
+      const error=self.documentRegisterSystemFont(font.role,data);if(error)throw Error(error);
+    }
+    postMessage({ready:true});
+  }catch(error){postMessage({fatal:'系统排版字库未能加载：'+error.message});}
+};
 const go = new Go();
 resources.bytes(self.DOCUMENT_ENGINE_ASSETS.wasm)
   .then(data => WebAssembly.instantiate(data, go.importObject))

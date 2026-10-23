@@ -3,7 +3,6 @@ import {installHome} from './write-home.js';
 import {installLinePaste} from './write-line-paste.js';
 import {assembleArticle,applyAssemblyQuestion} from './write-assembly.js';
 import {installAssemblyView} from './write-assembly-view.js';
-import {installFontSetup} from './write-font-setup.js';
 import {installIntro} from './write-intro.js';
 import {decodeBase64,encodeBase64} from './write-bytes.js';
 import {hasAnnexes,annexCandidates,applyAnnexChoices,attachmentSummary} from './write-annexes.js';
@@ -43,9 +42,7 @@ let previewRun=0;
 const previewDeadlineMS=30000;
 let previewFailed=false,lastPreviewError='',lastSaveError='';
 let previous, replacement, rawRecovery, fontDB, fontStore = {}, engineFonts = [];
-let fontChoiceRequired=false,fontReading=false,offlineStarted=false;
-const fontChoiceKey='gongwen-font-start-v1';
-function chooseFontPath(){fontChoiceRequired=false;$('font-start').hidden=true;try{localStorage.setItem(fontChoiceKey,'chosen');}catch{}schedulePreview();}
+let fontReading=false,offlineStarted=false;
 function prepareOffline(){if(offlineStarted||!('serviceWorker' in navigator))return;offlineStarted=true;navigator.serviceWorker.register('./sw.js').catch(()=>{offlineStarted=false;});}
 let currentId=crypto.randomUUID(), common=defaultCommon(), library={version:1,items:[]}, libraryBroken=false, deleteId,copyingCurrent=false;
 const stepScrolls=[0,0,0];
@@ -54,8 +51,8 @@ function renderAssembly(){if(assemblyView)queueMicrotask(()=>assemblyView.render
 let referenceChoice=null,referenceUndo=null,referenceDismissed=null,referencePointerTarget=null;
 const confirmed = new Set();
 const decisions = new ReviewDecisions();
-const engine = new WriterEngine(() => wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore);
-engine.onResource=kind=>{const message=kind==='full-font'?'正在加载此稿所需的完整字体…':'正在准备此稿所需的字体…';if(exporting)$('export-status').textContent=message;else if(rendering)$('preview-status').textContent=message+'可继续填写';};
+const engine = new WriterEngine();
+engine.onResource=kind=>{const message=kind==='full-font'?'正在准备完整排版资源…':'正在准备系统排版资源…';if(exporting)$('export-status').textContent=message;else if(rendering)$('preview-status').textContent=message+'可继续填写';};
 let wordWorkspace,pdfReadyRevision=-1,wordDisabled=[],outputWarnings=[];
 function currentDraft(nextFields=fields){
   decisions.retain(nextFields,currentId,bodyContent);
@@ -359,7 +356,6 @@ function renderChecks() {
   updateExport();persist();renderAssembly();
 }
 async function preview() {
-  if(fontChoiceRequired&&!wordWorkspace?.active){$('preview-status').textContent='请先配置排版，或选择稍后配置';$('font-start-status').textContent='内容已保留；选择后开始生成 PDF。';return;}
   clearTimeout(previewTimer);
   if(fontBusy||fontReading){$('preview-status').textContent='字体正在更新，完成后会继续预览';updateExport();return;}
   if(!wordWorkspace?.active&&(dateProblems().length||issuanceProblems().length)){
@@ -668,24 +664,7 @@ async function writeFonts(value) {
     transaction.oncomplete=resolve;transaction.onerror=()=>reject(transaction.error);transaction.onabort=()=>reject(transaction.error || Error('字体保存中断'));
   });
 }
-async function showFonts(){return fontSetup.refresh();}
-function openCommon(){populateCommon();$('common-message').textContent='';fontSetup.refresh();$('common-dialog').showModal();}
-async function changeLocalFonts(entries){
-  if(!hasLock||fontBusy||exporting)throw Error('请等待当前处理完成后再采用字体。');
-  fontBusy=true;invalidate();
-  try{
-    const next={...fontStore};
-    const registered=new Map();
-    for(const [role,data] of Object.entries(entries)){
-      const existing=registered.get(data);
-      if(existing){await engine.call('AliasFont',role,existing.role);next[role]=existing.encoded;}
-      else{await engine.call('RegisterFontBytes',role,data);const encoded=base64(data);next[role]=encoded;registered.set(data,{role,encoded});}
-    }
-    await writeFonts(next);try{if(wordWorkspace?.active)await wordWorkspace.setFonts({...wordWorkspace.fonts,...next});}catch(error){await writeFonts(fontStore);throw error;}fontStore=next;
-    chooseFontPath();await showFonts();
-  }catch(error){engine.reset();throw error;}
-  finally{fontBusy=false;invalidate();schedulePreview();}
-}
+function openCommon(){populateCommon();$('common-message').textContent='';$('common-dialog').showModal();}
 async function boot() {
   try {
     if(!navigator.locks)throw Error('当前浏览器不支持安全草稿保存，请使用新版 Edge、Chrome、Firefox 或 Safari。');
@@ -707,15 +686,6 @@ async function boot() {
   }catch(e){error(e.message);hasLock=false;}
   $('editable').disabled=!hasLock;
   $('new-document').disabled=!hasLock;$('load-draft').disabled=!hasLock;$('load-draft-open').disabled=!hasLock;
-  try {
-    fontDB=await openFontDB();
-    fontStore=await new Promise((resolve,reject)=>{
-      const request=fontDB.transaction('fonts').objectStore('fonts').get('custom');
-      request.onsuccess=()=>resolve(request.result || {});request.onerror=()=>reject(request.error);
-    });
-  }catch{error('字体存储不可用，当前使用内置字体。文档仍可填写与导出。');}
-  try{fontChoiceRequired=!fontSetup.isReady()&&!localStorage.getItem(fontChoiceKey);}catch{fontChoiceRequired=!fontSetup.isReady();}
-  $('font-start').hidden=!fontChoiceRequired;
   // Inputs may arrive while module imports or IndexedDB are still loading.
   // Merge only the fields actually edited, rather than hydrating over them.
   const pending=window.writerBoot?.pending();
@@ -915,10 +885,7 @@ $('load-draft').onchange=async event=>{
   }catch(e){const message=e instanceof SyntaxError?'文件不是有效的工作稿JSON，当前内容未改变。':e.message;$('draft-status').textContent=message;error(message);}
 };
 assemblyView=installAssemblyView({hasOriginal:()=>false,canUndo:()=>Boolean(previous),ready:()=>readyRevision===revision,kept:entry=>decisions.has(entry),entries:()=>model&&inspection?reviewItems(model,inspection,fields,currentId,bodyContent).filter(e=>e.issue._assembly):[],keep:(entry,value)=>{if(readyRevision!==revision)return;decisions.set(entry,value);persist();renderChecks();},apply:entry=>{if(readyRevision!==revision)return;try{const next=applyAssemblyQuestion(fields,bodyContent,entry.issue._assembly);requestReplace({...draft(next.fields,1,currentId,decisions.snapshot(currentId),next.content),reuseMessage:'已调整这一处，其余原文保持；可撤销上次整理。'},true);}catch(e){error(e.message);}},undo:()=>{if(previous)requestReplace({...previous,reuseMessage:'已撤销上次整理，原稿与原材料保持。'},true);}});
-const fontSetup=installFontSetup({apply:changeLocalFonts,decode:bytes,saved:()=>wordWorkspace?.active?(wordWorkspace.fonts||fontStore):fontStore,canEdit:()=>hasLock&&!fontBusy&&!fontReading&&!exporting,reading:value=>{fontReading=value;if(!value)schedulePreview();}});
 const intro=installIntro();
-$('font-start-local').onclick=()=>{openCommon();fontSetup.configure();};
-$('font-start-fallback').onclick=chooseFontPath;
 window.addEventListener('beforeunload',event=>{
   if(wordWorkspace?.dirty||$('save-status').textContent==='自动保存失败' || !wordWorkspace?.active&&(blockedSave&&names.some(name=>fields[name]) || dateProblems().length)){event.preventDefault();event.returnValue='';}
 });
