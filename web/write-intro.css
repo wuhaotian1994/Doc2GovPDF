@@ -57,3 +57,5 @@
 .about-footer{flex:none;display:flex;align-items:center;justify-content:space-between;padding:8px 24px;border-top:1px solid var(--line);font-size:14px}
 .about-footer a{color:var(--muted);text-underline-offset:3px}
 @media(max-width:600px){.about-paper{padding:12px 24px 24px}.about-letterhead h2{font-size:32px}.about-letter-body{font-size:17px}.about-letter-body blockquote{font-size:19px}}
+
+#welcome-copy-status:empty{display:none}
