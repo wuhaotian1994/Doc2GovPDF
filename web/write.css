@@ -210,3 +210,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 25px 0 10px; }
 .pdf-page-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px}
 .preview-canvas.zoomed #pdf-pages{width:max-content;min-width:100%;max-width:none}
 .preview-canvas.zoomed .pdf-page{width:var(--page-width);max-width:none}
+
+/* Align visible glyphs, not just their font line boxes. */
+.step-number{flex-shrink:0;line-height:1;font-family:Arial,sans-serif;font-variant-numeric:tabular-nums}
+.step-number>span{display:block;line-height:1;transform:translateY(-.5px)}
+#common-form>label.check{display:flex;align-items:center;gap:10px;margin:12px 0 20px;line-height:1.5}
+#common-form>label.check input{flex:0 0 18px;width:18px;height:18px;margin:0;accent-color:var(--blue)}
+#common-form>label.check span{display:block;transform:translateY(-1px)}

@@ -640,7 +640,6 @@ function replace(next) {
 function saveCommon(next) {
   if(!hasLock)throw Error('请关闭正在编辑的另一标签页后重试。');
   const checked=validateCommon(next);
-  if(checked.fields.letterhead&&!checked.fields.agency.trim())throw Error('默认显示红头时，请填写常用发文单位。');
   localStorage.setItem(COMMON_KEY,JSON.stringify(checked));common=checked;commonNeedsUpdate=false;if(commonAutoError&&$('global-error').dataset.message===commonAutoError)clearError();commonAutoError='';
 }
 function populateCommon(next=common) {
@@ -885,14 +884,25 @@ $('common-form').onsubmit=event=>{
   try{saveCommon(commonFrom(values,$('common-format').value));$('common-message').textContent='已保存，下次新建自动带入。';}
   catch(e){$('common-message').textContent=e.message;}
 };
-$('common-clear').onclick=()=>{try{saveCommon(defaultCommon());populateCommon();$('common-message').textContent='已清空常用信息，当前文档不变。';}catch(e){$('common-message').textContent=e.message;}};
+$('common-clear').onclick=()=>{try{saveCommon(defaultCommon());populateCommon();$('common-message').textContent='已清空信息，当前文档不变。';}catch(e){$('common-message').textContent=e.message;}};
 $('use-today').onclick=()=>{
   const now=new Date();$('date').value=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
   $('date').dispatchEvent(new Event('input',{bubbles:true}));
 };
 $('jump-preview').onclick=()=>{document.querySelector('.app-main').classList.add('preview-mode');$('preview-heading').focus({preventScroll:true});};
 $('back-writing').onclick=()=>{document.querySelector('.app-main').classList.remove('preview-mode');document.querySelector(`[data-panel="${step}"] h1`).focus({preventScroll:true});};
-$('zoom-preview').onclick=()=>{const zoomed=$('preview-canvas').classList.toggle('zoomed');$('zoom-preview').setAttribute('aria-pressed',String(zoomed));$('zoom-preview').textContent=zoomed?'适合宽度':'100%显示';};
+function centerPreviewHorizontally(){
+  const scroller=$('preview-canvas');
+  scroller.scrollLeft=scroller.classList.contains('zoomed')?Math.max(0,(scroller.scrollWidth-scroller.clientWidth)/2):0;
+}
+$('zoom-preview').onclick=()=>{
+  const zoomed=$('preview-canvas').classList.toggle('zoomed');
+  $('zoom-preview').setAttribute('aria-pressed',String(zoomed));$('zoom-preview').textContent=zoomed?'适合宽度':'100%显示';
+  centerPreviewHorizontally();requestAnimationFrame(centerPreviewHorizontally);
+};
+const previewCenterObserver=new ResizeObserver(()=>{if($('preview-canvas').classList.contains('zoomed'))centerPreviewHorizontally();});
+previewCenterObserver.observe($('preview-canvas'));previewCenterObserver.observe($('pdf-pages'));
+
 new MutationObserver(()=>$('mobile-save').textContent=$('save-status').textContent).observe($('save-status'),{childList:true,subtree:true,characterData:true});
 $('load-draft').onchange=async event=>{
   const file=event.target.files[0];event.target.value='';if(!file)return;
