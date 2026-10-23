@@ -25,3 +25,17 @@ body:not(.home-mode) #article-home{display:none}
 
 .article-excerpt,.article-meta,.article-new span{font-weight:400}
 .line-paste-toolbar button[aria-pressed=true]{background:var(--tint);border-color:var(--mark,var(--blue))}
+
+/* Compact article cards; actions are siblings of the edit button. */
+#article-grid{grid-template-columns:repeat(var(--article-columns,4),minmax(0,1fr));grid-template-rows:none;grid-auto-rows:200px;align-content:start;gap:16px}
+.article-card{padding:0;border-radius:7px}
+.article-card:focus-within{border-color:var(--blue)}
+.article-open{display:flex;flex-direction:column;align-items:flex-start;text-align:left;flex:1;min-height:0;width:100%;padding:16px 18px 8px;border:0;background:transparent;color:var(--ink);border-radius:7px 7px 0 0;overflow:hidden}
+.article-open:hover{background:transparent}
+.article-card h2{font-size:17px;line-height:1.5;margin-bottom:8px}
+.article-excerpt{-webkit-line-clamp:1;font-size:14px;line-height:1.5}
+.article-meta{padding-top:8px;font-weight:400}
+.article-actions{display:flex;justify-content:flex-end;gap:4px;padding:0 8px 4px;width:100%;box-sizing:border-box}
+.article-actions button{min-height:44px;padding:8px 10px;font-size:14px}
+.article-new{padding:18px;gap:8px}.article-new svg{width:32px;height:32px}.article-new strong{font-size:17px}
+#article-action-dialog h2{margin-top:0}#article-action-dialog input{width:100%;box-sizing:border-box}#article-action-error:empty{display:none}

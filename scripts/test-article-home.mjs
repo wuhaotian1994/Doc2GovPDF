@@ -12,7 +12,7 @@ const parsed=markedDraft(sample,guessed);assert.equal(parsed.fields.date,'2026-1
 assert.equal(parseLineDate('二〇二六年十月二十三日'),'2026-10-23');assert.equal(parseLineDate('2026年2月30日'),null);
 assert.throws(()=>markedDraft('2026年2月30日',{0:'date'}));assert.throws(()=>markedDraft('2026-01-01\n2026-02-02',{0:'date',1:'date'}));
 const out=new URL('../build/qa/article-home/',import.meta.url);await mkdir(out,{recursive:true});
-const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/article-home-web',import.meta.url)));
+const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(fileURLToPath(new URL('../build/qa/article-actions-web',import.meta.url)));
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -38,7 +38,7 @@ try{
  await page.screenshot({path:fileURLToPath(new URL('article-cards.png',out))});await noScroll();
  await page.reload();await page.waitForFunction(()=>window.writerReady&&!document.querySelector('#home-new').disabled);
  assert.ok(await page.locator('#article-home').isVisible());assert.equal(await page.locator('[data-article-id]').count(),3);
- await page.setViewportSize({width:1280,height:720});await noScroll();
+ await page.setViewportSize({width:1000,height:600});await noScroll();
  await page.waitForFunction(()=>document.querySelectorAll('[data-article-id]').length===2);await page.locator('#home-next').click();assert.equal(await page.locator('[data-article-id]').count(),1);
  await page.screenshot({path:fileURLToPath(new URL('short-home-page2.png',out))});
  await page.locator('[data-article-id]').click();await page.locator('.app-main').waitFor({state:'visible'});await page.goBack();assert.ok(await page.locator('#article-home').isVisible());await noScroll();

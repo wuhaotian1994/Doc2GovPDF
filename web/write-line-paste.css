@@ -2,17 +2,17 @@
 #line-paste-dialog[open]{display:flex;flex-direction:column;gap:12px}
 #line-paste-dialog .dialog-heading,#line-paste-dialog h2,#line-paste-dialog p{margin:0}
 .line-paste-help{color:var(--muted,#5e6b7b);font-size:14px}
-.line-paste-scroll{flex:1;min-height:0;overflow:auto;background:#eef1f5;padding:88px 24px 160px;scrollbar-color:#aeb9c8 #eef1f5}
+.line-paste-scroll{flex:1;min-height:0;overflow:auto;background:#fff;padding:4px;scrollbar-color:#aeb9c8 #fff}
 .line-paste-paper{position:relative;background:#fff;margin:auto;padding:24px 20px 24px 104px;min-height:100%;box-sizing:border-box}
 .line-paste-mirror,#line-paste-text{font:16px/32px "Microsoft YaHei","PingFang SC",sans-serif;letter-spacing:normal;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;tab-size:4;text-align:left}
 .line-paste-mirror{pointer-events:none;color:transparent}
-#line-paste-text{position:absolute;top:24px;left:104px;width:calc(100% - 124px);min-height:0;max-height:none;margin:0;padding:0;border:0;border-radius:0;resize:none;overflow:hidden;background:transparent;color:#202b3c;caret-color:#2458b8;box-shadow:none}
+#line-paste-text{position:absolute;top:24px;left:104px;width:calc(100% - 124px);min-height:calc(100% - 48px);max-height:none;margin:0;padding:0;border:0;border-radius:0;resize:none;overflow:hidden;background:transparent;color:#202b3c;caret-color:#2458b8;box-shadow:none}
 #line-paste-text:focus{outline:none}
 .line-paste-paper:focus-within{outline:2px solid #2458b8;outline-offset:2px}
 #line-paste-text::selection{background:#edf3fe;color:#202b3c}
-.line-paste-row{position:relative;min-height:32px}
-.line-paste-row[data-role]{outline:1px dashed var(--mark);outline-offset:0;background:color-mix(in srgb,var(--mark) 5%,transparent)}
-.line-paste-row[data-role]::before{content:attr(data-label);position:absolute;right:calc(100% + 16px);top:0;width:72px;text-align:right;white-space:nowrap;font-size:14px;font-weight:600;color:var(--mark)}
+.line-paste-row{position:relative;min-height:32px}.line-paste-group{position:relative}
+.line-paste-group[data-role]{outline:1px dashed var(--mark);outline-offset:0;background:color-mix(in srgb,var(--mark) 5%,transparent)}
+.line-paste-group[data-role]::before{content:attr(data-label);position:absolute;right:calc(100% + 16px);top:0;width:72px;text-align:right;white-space:nowrap;font-size:14px;font-weight:600;color:var(--mark)}
 [data-role=title]{--mark:#2458b8}[data-role=agency]{--mark:#9a3434}[data-role=signer]{--mark:#7450a0}[data-role=recipient]{--mark:#376c69}[data-role=reference]{--mark:#725424}[data-role=body]{--mark:#286545}[data-role=signature]{--mark:#934d20}[data-role=attachments]{--mark:#655786}[data-role=copyTo]{--mark:#386375}[data-role=postscript]{--mark:#5e6268}
 .line-paste-toolbar{position:absolute;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:4px;background:#fff;padding:8px 12px;border-radius:7px;box-shadow:0 6px 22px #1f30451a}
 .line-paste-toolbar[hidden]{display:none}
@@ -21,4 +21,6 @@
 .line-paste-toolbar button:hover{background:#edf3fe}
 .line-paste-footer{display:flex;align-items:center;gap:12px;flex-shrink:0}
 .line-paste-footer p{flex:1;font-size:14px;color:#5e6b7b}
-@media(max-width:700px){#line-paste-dialog{width:calc(100vw - 16px);height:calc(100dvh - 16px);padding:16px}.line-paste-scroll{padding:140px 8px 200px}.line-paste-paper{padding-left:80px;padding-right:12px}#line-paste-text{left:80px;width:calc(100% - 92px)}.line-paste-row[data-role]::before{width:64px;right:calc(100% + 8px)}.line-paste-footer{flex-wrap:wrap}.line-paste-footer p{flex-basis:100%}}
+@media(max-width:700px){#line-paste-dialog{width:calc(100vw - 16px);height:calc(100dvh - 16px);padding:16px}.line-paste-scroll{padding:4px}.line-paste-paper{padding-left:80px;padding-right:12px}#line-paste-text{left:80px;width:calc(100% - 92px)}.line-paste-group[data-role]::before{width:64px;right:calc(100% + 8px)}.line-paste-footer{flex-wrap:wrap}.line-paste-footer p{flex-basis:100%}}
+
+.line-paste-footer p:empty{visibility:hidden}

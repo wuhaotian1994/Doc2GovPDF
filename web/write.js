@@ -963,7 +963,41 @@ window.addEventListener('beforeunload',event=>{
 });
 document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='s'){event.preventDefault();if(window.writerReady)persist();}});
 
+
+function commitArticleStorage(changes){
+  const before=changes.map(([key])=>[key,localStorage.getItem(key)]);
+  try{for(const [key,value] of changes)value===null?localStorage.removeItem(key):localStorage.setItem(key,value);}
+  catch(error){for(const [key,value] of before){try{value===null?localStorage.removeItem(key):localStorage.setItem(key,value);}catch{}}throw Error('本地保存未完成，操作已取消。请先下载草稿并检查浏览器存储空间。');}
+}
+async function renameArticle(item,title){
+  if(!hasLock||blockedSave||libraryBroken)throw Error('当前无法修改文章，请检查页面上的保存提示。');
+  if(item.kind==='word'){await wordWorkspace.renameArticle(item.id,title);return;}
+  if(item.id===currentId){
+    const next=validateDraft(currentDraft({...fields,title}));
+    commitArticleStorage([[DRAFT_KEY,JSON.stringify(next)]]);fields=next.fields;fillFields();
+    if(!wordWorkspace?.active){invalidate();window.writerBoot?.saved(currentId,bodyContent);}
+  }else{
+    const found=library.items.find(row=>row.id===item.id);if(!found)throw Error('文章已不在列表中，请刷新首页。');
+    const document=validateDraft({...found.document,fields:{...found.document.fields,title}});
+    const next={...library,items:library.items.map(row=>row.id===item.id?{...row,document,savedAt:new Date().toISOString()}:row)};
+    commitArticleStorage([[LIBRARY_KEY,JSON.stringify(next)]]);library=next;
+  }
+}
+async function removeArticle(item){
+  if(!hasLock||blockedSave||libraryBroken)throw Error('当前无法删除文章，请检查页面上的保存提示。');
+  if(item.kind==='word'){await wordWorkspace.removeArticle(item.id);return;}
+  const nextLibrary={...library,items:library.items.filter(row=>row.id!==item.id)};
+  const changes=[[LIBRARY_KEY,JSON.stringify(nextLibrary)]];
+  const next=item.id===currentId?draft(freshFields(common),0,crypto.randomUUID()):null;
+  if(next)changes.push([DRAFT_KEY,JSON.stringify(next)]);
+  if(previous?.id===item.id)changes.push([DRAFT_KEY+'-previous',null]);
+  commitArticleStorage(changes);library=nextLibrary;
+  if(previous?.id===item.id){previous=null;$('undo-replace').hidden=true;}
+  if(next){fields=next.fields;currentId=next.id;bodyContent=null;step=0;decisions.restore(undefined,fields,currentId,bodyContent);fillFields();if(!wordWorkspace?.active){invalidate();window.writerBoot?.saved(currentId,null);}}
+}
+
 home=installHome({
+  rename:renameArticle,remove:removeArticle,
   canEdit:()=>window.writerReady&&hasLock&&!blockedSave&&!libraryBroken&&!exporting&&!fontBusy&&!fontReading,
   onError:error,
   save:async()=>{readFields();if(wordWorkspace?.active){await wordWorkspace.flush();return;}if(dateProblems().length)throw Error('请先修正或清空日期，再返回首页。');persist();if(lastSaveError||blockedSave)throw Error(lastSaveError||'文章尚未保存，请先下载草稿。');},

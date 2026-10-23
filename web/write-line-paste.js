@@ -65,14 +65,14 @@ export function installLinePaste({apply,initial}) {
     <p class="line-paste-help" id="line-paste-help">粘贴全文后会预选每行用途。请核对左侧标记，点击某行或选中多行即可修改。</p>
     <div class="line-paste-scroll"><div class="line-paste-paper"><div class="line-paste-mirror" aria-hidden="true"></div><textarea id="line-paste-text" aria-label="粘贴文章全文" aria-describedby="line-paste-help" spellcheck="false" placeholder="在这里粘贴文章……"></textarea></div></div>
     <div class="line-paste-toolbar" role="group" aria-label="标记所选行" hidden><span>标记为</span>${Object.entries(lineRoles).map(([role,label])=>`<button type="button" data-role="${role}">${label}</button>`).join('')}<button type="button" data-role="">取消标记</button></div>
-    <footer class="line-paste-footer"><p id="line-paste-status" role="status">默认标记仅供参考，确认后创建文章。</p><button type="button" class="secondary" data-dismiss>取消</button><button type="button" class="primary" id="line-paste-confirm">确定</button></footer>`;
+    <footer class="line-paste-footer"><p id="line-paste-status" role="status"></p><button type="button" class="secondary" data-dismiss>取消</button><button type="button" class="primary" id="line-paste-confirm">确定</button></footer>`;
   document.body.append(dialog);
   const input=dialog.querySelector('textarea'),mirror=dialog.querySelector('.line-paste-mirror'),toolbar=dialog.querySelector('.line-paste-toolbar'),scroll=dialog.querySelector('.line-paste-scroll'),status=dialog.querySelector('[role=status]');
   let text='',marks={},selection=[0,0],opened=false,showTools=false;
   function range(){const start=input.selectionStart,end=input.selectionEnd;return [input.value.slice(0,start).split('\n').length-1,input.value.slice(0,end>start&&input.value[end-1]==='\n'?end-1:end).split('\n').length-1];}
   function position(){
     if(!dialog.open)return;
-    const row=mirror.children[selection[0]],rect=row?.getBoundingClientRect(),bounds=dialog.getBoundingClientRect(),viewport=scroll.getBoundingClientRect();
+    const row=mirror.querySelector(`[data-line="${selection[0]}"]`),rect=row?.getBoundingClientRect(),bounds=dialog.getBoundingClientRect(),viewport=scroll.getBoundingClientRect();
     toolbar.hidden=!showTools||!input.value.trim()||!rect||rect.bottom<viewport.top||rect.top>viewport.bottom;
     if(toolbar.hidden)return;
     toolbar.querySelectorAll('[data-role]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.role===(marks[selection[0]]||''))));
@@ -82,14 +82,18 @@ export function installLinePaste({apply,initial}) {
     toolbar.style.top=Math.max(viewport.top,y)-bounds.top+'px';
   }
   function render(){
-    mirror.replaceChildren(...input.value.split('\n').map((line,i)=>{
+    const groups=[];let group,previousRole;
+    input.value.split('\n').forEach((line,i)=>{
+      const role=Object.hasOwn(marks,i)?marks[i]:(input.value?'body':'');
+      if(!group||role!==previousRole){group=document.createElement('div');group.className='line-paste-group';if(role){group.dataset.role=role;group.dataset.label=lineRoles[role];}groups.push(group);previousRole=role;}
       const row=document.createElement('div');row.className='line-paste-row';row.textContent=line||'\u200b';
-      if(marks[i]){row.dataset.role=marks[i];row.dataset.label=lineRoles[marks[i]];}return row;
-    }));
+      row.dataset.line=i;if(role)row.dataset.role=role;group.append(row);
+    });
+    mirror.replaceChildren(...groups);
     input.style.height=mirror.offsetHeight+'px';position();
   }
   function select(event){const next=range();if(event&&['select','selectionchange'].includes(event.type)&&next[0]===selection[0]&&next[1]===selection[1])return;showTools=true;selection=next;position();}
-  input.addEventListener('input',()=>{marks={...guessLineRoles(input.value),...reconcileMarks(text,input.value,marks)};text=input.value;showTools=false;selection=range();render();status.textContent='已预选每行用途，请核对；未识别的内容默认正文。';});
+  input.addEventListener('input',()=>{marks={...guessLineRoles(input.value),...reconcileMarks(text,input.value,marks)};text=input.value;showTools=false;selection=range();render();status.textContent='';});
   input.addEventListener('paste',event=>{const pasted=event.clipboardData?.getData('text/plain')||'';if(input.value.length-(input.selectionEnd-input.selectionStart)+pasted.replace(/\r\n?/g,'\n').length>100000){event.preventDefault();status.textContent='文章超过 100000 字符，未替换输入，请分篇整理。';}});
   for(const name of ['click','keyup','select'])input.addEventListener(name,select);
   document.addEventListener('selectionchange',event=>{if(dialog.open&&document.activeElement===input)select(event);});
@@ -101,11 +105,12 @@ export function installLinePaste({apply,initial}) {
     showTools=false;render();status.textContent=`第 ${selection[0]+1}${selection[1]>selection[0]?'–'+(selection[1]+1):''} 行${role?'已标记为'+lineRoles[role]:'已取消标记'}。`;
   });
   scroll.addEventListener('scroll',position);
+  scroll.addEventListener('click',event=>{if(event.target!==input&&!event.target.closest('button')){input.focus();input.setSelectionRange(input.value.length,input.value.length);select();}});
   new ResizeObserver(()=>{if(dialog.open){input.style.height=mirror.offsetHeight+'px';position();}}).observe(mirror);
   dialog.querySelectorAll('[data-dismiss]').forEach(button=>button.onclick=()=>dialog.close());
   dialog.querySelector('#line-paste-confirm').onclick=()=>{
     try{const next=markedDraft(input.value,marks);if(apply(next)){dialog.close();opened=false;text='';marks={};input.value='';}else status.textContent='未替换当前稿。请关闭弹窗查看页面提示，文章与标记仍保留。';}
     catch(error){status.textContent=error.message;}
   };
-  return (raw)=>{if(typeof raw==='string'||!opened){input.value=typeof raw==='string'?raw:initial()||'';text=input.value;marks=guessLineRoles(text);opened=true;}dialog.showModal();showTools=false;selection=range();render();input.focus();};
+  return (raw)=>{if(typeof raw==='string'||!opened){input.value=typeof raw==='string'?raw:initial()||'';text=input.value;marks=guessLineRoles(text);opened=true;}status.textContent='';dialog.showModal();showTools=false;selection=range();render();input.focus();};
 }

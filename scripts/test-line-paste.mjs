@@ -12,7 +12,7 @@ assert.equal(markedDraft(source,marks).fields.body,'请整理资料，保留原�
 assert.equal(markedDraft('未标记\n原文',{}).fields.body,'未标记\n原文');
 assert.deepEqual(reconcileMarks('甲\n乙\n丙','甲\n新行\n乙\n丙',{0:'title',2:'body'}),{0:'title',3:'body'});
 assert.throws(()=>markedDraft('甲'.repeat(181),{0:'title'}));
-const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(new URL('../build/qa/article-home-web',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1'));
+const server=process.env.WRITER_URL?{url:process.env.WRITER_URL,close:async()=>{}}:await startWebServer(new URL('../build/qa/article-actions-web',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1'));
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 const out=new URL('../build/qa/line-paste/',import.meta.url);await mkdir(out,{recursive:true});
 try{
