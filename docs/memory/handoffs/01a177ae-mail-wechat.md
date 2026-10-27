@@ -12,3 +12,5 @@
 - 此工作树只包含本次独立源码、模板和记录，不含共享主目录其他修改。相关源码通过分支和PR交付，不自行合并。
 
 记录：[部署日志](../logs/2026-10-27-01a177ae-mail-wechat.md)。
+
+交付：源码提交 1a07119，PR https://github.com/wuhaotian1994/Doc2GovPDF/pull/6，未合并。
