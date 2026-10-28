@@ -4,9 +4,15 @@
 
 用户文档见 `Agent邮件规范.md`，文章模板见 `article.md`。通用文档不保存实际邮箱、公众号标识或密钥。
 
+小绿书入口使用 `[WX-NEWSPIC]` 主题，模板与发送规范见 `newspic/`。article.md 的 images 列表决定图片顺序，首图作为封面；创建微信图片消息（newspic），使用永久图片素材和纯文本配文。最多20图，现有 `[WX-DRAFT]` 长文章协议继续兼容，共享文章编号去重空间。
+
+升级时备份工作流、适配器和去重库，在原工作流ID中更新Code节点、说明和超时，保留IMAP节点名称、配置与staticData UID进度。HTTP超时900秒、工作流1200秒，为多图上传留出时间。通过官方import:workflow和publish:workflow更新后重启n8n。不得清空去重库，也不要把旧备份的去重库覆盖到已有新增草稿的当前库。
+
 ## 部署
 
 Ubuntu 24.04 上安装 `python3-markdown python3-bleach python3-bs4 python3-pil python3-yaml`。运行 `python3 -m unittest -v test_bridge`。代码经实际 n8n 2.44.7、PostgreSQL 16.15 验证。
+
+同时验证小绿书：`python3 -m unittest -v test_bridge test_newspic`，共11项测试，包含1/20/21图边界、图片顺序、配文保留、缺图/重复/多余附件拒绝、旧图文回归、重启后去重及未知结果防重试。
 
 将 bridge.py 安装到 `/opt/n8n-wechat-mail/`。配置由 `WECHAT_MAIL_CONFIG` 指向（默认 `/etc/n8n-wechat-mail/config.json`），包含 appid、secret、allowed_sender、bridge_token、listen。配置应仅 root 和专用服务账号可读；bridge_token 使用至少32字节随机值。listen 必须限定服务器回环或 Docker 私有桥接地址，不开放公网。服务状态目录由 `STATE_DIRECTORY` 指定，包含文章去重和图片缓存 SQLite，须持久化并限制权限。
 

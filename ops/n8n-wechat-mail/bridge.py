@@ -86,7 +86,8 @@ def normalize_image(data):
 
 def prepare(payload, allowed_sender):
     require(payload.get('sender', '').lower() == allowed_sender.lower(), '发件人不在允许名单')
-    require(payload.get('subject', '').startswith('[WX-DRAFT]'), '邮件主题必须以 [WX-DRAFT] 开头')
+    newspic = payload.get('subject', '').startswith('[WX-NEWSPIC]')
+    require(newspic or payload.get('subject', '').startswith('[WX-DRAFT]'), '邮件主题必须以 [WX-DRAFT] 或 [WX-NEWSPIC] 开头')
     attachments = payload.get('attachments', [])
     require(isinstance(attachments, list) and 2 <= len(attachments) <= 22, '需要 article.md 和封面，附件最多 22 个')
     files = {}
@@ -116,11 +117,29 @@ def prepare(payload, allowed_sender):
     except yaml.YAMLError:
         raise InvalidMail('YAML 元信息格式错误，请将各字段值放在双引号中') from None
     require(isinstance(meta, dict), 'YAML 元信息必须是键值表')
-    allowed = {'article_id', 'title', 'author', 'digest', 'cover', 'source_url'}
+    allowed = {'article_id', 'title', 'images'} if newspic else {'article_id', 'title', 'author', 'digest', 'cover', 'source_url'}
     require(set(meta) <= allowed, '元信息包含未知字段')
-    require(all(isinstance(v, str) for v in meta.values()), '元信息所有值必须是字符串，请加双引号')
+    require(all(isinstance(v, str) for k, v in meta.items() if not (newspic and k == 'images')), '元信息文本值必须是字符串，请加双引号')
     article_id = meta.get('article_id', '')
     require(re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,79}', article_id), 'article_id 仅支持字母、数字、点、下划线和短横线，最长 80 字符')
+    if newspic:
+        require(1 <= len(meta.get('title', '').strip()) <= 32, '小绿书 title 必填，最多 32 字符')
+        names = meta.get('images')
+        require(isinstance(names, list) and 1 <= len(names) <= 20, 'images 必须是含 1 至 20 张图片的有序列表')
+        require(all(isinstance(n, str) and n in files and n != 'article.md' for n in names), 'images 必须逐项对应同封邮件中的图片附件')
+        require(len(set(names)) == len(names), 'images 不得重复引用同一附件')
+        require(set(files) == {'article.md', *names}, '存在未列入 images 的附件，请删除多余附件或补全列表')
+        body = match[2].strip()
+        require(0 < len(body) <= 1000 and len(body.encode('utf-8')) <= 2048, '小绿书配文不能为空，最多 1000 字符且 UTF-8 不超过 2048 字节；建议 500 汉字以内')
+        require(not re.search(r'<[A-Za-z/!]|!\[|\]\(', body), '小绿书配文请使用纯文本，不要写 HTML 或 Markdown 图片/链接')
+        images = {name: normalize_image(files[name]) for name in names}
+        digest = hashlib.sha256(b'newspic\0')
+        digest.update(json.dumps(meta, sort_keys=True, ensure_ascii=False).encode())
+        digest.update(body.encode())
+        for name in names:
+            digest.update(name.encode())
+            digest.update(images[name])
+        return {'type': 'newspic', 'meta': meta, 'content': body, 'images': images, 'fingerprint': digest.hexdigest()}
     require(1 <= len(meta.get('title', '').strip()) <= 64, 'title 必填，最多 64 字符')
     require(len(meta.get('author', '')) <= 8, 'author 最多 8 字符')
     require(len(meta.get('digest', '')) <= 120, 'digest 最多 120 字符')
@@ -224,16 +243,22 @@ class Processor:
                 require(prior[1] != 'unknown', '上次新增草稿结果不确定，已停止自动重试；请先检查公众号草稿箱，避免重复')
             self.db.execute('INSERT OR REPLACE INTO articles VALUES (?,?,?,?,?)', (article_id, fingerprint, 'uploading', None, time.time()))
             self.db.commit()
-            cover = self.asset('cover', article['images'][meta['cover']])
-            soup = article['soup']
-            for img in soup.find_all('img'):
-                img['src'] = self.asset('body', article['images'][img['src']])
-            for tag in soup.find_all(True):
-                if tag.name in STYLE:
-                    tag['style'] = STYLE[tag.name]
-            content = str(soup)
-            require(len(content.encode()) <= 200000, '排版后正文过长，请拆分文章')
-            draft = {'title': meta['title'], 'author': meta.get('author', ''), 'digest': meta.get('digest', ''), 'content': content, 'content_source_url': meta.get('source_url', ''), 'thumb_media_id': cover, 'need_open_comment': 0, 'only_fans_can_comment': 0}
+            if article.get('type') == 'newspic':
+                image_list = [{'image_media_id': self.asset('cover', article['images'][name])} for name in meta['images']]
+                image_count = len(image_list)
+                draft = {'article_type': 'newspic', 'title': meta['title'], 'content': article['content'], 'image_info': {'image_list': image_list}, 'need_open_comment': 0, 'only_fans_can_comment': 0}
+            else:
+                cover = self.asset('cover', article['images'][meta['cover']])
+                soup = article['soup']
+                for img in soup.find_all('img'):
+                    img['src'] = self.asset('body', article['images'][img['src']])
+                for tag in soup.find_all(True):
+                    if tag.name in STYLE:
+                        tag['style'] = STYLE[tag.name]
+                content = str(soup)
+                require(len(content.encode()) <= 200000, '排版后正文过长，请拆分文章')
+                image_count = len(soup.find_all('img'))
+                draft = {'title': meta['title'], 'author': meta.get('author', ''), 'digest': meta.get('digest', ''), 'content': content, 'content_source_url': meta.get('source_url', ''), 'thumb_media_id': cover, 'need_open_comment': 0, 'only_fans_can_comment': 0}
             # Persist before the non-idempotent API call. Do not retry ambiguous results.
             self.db.execute('UPDATE articles SET status=?,updated=? WHERE id=?', ('unknown', time.time(), article_id))
             self.db.commit()
@@ -241,7 +266,7 @@ class Processor:
             require(bool(result.get('media_id')), '微信没有返回草稿 media_id，需人工核查')
             self.db.execute('UPDATE articles SET status=?,media_id=?,updated=? WHERE id=?', ('done', result['media_id'], time.time(), article_id))
             self.db.commit()
-            return {'status': 'created', 'article_id': article_id, 'title': meta['title'], 'media_id': result['media_id'], 'body_image_count': len(soup.find_all('img'))}
+            return {'status': 'created', 'article_id': article_id, 'title': meta['title'], 'media_id': result['media_id'], 'article_type': article.get('type', 'news'), 'body_image_count': image_count}
 
 
 def serve():
