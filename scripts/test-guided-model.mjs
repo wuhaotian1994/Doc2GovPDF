@@ -7,7 +7,7 @@ test('draft round trip preserves exact user text and rejects corrupt fields',()=
   assert.deepEqual(validateDraft(JSON.parse(JSON.stringify(draft(fields,1)))).fields,fields);
   assert.throws(()=>validateDraft({type:'gongwen-form',version:1,fields:{...fields,body:22}}));
   assert.throws(()=>validateDraft(draft({...fields,date:'2026-02-29'},0)));
-  assert.throws(()=>validateDraft({...draft(fields,0),version:2}));
+  assert.throws(()=>validateDraft({...draft(fields,0),version:99}));
 });
 test('preview placeholders never enter actual export fields',()=>{
   const fields=blank();
@@ -28,6 +28,21 @@ test('date validation uses actual calendar days',()=>{
   assert.equal(validDate('2026-13-02'),false);
   assert.equal(validDate('2026-04-31'),false);
   assert.equal(validDate('2024-02-29'),true);
+});
+test('missing letterhead agency never borrows a recipient or signature into a red heading',()=>{
+ const fields={...blank(),letterhead:true,recipient:'收文单位',signature:'独立落款'};const engine=fieldsForEngine(fields,true);assert.equal(engine.letterhead,false);assert.equal(engine.agency,'独立落款');assert.equal(fields.agency,'');
+});
+
+test('joint signatures become separate right-aligned model paragraphs in plain and red-header paths',()=>{
+  for(const letterhead of [false,true]){
+    const fields={...blank(),letterhead,agency:'独立发文单位',signature:'甲单位\n乙单位'};
+    assert.equal(fieldsForEngine(fields).agency,letterhead?'独立发文单位':'甲单位');
+    const model={blocks:[{paragraph:{id:'sig',role:'signature',text:'placeholder',align:'right',before:10,keepNext:true}},{paragraph:{id:'date',role:'date',text:'2024年5月15日'}}]};
+    const once=structuredClone(applySignature(model,fields));
+    assert.deepEqual(once.blocks.map(block=>block.paragraph.text),['甲单位','乙单位','2024年5月15日']);
+    assert.equal(once.blocks[1].paragraph.before,0);assert.ok(once.blocks.slice(0,2).every(block=>block.paragraph.align==='right'));
+    assert.deepEqual(applySignature(model,fields),once);
+  }
 });
 test('generic writer never invents printing office or printing date',()=>{
   const model={blocks:[

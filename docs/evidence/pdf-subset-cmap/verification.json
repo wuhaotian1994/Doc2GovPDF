@@ -1,0 +1,1415 @@
+{
+  "scope": "Known generated-PDF cmap length and head subtraction-borrow defects; font-container-only repair, not full OpenType/PDF or document standards certification",
+  "baseline": "c16661ca88cbe435cdb39a8598d9752be3b805c1",
+  "observedCEOBlob": "a1b2f89a24bc61e921901f1ee4a09ec9a5abc92d",
+  "observedMain": "b0ae4800806e70b3d06c6fbd93f1aae906ea5ccd",
+  "rootCauses": {
+    "cmap": "fpdf v0.12.0 generateCMAPTable declares length from numSymbols, not emitted bytes; invalid odd or truncated/out-of-bounds known declarations need local repair. Legal shorter even declarations with zero range offsets are preserved.",
+    "head": "calcInt32 increments instead of decrementing the high word on subtraction borrow, producing checksum B1B2AFBA; only the exact known borrow result or correct original adjustment is accepted."
+  },
+  "sourceSHA256": {
+    "internal/office/pdf_font_subset.go": "c843ca2db18284d80c14054245786742e3f8c621bb703a769c6c745f77bb2d2d",
+    "internal/office/pdf_font_subset_test.go": "3fed542acc67c5cb4c30e4264ac857bc65313a38312d07eb86231f2e666734c6",
+    "internal/office/pdf_font_subset_container.go": "b46ec3ecfb7a5435a06b2198b10652942695c34544899a2789b04d5bad1b4fe1",
+    "internal/office/pdf.go": "8c108aace01dfe0c992274b13062e40154ab48d682ec6aa9aed9758c05f70650"
+  },
+  "build": {
+    "baseline": "c16661ca88cbe435cdb39a8598d9752be3b805c1",
+    "candidate": "build/qa/pdf-cmap-web",
+    "wasmSHA256": "10921c59a4b306b239460ea72bb0c054cb5200c28eea477f5f2eb14d67d9d233",
+    "serviceWorkerCache": "gongwen-web-v2-16072aa7812b83c3",
+    "allNegotiatedEncodingsEqual": true,
+    "assets": {
+      "THIRD_PARTY_NOTICES.txt": "0d7399fc0a0652cb1eae56df8ee641f542543fede3eb5cfd3e8834b8fa4cc67b",
+      "advanced.html": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+      "browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+      "document-elements.js": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f",
+      "document-engine.wasm": "10921c59a4b306b239460ea72bb0c054cb5200c28eea477f5f2eb14d67d9d233",
+      "engine-assets.js": "757a4513b035039c31e1fcaaacf342c6f187bb4c2a9b6e0714f1335ac0f59caa",
+      "engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+      "engine-worker.js": "10ea7a559bab0312f24d7abc85c511afe2a28717b6d9f1a7729fb6e58347ebba",
+      "favicon.svg": "821ca465670104db4275460d8f4bca41c4c86a7994161dabc428021e37941660",
+      "feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+      "feedback-admin.js": "0e09f408a6da0d0fa4194079b9f42e76c9d6f9ec0adc7997fbf9f7ccf784b361",
+      "fonts/OFL.txt": "7accca2f29220c9ab44e4950799b821f36ebf5bbe6b5fb5342724b32228a8daf",
+      "fonts/README.md": "5eee9c372f0be67f845a670aa8632b498e26041417bb4c78db4d33e9cc96a956",
+      "fonts/document-fonts-OFL.txt": "64538aaa923b7e75559725ecf64eff7b18f623857b8e6d31a7347743ab27e907",
+      "fonts/serif-black-core.ttf": "332d60d946a3b1183cf65dd512eaa922acca086996f419aa8651600f1cc69239",
+      "fonts/serif-black-full.ttf": "0f048849cd9c0514f9915e25673801d37196c57af8e3b804f0185a3b23b53ac1",
+      "fonts/serif-core.ttf": "163b8bd972ad89bc0388e857d88428456ef4bb67c15a46f3481ebe5815c03ca0",
+      "fonts/serif-full.ttf": "9502147ceba7b5bc7fd3415083f6a5d133f22d8f9efb4974d4b85f3a97ea2d3a",
+      "fonts/ui-400.woff": "337daf2da524c61a295e4cc100659986f4c72de696432c758b23a399e799d198",
+      "fonts/ui-700.woff": "d32d6203c7c7c46e895baf011d7018271d4fe7be3f1cb4f3863b126948cd183e",
+      "index.html": "c321b33bb8c0403f8720aab1034a81db5faa6cf3f1d34bdb890f8f7c38608698",
+      "pdf-review.js": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
+      "vendor/pdfjs/LICENSE": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+      "vendor/pdfjs/pdf.js": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+      "vendor/pdfjs/pdf.mjs": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+      "vendor/pdfjs/pdf.worker.js": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+      "vendor/pdfjs/pdf.worker.mjs": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+      "wasm_exec.js": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+      "web.css": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
+      "workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+      "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+      "write-assembly-view.js": "75d76c67bab6e16334173e05acae681d64d1013a9b7e71dc05f4eee8c44a8a76",
+      "write-assembly.js": "4f84cd37a4cf1af86b75f5ba98699f5f9ac123fa9a3b0701ab3d4458b02b2e82",
+      "write-boot.js": "f3b0746c523ec93121d96f0c3ada3859eee3e68db0945fca2edd5f0f71e9f649",
+      "write-bytes.js": "5f98dc35b1b6356a209e80813f95ba088420980e0b471cb441cb997bc23a4574",
+      "write-checks.js": "7905113ba8d3ddb97b99eb593436644732623b1601852db347c1a60c4c59b953",
+      "write-content-editor.js": "75429a72f06fe009762f82f27ea5c98c83df5171f0285dc4a45a843cd4b5ff27",
+      "write-content.js": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+      "write-continuous.js": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef",
+      "write-engine.js": "7ce92a1b923bfcfb5355bb49b97cf1d5b7ea8c7d99a7c35edfba6078b8c071e3",
+      "write-feedback-capture.js": "20472db0d3102b465bbc96cd2d9678dd095231cb0c39ca614eaeeb13da3e38af",
+      "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604",
+      "write-feedback-evidence.js": "81cc06d8624aeeec5775daa33cb8b505798584d774aaeb3ec759871673e91d30",
+      "write-feedback.css": "9964ec7a3b2dc9fe675e46c4a239672b90cf437d6ac98bdac76a67a7afc40de7",
+      "write-feedback.js": "09c1aa7524048a133fa544b299d0f59fedd52dc435cdfd3fcb12c428d7a02dec",
+      "write-font-picker.js": "2c5386863abfd6ff7fb8842fdb53d7f4ece68a332b1a256881b4586e79e36d57",
+      "write-font-source.js": "cc0fae0985b828491dc193c344482137faa2f74b54600f971e88e4e604b8574d",
+      "write-library.js": "4b6c253615497eb717105dce5a6f9cc6ee6c2a8cfce64d0e2ff2bfda1d887a08",
+      "write-local-fonts.js": "1c20b0c1a17920116cf178d98fe86a3da2c591d14ee43fe76ef0e42e10d31670",
+      "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+      "write-materials.js": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+      "write-model.js": "9c9e5eb2f7b3dcff5bebdf5eb05e0c05e025ebc8205296b1e7dab6ae2b0012b5",
+      "write-reference.js": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178",
+      "write-table-blanks.js": "18b2aeb9499374f25df4765ba8555d737feb7b2fa70f829829783df74f91f7f3",
+      "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+      "write-text-table-view.js": "634d75cfbd9558aa628fd0b55c1c51b34db1c27a15f611823a845cae6bafbc53",
+      "write-text-table.js": "3042eebffa8e44c5c41a228e14feea71f2313c76084c7b58bd052da0a36e4a82",
+      "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+      "write-word-workspace.js": "54c4141b1fb117949e4fa88b570ccc43b97f31beb77e43061353cbed3c018474",
+      "write-workspace.css": "1d6e16b8db6a320731350171208064f07ec9bad3cab9ab2118afe9a1f6e507c7",
+      "write.css": "a3a73049c4b50417ae44304cae2d828a178bded9fcbc426de80fb681c8ccf7af",
+      "write.html": "13b26ebe7c20e01e407d5fc955d7199084ebd70af6dd89bc9b1a16bb28a66ce7",
+      "write.js": "b0aa4d26a84682cfac4ba9053a86239268f54d8c3fef7807f7e2fa68a3b2128b",
+      "sw.js": "bda6a737987414e0459a24e8c6163e86c288cc444f23daaa4ee8446082cb4e95"
+    }
+  },
+  "independentValidator": {
+    "fontToolsVersion": "4.60.1",
+    "pypdfVersion": "6.10.0",
+    "method": "Independent decoded FontFile2 SFNT/checksum/cmap validation plus actual fontTools parse/getBestCmap; not manuscript extraction or a visual conformance certificate.",
+    "boundary": "Missing optional tables are not rejected. Redundant SFNT search hints are advisory; bounds, table/whole checksums, head adjustment, implemented cmap structures and actual fontTools parse remain fatal checks. No full OpenType or PDF visual-conformance claim.",
+    "standards": [
+      "https://learn.microsoft.com/en-us/typography/opentype/spec/otff",
+      "https://learn.microsoft.com/en-us/typography/opentype/spec/head",
+      "https://learn.microsoft.com/en-us/typography/opentype/spec/cmap"
+    ],
+    "actualPDFCount": 11,
+    "fontProgramInstancesChecked": 31,
+    "failedFontPrograms": 0,
+    "programs": {
+      "7852cd2910a3e0e09dba78e6735e8d90bc12daf0f88023c5928fa6e861a2f0d2": {
+        "bytes": 25820,
+        "passed": true,
+        "glyphCount": 78,
+        "head": {
+          "storedAdjustment": "d973f489",
+          "expectedAdjustment": "d973f489",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 764,
+            "language": 0,
+            "segments": 74,
+            "indirectSegments": 0,
+            "mappedCharacters": 77,
+            "glyphArrayWords": 78,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 77,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 78,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "f32514633595c1981ead30e60d166df59954e92b6bcc5d070bc40b428159802d": {
+        "bytes": 132000,
+        "passed": true,
+        "glyphCount": 417,
+        "head": {
+          "storedAdjustment": "40884794",
+          "expectedAdjustment": "40884794",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 3330,
+            "language": 0,
+            "segments": 362,
+            "indirectSegments": 0,
+            "mappedCharacters": 416,
+            "glyphArrayWords": 209,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 416,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 417,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "a0af89686d4eb0d7a089c44de1aba54f53f321356d7bcb902d317f160766a984": {
+        "bytes": 6604,
+        "passed": true,
+        "glyphCount": 9,
+        "head": {
+          "storedAdjustment": "7688477b",
+          "expectedAdjustment": "7688477b",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 98,
+            "language": 0,
+            "segments": 9,
+            "indirectSegments": 0,
+            "mappedCharacters": 8,
+            "glyphArrayWords": 5,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 8,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 9,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "cbf8beff22343330a287ac001c410f1478be8700e08e7dbeae64b047ac48deb9": {
+        "bytes": 14956,
+        "passed": true,
+        "glyphCount": 40,
+        "head": {
+          "storedAdjustment": "1e0aeb0d",
+          "expectedAdjustment": "1e0aeb0d",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 408,
+            "language": 0,
+            "segments": 39,
+            "indirectSegments": 0,
+            "mappedCharacters": 39,
+            "glyphArrayWords": 40,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 39,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 40,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "5de3da59220302b2e36f5b9d40071484f923fe8e31399ca6c5d1cdbcccaaea1c": {
+        "bytes": 68532,
+        "passed": true,
+        "glyphCount": 201,
+        "head": {
+          "storedAdjustment": "73da3c92",
+          "expectedAdjustment": "73da3c92",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 1690,
+            "language": 0,
+            "segments": 184,
+            "indirectSegments": 0,
+            "mappedCharacters": 200,
+            "glyphArrayWords": 101,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 200,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 201,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "42f8268be790973130635a4fa7ffb16e68dfc8935c2d6228518041a2904fd88b": {
+        "bytes": 2896,
+        "passed": true,
+        "glyphCount": 5,
+        "head": {
+          "storedAdjustment": "04a22148",
+          "expectedAdjustment": "04a22148",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 54,
+            "language": 0,
+            "segments": 4,
+            "indirectSegments": 0,
+            "mappedCharacters": 4,
+            "glyphArrayWords": 3,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 4,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 5,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "cab3bcfbfbaa9b41ab153791db4774d6d221cfd3d554478c6a37540d17f78323": {
+        "bytes": 49700,
+        "passed": true,
+        "glyphCount": 167,
+        "head": {
+          "storedAdjustment": "16f188f2",
+          "expectedAdjustment": "16f188f2",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 1376,
+            "language": 0,
+            "segments": 149,
+            "indirectSegments": 0,
+            "mappedCharacters": 166,
+            "glyphArrayWords": 84,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 166,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 167,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "3a8ed5feaaea00191ddc9d626118054b72abbcd852c4d7fc6d6f6ea4b2f35708": {
+        "bytes": 13788,
+        "passed": true,
+        "glyphCount": 35,
+        "head": {
+          "storedAdjustment": "ce3807ff",
+          "expectedAdjustment": "ce3807ff",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 324,
+            "language": 0,
+            "segments": 34,
+            "indirectSegments": 0,
+            "mappedCharacters": 34,
+            "glyphArrayWords": 18,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 34,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 35,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "a4a29eab6d7242904daf7e2707431419457b77ace3e349e4a6e8137da5398f6f": {
+        "bytes": 4264,
+        "passed": true,
+        "glyphCount": 12,
+        "head": {
+          "storedAdjustment": "80f45f8e",
+          "expectedAdjustment": "80f45f8e",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 128,
+            "language": 0,
+            "segments": 11,
+            "indirectSegments": 0,
+            "mappedCharacters": 11,
+            "glyphArrayWords": 12,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 11,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 12,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456": {
+        "bytes": 7404,
+        "passed": true,
+        "glyphCount": 19,
+        "head": {
+          "storedAdjustment": "8962037d",
+          "expectedAdjustment": "8962037d",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 180,
+            "language": 0,
+            "segments": 18,
+            "indirectSegments": 0,
+            "mappedCharacters": 18,
+            "glyphArrayWords": 10,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 18,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 19,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "a602cbce89a7df459b56a5f2221d5b1aa91505b912a9f618939f7573fbeb7cc8": {
+        "bytes": 1148,
+        "passed": true,
+        "glyphCount": 4,
+        "head": {
+          "storedAdjustment": "2fbdcc48",
+          "expectedAdjustment": "2fbdcc48",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 56,
+            "language": 0,
+            "segments": 4,
+            "indirectSegments": 0,
+            "mappedCharacters": 3,
+            "glyphArrayWords": 4,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 3,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 4,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      },
+      "3d836d261e71ee33b944c5f936f21edcdcfa40c863a93d457538f97c064518f7": {
+        "bytes": 5796,
+        "passed": true,
+        "glyphCount": 21,
+        "head": {
+          "storedAdjustment": "40e8e856",
+          "expectedAdjustment": "40e8e856",
+          "wholeFontChecksum": "b1b0afba",
+          "expectedWholeFontChecksum": "b1b0afba",
+          "full32BitAdjustmentValid": true
+        },
+        "cmapSubtables": [
+          {
+            "platformID": 3,
+            "encodingID": 1,
+            "offset": 12,
+            "format": 4,
+            "declaredLength": 198,
+            "language": 0,
+            "segments": 20,
+            "indirectSegments": 0,
+            "mappedCharacters": 20,
+            "glyphArrayWords": 11,
+            "terminalValid": true,
+            "structuralChecksPassed": true
+          }
+        ],
+        "fontTools": {
+          "opened": true,
+          "getBestCmapCalled": true,
+          "getBestCmapSucceeded": true,
+          "bestCmapMappings": 20,
+          "bestCmapNonBMPMappings": 0,
+          "glyphOrderCount": 21,
+          "independentlyComparedSubtables": 1,
+          "warningCategories": []
+        },
+        "advisories": []
+      }
+    },
+    "perPDF": [
+      {
+        "label": "health",
+        "pdfSHA256": "c523232836ce40249b8f111e70f0292e9e066fa5c4346b1251b36826e89a949f",
+        "pages": 7,
+        "passed": true,
+        "fontProgramSHA256": [
+          "7852cd2910a3e0e09dba78e6735e8d90bc12daf0f88023c5928fa6e861a2f0d2",
+          "f32514633595c1981ead30e60d166df59954e92b6bcc5d070bc40b428159802d"
+        ]
+      },
+      {
+        "label": "joint",
+        "pdfSHA256": "b38cfd4ed427c0c3da545b95f2523e10d882c3a580a099e52f8970894c9a59d3",
+        "pages": 2,
+        "passed": true,
+        "fontProgramSHA256": [
+          "a0af89686d4eb0d7a089c44de1aba54f53f321356d7bcb902d317f160766a984",
+          "cbf8beff22343330a287ac001c410f1478be8700e08e7dbeae64b047ac48deb9",
+          "5de3da59220302b2e36f5b9d40071484f923fe8e31399ca6c5d1cdbcccaaea1c",
+          "42f8268be790973130635a4fa7ffb16e68dfc8935c2d6228518041a2904fd88b"
+        ]
+      },
+      {
+        "label": "joint-firefox",
+        "pdfSHA256": "f319e080e9da9e3ea4cac054e9e56071906bf7f997915a82ff8761b68319513a",
+        "pages": 2,
+        "passed": true,
+        "fontProgramSHA256": [
+          "a0af89686d4eb0d7a089c44de1aba54f53f321356d7bcb902d317f160766a984",
+          "cbf8beff22343330a287ac001c410f1478be8700e08e7dbeae64b047ac48deb9",
+          "5de3da59220302b2e36f5b9d40071484f923fe8e31399ca6c5d1cdbcccaaea1c",
+          "42f8268be790973130635a4fa7ffb16e68dfc8935c2d6228518041a2904fd88b"
+        ]
+      },
+      {
+        "label": "joint-webkit",
+        "pdfSHA256": "66c620efc8023a395b60c985f338054fe6b274bb66f2611bf698cf6c2e89c41a",
+        "pages": 2,
+        "passed": true,
+        "fontProgramSHA256": [
+          "cbf8beff22343330a287ac001c410f1478be8700e08e7dbeae64b047ac48deb9",
+          "5de3da59220302b2e36f5b9d40071484f923fe8e31399ca6c5d1cdbcccaaea1c",
+          "42f8268be790973130635a4fa7ffb16e68dfc8935c2d6228518041a2904fd88b",
+          "a0af89686d4eb0d7a089c44de1aba54f53f321356d7bcb902d317f160766a984"
+        ]
+      },
+      {
+        "label": "single-19",
+        "pdfSHA256": "0574e9bd04b59fa14519c195d480e2d846fc412db5a57c0991f003b9fb766f2b",
+        "pages": 2,
+        "passed": true,
+        "fontProgramSHA256": [
+          "cab3bcfbfbaa9b41ab153791db4774d6d221cfd3d554478c6a37540d17f78323",
+          "3a8ed5feaaea00191ddc9d626118054b72abbcd852c4d7fc6d6f6ea4b2f35708"
+        ]
+      },
+      {
+        "label": "single-23",
+        "pdfSHA256": "167ce90e21582c2235a8e5c0e6f4f411873feb729c9a202af0476dc2bbd4e6a7",
+        "pages": 2,
+        "passed": true,
+        "fontProgramSHA256": [
+          "cab3bcfbfbaa9b41ab153791db4774d6d221cfd3d554478c6a37540d17f78323",
+          "3a8ed5feaaea00191ddc9d626118054b72abbcd852c4d7fc6d6f6ea4b2f35708"
+        ]
+      },
+      {
+        "label": "font-chrome",
+        "pdfSHA256": "f302f7ccb813e14ee9fea4497cdd91490035d5a8c6cae624c6cd6f351736fee4",
+        "pages": 1,
+        "passed": true,
+        "fontProgramSHA256": [
+          "a4a29eab6d7242904daf7e2707431419457b77ace3e349e4a6e8137da5398f6f",
+          "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456",
+          "a602cbce89a7df459b56a5f2221d5b1aa91505b912a9f618939f7573fbeb7cc8"
+        ]
+      },
+      {
+        "label": "font-chrome-restored",
+        "pdfSHA256": "a2a0f3388d17e467ee6ba6d92e6154b237cc7f166f96e9dae1781fc03c3bd0a8",
+        "pages": 1,
+        "passed": true,
+        "fontProgramSHA256": [
+          "a4a29eab6d7242904daf7e2707431419457b77ace3e349e4a6e8137da5398f6f",
+          "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456",
+          "a602cbce89a7df459b56a5f2221d5b1aa91505b912a9f618939f7573fbeb7cc8"
+        ]
+      },
+      {
+        "label": "font-chrome-reopened",
+        "pdfSHA256": "a205ad613e1f1f2e847d915c32d197f5ee20cb3f908fd9c650072f02ab0420ab",
+        "pages": 1,
+        "passed": true,
+        "fontProgramSHA256": [
+          "a4a29eab6d7242904daf7e2707431419457b77ace3e349e4a6e8137da5398f6f",
+          "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456",
+          "a602cbce89a7df459b56a5f2221d5b1aa91505b912a9f618939f7573fbeb7cc8"
+        ]
+      },
+      {
+        "label": "font-chrome-fallback",
+        "pdfSHA256": "2e78e76a7dac905b59a4e21e3e44f7aa5cb11911e9972b5641a8eae8bf868adb",
+        "pages": 1,
+        "passed": true,
+        "fontProgramSHA256": [
+          "3d836d261e71ee33b944c5f936f21edcdcfa40c863a93d457538f97c064518f7",
+          "a4a29eab6d7242904daf7e2707431419457b77ace3e349e4a6e8137da5398f6f"
+        ]
+      },
+      {
+        "label": "font-chrome-fallback-reopened",
+        "pdfSHA256": "c371a7966f1309221da9b1d7734eecd175f457550c85ddb6a16e0c4e8f8a9cb6",
+        "pages": 1,
+        "passed": true,
+        "fontProgramSHA256": [
+          "a4a29eab6d7242904daf7e2707431419457b77ace3e349e4a6e8137da5398f6f",
+          "3d836d261e71ee33b944c5f936f21edcdcfa40c863a93d457538f97c064518f7"
+        ]
+      }
+    ]
+  },
+  "baselineContrasts": {
+    "oldJoint": {
+      "passed": false,
+      "fontPrograms": 4,
+      "failedPrograms": 1,
+      "failedProgramDetails": [
+        {
+          "sha256": "601e8d18167e8443f36b3430a9fe9c19f905fd10c1419de1af45a658b9eecd7d",
+          "head": {
+            "storedAdjustment": "1e0ceb5b",
+            "expectedAdjustment": "1e0aeb5b",
+            "wholeFontChecksum": "b1b2afba",
+            "expectedWholeFontChecksum": "b1b0afba",
+            "full32BitAdjustmentValid": false
+          },
+          "cmapSubtables": [
+            {
+              "platformID": 3,
+              "encodingID": 1,
+              "offset": 12,
+              "format": 4,
+              "declaredLength": 369,
+              "language": 0,
+              "structuralChecksPassed": false,
+              "failure": {
+                "code": "format4_length_not_valid_uint16_arrays",
+                "declaredLength": 369
+              }
+            }
+          ],
+          "fontTools": {
+            "opened": true,
+            "getBestCmapCalled": true,
+            "getBestCmapSucceeded": false,
+            "failureType": "ValueError"
+          },
+          "failures": [
+            {
+              "stage": "sfnt",
+              "code": "head_full32bit_adjustment_or_whole_checksum_mismatch"
+            },
+            {
+              "stage": "cmap",
+              "subtableIndex": 0,
+              "code": "format4_length_not_valid_uint16_arrays",
+              "declaredLength": 369
+            },
+            {
+              "stage": "fontTools",
+              "code": "actual_ttfont_or_getBestCmap_failed",
+              "errorType": "ValueError"
+            }
+          ]
+        }
+      ]
+    },
+    "oldSingle": {
+      "passed": true,
+      "fontPrograms": 2,
+      "failedPrograms": 0
+    },
+    "notEveryOldPDFWasInvalid": true
+  },
+  "comparisons": [
+    {
+      "label": "health",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "f03674268d0fdc9cd5d2adbe8b3366d5a794358434a357a08be347301c49e856",
+      "newSHA256": "c523232836ce40249b8f111e70f0292e9e066fa5c4346b1251b36826e89a949f",
+      "oldPages": 7,
+      "newPages": 7,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "639020ab527a716fbebcc9a852b6f0591c91cee450bcb5dc73a2196cea56b272",
+          "newPixelSHA256": "639020ab527a716fbebcc9a852b6f0591c91cee450bcb5dc73a2196cea56b272"
+        },
+        {
+          "page": 2,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "1b9379d8a981b2a2bc4ff76c793e214997499022213dbf1fade5f409b952c89a",
+          "newPixelSHA256": "1b9379d8a981b2a2bc4ff76c793e214997499022213dbf1fade5f409b952c89a"
+        },
+        {
+          "page": 3,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "6f3a1bcf08a37440c6517d86681afd08716972c82db9e4c35d8ca1a40ba7e43c",
+          "newPixelSHA256": "6f3a1bcf08a37440c6517d86681afd08716972c82db9e4c35d8ca1a40ba7e43c"
+        },
+        {
+          "page": 4,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "6915b8fc81bfb737f9a89b1bee0ba95c6e64b58ec5b4097e5e0cfca2c0f66f50",
+          "newPixelSHA256": "6915b8fc81bfb737f9a89b1bee0ba95c6e64b58ec5b4097e5e0cfca2c0f66f50"
+        },
+        {
+          "page": 5,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "803536075f5883120d536548343a4032bc6d9f5afd45bf7d4c53f9ec6c31d2a8",
+          "newPixelSHA256": "803536075f5883120d536548343a4032bc6d9f5afd45bf7d4c53f9ec6c31d2a8"
+        },
+        {
+          "page": 6,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "8ab3d61e78925a8f558a2a6057654186421426d28fb9fbf946991abb6596878d",
+          "newPixelSHA256": "8ab3d61e78925a8f558a2a6057654186421426d28fb9fbf946991abb6596878d"
+        },
+        {
+          "page": 7,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "4aa94968e32425e054ce0bb3abcd909011b0ca1749509c18df0cb727fcc4257a",
+          "newPixelSHA256": "4aa94968e32425e054ce0bb3abcd909011b0ca1749509c18df0cb727fcc4257a"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 2,
+      "geometry": [
+        {
+          "characters": 474,
+          "characterGeometrySHA256": "a766c3087cc23eb45d011323834eab5bbfcd5cd213bc5bed39fd88059cba9efc"
+        },
+        {
+          "characters": 449,
+          "characterGeometrySHA256": "8452d56801f7a0172dcedc00a2a731d6923d0facc21c5511d3f996cc4deac346"
+        },
+        {
+          "characters": 329,
+          "characterGeometrySHA256": "ea86ad22c10cf68770d84d93b14f05af15399b68088148e28be98755dece5433"
+        },
+        {
+          "characters": 372,
+          "characterGeometrySHA256": "e95d31783a9017b5933da7e0a4a30c796e3a2e43897fffb85a93c30f6e76cc5c"
+        },
+        {
+          "characters": 365,
+          "characterGeometrySHA256": "1334002227d1ef86f3b8f51f642a1da9a8da87f909b14985b14bbebb67352682"
+        },
+        {
+          "characters": 319,
+          "characterGeometrySHA256": "d492edf5ea6711c80598e81e5f70c3b9d1c84045d33898576e12d1a3213ac326"
+        },
+        {
+          "characters": 142,
+          "characterGeometrySHA256": "682fb698ca9beb64f6048d9aba5da9918b8cac71e9af81613027c3071c5aa093"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "joint",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "5881c39ad970938a55ed440adea12e856731807736ba274758ebf13e1babd971",
+      "newSHA256": "b38cfd4ed427c0c3da545b95f2523e10d882c3a580a099e52f8970894c9a59d3",
+      "oldPages": 2,
+      "newPages": 2,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "4b6b854c0c2f121c4b4e714a23c5507d65550ac6ff6d3d29dcb0a6de86d0906f",
+          "newPixelSHA256": "4b6b854c0c2f121c4b4e714a23c5507d65550ac6ff6d3d29dcb0a6de86d0906f"
+        },
+        {
+          "page": 2,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "7316b2af5c7bb6d25c55444a1559e186e151721bab4006fe4b0a55d526e8d2e9",
+          "newPixelSHA256": "7316b2af5c7bb6d25c55444a1559e186e151721bab4006fe4b0a55d526e8d2e9"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 4,
+      "geometry": [
+        {
+          "characters": 462,
+          "characterGeometrySHA256": "468b7924fef6825b2420f1fbce4a5f9eb5111e75070309d094ff199ad6907668"
+        },
+        {
+          "characters": 242,
+          "characterGeometrySHA256": "05c25459c515f816e92a553de823dba7a01ab913123b3baaff83ead35a44ce67"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "joint-firefox",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "8242e4f7aa7f6a586ae33a4d480a7a1cca5f93e1ca7411f8448513f5918b31e7",
+      "newSHA256": "f319e080e9da9e3ea4cac054e9e56071906bf7f997915a82ff8761b68319513a",
+      "oldPages": 2,
+      "newPages": 2,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "4b6b854c0c2f121c4b4e714a23c5507d65550ac6ff6d3d29dcb0a6de86d0906f",
+          "newPixelSHA256": "4b6b854c0c2f121c4b4e714a23c5507d65550ac6ff6d3d29dcb0a6de86d0906f"
+        },
+        {
+          "page": 2,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "7316b2af5c7bb6d25c55444a1559e186e151721bab4006fe4b0a55d526e8d2e9",
+          "newPixelSHA256": "7316b2af5c7bb6d25c55444a1559e186e151721bab4006fe4b0a55d526e8d2e9"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 4,
+      "geometry": [
+        {
+          "characters": 462,
+          "characterGeometrySHA256": "468b7924fef6825b2420f1fbce4a5f9eb5111e75070309d094ff199ad6907668"
+        },
+        {
+          "characters": 242,
+          "characterGeometrySHA256": "05c25459c515f816e92a553de823dba7a01ab913123b3baaff83ead35a44ce67"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "joint-webkit",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "71e5fa88998767de43a8c495800fc2483cec45c2d3c91c1676bc6219c4f6b4b0",
+      "newSHA256": "66c620efc8023a395b60c985f338054fe6b274bb66f2611bf698cf6c2e89c41a",
+      "oldPages": 2,
+      "newPages": 2,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "4b6b854c0c2f121c4b4e714a23c5507d65550ac6ff6d3d29dcb0a6de86d0906f",
+          "newPixelSHA256": "4b6b854c0c2f121c4b4e714a23c5507d65550ac6ff6d3d29dcb0a6de86d0906f"
+        },
+        {
+          "page": 2,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "7316b2af5c7bb6d25c55444a1559e186e151721bab4006fe4b0a55d526e8d2e9",
+          "newPixelSHA256": "7316b2af5c7bb6d25c55444a1559e186e151721bab4006fe4b0a55d526e8d2e9"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 4,
+      "geometry": [
+        {
+          "characters": 462,
+          "characterGeometrySHA256": "468b7924fef6825b2420f1fbce4a5f9eb5111e75070309d094ff199ad6907668"
+        },
+        {
+          "characters": 242,
+          "characterGeometrySHA256": "05c25459c515f816e92a553de823dba7a01ab913123b3baaff83ead35a44ce67"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "single-19",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "79f79a53ab87b8195f57bc7a05b73ceff93ad0e658b8e6959a8888e69f0ff5ab",
+      "newSHA256": "0574e9bd04b59fa14519c195d480e2d846fc412db5a57c0991f003b9fb766f2b",
+      "oldPages": 2,
+      "newPages": 2,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "67f1757c9e4a9e8f4f1fcd5e31188612775394e0942b982e95b39adc4c43effd",
+          "newPixelSHA256": "67f1757c9e4a9e8f4f1fcd5e31188612775394e0942b982e95b39adc4c43effd"
+        },
+        {
+          "page": 2,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "2d3d9582e00732ea8d9c97af3cec1f6121ec977dc2ce5d4420fdde0c132411b0",
+          "newPixelSHA256": "2d3d9582e00732ea8d9c97af3cec1f6121ec977dc2ce5d4420fdde0c132411b0"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 2,
+      "geometry": [
+        {
+          "characters": 377,
+          "characterGeometrySHA256": "905e956581d20f2c25e2e89d1630997ac079a461db4d8cc8dddd77dc8078d3d3"
+        },
+        {
+          "characters": 38,
+          "characterGeometrySHA256": "c776834487749880960a4571c64f812aa56ec4b6bbacadcbd095eb0d44bd544f"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "single-23",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "56c13dfd1365f8fcace779d253e97ced3d7748dfe58ba9000e0ec6812162a5a0",
+      "newSHA256": "167ce90e21582c2235a8e5c0e6f4f411873feb729c9a202af0476dc2bbd4e6a7",
+      "oldPages": 2,
+      "newPages": 2,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "67f1757c9e4a9e8f4f1fcd5e31188612775394e0942b982e95b39adc4c43effd",
+          "newPixelSHA256": "67f1757c9e4a9e8f4f1fcd5e31188612775394e0942b982e95b39adc4c43effd"
+        },
+        {
+          "page": 2,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "511732c02a9904a20c28b7cec5158040f6d55e10866606e701d7102b43b1eba9",
+          "newPixelSHA256": "511732c02a9904a20c28b7cec5158040f6d55e10866606e701d7102b43b1eba9"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 2,
+      "geometry": [
+        {
+          "characters": 377,
+          "characterGeometrySHA256": "905e956581d20f2c25e2e89d1630997ac079a461db4d8cc8dddd77dc8078d3d3"
+        },
+        {
+          "characters": 38,
+          "characterGeometrySHA256": "f41ec8b70231a4d309c375217c0a8050685f7731c9f9fdfea42d26921dc49355"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "font-chrome",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "648788bae1e2675ba4233e4ee39fc01d7caa9f6f67cf8699dbaeb86f12959c32",
+      "newSHA256": "f302f7ccb813e14ee9fea4497cdd91490035d5a8c6cae624c6cd6f351736fee4",
+      "oldPages": 1,
+      "newPages": 1,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "2b1db10d0e264e8fe2f21349dbd4971af42f07bebd9dfd5e368d637b3f7f04d8",
+          "newPixelSHA256": "2b1db10d0e264e8fe2f21349dbd4971af42f07bebd9dfd5e368d637b3f7f04d8"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 3,
+      "geometry": [
+        {
+          "characters": 35,
+          "characterGeometrySHA256": "dd3209d42581cbee8b92d9dce21a957228eef09056cf7c81119e71691b87a204"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "font-chrome-restored",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "c28413aea6213e1334448f14528bd4b3d0da26a139a276eb01d6180d9d348894",
+      "newSHA256": "a2a0f3388d17e467ee6ba6d92e6154b237cc7f166f96e9dae1781fc03c3bd0a8",
+      "oldPages": 1,
+      "newPages": 1,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "2b1db10d0e264e8fe2f21349dbd4971af42f07bebd9dfd5e368d637b3f7f04d8",
+          "newPixelSHA256": "2b1db10d0e264e8fe2f21349dbd4971af42f07bebd9dfd5e368d637b3f7f04d8"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 3,
+      "geometry": [
+        {
+          "characters": 35,
+          "characterGeometrySHA256": "dd3209d42581cbee8b92d9dce21a957228eef09056cf7c81119e71691b87a204"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "font-chrome-reopened",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "e402865221b4fd5490aced9011b80cd6bd3e893db8da9a4a983997f4c1e12497",
+      "newSHA256": "a205ad613e1f1f2e847d915c32d197f5ee20cb3f908fd9c650072f02ab0420ab",
+      "oldPages": 1,
+      "newPages": 1,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "5d1550326579ae68876a47dd330ba86afd38a1616cb086b467e8c9a4510c6381",
+          "newPixelSHA256": "5d1550326579ae68876a47dd330ba86afd38a1616cb086b467e8c9a4510c6381"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 3,
+      "geometry": [
+        {
+          "characters": 35,
+          "characterGeometrySHA256": "bb6018345029b34b3c18f2f98336fbdc8cfb34c47d79b09e811c43a26ee7d951"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "font-chrome-fallback",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "09b9b35e23e24c5c1b8b96f7c237f8632d4175fa6cf28aab8d312d83e0396d81",
+      "newSHA256": "2e78e76a7dac905b59a4e21e3e44f7aa5cb11911e9972b5641a8eae8bf868adb",
+      "oldPages": 1,
+      "newPages": 1,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "ecb2d47079b04975d833abedaaced774fa7e22defe22fe58930d5fa0fbe62cbf",
+          "newPixelSHA256": "ecb2d47079b04975d833abedaaced774fa7e22defe22fe58930d5fa0fbe62cbf"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 2,
+      "geometry": [
+        {
+          "characters": 35,
+          "characterGeometrySHA256": "51a86fa71650620f38d381de769fca84d169c12ea5c3c49b3a007b3fe45964f7"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    },
+    {
+      "label": "font-chrome-fallback-reopened",
+      "method": "All decoded page content streams, actual character geometry, PDF Unicode/CID maps, non-cmap font tables and Poppler pixels; no manuscript strings emitted",
+      "oldSHA256": "7de239b6e7643e84a80d5df163d84b4d9044ce7973c27e63dcfca746ee800e38",
+      "newSHA256": "c371a7966f1309221da9b1d7734eecd175f457550c85ddb6a16e0c4e8f8a9cb6",
+      "oldPages": 1,
+      "newPages": 1,
+      "checks": {
+        "decodedPageContentEqual": true,
+        "pageBoxesEqual": true,
+        "fontResourcesAndNonCmapTablesEqual": true,
+        "characterTextAndGeometryEqual": true,
+        "allRenderedPixelsEqual": true
+      },
+      "pixelPages": [
+        {
+          "page": 1,
+          "width": 794,
+          "height": 1123,
+          "equal": true,
+          "oldPixelSHA256": "498364bf95ed9442e1eabd53ef83d1e9e0791de34c3c80ebc760755b7a41cca5",
+          "newPixelSHA256": "498364bf95ed9442e1eabd53ef83d1e9e0791de34c3c80ebc760755b7a41cca5"
+        }
+      ],
+      "boundary": "Equality to the old output is a regression check, not proof of layout correctness or a valid font container. Raw task pages remain local.",
+      "fontResourceCount": 2,
+      "geometry": [
+        {
+          "characters": 35,
+          "characterGeometrySHA256": "1181edfa488dfc7f891d79df7bdea421f215f75ba389b18bfe542301c7df8cdb"
+        }
+      ],
+      "passed": true,
+      "DOCXBytesUnchanged": true
+    }
+  ],
+  "visualReview": {
+    "allComparedPages": 22,
+    "uniquePixelPagesViewed": 16,
+    "identicalPixelPagesInspectedOnce": true,
+    "resolutionDPI": 96,
+    "realTaskImagesNotCommitted": true
+  },
+  "tests": {
+    "goCommands": [
+      {
+        "exitCode": 0,
+        "tests": 6,
+        "seconds": 1.081,
+        "command": "go test ./internal/office -run ^TestPDFSubset -count=1 -v"
+      },
+      {
+        "exitCode": 0,
+        "tests": 2,
+        "seconds": 2.857,
+        "command": "go test ./internal/office -run TestExplicitPlainSignerAndIndependentImprintReachActualWordPDF|TestJointSignersActualWordTabsAndDistinctRoleRunsMatchPDFColumns -count=1 -v"
+      },
+      {
+        "exitCode": 0,
+        "webengineSeconds": 0.928,
+        "officeSeconds": 28.841,
+        "command": "go test ./internal/office ./internal/webengine -count=1"
+      },
+      {
+        "command": "go vet ./internal/office ./internal/webengine",
+        "exitCode": 0
+      }
+    ],
+    "newGoSpecializedTests": 6,
+    "independentRepeatNotAddedToCount": true,
+    "validatorInMemoryMechanisms": {
+      "method": "Synthetic in-memory validator mechanisms only; no product document or font bytes written. Separate from actual PDF acceptance.",
+      "validatorSHA256": "40f74a3227619c9e080c2ba571aae13bb4e209683dec3cc8e820d73eda56937e",
+      "checks": [
+        "valid direct format4 mapping and terminal",
+        "unused bytes after declared subtable are not mistaken for an error",
+        "valid indirect idRangeOffset resolves inside the actual glyph array",
+        "odd declared format4 length rejected",
+        "format4 arrays outside declared length rejected",
+        "format4 missing terminal segment rejected",
+        "format4 range offset outside array rejected",
+        "format4 glyph index outside maxp rejected",
+        "valid non-BMP format12 groups fully checked",
+        "format12 beyond Unicode range rejected",
+        "format12 overlapping groups rejected",
+        "format12 glyph range outside maxp rejected",
+        "format12 group declaration length mismatch rejected",
+        "shared subtable offsets and intervening/outside bytes are accepted",
+        "missing optional OS2 name and post do not invalidate a usable subset",
+        "full 32-bit head adjustment corruption remains fatal",
+        "absent cmap is explicitly inapplicable rather than fake getBestCmap success"
+      ],
+      "passed": true
+    },
+    "comparisonPositiveAndOnePointShiftNegative": true,
+    "realJointBrowsers": [
+      {
+        "profile": "chrome",
+        "checks": 22,
+        "downloads": 4
+      },
+      {
+        "profile": "firefox",
+        "checks": 22,
+        "downloads": 4
+      },
+      {
+        "profile": "webkit",
+        "checks": 22,
+        "downloads": 4
+      }
+    ],
+    "fontContractChromeChecks": 20,
+    "fontContractDownloads": 10,
+    "fontContractIsNotRealOSPermission": true,
+    "realSingleChromeChecks": 9,
+    "realSingleDownloads": 9,
+    "originalHealthWorkflow": {
+      "passed": true,
+      "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+      "blocks": 39,
+      "tables": 3,
+      "WordSHA256": "4c18c0d6740f536099ac4ec745d9fba865d063018df98520911b3727a01f29a1",
+      "receiptTitleAndWholeTablePage": 6,
+      "pages": 7
+    },
+    "realHeaderGlyphs": {
+      "authorsChecked": 3,
+      "headerCharacters": 25,
+      "roles": {
+        "仿宋": {
+          "characters": 16,
+          "nonemptyGlyphs": 16,
+          "matchedOutlines": 16,
+          "metadataMatches": 16
+        },
+        "楷体": {
+          "characters": 9,
+          "nonemptyGlyphs": 9,
+          "matchedOutlines": 9,
+          "metadataMatches": 9
+        }
+      }
+    },
+    "fallbackProbeGlyphs": {
+      "pages": 1,
+      "images": 0,
+      "nonemptyGlyphs": 33,
+      "matchedOutlines": 33,
+      "unmatchedOutlines": 0,
+      "regularCJKMatched": 13,
+      "blackCJKMatched": 11
+    },
+    "persistentService": {
+      "url": "http://127.0.0.1:4173",
+      "pid": 65964,
+      "checks": 22,
+      "downloads": 4,
+      "assets": 64,
+      "fontContainersPassed": true,
+      "DOCXPageStreamsAndExactFontProgramsMatchCandidate": true,
+      "realFeedbackCollectionEnabled": false
+    }
+  },
+  "boundaries": [
+    "Only the engine just-generated fpdf classic-xref output is handled, not arbitrary external PDFs.",
+    "Known legal shorter even cmap declarations and already correct checksums stay byte-identical; unknown structures and unrelated corruption return an explicit error.",
+    "All11 DOCX files match their prior inspected sources exactly; no fresh native Word rendering is claimed this increment.",
+    "Exact source/font bytes, glyph outlines/metrics, document content, sizes and pagination were not changed.",
+    "Title/body may still use explicitly downgraded OFL faces; source family and receiving-client compliance are separate questions.",
+    "CEO latest joint fallback Word in LibreOffice is three lines and imprint lines remain missing: P0/P1 open, not signed off by local selected-font Word16 evidence.",
+    "CEO has now obtained the39-block three-table files and supports title/table relation; tail note crosses6/7 and Word/LO splits table differently: CEO003 reading relation remains open.",
+    "Exact61458 returned Word and CEO645eec joint/0eeb5d health variants are not present locally; original supplied7dbd source is used honestly, not substituted as exact CEO acceptance.",
+    "No PR merge, public deployment, manuscript/font upload or real feedback collection enabled."
+  ]
+}

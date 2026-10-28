@@ -2,7 +2,13 @@
 
 记录日期：2026-10-21，Asia/Shanghai。会话：01a158b0。
 
-状态：本轮重写完成、本地验证与交付完成；未公开上线。
+状态：10月21日实际服务故障已修复并完成最终本机交付。旧“本地交付可用”结论已被用户反馈推翻，本轮改为真实 Go 服务和实际地址验收。未公开上线。
+
+最新优先范围：先桌面浏览器，手机尺寸暂停。用户要求完成后提交、push 并创建/更新 PR，以触发其流程；不是直接合并或公开部署。新增真实 Go 服务 MIME、规范根首页缓存、同秒更新、启动前持久保存与不可变恢复版本修复，见 [真实服务验收](../../FIRST-USE-DELIVERY-QA.md)。旧 Node 测试服务器掩盖实际故障，已替换。
+
+最终应用提交 `cb70d4a`，已与远端仅新增产品议题的 main 合并（`6db2494`）。从 `git archive cb70d4a` 隔离构建到 `dist/writer-desktop-20261021/`，不包含其他会话未提交代码。37842 服务已改为 `build/qa/writer-desktop-webserve.exe`；原地址不变，未操作用户标签。实际地址四桌面首次流程 64/64、经常使用 97/97、三引擎启动异常 33/33、多标签恢复与旧缓存升级通过，文件逐项核对通过。后续只改验证脚本/记录，不再修改该应用代码。
+
+已推送分支 `codex/fix-writer-startup-preview`，创建 [PR #1](https://github.com/wuhaotian1994/Doc2GovPDF/pull/1)，验证记录提交 `d612476`。后续修订继续推送该分支、更新此 PR；未合并、未公开部署。
 
 最新：2026-10-21 用户报告“下一步清空”，旧的正常流程验证存在启动盲区。已增加内联启动防护、独立填写导航、预览懒加载、应急快照恢复；33项故障用例及七配置176项正常流程最终通过。具体见 [启动保护](../../STARTUP-PROTECTION.md) 与 [10月21日日志](../logs/2026-10-21-01a158b0-startup-loss.md)。未确认找回实际已清空内容；用户拒绝历史读取后没有绕路访问。
 
@@ -28,13 +34,13 @@
 - 后续 `scripts/test-writer-library.mjs`、`test-writer-browsers.mjs`、`verify-writer-outputs.py`：复用与七配置验证；`scripts/browser-tests/` 固定 Playwright 1.64.1，node_modules 忽略。
 - `.impeccable/design.json`：设计 sidecar，本轮明确随 Git 保存；其父目录其他本地会话数据仍忽略。
 
-当前交付产物：`dist/guided-web/`。本机静态服务 `http://127.0.0.1:37842/`，仅监听回环地址。进程记录 `build/qa/guided/server.pid`，不可跨会话盲信 PID；先检查监听与进程路径。旧 37841 入口未替换。
+当前交付产物：`dist/writer-desktop-20261021/`（取代旧 `dist/guided-web/`）。本机静态服务 `http://127.0.0.1:37842/`，仅监听回环地址。进程记录 `build/qa/guided/server.pid`，不可跨会话盲信 PID；先检查监听与进程路径。旧 37841 入口未替换。
 
 可重新启动：
 
 ```powershell
-./scripts/build-web.ps1 -Output dist/guided-web
-go run ./cmd/webserve -listen 127.0.0.1:37842 -dir dist/guided-web
+./scripts/build-web.ps1 -Output dist/writer-desktop-20261021
+go run ./cmd/webserve -listen 127.0.0.1:37842 -dir dist/writer-desktop-20261021
 ```
 
 ## 已验证
@@ -60,4 +66,4 @@ go run ./cmd/webserve -listen 127.0.0.1:37842 -dir dist/guided-web
 - 初轮只验证 Edge；后续已扩至上述七配置，但仍不等于真实 iOS Safari、Android Chrome、macOS Safari 或所有辅助技术通过。
 - 尚无真实用户可用性测评；正式上线前应开展任务完成率/中途退出观察及跨浏览器验证。
 - 内置字体不是指定公文字体合规证明，Word 在其他电脑可能重排；应用已明确提示并提供授权字体入口。
-- 下一步若继续：补真实设备、软键盘与辅助技术验证，再让目标用户完成真实写作任务并记录阻碍。桌面引擎/触控模拟已完成，不要重复把模拟列为真机。不要重新引入文种选择或另起风格。
+- 下一步按最新要求先桌面与 PR 流程，手机尺寸暂缓。真实设备与辅助技术仍未全面验证，不把历史模拟列为真机。不要重新引入文种选择或另起风格。

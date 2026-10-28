@@ -1,0 +1,17 @@
+[
+  {
+    "profile": "chrome",
+    "baseline": true,
+    "syntheticCompositionEvents": true,
+    "nativeIME": false,
+    "checks": [
+      "baseline same-value composition end leaves body-paragraph invalidated without scheduling",
+      "baseline unchanged final input also fails to schedule body-paragraph",
+      "baseline same-value composition end leaves body-cell invalidated without scheduling",
+      "baseline unchanged final input also fails to schedule body-cell",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

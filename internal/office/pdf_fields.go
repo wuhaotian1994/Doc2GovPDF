@@ -50,6 +50,9 @@ func (w *pdfWriter) tabbed(p Paragraph) error {
 		return e
 	}
 	w.y += p.Before
+	if p.BorderTop {
+		w.drawBorder(p, w.page.Left, w.y-borderWidth(p)/2, w.page.Width-w.page.Left-w.page.Right)
+	}
 	inkBottom := w.y
 	end := w.page.Left
 	parts := strings.Split(p.Text, "\t")
@@ -57,7 +60,21 @@ func (w *pdfWriter) tabbed(p Paragraph) error {
 		if text == "" {
 			continue
 		}
-		runs := w.fieldRuns(text, p)
+		var runs []fieldRun
+		if p.Role == "signer" && (i == 0 || i >= 2 || !strings.HasPrefix(text, "签发人：")) {
+			// The field identity, not the spelling of a reference or name, selects its
+			// font. Empty segments above still consume their original tab-stop index.
+			q := p
+			q.Font = "楷体"
+			if i == 0 {
+				q.Font = "仿宋"
+			}
+			q.Text = text
+			w.setFont(q)
+			runs = []fieldRun{{text: text, font: q.Font, width: w.textWidth(text)}}
+		} else {
+			runs = w.fieldRuns(text, p)
+		}
 		width := 0.0
 		for _, run := range runs {
 			width += run.width

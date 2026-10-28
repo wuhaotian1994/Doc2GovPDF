@@ -5,6 +5,26 @@ import (
 	"testing"
 )
 
+func TestCorrectionFindingsExplainSpecificRuleWithoutChangingSource(t *testing.T) {
+	m := Plain("测试通知\n设备重量为10kg，请核对型号。\n本次材料包括:纸张、文件。")
+	before := m.Text()
+	r, err := Inspect(m)
+	if err != nil {
+		t.Fatal(err)
+	}
+	seen := map[string]Finding{}
+	for _, f := range r.Issues {
+		seen[f.Rule] = f
+	}
+	f, ok := seen["number.unit-space"]
+	if !ok || !strings.Contains(f.Message, "型号或代码") || f.Basis != "数字与计量单位书写规范" || !strings.Contains(f.Replacement, "10 kg") {
+		t.Fatalf("correction hid rule explanation: %+v", f)
+	}
+	if m.Text() != before {
+		t.Fatal("inspection changed authored source")
+	}
+}
+
 func TestChecksProtectFactsAndQuotes(t *testing.T) {
 	m := Plain("测试通知\n办发【2026】第012号\n筹画项目\n引用“筹画项目”与 https://example.org/a:b 保留\n2025年2月29日")
 	r, e := Inspect(m)

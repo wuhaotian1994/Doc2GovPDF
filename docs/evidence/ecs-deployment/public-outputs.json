@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "browser": "155.0.8059.86",
+  "checks": 11,
+  "newDocumentPages": 1,
+  "nativePages": 5,
+  "originalWordByteIdentical": true,
+  "nativePDFPageStreamsAndGeometryMatchPriorReviewedOutput": true,
+  "publicWasmHashVerified": true,
+  "sourceCommit": "0f6edcbc0ff0eda79e9f42e4c9b73a5d8553c289"
+}

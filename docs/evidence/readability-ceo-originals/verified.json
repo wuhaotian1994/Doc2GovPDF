@@ -1,0 +1,425 @@
+{
+  "cases": [
+    {
+      "profile": "chrome",
+      "name": "education",
+      "exactCharacters": 1540,
+      "sameDraftAndStructure": true,
+      "onlyWordKeepNextChanged": true,
+      "variants": [
+        {
+          "phase": "before",
+          "pages": 5,
+          "keepNextFlags": 30,
+          "wordSHA256": "dfd886275648ae9f0b98d304109a4d506d2bbb2d354ac088407b16060479a80e",
+          "pdfSHA256": "6e7d392d32b530b3dee247215391e07fe865bfe6983086c503dec0ae64592ab0"
+        },
+        {
+          "phase": "after",
+          "pages": 5,
+          "keepNextFlags": 25,
+          "wordSHA256": "a9fb6266c6986fa55ee6c4aa9747e7573618e38f56cc256c627cb9f19ecf1085",
+          "pdfSHA256": "121c7c528de5c0bf6c9fc0bf32c81d78f1c12c8dd241b3502364b4c8b4cec29e"
+        }
+      ],
+      "shortTailResolved": true,
+      "dateAndPublicNoteSamePDFPage": 4
+    },
+    {
+      "profile": "chrome",
+      "name": "composite",
+      "exactCharacters": 3185,
+      "sameDraftAndStructure": true,
+      "onlyWordKeepNextChanged": true,
+      "variants": [
+        {
+          "phase": "before",
+          "pages": 9,
+          "keepNextFlags": 26,
+          "wordSHA256": "841a0eb4eb18bc57de8f2918d085592df3cd804425e694b6e6c290f958b9e15f",
+          "pdfSHA256": "4b239ab2153a97384ffa658a03611835550f8dd053659623edc6345e8fc63c1e"
+        },
+        {
+          "phase": "after",
+          "pages": 8,
+          "keepNextFlags": 15,
+          "wordSHA256": "2d6a659a337d464835985a88cd6c153ce364172acca345d9b33305dfa3d7a625",
+          "pdfSHA256": "8a858da27b859c0c538e35098a506ae929499c6c8fafb9e9995b82ccf1806b0d"
+        }
+      ],
+      "sectionHeadingContinuity": [
+        {
+          "heading": "一、丰富消费惠民举措",
+          "beforePage": 2,
+          "beforeWithContent": true,
+          "afterPage": 2,
+          "afterWithContent": true
+        },
+        {
+          "heading": "二、满足不同年龄群体消费需求",
+          "beforePage": 3,
+          "beforeWithContent": true,
+          "afterPage": 3,
+          "afterWithContent": true
+        },
+        {
+          "heading": "三、扩大特色优质产品供给",
+          "beforePage": 4,
+          "beforeWithContent": true,
+          "afterPage": 4,
+          "afterWithContent": true
+        },
+        {
+          "heading": "四、培育消费场景",
+          "beforePage": 5,
+          "beforeWithContent": false,
+          "afterPage": 5,
+          "afterWithContent": true
+        },
+        {
+          "heading": "五、创新产业政策",
+          "beforePage": 6,
+          "beforeWithContent": false,
+          "afterPage": 6,
+          "afterWithContent": true
+        },
+        {
+          "heading": "六、优化消费环境",
+          "beforePage": 7,
+          "beforeWithContent": false,
+          "afterPage": 7,
+          "afterWithContent": true
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "name": "education",
+      "exactCharacters": 1540,
+      "sameDraftAndStructure": true,
+      "onlyWordKeepNextChanged": true,
+      "variants": [
+        {
+          "phase": "before",
+          "pages": 5,
+          "keepNextFlags": 30,
+          "wordSHA256": "dfd886275648ae9f0b98d304109a4d506d2bbb2d354ac088407b16060479a80e",
+          "pdfSHA256": "187ffc568c0ace20ce52db4a82d41ac23508291299a5c0b09a2fc9982a564b42"
+        },
+        {
+          "phase": "after",
+          "pages": 5,
+          "keepNextFlags": 25,
+          "wordSHA256": "a9fb6266c6986fa55ee6c4aa9747e7573618e38f56cc256c627cb9f19ecf1085",
+          "pdfSHA256": "80316f1bde638bf728e2ec7b50d7fbe459c9191ad68f44aef253bf2ebdacb10b"
+        }
+      ],
+      "shortTailResolved": true,
+      "dateAndPublicNoteSamePDFPage": 4
+    },
+    {
+      "profile": "firefox",
+      "name": "composite",
+      "exactCharacters": 3185,
+      "sameDraftAndStructure": true,
+      "onlyWordKeepNextChanged": true,
+      "variants": [
+        {
+          "phase": "before",
+          "pages": 9,
+          "keepNextFlags": 26,
+          "wordSHA256": "841a0eb4eb18bc57de8f2918d085592df3cd804425e694b6e6c290f958b9e15f",
+          "pdfSHA256": "1261a521df1dfbf799ed05ef943a5fc7eacf94b03546ffb257528b79fd423969"
+        },
+        {
+          "phase": "after",
+          "pages": 8,
+          "keepNextFlags": 15,
+          "wordSHA256": "2d6a659a337d464835985a88cd6c153ce364172acca345d9b33305dfa3d7a625",
+          "pdfSHA256": "28cb9335995e556e60f9316c356f12c119bd21e451f27204788cf686414f99ab"
+        }
+      ],
+      "sectionHeadingContinuity": [
+        {
+          "heading": "一、丰富消费惠民举措",
+          "beforePage": 2,
+          "beforeWithContent": true,
+          "afterPage": 2,
+          "afterWithContent": true
+        },
+        {
+          "heading": "二、满足不同年龄群体消费需求",
+          "beforePage": 3,
+          "beforeWithContent": true,
+          "afterPage": 3,
+          "afterWithContent": true
+        },
+        {
+          "heading": "三、扩大特色优质产品供给",
+          "beforePage": 4,
+          "beforeWithContent": true,
+          "afterPage": 4,
+          "afterWithContent": true
+        },
+        {
+          "heading": "四、培育消费场景",
+          "beforePage": 5,
+          "beforeWithContent": false,
+          "afterPage": 5,
+          "afterWithContent": true
+        },
+        {
+          "heading": "五、创新产业政策",
+          "beforePage": 6,
+          "beforeWithContent": false,
+          "afterPage": 6,
+          "afterWithContent": true
+        },
+        {
+          "heading": "六、优化消费环境",
+          "beforePage": 7,
+          "beforeWithContent": false,
+          "afterPage": 7,
+          "afterWithContent": true
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "name": "education",
+      "exactCharacters": 1540,
+      "sameDraftAndStructure": true,
+      "onlyWordKeepNextChanged": true,
+      "variants": [
+        {
+          "phase": "before",
+          "pages": 5,
+          "keepNextFlags": 30,
+          "wordSHA256": "dfd886275648ae9f0b98d304109a4d506d2bbb2d354ac088407b16060479a80e",
+          "pdfSHA256": "68397c8cbff80892a9cc4d6039b9e97604032415bfc1b654a84fedbe6d1fc111"
+        },
+        {
+          "phase": "after",
+          "pages": 5,
+          "keepNextFlags": 25,
+          "wordSHA256": "a9fb6266c6986fa55ee6c4aa9747e7573618e38f56cc256c627cb9f19ecf1085",
+          "pdfSHA256": "45e863445bf140587d995fbaddb60e2ffc14332293a77a3723f83f62be39c1ff"
+        }
+      ],
+      "shortTailResolved": true,
+      "dateAndPublicNoteSamePDFPage": 4
+    },
+    {
+      "profile": "webkit",
+      "name": "composite",
+      "exactCharacters": 3185,
+      "sameDraftAndStructure": true,
+      "onlyWordKeepNextChanged": true,
+      "variants": [
+        {
+          "phase": "before",
+          "pages": 9,
+          "keepNextFlags": 26,
+          "wordSHA256": "841a0eb4eb18bc57de8f2918d085592df3cd804425e694b6e6c290f958b9e15f",
+          "pdfSHA256": "4c1d9db8094db68dfe29e2c8b1803d3554345b50a4c46498a6462fcab9c4344f"
+        },
+        {
+          "phase": "after",
+          "pages": 8,
+          "keepNextFlags": 15,
+          "wordSHA256": "2d6a659a337d464835985a88cd6c153ce364172acca345d9b33305dfa3d7a625",
+          "pdfSHA256": "dac177646b71eafec1f1968eac55606a9485fde26853694220123ef9bf9d83ee"
+        }
+      ],
+      "sectionHeadingContinuity": [
+        {
+          "heading": "一、丰富消费惠民举措",
+          "beforePage": 2,
+          "beforeWithContent": true,
+          "afterPage": 2,
+          "afterWithContent": true
+        },
+        {
+          "heading": "二、满足不同年龄群体消费需求",
+          "beforePage": 3,
+          "beforeWithContent": true,
+          "afterPage": 3,
+          "afterWithContent": true
+        },
+        {
+          "heading": "三、扩大特色优质产品供给",
+          "beforePage": 4,
+          "beforeWithContent": true,
+          "afterPage": 4,
+          "afterWithContent": true
+        },
+        {
+          "heading": "四、培育消费场景",
+          "beforePage": 5,
+          "beforeWithContent": false,
+          "afterPage": 5,
+          "afterWithContent": true
+        },
+        {
+          "heading": "五、创新产业政策",
+          "beforePage": 6,
+          "beforeWithContent": false,
+          "afterPage": 6,
+          "afterWithContent": true
+        },
+        {
+          "heading": "六、优化消费环境",
+          "beforePage": 7,
+          "beforeWithContent": false,
+          "afterPage": 7,
+          "afterWithContent": true
+        }
+      ]
+    }
+  ],
+  "nativeWord": [
+    {
+      "file": "before-education.docx",
+      "pages": 5,
+      "wordVersion": "16.0",
+      "sourceSHA256": "dfd886275648ae9f0b98d304109a4d506d2bbb2d354ac088407b16060479a80e",
+      "exactNativeWordText": true,
+      "pageMap": {
+        "mainHeading": 3,
+        "firstBody": 4,
+        "date": 4,
+        "publicNote": 4
+      }
+    },
+    {
+      "file": "before-composite.docx",
+      "pages": 8,
+      "wordVersion": "16.0",
+      "sourceSHA256": "841a0eb4eb18bc57de8f2918d085592df3cd804425e694b6e6c290f958b9e15f",
+      "exactNativeWordText": true,
+      "pageMap": {
+        "sections": [
+          {
+            "heading": "一、丰富消费惠民举措",
+            "headingPage": 2,
+            "contentPage": 2
+          },
+          {
+            "heading": "二、满足不同年龄群体消费需求",
+            "headingPage": 3,
+            "contentPage": 3
+          },
+          {
+            "heading": "三、扩大特色优质产品供给",
+            "headingPage": 4,
+            "contentPage": 4
+          },
+          {
+            "heading": "四、培育消费场景",
+            "headingPage": 5,
+            "contentPage": 5
+          },
+          {
+            "heading": "五、创新产业政策",
+            "headingPage": 6,
+            "contentPage": 6
+          },
+          {
+            "heading": "六、优化消费环境",
+            "headingPage": 7,
+            "contentPage": 7
+          }
+        ]
+      }
+    },
+    {
+      "file": "after-education.docx",
+      "pages": 5,
+      "wordVersion": "16.0",
+      "sourceSHA256": "a9fb6266c6986fa55ee6c4aa9747e7573618e38f56cc256c627cb9f19ecf1085",
+      "exactNativeWordText": true,
+      "pageMap": {
+        "mainHeading": 4,
+        "firstBody": 4,
+        "date": 5,
+        "publicNote": 5
+      }
+    },
+    {
+      "file": "after-composite.docx",
+      "pages": 8,
+      "wordVersion": "16.0",
+      "sourceSHA256": "2d6a659a337d464835985a88cd6c153ce364172acca345d9b33305dfa3d7a625",
+      "exactNativeWordText": true,
+      "pageMap": {
+        "sections": [
+          {
+            "heading": "一、丰富消费惠民举措",
+            "headingPage": 2,
+            "contentPage": 2
+          },
+          {
+            "heading": "二、满足不同年龄群体消费需求",
+            "headingPage": 3,
+            "contentPage": 3
+          },
+          {
+            "heading": "三、扩大特色优质产品供给",
+            "headingPage": 4,
+            "contentPage": 4
+          },
+          {
+            "heading": "四、培育消费场景",
+            "headingPage": 5,
+            "contentPage": 5
+          },
+          {
+            "heading": "五、创新产业政策",
+            "headingPage": 6,
+            "contentPage": 6
+          },
+          {
+            "heading": "六、优化消费环境",
+            "headingPage": 7,
+            "contentPage": 7
+          }
+        ]
+      }
+    }
+  ],
+  "sources": {
+    "internal/office/pdf.go": "f3978c20339b7fa0f842458627ac19f9770b406898c9cf23cf4075b4e41209bd",
+    "internal/office/title_layout.go": "ae1a9c2c04daab000e30ad524286aa0b87b48cca4f722a03010d8b92ede94657",
+    "web/write.js": "ff624d7a136a6efe5bd8eafdf294af0b37458f081c41074046e12c64527f9ddb",
+    "web/write-content.js": "294519b617e3af28291570f16201a187afd9d50b043192e1d6d7465a26cad261",
+    "web/write-content-editor.js": "67fef3990194d23384eaa29025c592447ae48ff52d41da1580585b8d5af535ac",
+    "web/write-model.js": "b912986604c39301c6a983333dec0f54ee9d5d231fc9647cf617b48d3d3cc406",
+    "web/write-checks.js": "12856dcf130d716aeadc3e59f5135b7c9da3508a642e159abd3c1e13719ef99e",
+    "web/write-boot.js": "22c91824cc3685dba655151ee772d1eef91805002e7bc7c6ac334c370282c179"
+  },
+  "engineSHA256": {
+    "before": "08838e74813ab1dbc1bf478aac7a2ae8259102ed7bb8896ed4cc9b4a87bce22e",
+    "after": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6"
+  },
+  "baselineProductCommit": "7ddb249743b45e4df7c061c939ea8d13a7e34bc6",
+  "inputSources": {
+    "education": {
+      "path": "docs/evidence/ceo-readability-20261022/education.gongwen.json",
+      "sha256": "e3dffc36b514ad1e214eabc4085d10b37328d3fb713782d28ff56aa0e255878a"
+    },
+    "composite": {
+      "path": "docs/evidence/ceo-readability-20261022/composite.gongwen.json",
+      "sha256": "5647bb1a5310a41d73d596e93aa855a4909d79937fd6ca59331a12f247000bea"
+    }
+  },
+  "visualReview": {
+    "renderedPages": 53,
+    "uniquePages": 43,
+    "manualReviewRecordedSeparately": true
+  },
+  "limitations": [
+    "CEO source drafts received at main3e75fade and verified without changing source fields/content",
+    "Word and PDF are not claimed page-identical",
+    "Normal short final pages and authored blank paragraphs remain allowed"
+  ]
+}

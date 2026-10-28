@@ -1,0 +1,30 @@
+{
+  "profile": "firefox",
+  "version": "157.0",
+  "method": "Fictional roles using actual UI/evidence modules and an independent deterministic API contract. Not PG, actual operational collection or blind-user study.",
+  "checks": [
+    "POST201后GET503明确已收取，不再提示重新发送",
+    "读取失败页仍可保存私密回执且底部操作可达",
+    "状态未读取时取得的回执仍含正确id和私密token",
+    "关闭重开仍保留已取得的回执与重试入口",
+    "重试仅GET，不再次POST或重复创建",
+    "原稿未改变且凭据不进入长期存储",
+    "回复POST201后GET503明确已接收并清除旧输入",
+    "回复确认后读取失败仍保留未保存负责人和版本",
+    "处理故障页提供只读取的重试入口",
+    "处理重试仅GET且没有重复回复POST",
+    "故障路径无未捕获异常"
+  ],
+  "errors": [],
+  "source": {
+    "write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "write-feedback.css": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892",
+    "feedback-admin.js": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e",
+    "feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+    "write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604"
+  },
+  "scope": "POST 201 confirmed then GET 503, recover receipt without another POST",
+  "passed": true,
+  "apiRequests": 10
+}

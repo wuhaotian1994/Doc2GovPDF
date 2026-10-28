@@ -1,0 +1,248 @@
+{
+  "pages": [
+    {
+      "source": "chrome/untouched.word.pdf",
+      "image": "chrome-untouched.word-1.png",
+      "sha256": "30405f7d682af7c22a6bc3bb4918fff9cd2f4a52d7fc32c2c4f1e0c6edb18d1e"
+    },
+    {
+      "source": "chrome/untouched.word.pdf",
+      "image": "chrome-untouched.word-2.png",
+      "sha256": "055a414e03bd9c1ca9d7f71cec667256e054f90ab1c9d7fc667474efdd06d185"
+    },
+    {
+      "source": "chrome/untouched.word.pdf",
+      "image": "chrome-untouched.word-3.png",
+      "sha256": "75187c625f3042bbcc3c3a95c8bb6a3865636651f653597cccb350cdaf81c5b4"
+    },
+    {
+      "source": "chrome/untouched.word.pdf",
+      "image": "chrome-untouched.word-4.png",
+      "sha256": "09a88babeaece3964ab48d23f7da55c5533bfe91ccc7ba69798f5ae3673d9f1b"
+    },
+    {
+      "source": "chrome/untouched.word.pdf",
+      "image": "chrome-untouched.word-5.png",
+      "sha256": "379bfadd2556476666e40cba69e6dc9ad1071367beaa07e7c9b717fe4e8160ae"
+    },
+    {
+      "source": "before/edited.pdf",
+      "image": "before-edited-1.png",
+      "sha256": "ba73c0bad637bdbfe7a641061a7534a7158a31456d7f28197603e4e4edab8f28"
+    },
+    {
+      "source": "before/edited.pdf",
+      "image": "before-edited-2.png",
+      "sha256": "35091a2ea645b70618a88d8950693a01b810bbf7b3080c7e091e10ffc5654363"
+    },
+    {
+      "source": "before/edited.pdf",
+      "image": "before-edited-3.png",
+      "sha256": "c56319651f061897a8bd8264f1f4aef6871c96590193dcdd89e12fd3a0f034dd"
+    },
+    {
+      "source": "before/edited.pdf",
+      "image": "before-edited-4.png",
+      "sha256": "9b3e6a0b2d8f4311d17edef632f7c9f3953f288c8c02a3b3f231702f23e5a4b5"
+    },
+    {
+      "source": "before/edited.pdf",
+      "image": "before-edited-5.png",
+      "sha256": "d1b027f7dcbebd172097ded12fbdc4a606c39c91c4d2e4c9c39761b3a3fd6597"
+    },
+    {
+      "source": "before/edited.word.pdf",
+      "image": "before-edited.word-1.png",
+      "sha256": "c8d262affa29081d7fdf6caaebcead06b37fb6c51a2fd8f69f1a460656c7aa5e"
+    },
+    {
+      "source": "before/edited.word.pdf",
+      "image": "before-edited.word-2.png",
+      "sha256": "c4491e4a4c42547649c7a07842f3ea6154a8c143a3d5eca9a25531870a676230"
+    },
+    {
+      "source": "before/edited.word.pdf",
+      "image": "before-edited.word-3.png",
+      "sha256": "3f1d2f54554904059b237ccb0ac35eabbc4788da5ccdeae6c6b361fa315abbbb"
+    },
+    {
+      "source": "before/edited.word.pdf",
+      "image": "before-edited.word-4.png",
+      "sha256": "53210b9f6e18886dabdd2aea3d79f4c8262e1aa66b43389834b86fd00c555f93"
+    },
+    {
+      "source": "before/edited.word.pdf",
+      "image": "before-edited.word-5.png",
+      "sha256": "379bfadd2556476666e40cba69e6dc9ad1071367beaa07e7c9b717fe4e8160ae"
+    },
+    {
+      "source": "chrome/untouched.pdf",
+      "image": "chrome-untouched-1.png",
+      "sha256": "88d4afb9c4a8620b1226ac36ecc848add988d5f215cded9a7b40fcec343882a5"
+    },
+    {
+      "source": "chrome/untouched.pdf",
+      "image": "chrome-untouched-2.png",
+      "sha256": "29fe324a65d4a771a0d5a93eefc53773b7b34a04faa57fe2f8215d34a2e5016c"
+    },
+    {
+      "source": "chrome/untouched.pdf",
+      "image": "chrome-untouched-3.png",
+      "sha256": "e6bfb045556ef0cd10308bfffa9c7bc3eae212f769dc12c0850970246b26f732"
+    },
+    {
+      "source": "chrome/untouched.pdf",
+      "image": "chrome-untouched-4.png",
+      "sha256": "9049dfb40a9b1a1b9059e3260a5bcec2cce46beeb0e2c3cb35e03ac9ed735474"
+    },
+    {
+      "source": "chrome/untouched.pdf",
+      "image": "chrome-untouched-5.png",
+      "sha256": "cb0337deacc686e2281f6505543ff4e5e92c2eb8b8fb66e6bb89da2ec4bdfe7d"
+    },
+    {
+      "source": "chrome/edited.pdf",
+      "image": "chrome-edited-1.png",
+      "sha256": "ae6c77e9c5107943eea4a1208a10d8919dedb53567dbe13747cbed3a2f4f633e"
+    },
+    {
+      "source": "chrome/edited.pdf",
+      "image": "chrome-edited-2.png",
+      "sha256": "a1397d8590b181bcc446f928b47758463b2c3f9db372b4eb4c0d85bf4f265ac4"
+    },
+    {
+      "source": "chrome/edited.pdf",
+      "image": "chrome-edited-3.png",
+      "sha256": "6656288f5f4e82df98bb19e8458278e64c6fc20feadfd9193bdf95573dafacd1"
+    },
+    {
+      "source": "chrome/edited.pdf",
+      "image": "chrome-edited-4.png",
+      "sha256": "c5fa9a214535c85fdfd35d20f3322be89397a0021c204929754fd27a9c8a2c0a"
+    },
+    {
+      "source": "chrome/edited.pdf",
+      "image": "chrome-edited-5.png",
+      "sha256": "cb0337deacc686e2281f6505543ff4e5e92c2eb8b8fb66e6bb89da2ec4bdfe7d"
+    },
+    {
+      "source": "chrome/edited.word.pdf",
+      "image": "chrome-edited.word-1.png",
+      "sha256": "c8d262affa29081d7fdf6caaebcead06b37fb6c51a2fd8f69f1a460656c7aa5e"
+    },
+    {
+      "source": "chrome/edited.word.pdf",
+      "image": "chrome-edited.word-2.png",
+      "sha256": "c4491e4a4c42547649c7a07842f3ea6154a8c143a3d5eca9a25531870a676230"
+    },
+    {
+      "source": "chrome/edited.word.pdf",
+      "image": "chrome-edited.word-3.png",
+      "sha256": "3f1d2f54554904059b237ccb0ac35eabbc4788da5ccdeae6c6b361fa315abbbb"
+    },
+    {
+      "source": "chrome/edited.word.pdf",
+      "image": "chrome-edited.word-4.png",
+      "sha256": "83b0cb52ca9314b0f3d5842b150c5d036be88a3f38dbc86aff41ce2cb77f4583"
+    },
+    {
+      "source": "chrome/edited.word.pdf",
+      "image": "chrome-edited.word-5.png",
+      "sha256": "379bfadd2556476666e40cba69e6dc9ad1071367beaa07e7c9b717fe4e8160ae"
+    },
+    {
+      "source": "chrome/legacy-restored.pdf",
+      "image": "chrome-legacy-restored-1.png",
+      "sha256": "ba73c0bad637bdbfe7a641061a7534a7158a31456d7f28197603e4e4edab8f28"
+    },
+    {
+      "source": "chrome/legacy-restored.pdf",
+      "image": "chrome-legacy-restored-2.png",
+      "sha256": "35091a2ea645b70618a88d8950693a01b810bbf7b3080c7e091e10ffc5654363"
+    },
+    {
+      "source": "chrome/legacy-restored.pdf",
+      "image": "chrome-legacy-restored-3.png",
+      "sha256": "c56319651f061897a8bd8264f1f4aef6871c96590193dcdd89e12fd3a0f034dd"
+    },
+    {
+      "source": "chrome/legacy-restored.pdf",
+      "image": "chrome-legacy-restored-4.png",
+      "sha256": "9b3e6a0b2d8f4311d17edef632f7c9f3953f288c8c02a3b3f231702f23e5a4b5"
+    },
+    {
+      "source": "chrome/legacy-restored.pdf",
+      "image": "chrome-legacy-restored-5.png",
+      "sha256": "d1b027f7dcbebd172097ded12fbdc4a606c39c91c4d2e4c9c39761b3a3fd6597"
+    },
+    {
+      "source": "chrome/legacy-restored.word.pdf",
+      "image": "chrome-legacy-restored.word-1.png",
+      "sha256": "c8d262affa29081d7fdf6caaebcead06b37fb6c51a2fd8f69f1a460656c7aa5e"
+    },
+    {
+      "source": "chrome/legacy-restored.word.pdf",
+      "image": "chrome-legacy-restored.word-2.png",
+      "sha256": "c4491e4a4c42547649c7a07842f3ea6154a8c143a3d5eca9a25531870a676230"
+    },
+    {
+      "source": "chrome/legacy-restored.word.pdf",
+      "image": "chrome-legacy-restored.word-3.png",
+      "sha256": "3f1d2f54554904059b237ccb0ac35eabbc4788da5ccdeae6c6b361fa315abbbb"
+    },
+    {
+      "source": "chrome/legacy-restored.word.pdf",
+      "image": "chrome-legacy-restored.word-4.png",
+      "sha256": "f021ec6363052125bd4e75c140e5b35dccef5ad265d5846c9e5cf9860949c65b"
+    },
+    {
+      "source": "chrome/legacy-restored.word.pdf",
+      "image": "chrome-legacy-restored.word-5.png",
+      "sha256": "379bfadd2556476666e40cba69e6dc9ad1071367beaa07e7c9b717fe4e8160ae"
+    },
+    {
+      "source": "chrome/saved-new-admissions.pdf",
+      "image": "chrome-saved-new-admissions-1.png",
+      "sha256": "2376f1da0a36c93e2c93704015eb0c30070f70f1c9d270e794332a0605256835"
+    },
+    {
+      "source": "chrome/saved-new-admissions.pdf",
+      "image": "chrome-saved-new-admissions-2.png",
+      "sha256": "bafe3fe4c255688ffc2f4b9ccb650ba3fc8226ac7a607ffc03d308b4ba3f4fb2"
+    },
+    {
+      "source": "chrome/saved-new-admissions.pdf",
+      "image": "chrome-saved-new-admissions-3.png",
+      "sha256": "8c905b1ad80c215d48c16307d299e402f7f430d8199b0979cb0a7cb98df7e633"
+    },
+    {
+      "source": "chrome/saved-new-admissions.word.pdf",
+      "image": "chrome-saved-new-admissions.word-1.png",
+      "sha256": "0c6f1694c235635f737908be5c82da592c10cc245ce1c66f2e0f2f0a4edee286"
+    },
+    {
+      "source": "chrome/saved-new-admissions.word.pdf",
+      "image": "chrome-saved-new-admissions.word-2.png",
+      "sha256": "c186ec7e40151715ae3936833fb6bdd8591b6f345f3bc86a406a74d51f2f8924"
+    },
+    {
+      "source": "chrome/saved-new-admissions.word.pdf",
+      "image": "chrome-saved-new-admissions.word-3.png",
+      "sha256": "175b1f154a65da21acccbbe0fc988b8c0cb15c73fe564db4b67470d6bace3004"
+    }
+  ],
+  "groups": [
+    "group-01.png",
+    "group-02.png",
+    "group-03.png",
+    "group-04.png",
+    "group-05.png",
+    "group-06.png",
+    "group-07.png",
+    "group-08.png",
+    "group-09.png",
+    "group-10.png",
+    "group-11.png",
+    "group-12.png"
+  ]
+}

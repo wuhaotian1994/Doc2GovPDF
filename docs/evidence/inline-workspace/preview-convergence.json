@@ -1,0 +1,56 @@
+[
+  {
+    "profile": "chrome",
+    "baseline": false,
+    "checks": [
+      "invalid date explains the blocked preview instead of waiting indefinitely",
+      "correcting the field resumes without reload",
+      "simulated IME end without final input converges #title",
+      "simulated IME end without final input converges #agency",
+      "simulated IME end without final input converges #recipient",
+      "simulated IME end without final input converges #reference",
+      "rapid basic-information edits converge to the latest saved fields",
+      "latest actual formatted files export after convergence",
+      "test exercises a real request that never returns",
+      "bounded failure is explicit, editable and cannot export a stale version",
+      "editing after a failed request recovers the latest preview without refreshing",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "firefox",
+    "baseline": false,
+    "checks": [
+      "invalid date explains the blocked preview instead of waiting indefinitely",
+      "correcting the field resumes without reload",
+      "simulated IME end without final input converges #title",
+      "simulated IME end without final input converges #agency",
+      "simulated IME end without final input converges #recipient",
+      "simulated IME end without final input converges #reference",
+      "rapid basic-information edits converge to the latest saved fields",
+      "latest actual formatted files export after convergence",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "webkit",
+    "baseline": false,
+    "checks": [
+      "invalid date explains the blocked preview instead of waiting indefinitely",
+      "correcting the field resumes without reload",
+      "simulated IME end without final input converges #title",
+      "simulated IME end without final input converges #agency",
+      "simulated IME end without final input converges #recipient",
+      "simulated IME end without final input converges #reference",
+      "rapid basic-information edits converge to the latest saved fields",
+      "latest actual formatted files export after convergence",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

@@ -1,0 +1,2174 @@
+{
+  "blocks": [
+    {
+      "paragraph": {
+        "id": "p0",
+        "text": "关于印发盘锦市2025年普通高中招生计划的通知（模拟校阅）",
+        "role": "title",
+        "align": "center",
+        "font": "方正小标宋简体",
+        "size": 22,
+        "before": 0,
+        "after": 10,
+        "line": 10.21,
+        "indent": 0,
+        "keepNext": true
+      }
+    },
+    {
+      "paragraph": {
+        "id": "p1",
+        "text": "各县区教育局，局直属相关单位：",
+        "role": "recipient",
+        "align": "both",
+        "font": "仿宋",
+        "size": 16,
+        "before": 0,
+        "after": 0,
+        "line": 10.21,
+        "indent": 0,
+        "keepNext": true
+      }
+    },
+    {
+      "paragraph": {
+        "id": "writer-content-26fce06e-3bd6-4a60-ae85-0d3c34850a97",
+        "text": "为贯彻落实2025年全省基础教育工作部署会议精神，深入实施基础教育扩优提质工程，扩大普通高中教育资源，切实满足更多学生上好学的需要。现制定并印发全市2025年普通高中招生计划。",
+        "role": "body",
+        "align": "both",
+        "font": "仿宋",
+        "size": 16,
+        "before": 0,
+        "after": 0,
+        "line": 10.21,
+        "indent": 11.29
+      }
+    },
+    {
+      "paragraph": {
+        "id": "writer-content-9f0d4006-0f72-47af-ba74-4143baeee94b",
+        "text": "附件：盘锦市2025年普通高中招生计划表",
+        "role": "body",
+        "align": "both",
+        "font": "仿宋",
+        "size": 16,
+        "before": 0,
+        "after": 0,
+        "line": 10.21,
+        "indent": 11.29
+      }
+    },
+    {
+      "paragraph": {
+        "id": "extra-signature-0",
+        "text": "盘锦市教育局",
+        "role": "signature",
+        "align": "right",
+        "font": "仿宋",
+        "size": 16,
+        "before": 10,
+        "after": 0,
+        "line": 10.21,
+        "indent": 0,
+        "rightIndent": 22.58,
+        "keepNext": true
+      }
+    },
+    {
+      "paragraph": {
+        "id": "p5",
+        "text": "2025年5月14日",
+        "role": "date",
+        "align": "right",
+        "font": "仿宋",
+        "size": 16,
+        "before": 0,
+        "after": 0,
+        "line": 10.21,
+        "indent": 0,
+        "rightIndent": 22.58
+      }
+    },
+    {
+      "paragraph": {
+        "id": "writer-content-eaccaef2-2698-44cc-80d9-2c4b02367fd9",
+        "text": "（此件公开发布）",
+        "role": "note",
+        "font": "仿宋",
+        "size": 16,
+        "line": 10.21,
+        "align": "left",
+        "indent": 11.29,
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "paragraph": {
+        "id": "writer-content-d9b5aff9-1b56-4631-81b8-41648efcb112",
+        "text": "附件",
+        "role": "note",
+        "font": "仿宋",
+        "size": 16,
+        "line": 10.21,
+        "align": "left",
+        "indent": 11.29,
+        "before": 0,
+        "after": 0,
+        "keepNext": true
+      }
+    },
+    {
+      "paragraph": {
+        "id": "writer-content-0b4f075b-da86-42b5-92f6-28340687a2ac",
+        "text": "盘锦市2025年普通高中招生计划表",
+        "role": "note",
+        "font": "仿宋",
+        "size": 16,
+        "line": 10.21,
+        "align": "left",
+        "indent": 11.29,
+        "before": 0,
+        "after": 0,
+        "keepNext": true
+      }
+    },
+    {
+      "table": {
+        "widths": [
+          14,
+          70.75574485515061,
+          25.238507889675738,
+          46.005747255173645
+        ],
+        "borders": true,
+        "borderStyle": "grid",
+        "rows": [
+          {
+            "header": true,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-746abd9a-7a88-46be-af71-4a8366f1eac1-0",
+                    "text": "序号",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-5e30b002-3e84-4670-92bf-1c4566608c8a-0",
+                    "text": "学校",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-405b4e13-0152-4c2e-8d48-6a13f0c8f68d-0",
+                    "text": "招生计划",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-01ff8ad8-7c0b-4817-bf24-8d060ed53b1d-0",
+                    "text": "备注",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-81d06c30-cba7-43e8-8ae0-e61b5dfd7389-0",
+                    "text": "1",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-638c2b90-b259-40d1-853f-26904fbf133a-0",
+                    "text": "盘锦市高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-6a926138-a687-4c61-882f-52dca773c2a9-0",
+                    "text": "1090",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-d1d8ef24-0897-44d2-952e-8d0ea9dbd5dd-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-b1163204-9cae-45d0-a3fb-8126e5bd38c9-0",
+                    "text": "2",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-a4fa41a1-6739-4e73-9f5c-c16fc6033107-0",
+                    "text": "盘锦市辽东湾实验高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-9e5d5755-b512-4d81-8de6-1b181f2cd4ba-0",
+                    "text": "1000",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-84eb4b13-d77f-4bbd-8abb-e69c25b8a73d-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-f0bacac5-dd32-47d5-bb18-135cdfd1519c-0",
+                    "text": "3",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-748a61ee-b0aa-48f7-b0b3-34028fedf593-0",
+                    "text": "盘锦市第二高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-873ab1d1-b154-4557-b1e4-7f52671f521c-0",
+                    "text": "700",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-c8c21058-c99a-475a-aa91-38371a73778b-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-3dcb56e2-8b6f-46ec-8e6c-1266d999f186-0",
+                    "text": "4",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-8d26eb00-bc7f-41b2-961d-79cc3f554237-0",
+                    "text": "辽河油田第一高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-db6e9a5f-69fc-4441-bdb7-fee49fb03ee4-0",
+                    "text": "1000",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-7b542714-fe49-441c-8509-68f65cca095a-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-67406379-167f-47ff-93ea-3fa3af2e6847-0",
+                    "text": "5",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-79fced75-64ac-4149-a480-c36881971993-0",
+                    "text": "辽河油田第二高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-a649ff89-ca65-47a1-942e-2e943c4f668f-0",
+                    "text": "600",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-894cef58-be15-4fd7-a53f-149eeb9a29cf-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-17a930bf-e0f5-4490-bcb7-832aa115378e-0",
+                    "text": "6",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-5545ce6c-32f2-4e39-9d2b-d73de8d004f3-0",
+                    "text": "辽河油田第三高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-216c1b56-4103-4346-b4c1-72fa4ac9a9d6-0",
+                    "text": "700",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-2c73ae18-bcd6-4981-80aa-d0795399ca36-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-40cbe9b9-1ee5-46b3-9a60-d21282c4865d-0",
+                    "text": "7",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-920500bb-77f0-4549-b9ef-bae51266df20-0",
+                    "text": "大洼区高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-0c46abdd-7c82-4dd6-ad39-08b265ff7e12-0",
+                    "text": "1500",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-832447e9-8db7-4d0e-b87d-a753528db08a-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-bbf7d719-a0c6-4d99-b759-a5c4282bc70b-0",
+                    "text": "8",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-e66528c8-e79c-43d3-ad5d-46b275236a5c-0",
+                    "text": "盘山县高级中学",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-1ea9ffcc-c92d-4bcd-8693-8bb5d2aac0c9-0",
+                    "text": "1000",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-967c9678-ff16-4fbe-8908-ec5456671045-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-c4e25b6d-62cf-48d9-a9ad-088658392a8d-0",
+                    "text": "9",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-f5a5ed59-c269-435e-a54c-d08fa727e79e-0",
+                    "text": "盘锦华发学校",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-34ea0a5a-24ca-4039-976d-db057aa7f5df-0",
+                    "text": "480",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-1c696087-6ff3-4a9e-85bb-361d5a81a059-0",
+                    "text": "含公费计划30人",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-8f338da3-69e2-4e46-a8b7-2ff77026ccb2-0",
+                    "text": "10",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-f649bfff-118d-4d87-9dc5-48a14e1e0a5f-0",
+                    "text": "盘锦市育才学校",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-48abff50-efa7-4847-9d2b-6deb1b972a35-0",
+                    "text": "500",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-adec0445-ebeb-442f-aedf-dba7ed47c2aa-0",
+                    "text": "含公费计划150人",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-a07e7638-d948-4931-b7f8-f3852ef833d7-0",
+                    "text": "11",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-18b9f21f-8ca0-4215-a318-2e60bce7af82-0",
+                    "text": "盘锦光正实验学校",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-b15914c5-f45c-4a59-ab69-dacaf1b39a54-0",
+                    "text": "300",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-1abd7c19-42a1-4566-a768-97d37920f511-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-6acee65f-b78e-45b4-b60a-e734674728fb-0",
+                    "text": "12",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-fb7efd90-ec3d-4fa1-85f5-8ecc31e4ef7d-0",
+                    "text": "盘锦德馨学校",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-12e77efc-ea31-44cb-8215-263f9d623faf-0",
+                    "text": "130",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-0c009e05-2f00-4f5a-8966-7e23dc453881-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0,
+                    "keepNext": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "header": false,
+            "cells": [
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-e8eb303e-a087-4f14-90c0-b930cc6ae1d9-0",
+                    "text": "合计",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-2f18c477-4d36-44d6-aa8e-224b88b204a5-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-784ac966-6928-4889-b42c-ed6abab0e76b-0",
+                    "text": "9000",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              },
+              {
+                "span": 1,
+                "paragraphs": [
+                  {
+                    "id": "writer-cell-45bbf998-a51f-4881-b5e0-dde194de7376-0",
+                    "text": "",
+                    "role": "body",
+                    "font": "仿宋",
+                    "size": 14,
+                    "line": 8,
+                    "indent": 0,
+                    "align": "left",
+                    "before": 0,
+                    "after": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "page": {
+    "width": 210,
+    "height": 297,
+    "top": 37,
+    "bottom": 35,
+    "left": 28,
+    "right": 26,
+    "gridType": "linesAndChars",
+    "linePitch": 579,
+    "charSpace": -842
+  },
+  "template": "plain",
+  "warnings": [],
+  "pdfUnsupported": false,
+  "hideFirstPageNumber": false,
+  "_writerSources": {
+    "writer-content-26fce06e-3bd6-4a60-ae85-0d3c34850a97": {
+      "field": "body",
+      "text": "为贯彻落实2025年全省基础教育工作部署会议精神，深入实施基础教育扩优提质工程，扩大普通高中教育资源，切实满足更多学生上好学的需要。现制定并印发全市2025年普通高中招生计划。",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "26fce06e-3bd6-4a60-ae85-0d3c34850a97"
+      },
+      "contentStyle": {
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    },
+    "writer-content-9f0d4006-0f72-47af-ba74-4143baeee94b": {
+      "field": "body",
+      "text": "附件：盘锦市2025年普通高中招生计划表",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "9f0d4006-0f72-47af-ba74-4143baeee94b"
+      },
+      "contentStyle": {
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    },
+    "writer-content-eaccaef2-2698-44cc-80d9-2c4b02367fd9": {
+      "field": "postscript",
+      "text": "（此件公开发布）",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "eaccaef2-2698-44cc-80d9-2c4b02367fd9"
+      },
+      "contentStyle": {
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    },
+    "writer-content-d9b5aff9-1b56-4631-81b8-41648efcb112": {
+      "field": "postscript",
+      "text": "附件",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "d9b5aff9-1b56-4631-81b8-41648efcb112"
+      },
+      "contentStyle": {
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    },
+    "writer-content-0b4f075b-da86-42b5-92f6-28340687a2ac": {
+      "field": "postscript",
+      "text": "盘锦市2025年普通高中招生计划表",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "0b4f075b-da86-42b5-92f6-28340687a2ac"
+      },
+      "contentStyle": {
+        "role": "auto",
+        "align": "auto",
+        "indent": "auto",
+        "before": "auto",
+        "after": "auto"
+      }
+    },
+    "writer-cell-746abd9a-7a88-46be-af71-4a8366f1eac1-0": {
+      "field": "postscript",
+      "text": "序号",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "193071ec-71dd-4190-8955-550e8c060356",
+        "cell": "746abd9a-7a88-46be-af71-4a8366f1eac1",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": true,
+        "columns": 4
+      }
+    },
+    "writer-cell-5e30b002-3e84-4670-92bf-1c4566608c8a-0": {
+      "field": "postscript",
+      "text": "学校",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "193071ec-71dd-4190-8955-550e8c060356",
+        "cell": "5e30b002-3e84-4670-92bf-1c4566608c8a",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": true,
+        "columns": 4
+      }
+    },
+    "writer-cell-405b4e13-0152-4c2e-8d48-6a13f0c8f68d-0": {
+      "field": "postscript",
+      "text": "招生计划",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "193071ec-71dd-4190-8955-550e8c060356",
+        "cell": "405b4e13-0152-4c2e-8d48-6a13f0c8f68d",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": true,
+        "columns": 4
+      }
+    },
+    "writer-cell-01ff8ad8-7c0b-4817-bf24-8d060ed53b1d-0": {
+      "field": "postscript",
+      "text": "备注",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "193071ec-71dd-4190-8955-550e8c060356",
+        "cell": "01ff8ad8-7c0b-4817-bf24-8d060ed53b1d",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": true,
+        "columns": 4
+      }
+    },
+    "writer-cell-81d06c30-cba7-43e8-8ae0-e61b5dfd7389-0": {
+      "field": "postscript",
+      "text": "1",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "a88d7e8b-d914-4a3c-af2f-ba231c3a31a3",
+        "cell": "81d06c30-cba7-43e8-8ae0-e61b5dfd7389",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-638c2b90-b259-40d1-853f-26904fbf133a-0": {
+      "field": "postscript",
+      "text": "盘锦市高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "a88d7e8b-d914-4a3c-af2f-ba231c3a31a3",
+        "cell": "638c2b90-b259-40d1-853f-26904fbf133a",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-6a926138-a687-4c61-882f-52dca773c2a9-0": {
+      "field": "postscript",
+      "text": "1090",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "a88d7e8b-d914-4a3c-af2f-ba231c3a31a3",
+        "cell": "6a926138-a687-4c61-882f-52dca773c2a9",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-d1d8ef24-0897-44d2-952e-8d0ea9dbd5dd-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "a88d7e8b-d914-4a3c-af2f-ba231c3a31a3",
+        "cell": "d1d8ef24-0897-44d2-952e-8d0ea9dbd5dd",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-b1163204-9cae-45d0-a3fb-8126e5bd38c9-0": {
+      "field": "postscript",
+      "text": "2",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "44359976-af8b-4485-8ece-f12057c12bd0",
+        "cell": "b1163204-9cae-45d0-a3fb-8126e5bd38c9",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-a4fa41a1-6739-4e73-9f5c-c16fc6033107-0": {
+      "field": "postscript",
+      "text": "盘锦市辽东湾实验高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "44359976-af8b-4485-8ece-f12057c12bd0",
+        "cell": "a4fa41a1-6739-4e73-9f5c-c16fc6033107",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-9e5d5755-b512-4d81-8de6-1b181f2cd4ba-0": {
+      "field": "postscript",
+      "text": "1000",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "44359976-af8b-4485-8ece-f12057c12bd0",
+        "cell": "9e5d5755-b512-4d81-8de6-1b181f2cd4ba",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-84eb4b13-d77f-4bbd-8abb-e69c25b8a73d-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "44359976-af8b-4485-8ece-f12057c12bd0",
+        "cell": "84eb4b13-d77f-4bbd-8abb-e69c25b8a73d",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-f0bacac5-dd32-47d5-bb18-135cdfd1519c-0": {
+      "field": "postscript",
+      "text": "3",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "10b579b3-8088-4de2-8b91-f95cd3111c60",
+        "cell": "f0bacac5-dd32-47d5-bb18-135cdfd1519c",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-748a61ee-b0aa-48f7-b0b3-34028fedf593-0": {
+      "field": "postscript",
+      "text": "盘锦市第二高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "10b579b3-8088-4de2-8b91-f95cd3111c60",
+        "cell": "748a61ee-b0aa-48f7-b0b3-34028fedf593",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-873ab1d1-b154-4557-b1e4-7f52671f521c-0": {
+      "field": "postscript",
+      "text": "700",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "10b579b3-8088-4de2-8b91-f95cd3111c60",
+        "cell": "873ab1d1-b154-4557-b1e4-7f52671f521c",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-c8c21058-c99a-475a-aa91-38371a73778b-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "10b579b3-8088-4de2-8b91-f95cd3111c60",
+        "cell": "c8c21058-c99a-475a-aa91-38371a73778b",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-3dcb56e2-8b6f-46ec-8e6c-1266d999f186-0": {
+      "field": "postscript",
+      "text": "4",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "eefe6eab-c7a3-4dbd-a974-fb58c109ad58",
+        "cell": "3dcb56e2-8b6f-46ec-8e6c-1266d999f186",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-8d26eb00-bc7f-41b2-961d-79cc3f554237-0": {
+      "field": "postscript",
+      "text": "辽河油田第一高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "eefe6eab-c7a3-4dbd-a974-fb58c109ad58",
+        "cell": "8d26eb00-bc7f-41b2-961d-79cc3f554237",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-db6e9a5f-69fc-4441-bdb7-fee49fb03ee4-0": {
+      "field": "postscript",
+      "text": "1000",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "eefe6eab-c7a3-4dbd-a974-fb58c109ad58",
+        "cell": "db6e9a5f-69fc-4441-bdb7-fee49fb03ee4",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-7b542714-fe49-441c-8509-68f65cca095a-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "eefe6eab-c7a3-4dbd-a974-fb58c109ad58",
+        "cell": "7b542714-fe49-441c-8509-68f65cca095a",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-67406379-167f-47ff-93ea-3fa3af2e6847-0": {
+      "field": "postscript",
+      "text": "5",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "cbf8fb54-45a1-440b-bdd3-0c460b796d39",
+        "cell": "67406379-167f-47ff-93ea-3fa3af2e6847",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-79fced75-64ac-4149-a480-c36881971993-0": {
+      "field": "postscript",
+      "text": "辽河油田第二高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "cbf8fb54-45a1-440b-bdd3-0c460b796d39",
+        "cell": "79fced75-64ac-4149-a480-c36881971993",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-a649ff89-ca65-47a1-942e-2e943c4f668f-0": {
+      "field": "postscript",
+      "text": "600",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "cbf8fb54-45a1-440b-bdd3-0c460b796d39",
+        "cell": "a649ff89-ca65-47a1-942e-2e943c4f668f",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-894cef58-be15-4fd7-a53f-149eeb9a29cf-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "cbf8fb54-45a1-440b-bdd3-0c460b796d39",
+        "cell": "894cef58-be15-4fd7-a53f-149eeb9a29cf",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-17a930bf-e0f5-4490-bcb7-832aa115378e-0": {
+      "field": "postscript",
+      "text": "6",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "c3e39ece-b7a9-4551-a3d1-1ac23847db65",
+        "cell": "17a930bf-e0f5-4490-bcb7-832aa115378e",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-5545ce6c-32f2-4e39-9d2b-d73de8d004f3-0": {
+      "field": "postscript",
+      "text": "辽河油田第三高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "c3e39ece-b7a9-4551-a3d1-1ac23847db65",
+        "cell": "5545ce6c-32f2-4e39-9d2b-d73de8d004f3",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-216c1b56-4103-4346-b4c1-72fa4ac9a9d6-0": {
+      "field": "postscript",
+      "text": "700",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "c3e39ece-b7a9-4551-a3d1-1ac23847db65",
+        "cell": "216c1b56-4103-4346-b4c1-72fa4ac9a9d6",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-2c73ae18-bcd6-4981-80aa-d0795399ca36-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "c3e39ece-b7a9-4551-a3d1-1ac23847db65",
+        "cell": "2c73ae18-bcd6-4981-80aa-d0795399ca36",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-40cbe9b9-1ee5-46b3-9a60-d21282c4865d-0": {
+      "field": "postscript",
+      "text": "7",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "f3f3bc8a-d057-4d56-a906-e28adcbf0dd1",
+        "cell": "40cbe9b9-1ee5-46b3-9a60-d21282c4865d",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-920500bb-77f0-4549-b9ef-bae51266df20-0": {
+      "field": "postscript",
+      "text": "大洼区高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "f3f3bc8a-d057-4d56-a906-e28adcbf0dd1",
+        "cell": "920500bb-77f0-4549-b9ef-bae51266df20",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-0c46abdd-7c82-4dd6-ad39-08b265ff7e12-0": {
+      "field": "postscript",
+      "text": "1500",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "f3f3bc8a-d057-4d56-a906-e28adcbf0dd1",
+        "cell": "0c46abdd-7c82-4dd6-ad39-08b265ff7e12",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-832447e9-8db7-4d0e-b87d-a753528db08a-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "f3f3bc8a-d057-4d56-a906-e28adcbf0dd1",
+        "cell": "832447e9-8db7-4d0e-b87d-a753528db08a",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-bbf7d719-a0c6-4d99-b759-a5c4282bc70b-0": {
+      "field": "postscript",
+      "text": "8",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "92e3ccd1-55d6-463b-ba9c-5296ff246347",
+        "cell": "bbf7d719-a0c6-4d99-b759-a5c4282bc70b",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-e66528c8-e79c-43d3-ad5d-46b275236a5c-0": {
+      "field": "postscript",
+      "text": "盘山县高级中学",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "92e3ccd1-55d6-463b-ba9c-5296ff246347",
+        "cell": "e66528c8-e79c-43d3-ad5d-46b275236a5c",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-1ea9ffcc-c92d-4bcd-8693-8bb5d2aac0c9-0": {
+      "field": "postscript",
+      "text": "1000",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "92e3ccd1-55d6-463b-ba9c-5296ff246347",
+        "cell": "1ea9ffcc-c92d-4bcd-8693-8bb5d2aac0c9",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-967c9678-ff16-4fbe-8908-ec5456671045-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "92e3ccd1-55d6-463b-ba9c-5296ff246347",
+        "cell": "967c9678-ff16-4fbe-8908-ec5456671045",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-c4e25b6d-62cf-48d9-a9ad-088658392a8d-0": {
+      "field": "postscript",
+      "text": "9",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "379b1f9f-df31-48bf-bb2b-9ccaf5b77a01",
+        "cell": "c4e25b6d-62cf-48d9-a9ad-088658392a8d",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-f5a5ed59-c269-435e-a54c-d08fa727e79e-0": {
+      "field": "postscript",
+      "text": "盘锦华发学校",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "379b1f9f-df31-48bf-bb2b-9ccaf5b77a01",
+        "cell": "f5a5ed59-c269-435e-a54c-d08fa727e79e",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-34ea0a5a-24ca-4039-976d-db057aa7f5df-0": {
+      "field": "postscript",
+      "text": "480",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "379b1f9f-df31-48bf-bb2b-9ccaf5b77a01",
+        "cell": "34ea0a5a-24ca-4039-976d-db057aa7f5df",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-1c696087-6ff3-4a9e-85bb-361d5a81a059-0": {
+      "field": "postscript",
+      "text": "含公费计划30人",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "379b1f9f-df31-48bf-bb2b-9ccaf5b77a01",
+        "cell": "1c696087-6ff3-4a9e-85bb-361d5a81a059",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-8f338da3-69e2-4e46-a8b7-2ff77026ccb2-0": {
+      "field": "postscript",
+      "text": "10",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "e25e34ef-4aab-4581-834e-b89143dd4cd8",
+        "cell": "8f338da3-69e2-4e46-a8b7-2ff77026ccb2",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-f649bfff-118d-4d87-9dc5-48a14e1e0a5f-0": {
+      "field": "postscript",
+      "text": "盘锦市育才学校",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "e25e34ef-4aab-4581-834e-b89143dd4cd8",
+        "cell": "f649bfff-118d-4d87-9dc5-48a14e1e0a5f",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-48abff50-efa7-4847-9d2b-6deb1b972a35-0": {
+      "field": "postscript",
+      "text": "500",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "e25e34ef-4aab-4581-834e-b89143dd4cd8",
+        "cell": "48abff50-efa7-4847-9d2b-6deb1b972a35",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-adec0445-ebeb-442f-aedf-dba7ed47c2aa-0": {
+      "field": "postscript",
+      "text": "含公费计划150人",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "e25e34ef-4aab-4581-834e-b89143dd4cd8",
+        "cell": "adec0445-ebeb-442f-aedf-dba7ed47c2aa",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-a07e7638-d948-4931-b7f8-f3852ef833d7-0": {
+      "field": "postscript",
+      "text": "11",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "0e384440-2cc7-4cf7-97d8-8c35fa855abd",
+        "cell": "a07e7638-d948-4931-b7f8-f3852ef833d7",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-18b9f21f-8ca0-4215-a318-2e60bce7af82-0": {
+      "field": "postscript",
+      "text": "盘锦光正实验学校",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "0e384440-2cc7-4cf7-97d8-8c35fa855abd",
+        "cell": "18b9f21f-8ca0-4215-a318-2e60bce7af82",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-b15914c5-f45c-4a59-ab69-dacaf1b39a54-0": {
+      "field": "postscript",
+      "text": "300",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "0e384440-2cc7-4cf7-97d8-8c35fa855abd",
+        "cell": "b15914c5-f45c-4a59-ab69-dacaf1b39a54",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-1abd7c19-42a1-4566-a768-97d37920f511-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "0e384440-2cc7-4cf7-97d8-8c35fa855abd",
+        "cell": "1abd7c19-42a1-4566-a768-97d37920f511",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-6acee65f-b78e-45b4-b60a-e734674728fb-0": {
+      "field": "postscript",
+      "text": "12",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "ae6d6bb3-8c1c-4d86-ada4-2c695ac79966",
+        "cell": "6acee65f-b78e-45b4-b60a-e734674728fb",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-fb7efd90-ec3d-4fa1-85f5-8ecc31e4ef7d-0": {
+      "field": "postscript",
+      "text": "盘锦德馨学校",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "ae6d6bb3-8c1c-4d86-ada4-2c695ac79966",
+        "cell": "fb7efd90-ec3d-4fa1-85f5-8ecc31e4ef7d",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-12e77efc-ea31-44cb-8215-263f9d623faf-0": {
+      "field": "postscript",
+      "text": "130",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "ae6d6bb3-8c1c-4d86-ada4-2c695ac79966",
+        "cell": "12e77efc-ea31-44cb-8215-263f9d623faf",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-0c009e05-2f00-4f5a-8966-7e23dc453881-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "ae6d6bb3-8c1c-4d86-ada4-2c695ac79966",
+        "cell": "0c009e05-2f00-4f5a-8966-7e23dc453881",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-e8eb303e-a087-4f14-90c0-b930cc6ae1d9-0": {
+      "field": "postscript",
+      "text": "合计",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "67b69f35-2e9f-4fba-8de2-f389c1054c48",
+        "cell": "e8eb303e-a087-4f14-90c0-b930cc6ae1d9",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-2f18c477-4d36-44d6-aa8e-224b88b204a5-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "67b69f35-2e9f-4fba-8de2-f389c1054c48",
+        "cell": "2f18c477-4d36-44d6-aa8e-224b88b204a5",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-784ac966-6928-4889-b42c-ed6abab0e76b-0": {
+      "field": "postscript",
+      "text": "9000",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "67b69f35-2e9f-4fba-8de2-f389c1054c48",
+        "cell": "784ac966-6928-4889-b42c-ed6abab0e76b",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    },
+    "writer-cell-45bbf998-a51f-4881-b5e0-dde194de7376-0": {
+      "field": "postscript",
+      "text": "",
+      "occurrence": 1,
+      "count": 1,
+      "content": {
+        "block": "1a35a056-e5a2-41e3-bfec-022d6e5ee97b",
+        "row": "67b69f35-2e9f-4fba-8de2-f389c1054c48",
+        "cell": "45bbf998-a51f-4881-b5e0-dde194de7376",
+        "line": 0
+      },
+      "contentStyle": {
+        "header": false,
+        "columns": 4
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "url": "http://127.0.0.1:4173",
+  "runtime": {
+    "url": "http://127.0.0.1:4173",
+    "pid": 65964,
+    "startedAt": "2026-10-21T07:38:24.6211440Z",
+    "binary": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\tmp\\local-preview\\webserve.exe",
+    "assets": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\dist\\local-preview",
+    "headAtCheck": "7a4251173cbc96d5eca8f9c8e4db6e1a705d2cae",
+    "writeJSSHA256": "EEE65247F3EB1891391499492359B531660462E42E0F1F1DFF5E3EDC6968E00D",
+    "engineWASMSHA256": "14E4674F8A5F329571F52201F637804E1FBD4621CC0128740050278D26611B88",
+    "checkedAt": "2026-10-22T01:24:13.6692780Z"
+  },
+  "actualHTTPAssetsSHA256": {
+    "write.js": "eee65247f3eb1891391499492359b531660462e42e0f1f1dff5e3edc6968e00d",
+    "write-materials.js": "df45085c3caeb0969cc774e66ebf2b3c05ae07a011696e43cbf5e55be22ce377",
+    "write-material-tables.js": "bbf6c67060743bb2a39e3d2fa08d3bec13390b0f16071af98fc65f3ac64098a6",
+    "write-table-layout.js": "787cbfd17c5fcf5c497f744312202809043633b755250d574f15c1a060cf86e5",
+    "write-content.js": "06fb048a45330c81a15ed5be80adb07598515d53e87c2ce8a46c78d90e884693",
+    "document-engine.wasm": "14e4674f8a5f329571f52201f637804e1fbd4621cc0128740050278d26611b88"
+  },
+  "browserTask": {
+    "baseline": false,
+    "profile": "chrome",
+    "version": "155.0.8059.86",
+    "source": "https://jyj.panjin.gov.cn/2025_05/14_10/content-520850.html",
+    "method": "Implementation role-task verification; not a blind-user study. Normal UI; no draft/localStorage injection.",
+    "checks": [
+      "whole-material review directly presents the existing 14 by 4 table",
+      "conversion is an explicit unselected choice",
+      "confirmation shows all 56 source cells including total and public-fee notes",
+      "cancelling retains raw input and does not apply fields or tables",
+      "authored notice and date remain independent with complete source material",
+      "all school rows original blank cells and 9000 inclusion total survive without retyping",
+      "saved same draft reopens with exact complete table and signing/date",
+      "actual engine response bytes match the intended build",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true,
+    "engineSHA256": "14e4674f8a5f329571f52201f637804e1fbd4621cc0128740050278d26611b88",
+    "preview": "已更新 · 2 页"
+  },
+  "docxSHA256": "d207a565a2c4ca42446c6587ab89e3f6ecd22690c49a49be4faa0bb5a379891d",
+  "pdfSHA256": "0cbf032999c5334aeddac32407d7db48ade25a7a36ff864e7dea34eb17a3cfe5",
+  "docxSameAsNativeWordRepresentative": true,
+  "exactCharacters": 383,
+  "rows": 14,
+  "columns": 4,
+  "total": 9000,
+  "pdfPages": 2
+}

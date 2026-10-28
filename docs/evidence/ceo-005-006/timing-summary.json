@@ -1,0 +1,278 @@
+{
+  "environment": {
+    "platform": "win32",
+    "release": "10.0.26200",
+    "cpu": "Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz",
+    "logicalCPUs": 12
+  },
+  "definition": "Input handler = synchronous synthetic input event. Visible = canvas committed plus two animation frames. Ready = full PDF layout and inspection reported updated, excluding human review time.",
+  "currentPage": 1,
+  "summary": [
+    {
+      "profile": "chrome",
+      "kind": "fresh-context",
+      "before": {
+        "n": 3,
+        "visibleMedianMS": 1577.3,
+        "visibleP95MS": 1975.7,
+        "visibleMaxMS": 1975.7,
+        "readyMedianMS": 1560,
+        "readyP95MS": 1945,
+        "maxInputHandlerMS": 0
+      },
+      "after": {
+        "n": 3,
+        "visibleMedianMS": 832.6,
+        "visibleP95MS": 944.9,
+        "visibleMaxMS": 944.9,
+        "readyMedianMS": 812,
+        "readyP95MS": 924.6,
+        "maxInputHandlerMS": 0
+      }
+    },
+    {
+      "profile": "chrome",
+      "kind": "cached-reopen",
+      "before": {
+        "n": 1,
+        "visibleMedianMS": 1342.8,
+        "visibleP95MS": 1342.8,
+        "visibleMaxMS": 1342.8,
+        "readyMedianMS": 1325.1,
+        "readyP95MS": 1325.1,
+        "maxInputHandlerMS": 0
+      },
+      "after": {
+        "n": 1,
+        "visibleMedianMS": 657.8,
+        "visibleP95MS": 657.8,
+        "visibleMaxMS": 657.8,
+        "readyMedianMS": 635.1,
+        "readyP95MS": 635.1,
+        "maxInputHandlerMS": 0
+      }
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "before": {
+        "n": 20,
+        "visibleMedianMS": 1197.9,
+        "visibleP95MS": 1690.8,
+        "visibleMaxMS": 1712.8,
+        "readyMedianMS": 1177.1,
+        "readyP95MS": 1655.3,
+        "maxInputHandlerMS": 1
+      },
+      "after": {
+        "n": 20,
+        "visibleMedianMS": 430.3,
+        "visibleP95MS": 480,
+        "visibleMaxMS": 497.2,
+        "readyMedianMS": 407.1,
+        "readyP95MS": 461.2,
+        "maxInputHandlerMS": 0.9
+      }
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "before": {
+        "n": 8,
+        "visibleMedianMS": 1749.7,
+        "visibleP95MS": 1980.5,
+        "visibleMaxMS": 1980.5,
+        "readyMedianMS": 1735.5,
+        "readyP95MS": 1956.4,
+        "maxInputHandlerMS": 0.9
+      },
+      "after": {
+        "n": 8,
+        "visibleMedianMS": 772.2,
+        "visibleP95MS": 1014.2,
+        "visibleMaxMS": 1014.2,
+        "readyMedianMS": 760.1,
+        "readyP95MS": 995.1,
+        "maxInputHandlerMS": 0.7
+      }
+    },
+    {
+      "profile": "firefox",
+      "kind": "fresh-context",
+      "before": {
+        "n": 3,
+        "visibleMedianMS": 1668,
+        "visibleP95MS": 1754,
+        "visibleMaxMS": 1754,
+        "readyMedianMS": 1643,
+        "readyP95MS": 1725,
+        "maxInputHandlerMS": 0
+      },
+      "after": {
+        "n": 3,
+        "visibleMedianMS": 701,
+        "visibleP95MS": 821,
+        "visibleMaxMS": 821,
+        "readyMedianMS": 679,
+        "readyP95MS": 800,
+        "maxInputHandlerMS": 0
+      }
+    },
+    {
+      "profile": "firefox",
+      "kind": "cached-reopen",
+      "before": {
+        "n": 1,
+        "visibleMedianMS": 1071,
+        "visibleP95MS": 1071,
+        "visibleMaxMS": 1071,
+        "readyMedianMS": 1044,
+        "readyP95MS": 1044,
+        "maxInputHandlerMS": 0
+      },
+      "after": {
+        "n": 1,
+        "visibleMedianMS": 1033,
+        "visibleP95MS": 1033,
+        "visibleMaxMS": 1033,
+        "readyMedianMS": 1007,
+        "readyP95MS": 1007,
+        "maxInputHandlerMS": 0
+      }
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "before": {
+        "n": 20,
+        "visibleMedianMS": 1212.5,
+        "visibleP95MS": 1311,
+        "visibleMaxMS": 1324,
+        "readyMedianMS": 1182.5,
+        "readyP95MS": 1279,
+        "maxInputHandlerMS": 1
+      },
+      "after": {
+        "n": 20,
+        "visibleMedianMS": 512.5,
+        "visibleP95MS": 659,
+        "visibleMaxMS": 706,
+        "readyMedianMS": 485.5,
+        "readyP95MS": 635,
+        "maxInputHandlerMS": 1
+      }
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "before": {
+        "n": 8,
+        "visibleMedianMS": 1602.0,
+        "visibleP95MS": 1895,
+        "visibleMaxMS": 1895,
+        "readyMedianMS": 1585.5,
+        "readyP95MS": 1882,
+        "maxInputHandlerMS": 2
+      },
+      "after": {
+        "n": 8,
+        "visibleMedianMS": 805.0,
+        "visibleP95MS": 896,
+        "visibleMaxMS": 896,
+        "readyMedianMS": 786.5,
+        "readyP95MS": 878,
+        "maxInputHandlerMS": 1
+      }
+    },
+    {
+      "profile": "webkit",
+      "kind": "fresh-context",
+      "before": {
+        "n": 3,
+        "visibleMedianMS": 1736,
+        "visibleP95MS": 1791,
+        "visibleMaxMS": 1791,
+        "readyMedianMS": 1685,
+        "readyP95MS": 1742,
+        "maxInputHandlerMS": 0
+      },
+      "after": {
+        "n": 3,
+        "visibleMedianMS": 783,
+        "visibleP95MS": 969,
+        "visibleMaxMS": 969,
+        "readyMedianMS": 728,
+        "readyP95MS": 915,
+        "maxInputHandlerMS": 0
+      }
+    },
+    {
+      "profile": "webkit",
+      "kind": "cached-reopen",
+      "before": {
+        "n": 1,
+        "visibleMedianMS": 1092,
+        "visibleP95MS": 1092,
+        "visibleMaxMS": 1092,
+        "readyMedianMS": 1046,
+        "readyP95MS": 1046,
+        "maxInputHandlerMS": 0
+      },
+      "after": {
+        "n": 1,
+        "visibleMedianMS": 1004,
+        "visibleP95MS": 1004,
+        "visibleMaxMS": 1004,
+        "readyMedianMS": 960,
+        "readyP95MS": 960,
+        "maxInputHandlerMS": 0
+      }
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "before": {
+        "n": 20,
+        "visibleMedianMS": 1408.0,
+        "visibleP95MS": 1880,
+        "visibleMaxMS": 1913,
+        "readyMedianMS": 1364.0,
+        "readyP95MS": 1833,
+        "maxInputHandlerMS": 536
+      },
+      "after": {
+        "n": 20,
+        "visibleMedianMS": 635.0,
+        "visibleP95MS": 729,
+        "visibleMaxMS": 772,
+        "readyMedianMS": 592.0,
+        "readyP95MS": 679,
+        "maxInputHandlerMS": 1
+      }
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "before": {
+        "n": 8,
+        "visibleMedianMS": 1738.5,
+        "visibleP95MS": 1954,
+        "visibleMaxMS": 1954,
+        "readyMedianMS": 1703.5,
+        "readyP95MS": 1901,
+        "maxInputHandlerMS": 1
+      },
+      "after": {
+        "n": 8,
+        "visibleMedianMS": 938.5,
+        "visibleP95MS": 998,
+        "visibleMaxMS": 998,
+        "readyMedianMS": 904.5,
+        "readyP95MS": 965,
+        "maxInputHandlerMS": 1
+      }
+    }
+  ],
+  "baselineWriteJSSHA256": "28012f26e616e1adffac06217558ae4ce630581d92b1c522150ce5f98b54fd5e",
+  "finalWriteJSSHA256": "b59c94b9ca502de1c8dfacbccf99dd9b6f43af1c338269a1d432d7c12a73f973"
+}

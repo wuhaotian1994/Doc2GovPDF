@@ -1,0 +1,503 @@
+{
+  "sourceSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+  "files": [
+    {
+      "profile": "before",
+      "file": "untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pdfSHA256": "def2a1f6512e8d175b9065edf035477ab9c9f091bd177a4bdac0cb50c2b1ee26",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": []
+    },
+    {
+      "profile": "before",
+      "file": "edited",
+      "docxSHA256": "149891baaefc3b4fa981d97c28314c67dbe3bb85ae62a1389cf6920d4675bd54",
+      "pdfSHA256": "d7d641e0a6e7ae23075ee3222c7bf4e199d1904b1a3d901edb3024c2d5c8fe23",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": [
+        {
+          "page": 4,
+          "text": "模拟待核",
+          "sizePt": 16.0,
+          "requestedFont": "仿宋"
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pdfSHA256": "4af2bb2ec9bbf145f15777a19c2e3c9b62ca1fc90512b0bc25019d6715242bad",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": []
+    },
+    {
+      "profile": "chrome",
+      "file": "edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pdfSHA256": "dff439dae3190a45ba42447ae8d82c218d888118baadaef2f53f02917af6cd77",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": [
+        {
+          "page": 4,
+          "text": "模拟待核",
+          "sizePt": 11.0,
+          "requestedFont": "宋体"
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "file": "legacy-restored",
+      "docxSHA256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+      "result": "Older saved 16pt preserved; only two source paragraphs edited. No automatic reinterpretation as fresh 11pt import."
+    },
+    {
+      "profile": "chrome",
+      "file": "saved-new-admissions",
+      "bytes": 17066644,
+      "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "pdfPages": 3,
+      "embeddedTrueTypeNames": [],
+      "result": "Implementation saved draft Word/PDF obtained; unavailable CEO cloud draft and Error 9 cause remain unverified."
+    },
+    {
+      "profile": "firefox",
+      "file": "untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pdfSHA256": "40e8e3b911702cb32a09015396a5474adf7ebe3e2137beb7f9f1ea99951e3409",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": []
+    },
+    {
+      "profile": "firefox",
+      "file": "edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pdfSHA256": "bd5bcc22576e62413f39ae339232cf2e62252320dec86d1b07a690668d92017f",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": [
+        {
+          "page": 4,
+          "text": "模拟待核",
+          "sizePt": 11.0,
+          "requestedFont": "宋体"
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "file": "legacy-restored",
+      "docxSHA256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+      "result": "Older saved 16pt preserved; only two source paragraphs edited. No automatic reinterpretation as fresh 11pt import."
+    },
+    {
+      "profile": "firefox",
+      "file": "saved-new-admissions",
+      "bytes": 17066644,
+      "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "pdfPages": 3,
+      "embeddedTrueTypeNames": [],
+      "result": "Implementation saved draft Word/PDF obtained; unavailable CEO cloud draft and Error 9 cause remain unverified."
+    },
+    {
+      "profile": "webkit",
+      "file": "untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pdfSHA256": "f55f9ec9e08df864213e7232cd80b0f7b5ef05f6e60d81cda880fb51498fabd3",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": []
+    },
+    {
+      "profile": "webkit",
+      "file": "edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pdfSHA256": "c00702838f533d5718fbe46169b9f5ae1018cf3e15d727893d7405a1b9e50059",
+      "pdfPages": 5,
+      "pageSizes": [
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          595.3,
+          841.9
+        ],
+        [
+          841.9,
+          595.3
+        ],
+        [
+          841.9,
+          595.3
+        ]
+      ],
+      "embeddedTrueTypeNames": [],
+      "sample": [
+        {
+          "page": 4,
+          "text": "模拟待核",
+          "sizePt": 11.0,
+          "requestedFont": "宋体"
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "file": "legacy-restored",
+      "docxSHA256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+      "result": "Older saved 16pt preserved; only two source paragraphs edited. No automatic reinterpretation as fresh 11pt import."
+    },
+    {
+      "profile": "webkit",
+      "file": "saved-new-admissions",
+      "bytes": 17066644,
+      "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "pdfPages": 3,
+      "embeddedTrueTypeNames": [],
+      "result": "Implementation saved draft Word/PDF obtained; unavailable CEO cloud draft and Error 9 cause remain unverified."
+    }
+  ],
+  "nativeWord": [
+    {
+      "file": "chrome/untouched",
+      "wordVersion": "16.0",
+      "sourceSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pages": 5,
+      "tables": 2,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "orientation": 0,
+          "width": 595.2999877929688
+        },
+        {
+          "height": 595.2999877929688,
+          "orientation": 1,
+          "width": 841.9000244140625
+        }
+      ],
+      "sample": null,
+      "originalEmptyCell": {
+        "font": "宋体",
+        "text": "\r\u0007",
+        "sizePt": 11.0
+      },
+      "logicalCharacters": 1443,
+      "logicalTextSHA256": "7def99dbd4efd5dcc645e266c312aef31e534fa6f9c6bdff11b90ffe87ced1d9"
+    },
+    {
+      "file": "before/edited",
+      "wordVersion": "16.0",
+      "sourceSHA256": "149891baaefc3b4fa981d97c28314c67dbe3bb85ae62a1389cf6920d4675bd54",
+      "pages": 5,
+      "tables": 2,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "orientation": 0,
+          "width": 595.2999877929688
+        },
+        {
+          "height": 595.2999877929688,
+          "orientation": 1,
+          "width": 841.9000244140625
+        }
+      ],
+      "sample": {
+        "text": "模拟待核",
+        "requestedFontFarEast": "+Body Asian",
+        "sizePt": 10.5,
+        "page": 4,
+        "paragraphAlignment": 3,
+        "firstLineIndentPt": 0.0,
+        "lineSpacingRule": 0,
+        "lineSpacingPt": 12.0
+      },
+      "originalEmptyCell": null,
+      "logicalCharacters": 1454,
+      "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+    },
+    {
+      "file": "chrome/edited",
+      "wordVersion": "16.0",
+      "sourceSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pages": 5,
+      "tables": 2,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "orientation": 0,
+          "width": 595.2999877929688
+        },
+        {
+          "height": 595.2999877929688,
+          "orientation": 1,
+          "width": 841.9000244140625
+        }
+      ],
+      "sample": {
+        "text": "模拟待核",
+        "requestedFontFarEast": "宋体",
+        "sizePt": 11.0,
+        "page": 4,
+        "paragraphAlignment": 3,
+        "firstLineIndentPt": 0.0,
+        "lineSpacingRule": 0,
+        "lineSpacingPt": 12.0
+      },
+      "originalEmptyCell": null,
+      "logicalCharacters": 1454,
+      "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+    },
+    {
+      "file": "chrome/saved-new-admissions",
+      "wordVersion": "16.0",
+      "sourceSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "pages": 3,
+      "tables": 1,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "orientation": 0,
+          "width": 595.2999877929688
+        }
+      ],
+      "sample": null,
+      "originalEmptyCell": null,
+      "logicalCharacters": 383,
+      "logicalTextSHA256": "165f909882cf4cb9753948c481bb3ddd75bcb14ce8f455e53322a846e8b3725e"
+    },
+    {
+      "file": "chrome/legacy-restored",
+      "wordVersion": "16.0",
+      "sourceSHA256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+      "pages": 5,
+      "tables": 2,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "orientation": 0,
+          "width": 595.2999877929688
+        },
+        {
+          "height": 595.2999877929688,
+          "orientation": 1,
+          "width": 841.9000244140625
+        }
+      ],
+      "sample": {
+        "text": "模拟待核",
+        "requestedFontFarEast": "FangSong",
+        "sizePt": 16.0,
+        "page": 4,
+        "paragraphAlignment": 3,
+        "firstLineIndentPt": 0.0,
+        "lineSpacingRule": 0,
+        "lineSpacingPt": 12.0
+      },
+      "originalEmptyCell": null,
+      "logicalCharacters": 1454,
+      "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+    }
+  ],
+  "browserRuns": [
+    {
+      "profile": "before",
+      "browserVersion": "155.0.8059.86",
+      "checks": 5,
+      "wasmSHA256": [
+        "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c"
+      ]
+    },
+    {
+      "profile": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checks": 7,
+      "wasmSHA256": [
+        "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+      ]
+    },
+    {
+      "profile": "firefox",
+      "browserVersion": "157.0",
+      "checks": 7,
+      "wasmSHA256": [
+        "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+      ]
+    },
+    {
+      "profile": "webkit",
+      "browserVersion": "27.2",
+      "checks": 7,
+      "wasmSHA256": [
+        "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+      ]
+    }
+  ]
+}

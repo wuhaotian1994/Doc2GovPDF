@@ -1,0 +1,40 @@
+{
+  "url": "http://127.0.0.1:4173",
+  "assets": {
+    "index.html": "1257047215ee81ad69dc9d143e69c69eaf39d71d881d1d03a7e4bfb6e762c956",
+    "write.js": "5544bcde28bfbbfaec99e003f881fd873f1abf59b3e70d3eece2002ad159d9b0",
+    "write-bytes.js": "579e2336061b151432a320b1824d18425921272dc150e1dc825664f185c00d12",
+    "write-model.js": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143",
+    "write-word-workspace.js": "68086ffc9a31f026a4ed1a97b5f3640dafbd232c2b5ce40cd3bd3aa81183c751",
+    "engine-worker.js": "e9a386a9deadb3889f2f3ee912e559b903747d65e83dc0d5aec474336f6b9ba8",
+    "document-engine.wasm": "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+  },
+  "outputs": [
+    {
+      "name": "untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "verified": "Exact Word bytes; PDF page geometry, uncompressed content and embedded font bytes match viewed representative."
+    },
+    {
+      "name": "edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "verified": "Exact Word bytes; PDF page geometry, uncompressed content and embedded font bytes match viewed representative."
+    },
+    {
+      "name": "restored",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "verified": "Exact restored Word bytes."
+    },
+    {
+      "name": "legacy-restored",
+      "docxSHA256": "70912a56694c29ff270d0b8a704fdade5c08a0b2480dcfa1bf73cb684b530d47",
+      "verified": "Exact Word bytes; PDF page geometry, uncompressed content and embedded font bytes match viewed representative."
+    },
+    {
+      "name": "saved-new-admissions",
+      "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+      "verified": "Exact Word bytes; PDF page geometry, uncompressed content and embedded font bytes match viewed representative."
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,58 @@
+{
+  "method": "Injected font HTTP 503 with the supplied complete original; not a reproduction or resolution of CEO renderer Error9.",
+  "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+  "webRoot": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\build\\qa\\feedback-localfont-integrated-web",
+  "url": "http://127.0.0.1:6933",
+  "checks": [
+    "font resource 503 produces an explicit stopped preview failure",
+    "failed preview keeps exact original fields and all 39 content blocks",
+    "save and portable draft download work while every font request is failing",
+    "one visible preview retry recovers without reload or re-entering text",
+    "recovered preview still has seven complete original pages",
+    "recovered original exports actual Word and PDF and keeps current draft exact",
+    "fault injection causes no page error or renderer crash",
+    "restored resource requests succeed after the explicit retry",
+    "no feedback or manuscript upload requests"
+  ],
+  "errors": [],
+  "crashes": 0,
+  "font503": [
+    "/fonts/serif-full.ttf"
+  ],
+  "fontResponses": [
+    {
+      "url": "http://127.0.0.1:6933/fonts/serif-full.ttf",
+      "status": 503
+    },
+    {
+      "url": "http://127.0.0.1:6933/fonts/serif-full.ttf",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:6933/fonts/serif-black-full.ttf",
+      "status": 200
+    }
+  ],
+  "downloads": [
+    {
+      "format": "docx",
+      "bytes": 17069680,
+      "sha256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c"
+    },
+    {
+      "format": "pdf",
+      "bytes": 156773,
+      "sha256": "cdde0047f90428c86d17932e466ff32ae0bccfe1cd8e182b5251b18317398c29"
+    }
+  ],
+  "mainNavigations": 5,
+  "documentRequests": 1,
+  "feedbackRequests": 0,
+  "uploadRequests": 0,
+  "fontFallbackChoices": 1,
+  "passed": true,
+  "failureStatus": "预览暂未生成",
+  "failureMessage": "排版资源下载失败，填写内容未改变。请检查网络后点击“重新生成预览”。",
+  "retryPreviewMs": 4488,
+  "recoveredStatus": "已更新 · 7 页 · 存在排版降级"
+}

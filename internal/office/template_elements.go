@@ -19,9 +19,79 @@ func cleanNames(names []string) []string {
 	}
 	return out
 }
+
+// Blank author lines are not names. Unlike agency cleanup, ordered signer
+// repeats remain distinct authored entries and must never be deduplicated.
+func cleanSignerNames(names []string) []string {
+	var out []string
+	for _, name := range names {
+		if name = strings.TrimSpace(name); name != "" {
+			out = append(out, name)
+		}
+	}
+	return out
+}
+
+// Keep two independently measured columns, rather than spacing the next name
+// from the end of a variable-length first name. Reserve nominal advances (not
+// negative document-grid compression) so Word and PDF both fit at 16 points.
+func jointSignerAdvance(text, font string) float64 {
+	if text == "" {
+		return 0
+	}
+	width := textAdvanceMM(text, font, 16) + float64(len([]rune(text)))*842/4096*25.4/72
+	if missingGlyph(resolveFont(font).name, text) != 0 {
+		width = math.Max(width, float64(len([]rune(text)))*16*25.4/72)
+	}
+	return width + .2
+}
+
+func jointSignerTabStops(f Fields) ([]TabStop, error) {
+	if len(f.Signers) <= 1 {
+		return nil, nil
+	}
+	if strings.ContainsAny(f.Reference, "\r\n\t") {
+		return nil, fmt.Errorf("多人签发的文号需为单独一行，不能含换行或制表符；原文未改变")
+	}
+	widths := [2]float64{}
+	total := 0
+	for index, name := range f.Signers {
+		length := len([]rune(name))
+		total += length
+		if length > 60 {
+			return nil, fmt.Errorf("第 %d 位签发人姓名超过 60 字符，请核对原文；不会截字或缩小字号", index+1)
+		}
+		widths[index%2] = math.Max(widths[index%2], jointSignerAdvance(name, "楷体"))
+	}
+	if total > 240 {
+		return nil, fmt.Errorf("签发人姓名合计超过 240 字符，请核对原文；不会截字或缩小字号")
+	}
+	const left, right = 5.64, 150.36
+	gap := 2 * 16 * 25.4 / 72
+	second := right - widths[1]
+	first := second - gap - widths[0]
+	// A real tab must advance past the label, including a receiving engine that
+	// keeps the colon full-width. Equality can skip the first name column.
+	labelWidth := math.Max(jointSignerAdvance("签发人：", "仿宋"), 4*16*25.4/72) + .3
+	label := first - labelWidth
+	if label < left+.3 {
+		return nil, fmt.Errorf("签发人姓名过长，无法以 16 磅字号在当前版心排成两列；请核对姓名，不能截字或缩小字号")
+	}
+	// Continuation rows still contain the empty label slot: their first tab
+	// must reach that stop, rather than skipping it and consuming a name stop.
+	referenceLimit := label
+	if f.Reference != "" && left+jointSignerAdvance(f.Reference, "仿宋") > referenceLimit-.3 {
+		return nil, fmt.Errorf("文号过长，无法与末行签发人同排且保留两列位置；请核对文号，不能截字或缩小字号")
+	}
+	return []TabStop{{Align: "left", Position: label}, {Align: "left", Position: first}, {Align: "left", Position: second}}, nil
+}
+
 func validateExtraFields(f Fields) (Fields, error) {
+	if err := validateIssuanceFields(f); err != nil {
+		return f, err
+	}
 	f.Agencies = cleanNames(f.Agencies)
-	f.Signers = cleanNames(f.Signers)
+	f.Signers = cleanSignerNames(f.Signers)
 	f.SigningAgencies = cleanNames(f.SigningAgencies)
 	if len(f.Agencies) > 0 {
 		f.Agency = f.Agencies[0]
@@ -70,7 +140,11 @@ func validateExtraFields(f Fields) (Fields, error) {
 func extraParagraph(id, text, role string) *Paragraph {
 	return &Paragraph{ID: "extra-" + id, Text: text, Role: role, Font: "仿宋", Size: 16, Line: 10.21, Align: "left"}
 }
-func applyExtraFields(m Model, f Fields) Model {
+func applyExtraFields(m Model, f Fields) (Model, error) {
+	jointTabs, err := jointSignerTabStops(f)
+	if err != nil {
+		return m, err
+	}
 	m.Preprinted = f.Preprinted
 	if f.Preprinted {
 		m.Warnings = append(m.Warnings, "当前为预印套打：红头与红线留白，请使用对应的红头纸。")
@@ -157,32 +231,23 @@ func applyExtraFields(m Model, f Fields) Model {
 			}
 		}
 		if p.Role == "reference" && len(f.Signers) > 1 {
-			maxWidth := 0.0
 			for i := 0; i < len(f.Signers); i += 2 {
-				names := strings.Join(f.Signers[i:min(i+2, len(f.Signers))], "　　")
-				maxWidth = math.Max(maxWidth, textAdvanceMM(names, "楷体", 16))
-			}
-			namesX := 150.36 - maxWidth
-			for i := 0; i < len(f.Signers); i += 2 {
-				names := strings.Join(f.Signers[i:min(i+2, len(f.Signers))], "　　")
-				ref := ""
+				ref, label := "", ""
 				if i+2 >= len(f.Signers) {
 					ref = f.Reference
 				}
-				target := namesX
 				if i == 0 {
-					names = "签发人：" + names
-					target -= textAdvanceMM("签发人：", "仿宋", 16)
+					label = "签发人："
 				}
-				q := extraParagraph(fmt.Sprintf("signer-%d", i), ref+"\t"+names, "signer")
+				text := ref + "\t" + label + "\t" + f.Signers[i]
+				if i+1 < len(f.Signers) {
+					text += "\t" + f.Signers[i+1]
+				}
+				q := extraParagraph(fmt.Sprintf("signer-%d", i), text, "signer")
 				q.Font = "楷体"
-				q.LeftIndent = 5.64
+				q.Indent = 5.64
 				q.KeepNext = true
-				q.Tabs = []TabStop{{Align: "left", Position: math.Max(0, target-5.64)}}
-				if i == 0 {
-					q.Text = ref + "\t签发人：\t" + strings.Join(f.Signers[i:min(i+2, len(f.Signers))], "　　")
-					q.Tabs = []TabStop{{Align: "left", Position: math.Max(0, namesX-4*16*25.4/72-5.64)}, {Align: "left", Position: math.Max(0, namesX-5.64)}}
-				}
+				q.Tabs = append([]TabStop(nil), jointTabs...)
 				if i+2 >= len(f.Signers) {
 					q.After = p.After
 				}
@@ -226,13 +291,7 @@ func applyExtraFields(m Model, f Fields) Model {
 			p.Text = f.Reference + p.Text
 		}
 		if p.Role == "imprint" && strings.Contains(p.Text, "\t") {
-			issuer, date := f.Agency, f.Date
-			if f.Issuer != "" {
-				issuer = f.Issuer
-			}
-			if f.IssueDate != "" {
-				date = f.IssueDate
-			}
+			issuer, date := imprintValues(f)
 			p.Text = issuer + "\t" + date + "印发"
 		}
 		blocks = append(blocks, b)
@@ -259,7 +318,7 @@ func applyExtraFields(m Model, f Fields) Model {
 			}
 		}
 	}
-	return m
+	return m, nil
 }
 func unsealedPads(units []string, date string, signature bool) float64 {
 	width := func(s string) float64 {

@@ -1,0 +1,125 @@
+{
+  "browser": "155.0.8059.86",
+  "url": "http://127.0.0.1:2554",
+  "method": "Synthetic permission and enumeration; real public OFL font bytes, no customer installed fonts accessed. Timings include automated choices, not human permission-reading time.",
+  "checks": [
+    "known family matching prefers regular and visibly substitutes missing title face",
+    "first preview offers local fonts without silently querying or downloading fallback",
+    "one explicit permission lists all five document uses",
+    "one confirmation prepares all roles with no fallback font request",
+    "saved local fonts are reused without another permission request",
+    "document and font data stay local",
+    "failed batch storage keeps every previously saved face",
+    "mismatched batch face is rejected before changing saved fonts",
+    "original Word batch failure restores both memory and stored fonts",
+    "original Word batch success actually persists the adopted font",
+    "denied permission keeps content and offers the existing alternatives",
+    "declining local fonts can still produce a real PDF preview",
+    "unsupported browsers keep automatic fallback preview",
+    "no runtime errors"
+  ],
+  "errors": [],
+  "timings": {
+    "editableMs": 269,
+    "firstPreviewMs": 1899,
+    "adoptToPreviewMs": 629,
+    "warmPreviewMs": 665
+  },
+  "passed": true,
+  "fixtureBytes": [
+    1800432,
+    1799916
+  ],
+  "firstWorkerTimings": [
+    {
+      "method": "Fonts",
+      "ms": 28.700000047683716
+    },
+    {
+      "method": "RegisterFontBytes",
+      "ms": 22.600000023841858
+    },
+    {
+      "method": "RegisterFontBytes",
+      "ms": 5.399999976158142
+    },
+    {
+      "method": "AliasFont",
+      "ms": 3.1999999284744263
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.3999999761581421
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.6000000238418579
+    },
+    {
+      "method": "Fonts",
+      "ms": 0.3999999761581421
+    },
+    {
+      "method": "BuildDocument",
+      "ms": 15.100000023841858
+    },
+    {
+      "method": "PrepareFonts",
+      "ms": 1.399999976158142
+    },
+    {
+      "method": "PreviewDocument",
+      "ms": 126.60000002384186
+    },
+    {
+      "method": "InspectDocument",
+      "ms": 17.600000023841858
+    },
+    {
+      "method": "ExportDocument",
+      "ms": 77.89999997615814
+    }
+  ],
+  "workerTimings": [
+    {
+      "method": "RegisterFontBytes",
+      "ms": 32
+    },
+    {
+      "method": "RegisterFontBytes",
+      "ms": 7.5
+    },
+    {
+      "method": "AliasFont",
+      "ms": 9.599999904632568
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.30000007152557373
+    },
+    {
+      "method": "AliasFont",
+      "ms": 0.20000004768371582
+    },
+    {
+      "method": "Fonts",
+      "ms": 1.2000000476837158
+    },
+    {
+      "method": "BuildDocument",
+      "ms": 19.399999976158142
+    },
+    {
+      "method": "PrepareFonts",
+      "ms": 1.100000023841858
+    },
+    {
+      "method": "PreviewDocument",
+      "ms": 153.80000007152557
+    },
+    {
+      "method": "InspectDocument",
+      "ms": 18.600000023841858
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "pages": [
+    {
+      "source": "chrome/clinic.pdf",
+      "image": "clinic-1.png",
+      "sha256": "d7b701f3ce13b9af0e03bfa5b76efc1043315607aff8859070567c75a9607d38"
+    },
+    {
+      "source": "chrome/clinic.word.pdf",
+      "image": "clinic.word-1.png",
+      "sha256": "80c7359f587085e6344eb7812d88217981472b84be25343c53fee75797dba4ae"
+    },
+    {
+      "source": "chrome/admissions.pdf",
+      "image": "admissions-1.png",
+      "sha256": "83e1895890728ac00db3c29a97734e51f6a9666e121510dfe45e7421ae807427"
+    },
+    {
+      "source": "chrome/admissions.pdf",
+      "image": "admissions-2.png",
+      "sha256": "00c7970b5fa756964d6a9fcd390bdae13bcab5c552001da49118e36bac59d9fa"
+    },
+    {
+      "source": "chrome/admissions.pdf",
+      "image": "admissions-3.png",
+      "sha256": "c7d2e62d7fcbd623953c54d00cc2c0ba55aee6192f5ea2bbf34291218809dbf0"
+    },
+    {
+      "source": "chrome/admissions.word.pdf",
+      "image": "admissions.word-1.png",
+      "sha256": "a6cddc82e70811217660e0ad3af3abc9c1962cef83848d1829d406ecc03ce982"
+    },
+    {
+      "source": "chrome/admissions.word.pdf",
+      "image": "admissions.word-2.png",
+      "sha256": "ce1042e65619e087631227f96803a71057219bbf96a6ee0809a3a1e0190d856a"
+    },
+    {
+      "source": "chrome/admissions.word.pdf",
+      "image": "admissions.word-3.png",
+      "sha256": "e04b65cfb0fdc3af687b87f0aa4d6a2cc89fdc3e8b081994e5a04c231ff773ef"
+    },
+    {
+      "source": "chrome/native-untouched.pdf",
+      "image": "native-untouched-1.png",
+      "sha256": "a53ab8340388f176b9ee6b95e7301660e3a8c04aa95f0388733dc01cfd9612bc"
+    },
+    {
+      "source": "chrome/native-untouched.pdf",
+      "image": "native-untouched-2.png",
+      "sha256": "39b859339e9afc211ee5ab64aa4e16b30f8d34fd184627e8845c09fa046c3632"
+    },
+    {
+      "source": "chrome/native-untouched.pdf",
+      "image": "native-untouched-3.png",
+      "sha256": "dad819aadaafb652822a85a39196c1896584b235687e07e6ccdf74511762c87b"
+    },
+    {
+      "source": "chrome/native-untouched.pdf",
+      "image": "native-untouched-4.png",
+      "sha256": "bddfd98cdd1e983baf70fee8ca6693938fa04c5a9d6fbb17307bfd491b5affe5"
+    },
+    {
+      "source": "chrome/native-untouched.pdf",
+      "image": "native-untouched-5.png",
+      "sha256": "e4a6d2a8b9ebce19e0d0c31d68205b68ccd369276c5c83882180e61d36d75f7d"
+    },
+    {
+      "source": "chrome/native-untouched.word.pdf",
+      "image": "native-untouched.word-1.png",
+      "sha256": "c9d984c0d2cc099336e918ae031434659465bd52d466062be724465ca93879e1"
+    },
+    {
+      "source": "chrome/native-untouched.word.pdf",
+      "image": "native-untouched.word-2.png",
+      "sha256": "80f45853e07481416e02804d2b5d6c7c205095067ac3436477c9d8106484e928"
+    },
+    {
+      "source": "chrome/native-untouched.word.pdf",
+      "image": "native-untouched.word-3.png",
+      "sha256": "6297e41091d682fad4bfbdc740c036b62d5570dfb74b060295f65d245cb37fbc"
+    },
+    {
+      "source": "chrome/native-untouched.word.pdf",
+      "image": "native-untouched.word-4.png",
+      "sha256": "fdf5059785610192a8154a065bf00c9cd3c13aa37875b685ac20977ee1180a46"
+    },
+    {
+      "source": "chrome/native-untouched.word.pdf",
+      "image": "native-untouched.word-5.png",
+      "sha256": "b96bc5383166e5d7b8deb211def6e0a4be37adb44b55800bb41d36efdf64c2d5"
+    },
+    {
+      "source": "chrome/native-edited.pdf",
+      "image": "native-edited-1.png",
+      "sha256": "44c67e9460968a783a13bcbbffa2ef780e85279e6516ef6fa4875ecab80c09c2"
+    },
+    {
+      "source": "chrome/native-edited.pdf",
+      "image": "native-edited-2.png",
+      "sha256": "2b94b1f9f8d3fa864efe7769ca33f92e10f45dc251f948319a988a6d0ee4325c"
+    },
+    {
+      "source": "chrome/native-edited.pdf",
+      "image": "native-edited-3.png",
+      "sha256": "bcd3c0b02f185926b13ee65c74c6c8c599d772a844b95e120eaf721aac161e13"
+    },
+    {
+      "source": "chrome/native-edited.pdf",
+      "image": "native-edited-4.png",
+      "sha256": "9c0ce74c3e7a6ff2e57404b08de7987731e71d54862371de9e3ffe80626b3759"
+    },
+    {
+      "source": "chrome/native-edited.pdf",
+      "image": "native-edited-5.png",
+      "sha256": "e4a6d2a8b9ebce19e0d0c31d68205b68ccd369276c5c83882180e61d36d75f7d"
+    },
+    {
+      "source": "chrome/native-edited.word.pdf",
+      "image": "native-edited.word-1.png",
+      "sha256": "47a709bc7bcb7f3496014c6cc6bcebe0c47e1b15f0e46e6fbeaa80e6a876a9db"
+    },
+    {
+      "source": "chrome/native-edited.word.pdf",
+      "image": "native-edited.word-2.png",
+      "sha256": "e908fcdacad8c3630b142fd951b2b68c6caa56cf946fbb179707b0d61bc687f3"
+    },
+    {
+      "source": "chrome/native-edited.word.pdf",
+      "image": "native-edited.word-3.png",
+      "sha256": "37480c3d0067e5d90332c3259ff4240d4488de34bbac3db83f4433e3c65370c5"
+    },
+    {
+      "source": "chrome/native-edited.word.pdf",
+      "image": "native-edited.word-4.png",
+      "sha256": "6708646e4b61ac7ddd5ec3e52990caf1b1981ae126a813ffc4a3fcb7c59b5140"
+    },
+    {
+      "source": "chrome/native-edited.word.pdf",
+      "image": "native-edited.word-5.png",
+      "sha256": "b96bc5383166e5d7b8deb211def6e0a4be37adb44b55800bb41d36efdf64c2d5"
+    }
+  ],
+  "groups": [
+    "group-01.png",
+    "group-02.png",
+    "group-03.png",
+    "group-04.png",
+    "group-05.png",
+    "group-06.png",
+    "group-07.png"
+  ]
+}

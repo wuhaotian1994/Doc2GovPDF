@@ -1,0 +1,61 @@
+{
+  "buildBase": "d2722cbaeb6b2583161db29d5ff48b379f2c890d with owned uncommitted implementation",
+  "sourceSHA256": {
+    "internal/office/check.go": "ae6822efd76b3ad8390cf00df960668adaf8e5dac92028027c2a4ce765450b67",
+    "internal/office/attachment_checks.go": "70b90786e029b630c829d41fc1d2cc690f5fb93e3e8eaed2dd4312d5e7db631d",
+    "web/write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+    "web/write.js": "f72e515bf5905597d1bf026610d06dd315e0f7677c34469af603fb4886747de3",
+    "web/write.html": "2dec56d3fddbd75deba5d99d05c58ba1151117faf244c3973a222e921c6d65fa",
+    "web/write-boot.js": "c9bb444f6ea0e28c7345e34842e045d5bd47fe47bfe955dfe5fb12ce4ff796d2",
+    "web/write-content.js": "ff3f364a2e8d2d5e87d8f227e77dc25e8595ad82aaddd5ef09f4a9cef60c32c2",
+    "web/write-model.js": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143",
+    "web/write-content-editor.js": "9eac4f904820de97680ab0f132f40f01bc5c02f42a12dc9d4916cad4e3faae50",
+    "web/write-checks.js": "ec4da3c6ab4625df6cc344b6bbfd35d78249839dd974da2da0682f0e5f7485e3",
+    "web/write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+    "web/write-materials.js": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+    "web/write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8"
+  },
+  "sourceNormalizedLFSHA256": {
+    "internal/office/check.go": "ae6822efd76b3ad8390cf00df960668adaf8e5dac92028027c2a4ce765450b67",
+    "internal/office/attachment_checks.go": "70b90786e029b630c829d41fc1d2cc690f5fb93e3e8eaed2dd4312d5e7db631d",
+    "web/write-annexes.js": "70a1b50eeeec54d1ad5eeb789f96db0fb7460670e8ceb06a38901e7eabdd3ba9",
+    "web/write.js": "a194aa16361b1f3dd5ed3c2c9e262626a204ef00d626de5e4022b88457018b40",
+    "web/write.html": "b50b076d49dc54b79fcc416de0cd29d5a06da1d5aae83123bdba5f48b946de1a",
+    "web/write-boot.js": "90dfd929b43354a076b42142c710205f58bd5ae6d9708f9af54c4b64f71e5929",
+    "web/write-content.js": "c2c12a2e3724996f49fe5c3f1d7329a6e3d47dc03cd31331323167cf481f35e4",
+    "web/write-model.js": "220eae0502d9e3a34483823b42ea65f5914c7ddf55114ea5800a9c600f1da2e6",
+    "web/write-content-editor.js": "eca42dab476f4cb10184083e49eace0c81955fbdbf949517e172ea6ef0f03255",
+    "web/write-checks.js": "11950406771caa47332cd067bd03819e68ac795225b112ffb259ed4c42f736e5",
+    "web/write-material-tables.js": "ee704ed7cee7fcb314d650b720b96022105884dce9ae9a352e9efc0776d5dbbb",
+    "web/write-materials.js": "3f97df33f8756bd183e4699cf1b716bb9d05098833092877733a98318fe52f51",
+    "web/write-table-layout.js": "36551cbbc7f24daaf8a9fe564ab9282d2b1bf5893b3f8ff4902742f37f6316e5"
+  },
+  "assets": {
+    "url": "http://127.0.0.1:4173",
+    "hashes": {
+      "index.html": "1257047215ee81ad69dc9d143e69c69eaf39d71d881d1d03a7e4bfb6e762c956",
+      "write.js": "f72e515bf5905597d1bf026610d06dd315e0f7677c34469af603fb4886747de3",
+      "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+      "write-content.js": "ff3f364a2e8d2d5e87d8f227e77dc25e8595ad82aaddd5ef09f4a9cef60c32c2",
+      "write-model.js": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143",
+      "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+      "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+      "document-engine.wasm": "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c"
+    },
+    "passed": true
+  },
+  "counts": {
+    "roleTaskChecks": 48,
+    "serviceRoleTaskChecks": 16,
+    "relatedNodeTests": 50,
+    "newEngineTests": 6,
+    "startupChecks": 33,
+    "mainActualFileTriples": 6,
+    "mainPDFTextPages": 18,
+    "nativeWordFiles": 2,
+    "nativeWordPages": 6,
+    "viewedActualPages": 12
+  },
+  "go": "go test ./... and go vet ./... passed",
+  "versionBoundary": "Final three-browser tasks cover choice/structure/font-size/width code. Afterwards only obsolete fallback-font explanation in HTML was corrected; actual local service 16-check task and HTTP/assets binding cover that exact final asset. No post-commit Wasm rebuild."
+}

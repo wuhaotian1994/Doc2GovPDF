@@ -1,0 +1,3747 @@
+{
+  "scope": "Bounded Word/LibreOffice header and basic imprint interoperability; supplied health table note reading relationship. Not complete standards or arbitrary receiving-client certification.",
+  "baseline": "595247c6ba3906202c04affc280c489c76504e74",
+  "observedCEOBlob": "a1b2f89a24bc61e921901f1ee4a09ec9a5abc92d",
+  "observedMain": "b0ae4800806e70b3d06c6fbd93f1aae906ea5ccd",
+  "sourceSHA256": {
+    "internal/office/model.go": "3e6920ac49d2fbabf0cf07fa1bc660718929445c9e612995214e1f1883265ee9",
+    "internal/office/package.go": "724c515e72be9cc126ad9c296604cd4f2b47acfbe0b6375e641ecc091a49e9b2",
+    "internal/office/pdf.go": "9b6a9d03fd6f98dad36fa2d3aa1dd47051588c7ee943c649e8d6ca3ea152e449",
+    "internal/office/templates.go": "28eb57f842ec863716f4a26d7afd3fd0077bac35a2261dc7f9b6b92ced6f3967",
+    "internal/office/pdf_fields.go": "c4328cfd8e9663906c059b0c2fcb871ec3cba1bcc412e6eb03b51be275a176c9",
+    "internal/office/template_elements.go": "f26c7f2500821ce86664eedf47b3eabb7c96fc938616f0fcab6315f58dbf9c91",
+    "internal/office/joint_signers_test.go": "706d31b7dc7281028e82f92af852e9ab9ee44f2a3f454ce986d59849c29e4fe3",
+    "internal/office/basic_imprint_word_test.go": "06ae55cbb2d115f5a5a1aa051ce005d1e42932a7902d1267bd5760ad354a27f8",
+    "internal/office/table_following_whole_note_test.go": "f18f3579a4dd505cdba71e2e7b5837554ac0a8f3952ca02e555cfa57a7f2d0ea",
+    "internal/office/table_note_keep_lines_test.go": "f7c9e37d5353c565f4447f5e9555dc070d4824efccdfb209e8b8d12e797cb422",
+    "scripts/verify-receiver-layout.py": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+    "scripts/test-receiver-word-roundtrip.mjs": "69b109318fa1e7b516335eb99c8ab832635fc85e39679db0a4927ca2843066fc"
+  },
+  "build": {
+    "baseline": "595247c6ba3906202c04affc280c489c76504e74",
+    "candidate": "build/qa/receiver-layout-final-web",
+    "wasmSHA256": "238e771770255cb9a6bb1c831b87ae5314becf071b3a9ba0a553619a273de1b4",
+    "serviceWorkerCache": "gongwen-web-v2-78e133fa9c2655f2",
+    "allNegotiatedEncodingsEqual": true,
+    "assets": {
+      "THIRD_PARTY_NOTICES.txt": "0d7399fc0a0652cb1eae56df8ee641f542543fede3eb5cfd3e8834b8fa4cc67b",
+      "advanced.html": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+      "browser-api.js": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+      "document-elements.js": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f",
+      "document-engine.wasm": "238e771770255cb9a6bb1c831b87ae5314becf071b3a9ba0a553619a273de1b4",
+      "engine-assets.js": "f522cc06e010e123ac0f6f27a3d848e66f16bdc0dbd31e44d1f9ee133457c634",
+      "engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+      "engine-worker.js": "10ea7a559bab0312f24d7abc85c511afe2a28717b6d9f1a7729fb6e58347ebba",
+      "favicon.svg": "821ca465670104db4275460d8f4bca41c4c86a7994161dabc428021e37941660",
+      "feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+      "feedback-admin.js": "0e09f408a6da0d0fa4194079b9f42e76c9d6f9ec0adc7997fbf9f7ccf784b361",
+      "fonts/OFL.txt": "7accca2f29220c9ab44e4950799b821f36ebf5bbe6b5fb5342724b32228a8daf",
+      "fonts/README.md": "5eee9c372f0be67f845a670aa8632b498e26041417bb4c78db4d33e9cc96a956",
+      "fonts/document-fonts-OFL.txt": "64538aaa923b7e75559725ecf64eff7b18f623857b8e6d31a7347743ab27e907",
+      "fonts/serif-black-core.ttf": "332d60d946a3b1183cf65dd512eaa922acca086996f419aa8651600f1cc69239",
+      "fonts/serif-black-full.ttf": "0f048849cd9c0514f9915e25673801d37196c57af8e3b804f0185a3b23b53ac1",
+      "fonts/serif-core.ttf": "163b8bd972ad89bc0388e857d88428456ef4bb67c15a46f3481ebe5815c03ca0",
+      "fonts/serif-full.ttf": "9502147ceba7b5bc7fd3415083f6a5d133f22d8f9efb4974d4b85f3a97ea2d3a",
+      "fonts/ui-400.woff": "337daf2da524c61a295e4cc100659986f4c72de696432c758b23a399e799d198",
+      "fonts/ui-700.woff": "d32d6203c7c7c46e895baf011d7018271d4fe7be3f1cb4f3863b126948cd183e",
+      "index.html": "c321b33bb8c0403f8720aab1034a81db5faa6cf3f1d34bdb890f8f7c38608698",
+      "pdf-review.js": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
+      "vendor/pdfjs/LICENSE": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+      "vendor/pdfjs/pdf.js": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+      "vendor/pdfjs/pdf.mjs": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+      "vendor/pdfjs/pdf.worker.js": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+      "vendor/pdfjs/pdf.worker.mjs": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+      "wasm_exec.js": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+      "web.css": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
+      "workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+      "write-annexes.js": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+      "write-assembly-view.js": "75d76c67bab6e16334173e05acae681d64d1013a9b7e71dc05f4eee8c44a8a76",
+      "write-assembly.js": "4f84cd37a4cf1af86b75f5ba98699f5f9ac123fa9a3b0701ab3d4458b02b2e82",
+      "write-boot.js": "f3b0746c523ec93121d96f0c3ada3859eee3e68db0945fca2edd5f0f71e9f649",
+      "write-bytes.js": "5f98dc35b1b6356a209e80813f95ba088420980e0b471cb441cb997bc23a4574",
+      "write-checks.js": "7905113ba8d3ddb97b99eb593436644732623b1601852db347c1a60c4c59b953",
+      "write-content-editor.js": "75429a72f06fe009762f82f27ea5c98c83df5171f0285dc4a45a843cd4b5ff27",
+      "write-content.js": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+      "write-continuous.js": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef",
+      "write-engine.js": "7ce92a1b923bfcfb5355bb49b97cf1d5b7ea8c7d99a7c35edfba6078b8c071e3",
+      "write-feedback-capture.js": "20472db0d3102b465bbc96cd2d9678dd095231cb0c39ca614eaeeb13da3e38af",
+      "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604",
+      "write-feedback-evidence.js": "81cc06d8624aeeec5775daa33cb8b505798584d774aaeb3ec759871673e91d30",
+      "write-feedback.css": "9964ec7a3b2dc9fe675e46c4a239672b90cf437d6ac98bdac76a67a7afc40de7",
+      "write-feedback.js": "09c1aa7524048a133fa544b299d0f59fedd52dc435cdfd3fcb12c428d7a02dec",
+      "write-font-picker.js": "2c5386863abfd6ff7fb8842fdb53d7f4ece68a332b1a256881b4586e79e36d57",
+      "write-font-source.js": "cc0fae0985b828491dc193c344482137faa2f74b54600f971e88e4e604b8574d",
+      "write-library.js": "4b6c253615497eb717105dce5a6f9cc6ee6c2a8cfce64d0e2ff2bfda1d887a08",
+      "write-local-fonts.js": "1c20b0c1a17920116cf178d98fe86a3da2c591d14ee43fe76ef0e42e10d31670",
+      "write-material-tables.js": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+      "write-materials.js": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+      "write-model.js": "9c9e5eb2f7b3dcff5bebdf5eb05e0c05e025ebc8205296b1e7dab6ae2b0012b5",
+      "write-reference.js": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178",
+      "write-table-blanks.js": "18b2aeb9499374f25df4765ba8555d737feb7b2fa70f829829783df74f91f7f3",
+      "write-table-layout.js": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+      "write-text-table-view.js": "634d75cfbd9558aa628fd0b55c1c51b34db1c27a15f611823a845cae6bafbc53",
+      "write-text-table.js": "3042eebffa8e44c5c41a228e14feea71f2313c76084c7b58bd052da0a36e4a82",
+      "write-word-store.js": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+      "write-word-workspace.js": "54c4141b1fb117949e4fa88b570ccc43b97f31beb77e43061353cbed3c018474",
+      "write-workspace.css": "1d6e16b8db6a320731350171208064f07ec9bad3cab9ab2118afe9a1f6e507c7",
+      "write.css": "a3a73049c4b50417ae44304cae2d828a178bded9fcbc426de80fb681c8ccf7af",
+      "write.html": "13b26ebe7c20e01e407d5fc955d7199084ebd70af6dd89bc9b1a16bb28a66ce7",
+      "write.js": "b0aa4d26a84682cfac4ba9053a86239268f54d8c3fef7807f7e2fa68a3b2128b",
+      "sw.js": "26e072445abc8fd1bf5ab630996716ac3815a50be648764227193344646be257"
+    }
+  },
+  "engineVersion": "867bd6d0901d5da28ec3",
+  "nativeInputBinding": [
+    {
+      "label": "joint-fallback",
+      "currentDOCXSHA256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc",
+      "actualNativeRenderInputBytesEqualCurrentDownload": true,
+      "nativeRenderReuseReason": "Unchanged exact DOCX bytes; actual matching Word/LO render reused, not a fresh invocation claim"
+    },
+    {
+      "label": "joint-selected",
+      "currentDOCXSHA256": "7291a0b3092983bf47ad1cfb5a0be8da70cc32ace7cb52fd198e935f2cab4ad2",
+      "actualNativeRenderInputBytesEqualCurrentDownload": true,
+      "nativeRenderReuseReason": "Unchanged exact DOCX bytes; actual matching Word/LO render reused, not a fresh invocation claim"
+    },
+    {
+      "label": "town-day19",
+      "currentDOCXSHA256": "8d7b8213bcf31c09a31ec1929ff2ede9e94e0da161a69ca72e55ed3418b0864a",
+      "actualNativeRenderInputBytesEqualCurrentDownload": true,
+      "nativeRenderReuseReason": "Unchanged exact DOCX bytes; actual matching Word/LO render reused, not a fresh invocation claim"
+    },
+    {
+      "label": "town-day23",
+      "currentDOCXSHA256": "81891f8b0472607bbc8af25e47838c6255c24d570d3f63cfa9a8559d330e6593",
+      "actualNativeRenderInputBytesEqualCurrentDownload": true,
+      "nativeRenderReuseReason": "Unchanged exact DOCX bytes; actual matching Word/LO render reused, not a fresh invocation claim"
+    },
+    {
+      "label": "health-original",
+      "currentDOCXSHA256": "f53393e97c5be20febaf04ae8336b82f0dbaea12a27be179c769d473777f7ee8",
+      "actualNativeRenderInputBytesEqualCurrentDownload": true,
+      "nativeRenderReuseReason": "New Word actual render of f533 input, byte-identical to final download; new final LibreOffice invocation completed and PDF/source paragraph binding independently verified."
+    }
+  ],
+  "receiverChecks": [
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "joint-signers-and-imprint",
+      "excludedChecks": [],
+      "fullJointLayoutVerdict": "pass",
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "b8ef01d0cb760ff134d94ea6000f1f649d8f18d2e84d64b065a18fcfba262b25",
+      "docxSHA256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc",
+      "receiverPDFSHA256": "62bddb92ede2df56f27d17b97189a331b65353d20484bdcbc334909f90e6a0fe",
+      "requestedRenderer": "libreoffice",
+      "renderer": "libreoffice",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [
+        "26.8.1.1"
+      ],
+      "pages": 2,
+      "report": "receiver-final-checks/lo-joint-fallback.json",
+      "checks": {
+        "count": 14,
+        "pass": 14,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "source_first_two_on_first_row",
+          "status": "pass"
+        },
+        {
+          "code": "source_third_on_continuation_row",
+          "status": "pass"
+        },
+        {
+          "code": "continuation_aligns_first_name_column",
+          "status": "pass"
+        },
+        {
+          "code": "reference_with_last_signer_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": [
+        {
+          "sourceIndex": 1,
+          "page": 1,
+          "left": 376.55,
+          "right": 424.55,
+          "top": 116.626763779528,
+          "bottom": 132.626763779528,
+          "baseline": 128.05076377952798,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 2,
+          "page": 1,
+          "left": 457.1,
+          "right": 505.1,
+          "top": 116.626763779528,
+          "bottom": 132.626763779528,
+          "baseline": 128.05076377952798,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 3,
+          "page": 1,
+          "left": 376.55,
+          "right": 424.55,
+          "top": 145.57676377952805,
+          "bottom": 161.57676377952805,
+          "baseline": 157.00076377952803,
+          "sizes": [
+            16.0
+          ]
+        }
+      ],
+      "referenceGeometry": {
+        "page": 1,
+        "left": 95.45,
+        "right": 247.95,
+        "top": 145.57676377952805,
+        "bottom": 161.57676377952805,
+        "baseline": 157.00076377952803,
+        "sizes": [
+          16.0
+        ]
+      },
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.45,
+          "right": 261.45,
+          "top": 727.7047637795281,
+          "bottom": 741.7047637795281,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 363.65,
+          "right": 507.65,
+          "top": 727.7047637795281,
+          "bottom": 741.7047637795281,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "rules": [
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 721.400763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 742.150763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [
+        {
+          "sourceIndex": 1,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 2,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 3,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        }
+      ],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 741.7047637795281,
+        "textBottomGapPoints": 0.9952362204718384,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.0
+        ],
+        "actualLowerRulePoints": 742.150763779528,
+        "lowerRuleDeltaPoints": -0.5492362204719257
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "joint-signers-and-imprint",
+      "excludedChecks": [],
+      "fullJointLayoutVerdict": "pass",
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "b8ef01d0cb760ff134d94ea6000f1f649d8f18d2e84d64b065a18fcfba262b25",
+      "docxSHA256": "7291a0b3092983bf47ad1cfb5a0be8da70cc32ace7cb52fd198e935f2cab4ad2",
+      "receiverPDFSHA256": "510e2566512fe0b68c62d6fef4f1edfa8fcc092d206a20be68305bf526b5ff2a",
+      "requestedRenderer": "libreoffice",
+      "renderer": "libreoffice",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [
+        "26.8.1.1"
+      ],
+      "pages": 2,
+      "report": "receiver-final-checks/lo-joint-selected.json",
+      "checks": {
+        "count": 14,
+        "pass": 14,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "source_first_two_on_first_row",
+          "status": "pass"
+        },
+        {
+          "code": "source_third_on_continuation_row",
+          "status": "pass"
+        },
+        {
+          "code": "continuation_aligns_first_name_column",
+          "status": "pass"
+        },
+        {
+          "code": "reference_with_last_signer_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": [
+        {
+          "sourceIndex": 1,
+          "page": 1,
+          "left": 376.55,
+          "right": 424.55,
+          "top": 114.29076377952799,
+          "bottom": 130.290763779528,
+          "baseline": 128.05076377952798,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 2,
+          "page": 1,
+          "left": 457.1,
+          "right": 505.1,
+          "top": 114.29076377952799,
+          "bottom": 130.290763779528,
+          "baseline": 128.05076377952798,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 3,
+          "page": 1,
+          "left": 376.55,
+          "right": 424.55,
+          "top": 143.24076377952804,
+          "bottom": 159.24076377952804,
+          "baseline": 157.00076377952803,
+          "sizes": [
+            16.0
+          ]
+        }
+      ],
+      "referenceGeometry": {
+        "page": 1,
+        "left": 95.45,
+        "right": 239.65,
+        "top": 146.040763779528,
+        "bottom": 162.040763779528,
+        "baseline": 157.00076377952803,
+        "sizes": [
+          16.0
+        ]
+      },
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.45,
+          "right": 261.45,
+          "top": 728.110763779528,
+          "bottom": 742.110763779528,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 371.2,
+          "right": 507.65,
+          "top": 728.110763779528,
+          "bottom": 742.110763779528,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "rules": [
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 721.400763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 742.150763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [
+        {
+          "sourceIndex": 1,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 2,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 3,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        }
+      ],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 742.110763779528,
+        "textBottomGapPoints": 0.5892362204718893,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.0
+        ],
+        "actualLowerRulePoints": 742.150763779528,
+        "lowerRuleDeltaPoints": -0.5492362204719257
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "imprint-only",
+      "excludedChecks": [
+        "signer-source-order",
+        "signer-two-column-layout",
+        "signer-font-glyph-identity"
+      ],
+      "fullJointLayoutVerdict": null,
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "5d9b9973d449dde1aaddf8f6781fbabed5474c76ffbc9f7439cf4dc82e1deb22",
+      "docxSHA256": "8d7b8213bcf31c09a31ec1929ff2ede9e94e0da161a69ca72e55ed3418b0864a",
+      "receiverPDFSHA256": "6b03120f40c90a07a081b44ec263d24dc89435e4afccd98c84e4ea72d736b59d",
+      "requestedRenderer": "libreoffice",
+      "renderer": "libreoffice",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [
+        "26.8.1.1"
+      ],
+      "pages": 2,
+      "report": "receiver-final-checks/lo-town-19.json",
+      "checks": {
+        "count": 7,
+        "pass": 7,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": "unknown",
+      "referenceGeometry": "unknown",
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.45,
+          "right": 303.45,
+          "top": 727.7047637795281,
+          "bottom": 741.7047637795281,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 370.25,
+          "right": 507.65,
+          "top": 727.7047637795281,
+          "bottom": 741.7047637795281,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "rules": [
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 721.400763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 742.150763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 741.7047637795281,
+        "textBottomGapPoints": 0.9952362204718384,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.0
+        ],
+        "actualLowerRulePoints": 742.150763779528,
+        "lowerRuleDeltaPoints": -0.5492362204719257
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "imprint-only",
+      "excludedChecks": [
+        "signer-source-order",
+        "signer-two-column-layout",
+        "signer-font-glyph-identity"
+      ],
+      "fullJointLayoutVerdict": null,
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "8dc37fd5e17f4913caf096580ec94a8ba0d34979c569ee63fe2a1deebe5ccada",
+      "docxSHA256": "81891f8b0472607bbc8af25e47838c6255c24d570d3f63cfa9a8559d330e6593",
+      "receiverPDFSHA256": "631633de72dd878436788e192f131718a98a84190096c23b5a63d9b91079a846",
+      "requestedRenderer": "libreoffice",
+      "renderer": "libreoffice",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [
+        "26.8.1.1"
+      ],
+      "pages": 2,
+      "report": "receiver-final-checks/lo-town-23.json",
+      "checks": {
+        "count": 7,
+        "pass": 7,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": "unknown",
+      "referenceGeometry": "unknown",
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.45,
+          "right": 303.45,
+          "top": 727.7047637795281,
+          "bottom": 741.7047637795281,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 369.1,
+          "right": 507.65,
+          "top": 727.7047637795281,
+          "bottom": 741.7047637795281,
+          "baseline": 737.7007637795281,
+          "sizes": [
+            14.0
+          ]
+        },
+        "rules": [
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 721.400763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 79.4,
+            "right": 521.55,
+            "y": 742.150763779528,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 741.7047637795281,
+        "textBottomGapPoints": 0.9952362204718384,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.0
+        ],
+        "actualLowerRulePoints": 742.150763779528,
+        "lowerRuleDeltaPoints": -0.5492362204719257
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "joint-signers-and-imprint",
+      "excludedChecks": [],
+      "fullJointLayoutVerdict": "pass",
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "b8ef01d0cb760ff134d94ea6000f1f649d8f18d2e84d64b065a18fcfba262b25",
+      "docxSHA256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc",
+      "receiverPDFSHA256": "94a7e1f2b8a25ba1eb20b8a6444f9c48985eb9330740e81e16038b45aa744da6",
+      "requestedRenderer": "product",
+      "renderer": "product",
+      "nativeOfficeReceiver": false,
+      "rendererVersionHints": [
+        "1.7"
+      ],
+      "pages": 2,
+      "report": "receiver-final-checks/product-reopened-opened.json",
+      "checks": {
+        "count": 14,
+        "pass": 14,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "source_first_two_on_first_row",
+          "status": "pass"
+        },
+        {
+          "code": "source_third_on_continuation_row",
+          "status": "pass"
+        },
+        {
+          "code": "continuation_aligns_first_name_column",
+          "status": "pass"
+        },
+        {
+          "code": "reference_with_last_signer_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": [
+        {
+          "sourceIndex": 1,
+          "page": 1,
+          "left": 376.45,
+          "right": 424.03886,
+          "top": 112.74599999999998,
+          "bottom": 128.74599999999998,
+          "baseline": 124.16999999999996,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 2,
+          "page": 1,
+          "left": 457.0,
+          "right": 504.58886,
+          "top": 112.74599999999998,
+          "bottom": 128.74599999999998,
+          "baseline": 124.16999999999996,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 3,
+          "page": 1,
+          "left": 376.45,
+          "right": 424.03886,
+          "top": 141.69600000000003,
+          "bottom": 157.69600000000003,
+          "baseline": 153.12,
+          "sizes": [
+            16.0
+          ]
+        }
+      ],
+      "referenceGeometry": {
+        "page": 1,
+        "left": 95.35,
+        "right": 226.43,
+        "top": 141.69600000000003,
+        "bottom": 157.69600000000003,
+        "baseline": 153.12,
+        "sizes": [
+          16.0
+        ]
+      },
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.35,
+          "right": 261.35,
+          "top": 726.004,
+          "bottom": 740.004,
+          "baseline": 736.0,
+          "sizes": [
+            14.0
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 377.52,
+          "right": 507.55199999999996,
+          "top": 726.004,
+          "bottom": 740.004,
+          "baseline": 736.0,
+          "sizes": [
+            14.0
+          ]
+        },
+        "rules": [
+          {
+            "left": 79.35,
+            "right": 521.6,
+            "y": 721.4,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 79.35,
+            "right": 521.6,
+            "y": 742.1999999999999,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [
+        {
+          "sourceIndex": 1,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 2,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 3,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        }
+      ],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 740.004,
+        "textBottomGapPoints": 2.6959999999999127,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.0
+        ],
+        "actualLowerRulePoints": 742.1999999999999,
+        "lowerRuleDeltaPoints": -0.5
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "joint-signers-and-imprint",
+      "excludedChecks": [],
+      "fullJointLayoutVerdict": "pass",
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "b8ef01d0cb760ff134d94ea6000f1f649d8f18d2e84d64b065a18fcfba262b25",
+      "docxSHA256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc",
+      "receiverPDFSHA256": "3a16efe089c406458ffc70ecd35462ddaf9f7f4580193400e50ed4ef044d17d4",
+      "requestedRenderer": "product",
+      "renderer": "product",
+      "nativeOfficeReceiver": false,
+      "rendererVersionHints": [
+        "1.7"
+      ],
+      "pages": 2,
+      "report": "receiver-final-checks/product-reopened-reloaded.json",
+      "checks": {
+        "count": 14,
+        "pass": 14,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "source_first_two_on_first_row",
+          "status": "pass"
+        },
+        {
+          "code": "source_third_on_continuation_row",
+          "status": "pass"
+        },
+        {
+          "code": "continuation_aligns_first_name_column",
+          "status": "pass"
+        },
+        {
+          "code": "reference_with_last_signer_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": [
+        {
+          "sourceIndex": 1,
+          "page": 1,
+          "left": 376.45,
+          "right": 424.03886,
+          "top": 112.74599999999998,
+          "bottom": 128.74599999999998,
+          "baseline": 124.16999999999996,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 2,
+          "page": 1,
+          "left": 457.0,
+          "right": 504.58886,
+          "top": 112.74599999999998,
+          "bottom": 128.74599999999998,
+          "baseline": 124.16999999999996,
+          "sizes": [
+            16.0
+          ]
+        },
+        {
+          "sourceIndex": 3,
+          "page": 1,
+          "left": 376.45,
+          "right": 424.03886,
+          "top": 141.69600000000003,
+          "bottom": 157.69600000000003,
+          "baseline": 153.12,
+          "sizes": [
+            16.0
+          ]
+        }
+      ],
+      "referenceGeometry": {
+        "page": 1,
+        "left": 95.35,
+        "right": 226.43,
+        "top": 141.69600000000003,
+        "bottom": 157.69600000000003,
+        "baseline": 153.12,
+        "sizes": [
+          16.0
+        ]
+      },
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.35,
+          "right": 261.35,
+          "top": 726.004,
+          "bottom": 740.004,
+          "baseline": 736.0,
+          "sizes": [
+            14.0
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 377.52,
+          "right": 507.55199999999996,
+          "top": 726.004,
+          "bottom": 740.004,
+          "baseline": 736.0,
+          "sizes": [
+            14.0
+          ]
+        },
+        "rules": [
+          {
+            "left": 79.35,
+            "right": 521.6,
+            "y": 721.4,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 79.35,
+            "right": 521.6,
+            "y": 742.1999999999999,
+            "thickness": 1.0,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [
+        {
+          "sourceIndex": 1,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 2,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 3,
+          "status": "pass",
+          "sizePoints": [
+            16.0
+          ],
+          "matchedNonemptyGlyphs": 3
+        }
+      ],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 740.004,
+        "textBottomGapPoints": 2.6959999999999127,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.0
+        ],
+        "actualLowerRulePoints": 742.1999999999999,
+        "lowerRuleDeltaPoints": -0.5
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "joint-signers-and-imprint",
+      "excludedChecks": [],
+      "fullJointLayoutVerdict": "pass",
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "b8ef01d0cb760ff134d94ea6000f1f649d8f18d2e84d64b065a18fcfba262b25",
+      "docxSHA256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc",
+      "receiverPDFSHA256": "aef649e3d4d2ac839b0fcae119e08c57e9c657b05c400c2da381cab323dd393f",
+      "requestedRenderer": "word",
+      "renderer": "word",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [],
+      "pages": 2,
+      "report": "receiver-final-checks/word-joint-fallback.json",
+      "checks": {
+        "count": 14,
+        "pass": 14,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "source_first_two_on_first_row",
+          "status": "pass"
+        },
+        {
+          "code": "source_third_on_continuation_row",
+          "status": "pass"
+        },
+        {
+          "code": "continuation_aligns_first_name_column",
+          "status": "pass"
+        },
+        {
+          "code": "reference_with_last_signer_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": [
+        {
+          "sourceIndex": 1,
+          "page": 1,
+          "left": 376.51,
+          "right": 424.15,
+          "top": 114.01519999999994,
+          "bottom": 129.97519999999997,
+          "baseline": 128.05999999999995,
+          "sizes": [
+            15.96
+          ]
+        },
+        {
+          "sourceIndex": 2,
+          "page": 1,
+          "left": 457.06,
+          "right": 504.7,
+          "top": 114.01519999999994,
+          "bottom": 129.97519999999997,
+          "baseline": 128.05999999999995,
+          "sizes": [
+            15.96
+          ]
+        },
+        {
+          "sourceIndex": 3,
+          "page": 1,
+          "left": 376.51,
+          "right": 424.15,
+          "top": 143.0551999999999,
+          "bottom": 159.01519999999994,
+          "baseline": 157.0999999999999,
+          "sizes": [
+            15.96
+          ]
+        }
+      ],
+      "referenceGeometry": {
+        "page": 1,
+        "left": 95.304,
+        "right": 246.41,
+        "top": 143.0551999999999,
+        "bottom": 159.01519999999994,
+        "baseline": 157.0999999999999,
+        "sizes": [
+          15.96
+        ]
+      },
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.384,
+          "right": 259.22400000000005,
+          "top": 725.5047999999999,
+          "bottom": 739.5447999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 362.95,
+          "right": 507.82000000000005,
+          "top": 725.5047999999999,
+          "bottom": 739.5447999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "rules": [
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 721.42002,
+            "thickness": 0.9599600000000237,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 742.29599,
+            "thickness": 0.9600199999999859,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [
+        {
+          "sourceIndex": 1,
+          "status": "pass",
+          "sizePoints": [
+            15.96
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 2,
+          "status": "pass",
+          "sizePoints": [
+            15.96
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 3,
+          "status": "pass",
+          "sizePoints": [
+            15.96
+          ],
+          "matchedNonemptyGlyphs": 3
+        }
+      ],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 739.5447999999999,
+        "textBottomGapPoints": 3.155200000000036,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.04
+        ],
+        "actualLowerRulePoints": 742.29599,
+        "lowerRuleDeltaPoints": -0.4040099999999711
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "joint-signers-and-imprint",
+      "excludedChecks": [],
+      "fullJointLayoutVerdict": "pass",
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "b8ef01d0cb760ff134d94ea6000f1f649d8f18d2e84d64b065a18fcfba262b25",
+      "docxSHA256": "7291a0b3092983bf47ad1cfb5a0be8da70cc32ace7cb52fd198e935f2cab4ad2",
+      "receiverPDFSHA256": "57c159e111107c292d3d80642e043750110f2ed68d88958eae79285a3e792e31",
+      "requestedRenderer": "word",
+      "renderer": "word",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [],
+      "pages": 2,
+      "report": "receiver-final-checks/word-joint-selected.json",
+      "checks": {
+        "count": 14,
+        "pass": 14,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "source_first_two_on_first_row",
+          "status": "pass"
+        },
+        {
+          "code": "source_third_on_continuation_row",
+          "status": "pass"
+        },
+        {
+          "code": "continuation_aligns_first_name_column",
+          "status": "pass"
+        },
+        {
+          "code": "reference_with_last_signer_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "actual_name_embedded_face_and_size",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": [
+        {
+          "sourceIndex": 1,
+          "page": 1,
+          "left": 376.51,
+          "right": 424.15,
+          "top": 114.35035999999991,
+          "bottom": 130.31035999999995,
+          "baseline": 128.05999999999995,
+          "sizes": [
+            15.96
+          ]
+        },
+        {
+          "sourceIndex": 2,
+          "page": 1,
+          "left": 457.06,
+          "right": 504.7,
+          "top": 114.35035999999991,
+          "bottom": 130.31035999999995,
+          "baseline": 128.05999999999995,
+          "sizes": [
+            15.96
+          ]
+        },
+        {
+          "sourceIndex": 3,
+          "page": 1,
+          "left": 376.51,
+          "right": 424.15,
+          "top": 143.39035999999987,
+          "bottom": 159.3503599999999,
+          "baseline": 157.0999999999999,
+          "sizes": [
+            15.96
+          ]
+        }
+      ],
+      "referenceGeometry": {
+        "page": 1,
+        "left": 95.304,
+        "right": 238.01000000000002,
+        "top": 144.33199999999988,
+        "bottom": 160.29199999999992,
+        "baseline": 157.0999999999999,
+        "sizes": [
+          15.96
+        ]
+      },
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.384,
+          "right": 259.22400000000005,
+          "top": 726.6279999999999,
+          "bottom": 740.6679999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 370.39,
+          "right": 507.81628,
+          "top": 726.6279999999999,
+          "bottom": 740.6679999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "rules": [
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 721.42002,
+            "thickness": 0.9599600000000237,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 742.29599,
+            "thickness": 0.9600199999999859,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [
+        {
+          "sourceIndex": 1,
+          "status": "pass",
+          "sizePoints": [
+            15.96
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 2,
+          "status": "pass",
+          "sizePoints": [
+            15.96
+          ],
+          "matchedNonemptyGlyphs": 3
+        },
+        {
+          "sourceIndex": 3,
+          "status": "pass",
+          "sizePoints": [
+            15.96
+          ],
+          "matchedNonemptyGlyphs": 3
+        }
+      ],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 740.6679999999999,
+        "textBottomGapPoints": 2.032000000000039,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.04
+        ],
+        "actualLowerRulePoints": 742.29599,
+        "lowerRuleDeltaPoints": -0.4040099999999711
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "imprint-only",
+      "excludedChecks": [
+        "signer-source-order",
+        "signer-two-column-layout",
+        "signer-font-glyph-identity"
+      ],
+      "fullJointLayoutVerdict": null,
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "5d9b9973d449dde1aaddf8f6781fbabed5474c76ffbc9f7439cf4dc82e1deb22",
+      "docxSHA256": "8d7b8213bcf31c09a31ec1929ff2ede9e94e0da161a69ca72e55ed3418b0864a",
+      "receiverPDFSHA256": "3ddd02e17914a38e9b3a5a52b4bee87daa1a3cf0145fb49dc5c209d6ab8b9894",
+      "requestedRenderer": "word",
+      "renderer": "word",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [],
+      "pages": 2,
+      "report": "receiver-final-checks/word-town-19.json",
+      "checks": {
+        "count": 7,
+        "pass": 7,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": "unknown",
+      "referenceGeometry": "unknown",
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.384,
+          "right": 300.62399999999997,
+          "top": 725.5047999999999,
+          "bottom": 739.5447999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 369.31,
+          "right": 507.81628,
+          "top": 725.5047999999999,
+          "bottom": 739.5447999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "rules": [
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 721.42002,
+            "thickness": 0.9599600000000237,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 742.29599,
+            "thickness": 0.9600199999999859,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 739.5447999999999,
+        "textBottomGapPoints": 3.155200000000036,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.04
+        ],
+        "actualLowerRulePoints": 742.29599,
+        "lowerRuleDeltaPoints": -0.4040099999999711
+      }
+    },
+    {
+      "schemaVersion": 4,
+      "verifierVersion": "receiver-layout-v4-explicit-product",
+      "verifierSHA256": "123f89f977dde89432b7f65cded05bedb198bbc8b71ce5774bbf79f99d5e1a14",
+      "scope": "imprint-only",
+      "excludedChecks": [
+        "signer-source-order",
+        "signer-two-column-layout",
+        "signer-font-glyph-identity"
+      ],
+      "fullJointLayoutVerdict": null,
+      "status": "pass",
+      "passed": true,
+      "scopePassed": true,
+      "sourceJSONSHA256": "8dc37fd5e17f4913caf096580ec94a8ba0d34979c569ee63fe2a1deebe5ccada",
+      "docxSHA256": "81891f8b0472607bbc8af25e47838c6255c24d570d3f63cfa9a8559d330e6593",
+      "receiverPDFSHA256": "e4986efab12f514e2725f2ee57483b84ab21ed00bc1aa8a83bfc0ee3eb533971",
+      "requestedRenderer": "word",
+      "renderer": "word",
+      "nativeOfficeReceiver": true,
+      "rendererVersionHints": [],
+      "pages": 2,
+      "report": "receiver-final-checks/word-town-23.json",
+      "checks": {
+        "count": 7,
+        "pass": 7,
+        "fail": 0,
+        "unsupported": 0
+      },
+      "checkResults": [
+        {
+          "code": "receiver_renderer_attribution",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_fields_share_baseline",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_actual_fields_are_14pt",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_is_on_last_pdf_page",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_upper_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_lower_rule_actually_visible",
+          "status": "pass"
+        },
+        {
+          "code": "imprint_physical_bottom_placement",
+          "status": "pass"
+        }
+      ],
+      "signerGeometry": "unknown",
+      "referenceGeometry": "unknown",
+      "imprintGeometry": {
+        "page": 2,
+        "issuer": {
+          "page": 2,
+          "left": 93.384,
+          "right": 300.62399999999997,
+          "top": 725.5047999999999,
+          "bottom": 739.5447999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "printingDate": {
+          "page": 2,
+          "left": 368.11,
+          "right": 507.82000000000005,
+          "top": 725.5047999999999,
+          "bottom": 739.5447999999999,
+          "baseline": 737.8599999999999,
+          "sizes": [
+            14.04
+          ]
+        },
+        "rules": [
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 721.42002,
+            "thickness": 0.9599600000000237,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "upper"
+          },
+          {
+            "left": 77.904,
+            "right": 523.0840000000001,
+            "y": 742.29599,
+            "thickness": 0.9600199999999859,
+            "parts": 1,
+            "darkColumnCoverage": 1.0,
+            "longestClearGapFraction": 0.0,
+            "side": "lower"
+          }
+        ]
+      },
+      "measuredNonemptyGlyphCounts": [],
+      "physicalBottomMeasurement": {
+        "status": "pass",
+        "section": {
+          "lastSectionHeightPoints": 841.9,
+          "lastSectionWidthPoints": 595.3,
+          "bottomMarginPoints": 99.2,
+          "bodyBottomFromTopPoints": 742.6999999999999
+        },
+        "tolerancePoints": 6.0,
+        "actualTextBottomPoints": 739.5447999999999,
+        "textBottomGapPoints": 3.155200000000036,
+        "allowedTextBottomGapPoints": [
+          -6.0,
+          20.04
+        ],
+        "actualLowerRulePoints": 742.29599,
+        "lowerRuleDeltaPoints": -0.4040099999999711
+      }
+    }
+  ],
+  "health": {
+    "WordOnlyDifference": "Two keepLines properties in document.xml; all other parts and exact prior XML after removal identical",
+    "oldDOCXSHA256": "4c18c0d6740f536099ac4ec745d9fba865d063018df98520911b3727a01f29a1",
+    "newDOCXSHA256": "f53393e97c5be20febaf04ae8336b82f0dbaea12a27be179c769d473777f7ee8",
+    "sourceJSONSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+    "sourceBlocks": 39,
+    "authorTables": 3,
+    "authorCells": 81,
+    "intentionalBlankCells": 29,
+    "health": [
+      {
+        "renderer": "product",
+        "PDFSHA256": "0ff1dc1ca8f79b535e504783fdf73be19d65d71c15e741dd5bc9d5e3ab053bab",
+        "pages": 7,
+        "completeSourceParagraphPages": {
+          "33": [
+            6
+          ],
+          "37": [
+            7
+          ],
+          "38": [
+            7
+          ]
+        },
+        "allSourceParagraphTextPresent": true
+      },
+      {
+        "renderer": "word",
+        "PDFSHA256": "a5ff88c04013bf1dd7c108a70a0fb7cb9a5dd0c4229d3a03864f84c1d5a85ba6",
+        "pages": 7,
+        "completeSourceParagraphPages": {
+          "33": [
+            6
+          ],
+          "37": [
+            7
+          ],
+          "38": [
+            7
+          ]
+        },
+        "allSourceParagraphTextPresent": true
+      },
+      {
+        "renderer": "lo",
+        "PDFSHA256": "e13982b61bc39927cd22370a0dbc5cb291c6f8662870217821560c07885d590b",
+        "pages": 7,
+        "completeSourceParagraphPages": {
+          "33": [
+            6
+          ],
+          "37": [
+            7
+          ],
+          "38": [
+            7
+          ]
+        },
+        "allSourceParagraphTextPresent": true
+      },
+      {
+        "renderer": "product-word-reopened",
+        "PDFSHA256": "a9b37ca9e79796d998c3556b4666b43a09ab31a384b361201c932ef6ab35beb5",
+        "pages": 6,
+        "completeSourceParagraphPages": {
+          "33": [
+            6
+          ],
+          "37": [
+            6
+          ],
+          "38": [
+            6
+          ]
+        },
+        "allSourceParagraphTextPresent": true
+      }
+    ],
+    "boundary": "Exact supplied7dbd manuscript, not CEO title-suffix variants; product Word-reopen may reflow and is reported separately."
+  },
+  "subsetRegression": {
+    "PDFs": 16,
+    "fontProgramInstances": 37,
+    "passed": true,
+    "reportSHA256": "8308c963e04b4a79b210fb5cba415ebedf9fd2e66ea20f03313a4755444f546a"
+  },
+  "fallbackGlyphs": {
+    "passed": true,
+    "sources": [
+      {
+        "asset": "NotoSerifSC.ttf",
+        "sha256": "9502147ceba7b5bc7fd3415083f6a5d133f22d8f9efb4974d4b85f3a97ea2d3a",
+        "weight": 400,
+        "nonNameTableSHA256": {
+          "head": "3c21db212d6f2a5410068d34865490fef518dfbfb249585d9b0d5d6c994d31a1",
+          "hhea": "b3b6ea8fd9ab8c1bcdce4faaa89882bc431d7a2ac224c3694536d518f1f637b2",
+          "maxp": "924dcfdcb302fb3b24ee44b5bcb0c8a86ebe4b36d802a93f7239c6e746201b34",
+          "OS/2": "f436a6d6dfecaea98dddc7a07208192db4bd17a5da5f61cdef5c665ad3835307",
+          "hmtx": "c32267e89fc057d37b7575b15e4401a6982a481752249c81f9197b9dbe070587",
+          "cmap": "a66826b8dabfa7d7a14b928f93eef65eb3127e26cb095f2e24c930d793efcf30",
+          "prep": "907c4106ff9989c1805827d5581bdf107a253b098cb71eb374f5e47c35604452",
+          "loca": "02ef8f346780deb3d393e2b006f68d5ea45346bc2a22379c78b1621760557df2",
+          "glyf": "ff5a475c4a3567076efb4b4d9066d7f1398c790af7a44ff3017c11ca966fa84e",
+          "post": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "gasp": "4ca731f86ad506ac0e320283dc9461926346de3c4d91d539ea7f6620d3826940",
+          "BASE": "40c78473bd7d695dac410a5a65d61c5681c46f383ff474790482f903c7c06696",
+          "GDEF": "6871504753d8c93a6ba6a03a7a82439ca10f087085b591da013eb0a2a8665016",
+          "GPOS": "8c9a1a387e187f4a0812279843d7789b140844d209adbb1443e6a2690c67f3f2",
+          "GSUB": "05464d375ea7059a95d3cb5da8a51d723303be65b7c4b7d07b0a9c8707b5f14b",
+          "STAT": "c344390a0895ba75ea01b8ce449ef9633301b10db58290f71c85c6952092bee6",
+          "vhea": "57ac543ce9f845feac646f522e13f7a30f1251851a5699da0d502ba5c428b90e",
+          "vmtx": "b99e7131206cb0f4dd5a40b53094cd1872ab080b6662ccad52451ef7c7e99693"
+        }
+      },
+      {
+        "asset": "NotoSerifSC-Black.ttf",
+        "sha256": "0f048849cd9c0514f9915e25673801d37196c57af8e3b804f0185a3b23b53ac1",
+        "weight": 900,
+        "nonNameTableSHA256": {
+          "head": "eaa0e0d0f8e4e9e4dfa95efabda01bcf2f14e763c19a345d5779b7eaee0cad59",
+          "hhea": "8816f32fa05bee2c31a78eb47151b4b26d4c9079b0c3e6c750488ca2983dd8df",
+          "maxp": "924dcfdcb302fb3b24ee44b5bcb0c8a86ebe4b36d802a93f7239c6e746201b34",
+          "OS/2": "0a93005efea78f4a24cf2410a80c55db96b7ab6e2316c23f30ef079e6fc472d2",
+          "hmtx": "e60e22e1c78ba23d32e2c26972a2b29be915f7e1d66692c1910c8e2d92e08529",
+          "cmap": "a66826b8dabfa7d7a14b928f93eef65eb3127e26cb095f2e24c930d793efcf30",
+          "prep": "907c4106ff9989c1805827d5581bdf107a253b098cb71eb374f5e47c35604452",
+          "loca": "dd3ba4af8900935effbaeea6bf66da7fa15fedee7ac96cd656f468670307c722",
+          "glyf": "ca35ee2947bcb12f23a7d656c0f4d64188704194b67a25ff46448769efa71b22",
+          "post": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "gasp": "4ca731f86ad506ac0e320283dc9461926346de3c4d91d539ea7f6620d3826940",
+          "BASE": "40c78473bd7d695dac410a5a65d61c5681c46f383ff474790482f903c7c06696",
+          "GDEF": "6871504753d8c93a6ba6a03a7a82439ca10f087085b591da013eb0a2a8665016",
+          "GPOS": "95b894e2aa6c600ff8f398cc3a3a4599f432aefd4730c8367aaeb3567078eac0",
+          "GSUB": "05464d375ea7059a95d3cb5da8a51d723303be65b7c4b7d07b0a9c8707b5f14b",
+          "STAT": "2e866fdad332d051c17aab5c4bfba77f7cec486922d8fd01fe04a9f44fb809f4",
+          "vhea": "b8f1a6fc7d8a7ecd017e307da0436f774de567a40951b8c037cbd0217a90c74e",
+          "vmtx": "7598b7f2fc41b5730cd0993d6b92616765793e339dfc35db889469642e572074"
+        }
+      }
+    ],
+    "fonts": [
+      {
+        "resource": "/Fca01f1a3d3c34f4716c990b69bf30e4f833b750f",
+        "page": 1,
+        "pdfLabel": "/utf8f1",
+        "postscriptNames": [
+          "NotoSerifSC-Regular"
+        ],
+        "programSHA256": "3d836d261e71ee33b944c5f936f21edcdcfa40c863a93d457538f97c064518f7",
+        "weight": 400,
+        "fontToolsCmapAccepted": true,
+        "numericCIDGlyphOrder": true,
+        "nonNameTableSHA256": {
+          "OS/2": "c65b53b5f2a52f9d406674b1b53337b0cdf8059f9c760cd2a27fe5764540fcc4",
+          "cmap": "2fbde4ce2b099270a1536ac844c0a7b09eddb1913af0054c7a00f4f60beee4f9",
+          "gasp": "4ca731f86ad506ac0e320283dc9461926346de3c4d91d539ea7f6620d3826940",
+          "glyf": "acb4517b29b15b537b2025e3042bafac8b3541ec6d3f89d673e0a0cab04c6505",
+          "head": "710c76fe9177b163638aeeff172ca58f37954caa48136824a0f37c0ae0e59858",
+          "hhea": "3392fc08dbffcb16f834958713190ebfe173d0a848da8059a80c339ac53c5a73",
+          "hmtx": "53578c86b4a4d2550cf4a1bbbb539883fbd0525f4808f69dc5d5928fc3797dc2",
+          "loca": "525599fd524ce7e8d60784c4765e6b3ac1379dd1ee928b9a0c0b99026227af17",
+          "maxp": "87aee2d2187009adcbd832d880970c5059dd5e62801bc354125ba8512e43c767",
+          "post": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "prep": "907c4106ff9989c1805827d5581bdf107a253b098cb71eb374f5e47c35604452"
+        },
+        "nonemptyGlyphs": 22,
+        "matchedOutlines": 22,
+        "unmatchedOutlines": 0,
+        "cjkCharacters": 13
+      },
+      {
+        "resource": "/Fededbb5ccd2e9de3f8864b171c6075dd728601ee",
+        "page": 1,
+        "pdfLabel": "/utf8f0",
+        "postscriptNames": [
+          "NotoSerifSC-Black"
+        ],
+        "programSHA256": "a4a29eab6d7242904daf7e2707431419457b77ace3e349e4a6e8137da5398f6f",
+        "weight": 900,
+        "fontToolsCmapAccepted": true,
+        "numericCIDGlyphOrder": true,
+        "nonNameTableSHA256": {
+          "OS/2": "0d7117c129df1f6c37019e829a8286fe5412a52c38cabdbae685872d164cb98e",
+          "cmap": "f6eb7f345c6e086e5c88aaf9a8eb4f5ec5d786f15081243e0a3cbf51935cdc52",
+          "gasp": "4ca731f86ad506ac0e320283dc9461926346de3c4d91d539ea7f6620d3826940",
+          "glyf": "ff846be38d4093e210739ffba04e85e22828a4bd61ef76436fb3e8e5ae3e437a",
+          "head": "7c885b9f9171dd8e35cecf2d6529d7fc22b6ae6c36e28edc73e7ee37c69f19aa",
+          "hhea": "db08c994a5a54e04ff2c5a113992a6b4ecb7925d89f513bfaa0fa7fff85c83bb",
+          "hmtx": "629b6d3c3d18e1290126bcecd19434de2a250629f6a18117a50b08917582c11d",
+          "loca": "31f008e252f3d06a9462d094bc4c17cd96290c1c34809a1f96fdb96ae8860b39",
+          "maxp": "0cef873106a70e0b640b4341375c64cb29dac9142b0ac7de8c385bd33b0aa5e1",
+          "post": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "prep": "907c4106ff9989c1805827d5581bdf107a253b098cb71eb374f5e47c35604452"
+        },
+        "nonemptyGlyphs": 11,
+        "matchedOutlines": 11,
+        "unmatchedOutlines": 0,
+        "cjkCharacters": 11
+      }
+    ],
+    "counts": {
+      "pages": 1,
+      "images": 0,
+      "nonemptyGlyphs": 33,
+      "matchedOutlines": 33,
+      "unmatchedOutlines": 0,
+      "regularCJKMatched": 13,
+      "blackCJKMatched": 11
+    },
+    "checks": {
+      "exactExtractedText": true,
+      "exactOperatorUnicode": true,
+      "noImages": true,
+      "bothFacesHaveCorrectCJK": true,
+      "allNonemptyGlyphsMatchRole": true
+    },
+    "failures": [],
+    "structureNotes": [],
+    "boundary": "Fixed fictional probe only. Actual CID-to-GID decomposed outlines are compared, without dropping font program tables or treating family names as glyph evidence. Hint byte differences are outside the outline comparison. Visual page verification remains separate.",
+    "pdfSHA256": "54c36934fb948e3a7f49ed1508a99cfa240e55e5a171be6164bfa7640cd5b8f5"
+  },
+  "visual": {
+    "PDFs": 17,
+    "pages": 53,
+    "uniquePixelPages": 50,
+    "allUniquePagesManuallyInspected": true,
+    "bindings": [
+      {
+        "label": "word-joint-fallback",
+        "PDFSHA256": "aef649e3d4d2ac839b0fcae119e08c57e9c657b05c400c2da381cab323dd393f",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "0ba9454e52e46b511b087a293b51e78b947d8c6c36b1574781cdb9f036080af8",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "4e3ad78d445bbbbf8bf7818ae2483265e3bd5320ba4052fdd472949d72b5adf0",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "word-joint-selected",
+        "PDFSHA256": "57c159e111107c292d3d80642e043750110f2ed68d88958eae79285a3e792e31",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "41a7d2ff5cc754d9fc36ad343b429522d1ff0d30cd3f572ad0fa39943fe54955",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "877b5b95d3558c818ce342cdf92f1ea3c3bb5e141053179ab00fbb4ab4054e75",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "word-town-day19",
+        "PDFSHA256": "3ddd02e17914a38e9b3a5a52b4bee87daa1a3cf0145fb49dc5c209d6ab8b9894",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "12be6c07b5e0386990484db4cf2ed8fa881259ab83bd08504096792cdf7bbc23",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "d03fc4c691e28c88dc6cbb4eee49f76abf0edeb244f9386a6e00e331cc7b026e",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "word-town-day23",
+        "PDFSHA256": "e4986efab12f514e2725f2ee57483b84ab21ed00bc1aa8a83bfc0ee3eb533971",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "12be6c07b5e0386990484db4cf2ed8fa881259ab83bd08504096792cdf7bbc23",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": true
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "6f9b56703437542702af62376f5d22cf74fb1fe255245f1c4235d9c4f258ed39",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "word-health-original",
+        "PDFSHA256": "a5ff88c04013bf1dd7c108a70a0fb7cb9a5dd0c4229d3a03864f84c1d5a85ba6",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "07395fb753a33c3119f8c3123b729246ec4975c6c30914503dcd49ce9947d9ae",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "d1a9172d2ab496e1a0697d9bb0ee427a767d5b3b2727fc0d2a7fc93f401885cd",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 3,
+            "pixelSHA256": "4aefc181e61e8520cbe5bea9e4cf9a6808f09c35c0f264b69e71770821442d1e",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 4,
+            "pixelSHA256": "1ead2f4e3275fff84d7d6f6fe314ef9356e38fb567de09c4b478d402c28ad66e",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 5,
+            "pixelSHA256": "753c78eb6d3cce7e74b84f6246364dbc4b721ab1207304e0d019cc1620daf137",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 6,
+            "pixelSHA256": "b0ca02bef932b41ee270c6a177c48ac585c4145579b519a98b482d257e5483ef",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 7,
+            "pixelSHA256": "4285f6db7bba796be11d25e2db9f527618dea8660aa9fa0e1253d870a1267419",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "lo-joint-fallback",
+        "PDFSHA256": "62bddb92ede2df56f27d17b97189a331b65353d20484bdcbc334909f90e6a0fe",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "7691c8fb47e1f00aab60b579a0a33bde908384e3c1fb62acc8b7c5b9859884c1",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "2edd2e0fcd34f385805c74c929cbca2d4b5d80d004f83947e876014a6fc48ed3",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "lo-joint-selected",
+        "PDFSHA256": "510e2566512fe0b68c62d6fef4f1edfa8fcc092d206a20be68305bf526b5ff2a",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "408e002bf3de78e5cfed84050a95a231dda9a35720f7be4496951945c718bfb6",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "84558b0e6ac39d84bfefa723218e6e0b36a92655a935369129d7c497435335d1",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "lo-town-day19",
+        "PDFSHA256": "6b03120f40c90a07a081b44ec263d24dc89435e4afccd98c84e4ea72d736b59d",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "6c61d8c9ca148e31a94e517e566969fe53d99305ca8da191ecb66f4c364b2236",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "b5b66fc1b545a5141bf931498c5578f7305991e9ed30a9249b5c2ac18c1ca1ad",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "lo-town-day23",
+        "PDFSHA256": "631633de72dd878436788e192f131718a98a84190096c23b5a63d9b91079a846",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "6c61d8c9ca148e31a94e517e566969fe53d99305ca8da191ecb66f4c364b2236",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": true
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "c88dd50d51334b1da965e389d8d14399d3af45f2ae0ee30462bfff07ab6abcc5",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "lo-health-original",
+        "PDFSHA256": "e13982b61bc39927cd22370a0dbc5cb291c6f8662870217821560c07885d590b",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "7f9a19f78419cf134bbd80c4a3c3f9c073a91cfa434bb22010ddcaed5ca41b52",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "1f16bb45ffafe0ea019a6a7b71dcc16c76dfa14ef57774db4d45c33bdd8751e2",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 3,
+            "pixelSHA256": "dc652784a8258418d5a607a54d70cd8ef0eb81bb299efaa376ff229d9064705a",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 4,
+            "pixelSHA256": "91b80ebf1c91c68240fd92935962ea33dbf5033c23b8bed9b480e65914a2da83",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 5,
+            "pixelSHA256": "0d01960669a9c0ccba79631f0baa65cf58ecd1d08dd2c2d46a33dd4e9554f6a5",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 6,
+            "pixelSHA256": "d12a5276e98fab6c9872e13334541e17f824104d494d67a57d5c408231599c3c",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 7,
+            "pixelSHA256": "02709439e0d5d90aa0c9ea6ad85bcc222e1618cb45b7d572c1df0a319cd30c41",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "product-health",
+        "PDFSHA256": "0ff1dc1ca8f79b535e504783fdf73be19d65d71c15e741dd5bc9d5e3ab053bab",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "639020ab527a716fbebcc9a852b6f0591c91cee450bcb5dc73a2196cea56b272",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "1b9379d8a981b2a2bc4ff76c793e214997499022213dbf1fade5f409b952c89a",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 3,
+            "pixelSHA256": "6f3a1bcf08a37440c6517d86681afd08716972c82db9e4c35d8ca1a40ba7e43c",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 4,
+            "pixelSHA256": "6915b8fc81bfb737f9a89b1bee0ba95c6e64b58ec5b4097e5e0cfca2c0f66f50",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 5,
+            "pixelSHA256": "803536075f5883120d536548343a4032bc6d9f5afd45bf7d4c53f9ec6c31d2a8",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 6,
+            "pixelSHA256": "372fb9b12f869882b3a4f96c21a7647b7cf726be40123ff1e5c500a9c90ea686",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 7,
+            "pixelSHA256": "f90cc7b8ab925444ed7dfe242cfba18488ef5c8fdd3098d1e7ee0052879c7f12",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "product-joint",
+        "PDFSHA256": "fa04552ba7c660b1fc7d7a4490197e5ed8d96b6783ad79b732167aca4659f69f",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "932e242ab57cc4262d71875d2116a801b0a5820b04205c98ae03a043cb45f43c",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "ebb36b86806a5613f2148456c3b9e68cf1a5b79eb3938cbf5e84838fc332a47c",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "product-selected",
+        "PDFSHA256": "07094922f4a1e275e94bb04825dfd67f57a8901c3fa0858b56f33294190bb4f6",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "269f41c9f7d408128e0f2ef2efcda318c68450511b1c416d89d0d286669f08bf",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "7316b2af5c7bb6d25c55444a1559e186e151721bab4006fe4b0a55d526e8d2e9",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "product-town19",
+        "PDFSHA256": "89a0264dc57562d04d641dfa1e00d552be7a48728fc9fdc8a8f78b43361a2812",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "67f1757c9e4a9e8f4f1fcd5e31188612775394e0942b982e95b39adc4c43effd",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "2d3d9582e00732ea8d9c97af3cec1f6121ec977dc2ce5d4420fdde0c132411b0",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "product-town23",
+        "PDFSHA256": "84440cd7319f31bf30837f59fd492476a8c43d311b8c4e5a45e1e54cb28fdd40",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "67f1757c9e4a9e8f4f1fcd5e31188612775394e0942b982e95b39adc4c43effd",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": true
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "511732c02a9904a20c28b7cec5158040f6d55e10866606e701d7102b43b1eba9",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "product-reopened-joint",
+        "PDFSHA256": "3a16efe089c406458ffc70ecd35462ddaf9f7f4580193400e50ed4ef044d17d4",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "5571168f11928a6dd5fd53b59a63de6b2ce6deea4e634183084c49f3a8569563",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "6cea07f576c7c7c2c5bfc009ae07a798d254ea411f1b54b44fd26a92401b1d2a",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      },
+      {
+        "label": "product-reopened-health",
+        "PDFSHA256": "a9b37ca9e79796d998c3556b4666b43a09ab31a384b361201c932ef6ab35beb5",
+        "pages": [
+          {
+            "page": 1,
+            "pixelSHA256": "390dcd8ce0860aa3abdec4e54647cb49408da1fd238cedd9ecc0021a0e887220",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 2,
+            "pixelSHA256": "fadccff57d9dac678e0ec19a6b9f5bbba8b4e4ad0b83c6e751a405182a0e694c",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 3,
+            "pixelSHA256": "a0f2f111c2daee6f9127ceab9bc43b1f1de108222107a86708f73b242367663d",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 4,
+            "pixelSHA256": "4f63af7ef1b98d8da8f467cdcaeb27d47b0f3388bbb799031e36a3b5972612fd",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 5,
+            "pixelSHA256": "10f9e87fdf45a2efb82f37ac1917a394d8a026c4d2be311d8e82d60eb0c45352",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          },
+          {
+            "page": 6,
+            "pixelSHA256": "571a48aa08370094b70f7c3b37f49a3c8c7082434ab59b96a1d368338e77221d",
+            "width": 794,
+            "height": 1123,
+            "duplicatePixels": false
+          }
+        ]
+      }
+    ],
+    "screenshotsPublished": false
+  },
+  "persistentService": {
+    "url": "http://127.0.0.1:4173",
+    "pid": 65964,
+    "normalChromeChecks": 16,
+    "actualDownloads": 4,
+    "assetBinding": {
+      "base": "http://127.0.0.1:4173",
+      "files": [
+        {
+          "file": "THIRD_PARTY_NOTICES.txt",
+          "sha256": "0d7399fc0a0652cb1eae56df8ee641f542543fede3eb5cfd3e8834b8fa4cc67b",
+          "encoding": "identity"
+        },
+        {
+          "file": "advanced.html",
+          "sha256": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649",
+          "encoding": "identity"
+        },
+        {
+          "file": "browser-api.js",
+          "sha256": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4",
+          "encoding": "identity"
+        },
+        {
+          "file": "document-elements.js",
+          "sha256": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f",
+          "encoding": "identity"
+        },
+        {
+          "file": "document-engine.wasm",
+          "sha256": "238e771770255cb9a6bb1c831b87ae5314becf071b3a9ba0a553619a273de1b4",
+          "encoding": "gzip"
+        },
+        {
+          "file": "engine-assets.js",
+          "sha256": "f522cc06e010e123ac0f6f27a3d848e66f16bdc0dbd31e44d1f9ee133457c634",
+          "encoding": "identity"
+        },
+        {
+          "file": "engine-resources.js",
+          "sha256": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+          "encoding": "identity"
+        },
+        {
+          "file": "engine-worker.js",
+          "sha256": "10ea7a559bab0312f24d7abc85c511afe2a28717b6d9f1a7729fb6e58347ebba",
+          "encoding": "identity"
+        },
+        {
+          "file": "favicon.svg",
+          "sha256": "821ca465670104db4275460d8f4bca41c4c86a7994161dabc428021e37941660",
+          "encoding": "identity"
+        },
+        {
+          "file": "feedback-admin.html",
+          "sha256": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+          "encoding": "identity"
+        },
+        {
+          "file": "feedback-admin.js",
+          "sha256": "0e09f408a6da0d0fa4194079b9f42e76c9d6f9ec0adc7997fbf9f7ccf784b361",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/OFL.txt",
+          "sha256": "7accca2f29220c9ab44e4950799b821f36ebf5bbe6b5fb5342724b32228a8daf",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/README.md",
+          "sha256": "5eee9c372f0be67f845a670aa8632b498e26041417bb4c78db4d33e9cc96a956",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/document-fonts-OFL.txt",
+          "sha256": "64538aaa923b7e75559725ecf64eff7b18f623857b8e6d31a7347743ab27e907",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/serif-black-core.ttf",
+          "sha256": "332d60d946a3b1183cf65dd512eaa922acca086996f419aa8651600f1cc69239",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/serif-black-full.ttf",
+          "sha256": "0f048849cd9c0514f9915e25673801d37196c57af8e3b804f0185a3b23b53ac1",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/serif-core.ttf",
+          "sha256": "163b8bd972ad89bc0388e857d88428456ef4bb67c15a46f3481ebe5815c03ca0",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/serif-full.ttf",
+          "sha256": "9502147ceba7b5bc7fd3415083f6a5d133f22d8f9efb4974d4b85f3a97ea2d3a",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/ui-400.woff",
+          "sha256": "337daf2da524c61a295e4cc100659986f4c72de696432c758b23a399e799d198",
+          "encoding": "identity"
+        },
+        {
+          "file": "fonts/ui-700.woff",
+          "sha256": "d32d6203c7c7c46e895baf011d7018271d4fe7be3f1cb4f3863b126948cd183e",
+          "encoding": "identity"
+        },
+        {
+          "file": "index.html",
+          "sha256": "c321b33bb8c0403f8720aab1034a81db5faa6cf3f1d34bdb890f8f7c38608698",
+          "encoding": "identity"
+        },
+        {
+          "file": "pdf-review.js",
+          "sha256": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d",
+          "encoding": "identity"
+        },
+        {
+          "file": "vendor/pdfjs/LICENSE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "encoding": "identity"
+        },
+        {
+          "file": "vendor/pdfjs/pdf.js",
+          "sha256": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+          "encoding": "identity"
+        },
+        {
+          "file": "vendor/pdfjs/pdf.mjs",
+          "sha256": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182",
+          "encoding": "identity"
+        },
+        {
+          "file": "vendor/pdfjs/pdf.worker.js",
+          "sha256": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+          "encoding": "identity"
+        },
+        {
+          "file": "vendor/pdfjs/pdf.worker.mjs",
+          "sha256": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3",
+          "encoding": "identity"
+        },
+        {
+          "file": "wasm_exec.js",
+          "sha256": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+          "encoding": "identity"
+        },
+        {
+          "file": "web.css",
+          "sha256": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402",
+          "encoding": "identity"
+        },
+        {
+          "file": "workspace-ui.js",
+          "sha256": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-annexes.js",
+          "sha256": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-assembly-view.js",
+          "sha256": "75d76c67bab6e16334173e05acae681d64d1013a9b7e71dc05f4eee8c44a8a76",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-assembly.js",
+          "sha256": "4f84cd37a4cf1af86b75f5ba98699f5f9ac123fa9a3b0701ab3d4458b02b2e82",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-boot.js",
+          "sha256": "f3b0746c523ec93121d96f0c3ada3859eee3e68db0945fca2edd5f0f71e9f649",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-bytes.js",
+          "sha256": "5f98dc35b1b6356a209e80813f95ba088420980e0b471cb441cb997bc23a4574",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-checks.js",
+          "sha256": "7905113ba8d3ddb97b99eb593436644732623b1601852db347c1a60c4c59b953",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-content-editor.js",
+          "sha256": "75429a72f06fe009762f82f27ea5c98c83df5171f0285dc4a45a843cd4b5ff27",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-content.js",
+          "sha256": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-continuous.js",
+          "sha256": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-engine.js",
+          "sha256": "7ce92a1b923bfcfb5355bb49b97cf1d5b7ea8c7d99a7c35edfba6078b8c071e3",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-feedback-capture.js",
+          "sha256": "20472db0d3102b465bbc96cd2d9678dd095231cb0c39ca614eaeeb13da3e38af",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-feedback-evidence-model.js",
+          "sha256": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-feedback-evidence.js",
+          "sha256": "81cc06d8624aeeec5775daa33cb8b505798584d774aaeb3ec759871673e91d30",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-feedback.css",
+          "sha256": "9964ec7a3b2dc9fe675e46c4a239672b90cf437d6ac98bdac76a67a7afc40de7",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-feedback.js",
+          "sha256": "09c1aa7524048a133fa544b299d0f59fedd52dc435cdfd3fcb12c428d7a02dec",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-font-picker.js",
+          "sha256": "2c5386863abfd6ff7fb8842fdb53d7f4ece68a332b1a256881b4586e79e36d57",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-font-source.js",
+          "sha256": "cc0fae0985b828491dc193c344482137faa2f74b54600f971e88e4e604b8574d",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-library.js",
+          "sha256": "4b6c253615497eb717105dce5a6f9cc6ee6c2a8cfce64d0e2ff2bfda1d887a08",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-local-fonts.js",
+          "sha256": "1c20b0c1a17920116cf178d98fe86a3da2c591d14ee43fe76ef0e42e10d31670",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-material-tables.js",
+          "sha256": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-materials.js",
+          "sha256": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-model.js",
+          "sha256": "9c9e5eb2f7b3dcff5bebdf5eb05e0c05e025ebc8205296b1e7dab6ae2b0012b5",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-reference.js",
+          "sha256": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-table-blanks.js",
+          "sha256": "18b2aeb9499374f25df4765ba8555d737feb7b2fa70f829829783df74f91f7f3",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-table-layout.js",
+          "sha256": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-text-table-view.js",
+          "sha256": "634d75cfbd9558aa628fd0b55c1c51b34db1c27a15f611823a845cae6bafbc53",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-text-table.js",
+          "sha256": "3042eebffa8e44c5c41a228e14feea71f2313c76084c7b58bd052da0a36e4a82",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-word-store.js",
+          "sha256": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-word-workspace.js",
+          "sha256": "54c4141b1fb117949e4fa88b570ccc43b97f31beb77e43061353cbed3c018474",
+          "encoding": "identity"
+        },
+        {
+          "file": "write-workspace.css",
+          "sha256": "1d6e16b8db6a320731350171208064f07ec9bad3cab9ab2118afe9a1f6e507c7",
+          "encoding": "identity"
+        },
+        {
+          "file": "write.css",
+          "sha256": "a3a73049c4b50417ae44304cae2d828a178bded9fcbc426de80fb681c8ccf7af",
+          "encoding": "identity"
+        },
+        {
+          "file": "write.html",
+          "sha256": "13b26ebe7c20e01e407d5fc955d7199084ebd70af6dd89bc9b1a16bb28a66ce7",
+          "encoding": "identity"
+        },
+        {
+          "file": "write.js",
+          "sha256": "b0aa4d26a84682cfac4ba9053a86239268f54d8c3fef7807f7e2fa68a3b2128b",
+          "encoding": "identity"
+        },
+        {
+          "file": "sw.js",
+          "sha256": "26e072445abc8fd1bf5ab630996716ac3815a50be648764227193344646be257",
+          "encoding": "identity"
+        }
+      ],
+      "errors": [],
+      "realFeedbackCollectionEnabled": false,
+      "passed": true
+    }
+  },
+  "browserChecks": {
+    "fallbackThreeBrowsers": 48,
+    "selectedLocalFontsChrome": 22,
+    "realTownTwoSimulatedIssueDatesChrome": 9,
+    "syntheticFontPermissionAndCollectionContractsChrome": 20,
+    "actualWordReopenSaveRefreshJoint": 6,
+    "actualWordReopenSaveRefreshHealth": 6,
+    "documentFlowFeedbackUploadExternalRequests": 0
+  },
+  "nativeRuntime": {
+    "word": "Microsoft Word 16, hidden read-only COM export; actual input hashes bound",
+    "libreoffice": "26.8.1.1 bf6ef2662401c7d6dce671ab4deb26ee0af3a7c1; official signed Windows administrative image, no machine install",
+    "officialMSISHA256": "c6298b10cfa1748bcbedad94c62ce771e240e5021bfd6d7a967cd571b04b5312",
+    "CEOEnvironmentDiffers": "LibreOfficeDev 26.8.0.0.alpha0; exact CEO DOCX645eec,0eeb5d,61458 variants not locally available"
+  },
+  "tests": {
+    "officeAndWebengineFull": "pass; final office30.929s, webengine0.942s",
+    "goVet": "pass",
+    "independentReview": "receipt and note changes independently reviewed; no outstanding actionable findings",
+    "negativeControls": "baseline LO3 rows/no rules fails; no-frame rules above bottom fail; scan unsupported; product mode cannot stand in for native Word; selected font without explicit map unsupported"
+  },
+  "boundaries": [
+    "Generic widowControl and exact CEO61458 Word reflow orphan remain open. KeepLines only projects explicit semantics and short existing table-note relationships.",
+    "Default OFL remains degraded, actual selected local STFangsong/KaiTi only covers checked roles, not complete font/GB certification. No local system font bytes published.",
+    "Basic imprint folding excludes custom/CopyTo/source-derived layouts; no universal frame conversion.",
+    "No manuscript, source files, screenshots or system fonts uploaded; no merge, public deployment or real collection enabled."
+  ],
+  "browserReportBindings": [
+    {
+      "report": "receiver-final-font-access/report.json",
+      "profileIndex": 1,
+      "browser": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checkCount": 20,
+      "downloadCount": 10,
+      "files": [
+        {
+          "index": 1,
+          "format": "pdf",
+          "bytes": 18012,
+          "sha256": "2965f2f26e24c81476e0b55db6993a7a75b3e35b26e5ed7bab46e1345888d7eb"
+        },
+        {
+          "index": 2,
+          "format": "docx",
+          "bytes": 17065017,
+          "sha256": "d2f71bd9207d1afc5b40e246debf9c53b08a33733236aef298fb6a0f0cb81837"
+        },
+        {
+          "index": 3,
+          "format": "pdf",
+          "bytes": 18012,
+          "sha256": "6d335335d979e174995abfc25a2a09829acfa5325de7e1af3fc801937f1a7be1"
+        },
+        {
+          "index": 4,
+          "format": "docx",
+          "bytes": 17065017,
+          "sha256": "d2f71bd9207d1afc5b40e246debf9c53b08a33733236aef298fb6a0f0cb81837"
+        },
+        {
+          "index": 5,
+          "format": "pdf",
+          "bytes": 18016,
+          "sha256": "a5112f32eb5f6bd99c6273ac725f82be140bc74708b09773b0b26fd532b8901e"
+        },
+        {
+          "index": 6,
+          "format": "docx",
+          "bytes": 17065017,
+          "sha256": "d2f71bd9207d1afc5b40e246debf9c53b08a33733236aef298fb6a0f0cb81837"
+        },
+        {
+          "index": 7,
+          "format": "pdf",
+          "bytes": 13872,
+          "sha256": "54c36934fb948e3a7f49ed1508a99cfa240e55e5a171be6164bfa7640cd5b8f5"
+        },
+        {
+          "index": 8,
+          "format": "docx",
+          "bytes": 17065015,
+          "sha256": "14a559cee458cd23cfda6fa91df3976a837e7118c4887d984f451a3b6f584177"
+        },
+        {
+          "index": 9,
+          "format": "pdf",
+          "bytes": 13871,
+          "sha256": "b8d8dbb3599d168362635ce420263e86d47943f979b89907f1e21e56b7260d9e"
+        },
+        {
+          "index": 10,
+          "format": "docx",
+          "bytes": 17065015,
+          "sha256": "14a559cee458cd23cfda6fa91df3976a837e7118c4887d984f451a3b6f584177"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": "unknown",
+        "uploadRequests": "unknown",
+        "externalRequests": "unknown"
+      }
+    },
+    {
+      "report": "receiver-final-health/report.json",
+      "profileIndex": 1,
+      "browser": "unknown",
+      "browserVersion": "unknown",
+      "checkCount": "unknown",
+      "downloadCount": 2,
+      "files": [
+        {
+          "index": 1,
+          "format": "docx",
+          "bytes": 17069390,
+          "sha256": "f53393e97c5be20febaf04ae8336b82f0dbaea12a27be179c769d473777f7ee8"
+        },
+        {
+          "index": 2,
+          "format": "pdf",
+          "bytes": 155873,
+          "sha256": "0ff1dc1ca8f79b535e504783fdf73be19d65d71c15e741dd5bc9d5e3ab053bab"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": "unknown"
+      },
+      "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+      "restoredExactly": true,
+      "reopenedExactly": true,
+      "blockCount": 39,
+      "reviewCount": 2,
+      "exportKeptOriginal": true,
+      "tableShapes": [
+        {
+          "rows": 3,
+          "columns": 2,
+          "blanks": 0
+        },
+        {
+          "rows": 9,
+          "columns": 5,
+          "blanks": 9
+        },
+        {
+          "rows": 5,
+          "columns": 6,
+          "blanks": 20
+        }
+      ]
+    },
+    {
+      "report": "receiver-final-joint/report.json",
+      "profileIndex": 1,
+      "browser": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checkCount": 16,
+      "downloadCount": 4,
+      "files": [
+        {
+          "index": 1,
+          "format": "draft-json",
+          "bytes": 5008,
+          "sha256": "5b019f84ff9112ad58ae433e0c85dff15980492adf50287653d188a375d45b31"
+        },
+        {
+          "index": 2,
+          "format": "txt",
+          "bytes": 1922,
+          "sha256": "e83177d1e1a7cc926d66800bf51a1b5dccbd81e6c2e1a5e5c7c4b3e72a58cebf"
+        },
+        {
+          "index": 3,
+          "format": "docx",
+          "bytes": 17066373,
+          "sha256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc"
+        },
+        {
+          "index": 4,
+          "format": "pdf",
+          "bytes": 72723,
+          "sha256": "fa04552ba7c660b1fc7d7a4490197e5ed8d96b6783ad79b732167aca4659f69f"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      },
+      "savedFieldsSHA256": "0f74e3582765ccf9b25ee6c826cb195c49fb74df84c2793d42955311a13d2832",
+      "savedContentSHA256": "a17d1c696a9f21fc0c9c416f66460da61a953ef335f03ea9c028e9e33abd2bb3",
+      "productPDFLayout": {
+        "passed": true,
+        "pdfSHA256": "fa04552ba7c660b1fc7d7a4490197e5ed8d96b6783ad79b732167aca4659f69f",
+        "pages": 2,
+        "signerCount": 3,
+        "checks": {
+          "count": 7,
+          "pass": 0,
+          "fail": 0,
+          "unsupported": 0
+        }
+      }
+    },
+    {
+      "report": "receiver-final-joint/report.json",
+      "profileIndex": 2,
+      "browser": "firefox",
+      "browserVersion": "157.0",
+      "checkCount": 16,
+      "downloadCount": 4,
+      "files": [
+        {
+          "index": 1,
+          "format": "draft-json",
+          "bytes": 5008,
+          "sha256": "f35df40a3db1d3223a19d851a9a58923003ab5c1a7beb8e4b22384c07d0f94c4"
+        },
+        {
+          "index": 2,
+          "format": "txt",
+          "bytes": 1922,
+          "sha256": "e83177d1e1a7cc926d66800bf51a1b5dccbd81e6c2e1a5e5c7c4b3e72a58cebf"
+        },
+        {
+          "index": 3,
+          "format": "docx",
+          "bytes": 17066373,
+          "sha256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc"
+        },
+        {
+          "index": 4,
+          "format": "pdf",
+          "bytes": 72723,
+          "sha256": "d52db7d3bf2ee4bb8695dcda2004d1a377bf27a8e096bb2759e3e55c61dc95af"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      },
+      "savedFieldsSHA256": "0f74e3582765ccf9b25ee6c826cb195c49fb74df84c2793d42955311a13d2832",
+      "savedContentSHA256": "6963673776d5b6f4c0cfd83cecb80d10faae1fb39794e5ce0544e9b19c642c44",
+      "productPDFLayout": {
+        "passed": true,
+        "pdfSHA256": "d52db7d3bf2ee4bb8695dcda2004d1a377bf27a8e096bb2759e3e55c61dc95af",
+        "pages": 2,
+        "signerCount": 3,
+        "checks": {
+          "count": 7,
+          "pass": 0,
+          "fail": 0,
+          "unsupported": 0
+        }
+      }
+    },
+    {
+      "report": "receiver-final-joint/report.json",
+      "profileIndex": 3,
+      "browser": "webkit",
+      "browserVersion": "27.2",
+      "checkCount": 16,
+      "downloadCount": 4,
+      "files": [
+        {
+          "index": 1,
+          "format": "draft-json",
+          "bytes": 5008,
+          "sha256": "e99f3e982e92414c4e6955f22c6434f8d8673b81a3dd779da6b9f38491eae63f"
+        },
+        {
+          "index": 2,
+          "format": "txt",
+          "bytes": 1922,
+          "sha256": "e83177d1e1a7cc926d66800bf51a1b5dccbd81e6c2e1a5e5c7c4b3e72a58cebf"
+        },
+        {
+          "index": 3,
+          "format": "docx",
+          "bytes": 17066373,
+          "sha256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc"
+        },
+        {
+          "index": 4,
+          "format": "pdf",
+          "bytes": 72723,
+          "sha256": "6379937a1379d69cdb5f67d8339d8873444ce6bb4bf9647c2cc439224cf01580"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      },
+      "savedFieldsSHA256": "0f74e3582765ccf9b25ee6c826cb195c49fb74df84c2793d42955311a13d2832",
+      "savedContentSHA256": "3c2afe79417980484f240d149d6ff24397bd665b5e56bed13d149f4c366cd9da",
+      "productPDFLayout": {
+        "passed": true,
+        "pdfSHA256": "6379937a1379d69cdb5f67d8339d8873444ce6bb4bf9647c2cc439224cf01580",
+        "pages": 2,
+        "signerCount": 3,
+        "checks": {
+          "count": 7,
+          "pass": 0,
+          "fail": 0,
+          "unsupported": 0
+        }
+      }
+    },
+    {
+      "report": "receiver-final-persistent-service/report.json",
+      "profileIndex": 1,
+      "browser": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checkCount": 16,
+      "downloadCount": 4,
+      "files": [
+        {
+          "index": 1,
+          "format": "draft-json",
+          "bytes": 5008,
+          "sha256": "c941a3aa3a3ffef67043309712196358ff224cee928dc9cf3de8b7a5be08bcf1"
+        },
+        {
+          "index": 2,
+          "format": "txt",
+          "bytes": 1922,
+          "sha256": "e83177d1e1a7cc926d66800bf51a1b5dccbd81e6c2e1a5e5c7c4b3e72a58cebf"
+        },
+        {
+          "index": 3,
+          "format": "docx",
+          "bytes": 17066373,
+          "sha256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc"
+        },
+        {
+          "index": 4,
+          "format": "pdf",
+          "bytes": 72723,
+          "sha256": "8e672f18bed7da4e376ae2016dd914238ad7c0d86ff42ce7cea8b10b72d071b8"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      },
+      "savedFieldsSHA256": "0f74e3582765ccf9b25ee6c826cb195c49fb74df84c2793d42955311a13d2832",
+      "savedContentSHA256": "aeded3427156b6f124e4a4bcab55b0a02a083af5210ae525906376ae207e6737",
+      "productPDFLayout": {
+        "passed": true,
+        "pdfSHA256": "8e672f18bed7da4e376ae2016dd914238ad7c0d86ff42ce7cea8b10b72d071b8",
+        "pages": 2,
+        "signerCount": 3,
+        "checks": {
+          "count": 7,
+          "pass": 0,
+          "fail": 0,
+          "unsupported": 0
+        }
+      }
+    },
+    {
+      "report": "receiver-final-selected/report.json",
+      "profileIndex": 1,
+      "browser": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checkCount": 22,
+      "downloadCount": 4,
+      "files": [
+        {
+          "index": 1,
+          "format": "draft-json",
+          "bytes": 5008,
+          "sha256": "f731d9853609e62b01ff3b657771b04e6dfa7dfc214175a31c281783877f10cf"
+        },
+        {
+          "index": 2,
+          "format": "txt",
+          "bytes": 1922,
+          "sha256": "e83177d1e1a7cc926d66800bf51a1b5dccbd81e6c2e1a5e5c7c4b3e72a58cebf"
+        },
+        {
+          "index": 3,
+          "format": "docx",
+          "bytes": 17066367,
+          "sha256": "7291a0b3092983bf47ad1cfb5a0be8da70cc32ace7cb52fd198e935f2cab4ad2"
+        },
+        {
+          "index": 4,
+          "format": "pdf",
+          "bytes": 87110,
+          "sha256": "07094922f4a1e275e94bb04825dfd67f57a8901c3fa0858b56f33294190bb4f6"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      },
+      "savedFieldsSHA256": "0f74e3582765ccf9b25ee6c826cb195c49fb74df84c2793d42955311a13d2832",
+      "savedContentSHA256": "c74f2768beaac34f085a9d952423867e2b421948a3ae63693767164cb483b46f",
+      "productPDFLayout": {
+        "passed": true,
+        "pdfSHA256": "07094922f4a1e275e94bb04825dfd67f57a8901c3fa0858b56f33294190bb4f6",
+        "pages": 2,
+        "signerCount": 3,
+        "checks": {
+          "count": 7,
+          "pass": 0,
+          "fail": 0,
+          "unsupported": 0
+        }
+      }
+    },
+    {
+      "report": "receiver-final-single/report.json",
+      "profileIndex": 1,
+      "browser": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checkCount": 9,
+      "downloadCount": 9,
+      "files": [
+        {
+          "index": 1,
+          "format": "draft-json",
+          "bytes": 3854,
+          "sha256": "b3776f28bfc893167cf486e50bf228a5439370b18b38e798e7c0e59edbb2b7fd"
+        },
+        {
+          "index": 2,
+          "format": "draft-json",
+          "bytes": 3864,
+          "sha256": "5d9b9973d449dde1aaddf8f6781fbabed5474c76ffbc9f7439cf4dc82e1deb22"
+        },
+        {
+          "index": 3,
+          "format": "txt",
+          "bytes": 1070,
+          "sha256": "e975a954edaf3e6ee7e9a98eb9cfb5266898222dda05b5f76f6e3b84f1683151"
+        },
+        {
+          "index": 4,
+          "format": "docx",
+          "bytes": 17066000,
+          "sha256": "8d7b8213bcf31c09a31ec1929ff2ede9e94e0da161a69ca72e55ed3418b0864a"
+        },
+        {
+          "index": 5,
+          "format": "pdf",
+          "bytes": 58699,
+          "sha256": "89a0264dc57562d04d641dfa1e00d552be7a48728fc9fdc8a8f78b43361a2812"
+        },
+        {
+          "index": 6,
+          "format": "draft-json",
+          "bytes": 6600,
+          "sha256": "8dc37fd5e17f4913caf096580ec94a8ba0d34979c569ee63fe2a1deebe5ccada"
+        },
+        {
+          "index": 7,
+          "format": "txt",
+          "bytes": 1070,
+          "sha256": "221bfc81b98b1dee3c9d2779deb897db842ec37649b71d5e34a5f9943f37e4dd"
+        },
+        {
+          "index": 8,
+          "format": "docx",
+          "bytes": 17066000,
+          "sha256": "81891f8b0472607bbc8af25e47838c6255c24d570d3f63cfa9a8559d330e6593"
+        },
+        {
+          "index": 9,
+          "format": "pdf",
+          "bytes": 58699,
+          "sha256": "84440cd7319f31bf30837f59fd492476a8c43d311b8c4e5a45e1e54cb28fdd40"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      }
+    },
+    {
+      "report": "receiver-final-word-health/report.json",
+      "profileIndex": 1,
+      "browser": "unknown",
+      "browserVersion": "unknown",
+      "checkCount": 6,
+      "downloadCount": 4,
+      "files": [
+        {
+          "index": 1,
+          "format": "docx",
+          "bytes": 17069390,
+          "sha256": "f53393e97c5be20febaf04ae8336b82f0dbaea12a27be179c769d473777f7ee8"
+        },
+        {
+          "index": 2,
+          "format": "pdf",
+          "bytes": 154850,
+          "sha256": "bcb503eb851798737e5dd331e5924d7cc0f3a5c80d3b4431bab27b70efd2f412"
+        },
+        {
+          "index": 3,
+          "format": "docx",
+          "bytes": 17069390,
+          "sha256": "f53393e97c5be20febaf04ae8336b82f0dbaea12a27be179c769d473777f7ee8"
+        },
+        {
+          "index": 4,
+          "format": "pdf",
+          "bytes": 154850,
+          "sha256": "a9b37ca9e79796d998c3556b4666b43a09ab31a384b361201c932ef6ab35beb5"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      },
+      "inputDOCXSHA256": "f53393e97c5be20febaf04ae8336b82f0dbaea12a27be179c769d473777f7ee8",
+      "wasmSHA256": "238e771770255cb9a6bb1c831b87ae5314becf071b3a9ba0a553619a273de1b4"
+    },
+    {
+      "report": "receiver-final-word-joint/report.json",
+      "profileIndex": 1,
+      "browser": "unknown",
+      "browserVersion": "unknown",
+      "checkCount": 6,
+      "downloadCount": 4,
+      "files": [
+        {
+          "index": 1,
+          "format": "docx",
+          "bytes": 17066373,
+          "sha256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc"
+        },
+        {
+          "index": 2,
+          "format": "pdf",
+          "bytes": 68046,
+          "sha256": "94a7e1f2b8a25ba1eb20b8a6444f9c48985eb9330740e81e16038b45aa744da6"
+        },
+        {
+          "index": 3,
+          "format": "docx",
+          "bytes": 17066373,
+          "sha256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc"
+        },
+        {
+          "index": 4,
+          "format": "pdf",
+          "bytes": 68046,
+          "sha256": "3a16efe089c406458ffc70ecd35462ddaf9f7f4580193400e50ed4ef044d17d4"
+        }
+      ],
+      "errorCount": 0,
+      "passed": true,
+      "requests": {
+        "feedbackRequests": 0,
+        "uploadRequests": 0,
+        "externalRequests": 0
+      },
+      "inputDOCXSHA256": "35731cb4d840ad559354065e2f18b83919b24b50fc21fcde966af99f54786ecc",
+      "wasmSHA256": "238e771770255cb9a6bb1c831b87ae5314becf071b3a9ba0a553619a273de1b4"
+    }
+  ],
+  "reportBindings": [
+    {
+      "report": "receiver-final-font-access/report.json",
+      "sha256": "913a8dc21526c532d30d7bc1fbc22d3d84ac6bd5e8be9388081027cb3d5df9b7",
+      "present": true
+    },
+    {
+      "report": "receiver-final-health/report.json",
+      "sha256": "41e11c9ea162efc40a4960d1140ef14bd7a5e22c03c19fcd0ca2fd207d4e3bd4",
+      "present": true
+    },
+    {
+      "report": "receiver-final-joint/report.json",
+      "sha256": "01db8e89db9d81a05df5881733c47dad08775444d465b8af3681fd2576b48c9d",
+      "present": true
+    },
+    {
+      "report": "receiver-final-persistent-service/report.json",
+      "sha256": "3c634e4df1b266850043f8b84f80f87814ba6b083e1aac35c876859b63aff19d",
+      "present": true
+    },
+    {
+      "report": "receiver-final-selected/report.json",
+      "sha256": "475be8cf7f0afda809a23a9ad643e51379749e9e0ca291e36d1a716c59974732",
+      "present": true
+    },
+    {
+      "report": "receiver-final-single/report.json",
+      "sha256": "1df1e0d8dfdaa140087c85b13c954a448a5e9709744923eeef6da175bd0a90dc",
+      "present": true
+    },
+    {
+      "report": "receiver-final-word-health/report.json",
+      "sha256": "722e99fc1cc26ec5e78d761b6454099759a8dd22194a45d8a968c0d2f565dee0",
+      "present": true
+    },
+    {
+      "report": "receiver-final-word-joint/report.json",
+      "sha256": "a92ac8dc4b0567b66bf30d4caa0c0c07066940de1580fc1f245c0fbbae3de969",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/fallback-glyphs.json",
+      "sha256": "1235f5bfa95120e2b2caf88097e4dcc064ec1010b06159d0b0f47b6559c82ea3",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/health-reading-and-package.json",
+      "sha256": "ee6017b40309f8ab0e11a50e2f80f15f3fdcccc4e5ee840252d8e8159d81741d",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/lo-joint-fallback.json",
+      "sha256": "2e2ef899eec2e22d2853b818875bf34ff996b9e5421dd1c2b7cce846942eca01",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/lo-joint-selected.json",
+      "sha256": "9f1be929ab6bca3de1a189433f5baa5727bb1ea215982c37035ba8fa8acbb09c",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/lo-town-19.json",
+      "sha256": "7f90e98d1d3f9d00125b91e27c7c82d2984680d6722229ead90f272b3d7c06d0",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/lo-town-23.json",
+      "sha256": "25a28148c971e35347b0394f34de220c9810caa8e63bc9b708164af1847eae5c",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/product-reopened-opened.json",
+      "sha256": "0081f9f7933e6eff6cc8efa26e1053a26f48f5153516f22f651b40a01f690cfd",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/product-reopened-reloaded.json",
+      "sha256": "cd0635be35b858eaf7007e037c52d33bb09e2ce59083eb9f6e5f6060ccc73ef3",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/subset-fonts.json",
+      "sha256": "8308c963e04b4a79b210fb5cba415ebedf9fd2e66ea20f03313a4755444f546a",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/word-joint-fallback.json",
+      "sha256": "a60f3c36b9b646411b34ef9d7053d9fe3676c7067e59d7283bccbbc209ed0caf",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/word-joint-selected.json",
+      "sha256": "112797e77c16ac7a488820c1269055bc413e5ff0a733f07d3a7ada63a3d87c99",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/word-town-19.json",
+      "sha256": "ec0d148288625bdf4ddd29daac4bf050021fa7eed80f92dc52cd77b9f62386a3",
+      "present": true
+    },
+    {
+      "report": "receiver-final-checks/word-town-23.json",
+      "sha256": "52b9b577bf3e1de2b2946e9d13d498bf979578cc46cec31dd797e664cac2bf53",
+      "present": true
+    },
+    {
+      "report": "receiver-layout-final-build.json",
+      "sha256": "2099b03d478cb23732b5d7dbcbfc50371b0110725609148d35956af5ae7ea637",
+      "present": true
+    },
+    {
+      "report": "receiver-final-native/input-binding.json",
+      "sha256": "2707118ae2c65585b18dd1e66f75227a41be4430f6b4a4894f7aac2a06bb1476",
+      "present": true
+    },
+    {
+      "report": "receiver-final-pages/bindings.json",
+      "sha256": "1de1ff1735b32ebae9e062b6f7e8e3c9aaa841ebefd2876b30c90f2d9049a11c",
+      "present": true
+    }
+  ],
+  "sourceReportSummarySHA256": "cd2faa084d66eec17ab0f7d520d7a4c484fa9c41b015acf8336ba02c171c4819"
+}

@@ -1,0 +1,8 @@
+{
+  "internal/office/font_resources.go": "f6df54ae43939789328c76f3610d8c9a8f2c55ff3d055a5d3b99dd53902f7a61",
+  "web/engine-resources.js": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31",
+  "internal/office/font_resources_ownership_test.go": "f84fad73aae33369cec107465d358c4489a921cb41f28c50bc93fea332dcdc35",
+  "scripts/test-engine-resource-memory.mjs": "2ff06876b72231d5b8e11ebb7d80c76744720fbc6c9a29a1f5097fc7e39c1f31",
+  "scripts/test-engine-resources.mjs": "234e43327ddd267c3db53143edd19ce821e85828affcc15dda8d8bbae55b56cf",
+  "scripts/test-font-resource-recovery.mjs": "5f641095dc039d2014a23ddce6b73d331dbc64d45d4c56212bdb2e8367312675"
+}

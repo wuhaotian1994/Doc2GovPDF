@@ -1,0 +1,167 @@
+[
+  {
+    "browser": "chrome",
+    "scenario": "immediate-input",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "enter-key",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "delayed-module",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "missing-module",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "missing-preview",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "delayed-storage",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "legacy-query",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "pending-query-reload",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "different-current-draft",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "recovery-archive-failure",
+    "passed": true
+  },
+  {
+    "browser": "chrome",
+    "scenario": "javascript-disabled",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "immediate-input",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "enter-key",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "delayed-module",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "missing-module",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "missing-preview",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "delayed-storage",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "legacy-query",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "pending-query-reload",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "different-current-draft",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "recovery-archive-failure",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "scenario": "javascript-disabled",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "immediate-input",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "enter-key",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "delayed-module",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "missing-module",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "missing-preview",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "delayed-storage",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "legacy-query",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "pending-query-reload",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "different-current-draft",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "recovery-archive-failure",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "scenario": "javascript-disabled",
+    "passed": true
+  }
+]

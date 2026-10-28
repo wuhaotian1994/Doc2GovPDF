@@ -1,0 +1,85 @@
+{
+  "verifiedAt": "2026-10-22T14:04:59.343187+00:00",
+  "respondsToCEOCommit": "e2578be77f83c1e73dcfcd62a2f170f75767ce62",
+  "source": {
+    "web/write-text-table.js": "3042eebffa8e44c5c41a228e14feea71f2313c76084c7b58bd052da0a36e4a82",
+    "web/write-text-table-view.js": "634d75cfbd9558aa628fd0b55c1c51b34db1c27a15f611823a845cae6bafbc53",
+    "web/write-content-editor.js": "75429a72f06fe009762f82f27ea5c98c83df5171f0285dc4a45a843cd4b5ff27",
+    "web/write-workspace.css": "1d6e16b8db6a320731350171208064f07ec9bad3cab9ab2118afe9a1f6e507c7",
+    "scripts/test-writer-text-table.mjs": "b12d13679b677cec8dc43ad0beae7d64748057caaf92f8d159c92763913586aa",
+    "scripts/test-text-table-ui.mjs": "3124b01584c31cd3fb44dab0af75f715155d3c43d0427865dfeabdcc3edd6308",
+    "scripts/test-text-table-service.mjs": "903cbb75bd08512e482322878d1c341fcd50c36d5f5dce1ac07022be2386c1b1"
+  },
+  "actualWasmSHA256": "e403042ad6ba6ff318d11aab1e1d495b37522036eef45a2485f8bb209c1211ab",
+  "modelChecks": 21,
+  "existingContentAnnexChecks": 24,
+  "browserChecks": [
+    {
+      "profile": "chrome",
+      "checks": 38,
+      "passed": true
+    },
+    {
+      "profile": "firefox",
+      "checks": 38,
+      "passed": true
+    },
+    {
+      "profile": "webkit",
+      "checks": 38,
+      "passed": true
+    }
+  ],
+  "actualWriter": [
+    {
+      "name": "candidate",
+      "checks": 23,
+      "uploads": 0,
+      "errors": []
+    },
+    {
+      "name": "persistentService",
+      "checks": 23,
+      "uploads": 0,
+      "errors": []
+    }
+  ],
+  "receipt": {
+    "rows": 5,
+    "columns": 6,
+    "newBlankCells": 24,
+    "retainedWhitespaceParagraphs": 10,
+    "retainedMeaningfulTailLabels": 5,
+    "wordVersion": "16.0",
+    "wordPages": 2,
+    "directPdfPages": 2,
+    "tableAndReceiptTitlePage": 1,
+    "tableFontSizePt": 14,
+    "tableSizingCompilerUnchanged": true,
+    "docxSHA256": "50c4a8694abec7189cb46d5c0fe2a8884b8e4e74f327e83014f904d79ac71adf",
+    "actualPersistentSourceMatchesInspectedWordSource": true,
+    "allFourRealPagesViewed": [
+      {
+        "name": "direct-1.png",
+        "sha256": "0d130e25359d5befc6fb261280c3550f5eebd0d89d2739afec81d9199e93f9a9",
+        "viewed": true
+      },
+      {
+        "name": "direct-2.png",
+        "sha256": "a4a7fb2f888b188edafd1c07104b0246cea1869da54c94a6d0aeee4b222e1999",
+        "viewed": true
+      },
+      {
+        "name": "native-1.png",
+        "sha256": "225a6764f52ccd9e098bd74e1861f8ab228fbe03efa25f7bd7dd8945b0b11536",
+        "viewed": true
+      },
+      {
+        "name": "native-2.png",
+        "sha256": "d77f75e3708e147371aba3bcecf28e1fddb00952aa1bd176b017497a9bd1ba4d",
+        "viewed": true
+      }
+    ]
+  },
+  "scope": "Fictional mechanism task with normal UI; exact 529-paragraph saved manuscript is unavailable locally and is not claimed accepted. Existing ordinary-table 14pt compilation is unchanged; it was not reduced to alter pagination. No automatic deletion, source geometry recovery or reallocation of facts."
+}

@@ -1,0 +1,99 @@
+{
+  "verifiedAt": "2026-10-22T12:51:18.014137+00:00",
+  "source": {
+    "write.js": "cfe5f866b3d113a7807c7540d92e27583bf4b07a4da9f01f98e2df1707e92672",
+    "write.html": "13bb5fd5c5000dadcb32910ee0aa9d4d761bc5c945b9ad7a03867aaafc1bebfd",
+    "write-content-editor.js": "75429a72f06fe009762f82f27ea5c98c83df5171f0285dc4a45a843cd4b5ff27",
+    "write-text-table-view.js": "dfd92eea8e4ffab4c3da4123f1182aee1d3b9ae421223adc44783b930715a95c",
+    "write-text-table.js": "aaf19effee45dcc937c84ed418d3291f5eae37db798254d8f3d5016cfbb631ad",
+    "write-workspace.css": "5f38e643623972327df165430e52857281590b4be12ba2d57c87037deba5ea4c",
+    "write-feedback.js": "2b853c53afaa28528f1d932e3cc263e181ccfc86a60919bba5c644af79679bb2"
+  },
+  "wasmSHA256": "002fa89b6540f23fe22cf42a9d1c3843b1228f8c6c3acf81808d3861bb7ce33b",
+  "textTableUI": [
+    {
+      "browser": "chrome",
+      "checks": 25,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "checks": 25,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "checks": 25,
+      "passed": true
+    }
+  ],
+  "copyRevision": {
+    "checks": 42,
+    "browsers": [
+      "chrome",
+      "firefox",
+      "webkit"
+    ],
+    "passed": true
+  },
+  "feedbackDiscard": {
+    "checks": 36,
+    "browsers": [
+      "chrome",
+      "firefox",
+      "webkit"
+    ],
+    "method": "Independent fictional HTTP contract; not a fresh PostgreSQL integration run."
+  },
+  "node": {
+    "textTable": 16,
+    "contentAnnexLibrary": 29
+  },
+  "actualService": {
+    "checks": 12,
+    "passed": true,
+    "uploads": 0
+  },
+  "outputs": {
+    "mechanismFixtureOnly": true,
+    "newTables": {
+      "shapes": [
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "cellTextExact": true,
+      "word16Pages": 1,
+      "pdfPages": 1,
+      "docxSHA256": "73c3d7cb130c55961b981880c3a1978e8e1f384d6de5b34394803bc5d9018385",
+      "finalDocxMatchesInspectedWordSource": true,
+      "finalPdfContentMatchesInspectedPage": true
+    },
+    "providedOriginal": {
+      "sourceSHA256": "7dbde2fe81d11c526d8fb73ab143f572e3481500575fb9c0b87b126b9e37972c",
+      "docxSHA256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c",
+      "matchesPreviouslyInspectedWord16Bytes": true,
+      "pdfPages": 7,
+      "allSevenDecodedPageStreamsUnchanged": true,
+      "uploadRequests": 0
+    },
+    "unavailableFull529Manuscript": "User confirmed no local copy; not validated by these fixtures."
+  },
+  "limitations": [
+    "No exact 529-paragraph manuscript available; user explicitly confirmed no local copy.",
+    "Plain-text operation does not reconstruct source merged cells or widths.",
+    "UI contracts and fictional functional fixture are separate from supplied-original regression.",
+    "Real feedback collection remains disabled; no PR merge or public deployment."
+  ],
+  "finalLocalService": {
+    "assetCount": 63,
+    "checks": 12,
+    "passed": true,
+    "sameVerifiedBuild": true
+  }
+}

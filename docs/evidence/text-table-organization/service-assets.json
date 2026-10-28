@@ -1,0 +1,257 @@
+{
+  "verifiedAt": "2026-10-22T12:52:30.884Z",
+  "assets": [
+    {
+      "path": "advanced.html",
+      "sha256": "518cc29e9a7886cbc4468308c5c69f3d758a99dcd3fd7abc6180e0306f512649"
+    },
+    {
+      "path": "browser-api.js",
+      "sha256": "3d64380b90fd6bd94def6d558df9dc7075ed7348e81a7e45b042d5b4eda809b4"
+    },
+    {
+      "path": "document-elements.js",
+      "sha256": "1b901cf777eeeb38ef6b4ad1f32fafd2504e0e56914132f50373ef109e166a1f"
+    },
+    {
+      "path": "document-engine.wasm",
+      "sha256": "002fa89b6540f23fe22cf42a9d1c3843b1228f8c6c3acf81808d3861bb7ce33b"
+    },
+    {
+      "path": "engine-assets.js",
+      "sha256": "5db32ff9df72057a4be8e7fbca70a3207e48268242d82f2a28d6402713653cb8"
+    },
+    {
+      "path": "engine-resources.js",
+      "sha256": "b019b16b814c68c6924cafc323bd314202d4a60915282bbdca41c4eb25c35f31"
+    },
+    {
+      "path": "engine-worker.js",
+      "sha256": "10ea7a559bab0312f24d7abc85c511afe2a28717b6d9f1a7729fb6e58347ebba"
+    },
+    {
+      "path": "favicon.svg",
+      "sha256": "821ca465670104db4275460d8f4bca41c4c86a7994161dabc428021e37941660"
+    },
+    {
+      "path": "feedback-admin.html",
+      "sha256": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a"
+    },
+    {
+      "path": "feedback-admin.js",
+      "sha256": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e"
+    },
+    {
+      "path": "fonts/document-fonts-OFL.txt",
+      "sha256": "64538aaa923b7e75559725ecf64eff7b18f623857b8e6d31a7347743ab27e907"
+    },
+    {
+      "path": "fonts/OFL.txt",
+      "sha256": "7accca2f29220c9ab44e4950799b821f36ebf5bbe6b5fb5342724b32228a8daf"
+    },
+    {
+      "path": "fonts/README.md",
+      "sha256": "5eee9c372f0be67f845a670aa8632b498e26041417bb4c78db4d33e9cc96a956"
+    },
+    {
+      "path": "fonts/serif-black-core.ttf",
+      "sha256": "332d60d946a3b1183cf65dd512eaa922acca086996f419aa8651600f1cc69239"
+    },
+    {
+      "path": "fonts/serif-black-full.ttf",
+      "sha256": "0f048849cd9c0514f9915e25673801d37196c57af8e3b804f0185a3b23b53ac1"
+    },
+    {
+      "path": "fonts/serif-core.ttf",
+      "sha256": "163b8bd972ad89bc0388e857d88428456ef4bb67c15a46f3481ebe5815c03ca0"
+    },
+    {
+      "path": "fonts/serif-full.ttf",
+      "sha256": "9502147ceba7b5bc7fd3415083f6a5d133f22d8f9efb4974d4b85f3a97ea2d3a"
+    },
+    {
+      "path": "fonts/ui-400.woff",
+      "sha256": "337daf2da524c61a295e4cc100659986f4c72de696432c758b23a399e799d198"
+    },
+    {
+      "path": "fonts/ui-700.woff",
+      "sha256": "d32d6203c7c7c46e895baf011d7018271d4fe7be3f1cb4f3863b126948cd183e"
+    },
+    {
+      "path": "index.html",
+      "sha256": "e88c2a19f339d526dac3fb1ccd17f474511f6c46fcacda6b7692e0080ea84e0d"
+    },
+    {
+      "path": "pdf-review.js",
+      "sha256": "eb890facbb71749fdc7c6253d38431d8bae6a12fd2099d16f7d79bf98755ca0d"
+    },
+    {
+      "path": "sw.js",
+      "sha256": "4848875aba3935c92a63cae6f9655a23b10630b0c8d4ccfce24a1d8b5d336670"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.txt",
+      "sha256": "0d7399fc0a0652cb1eae56df8ee641f542543fede3eb5cfd3e8834b8fa4cc67b"
+    },
+    {
+      "path": "vendor/pdfjs/LICENSE",
+      "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549"
+    },
+    {
+      "path": "vendor/pdfjs/pdf.js",
+      "sha256": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182"
+    },
+    {
+      "path": "vendor/pdfjs/pdf.mjs",
+      "sha256": "0f01f0d5b743aff691336b64493fce9059a2cfbc49ab1830ccc0841218406182"
+    },
+    {
+      "path": "vendor/pdfjs/pdf.worker.js",
+      "sha256": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3"
+    },
+    {
+      "path": "vendor/pdfjs/pdf.worker.mjs",
+      "sha256": "e06eca3c8b9af85d9935425f4464ce86b78f15eecf2ed87d84e2839ac5c85cc3"
+    },
+    {
+      "path": "wasm_exec.js",
+      "sha256": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14"
+    },
+    {
+      "path": "web.css",
+      "sha256": "ea39424e72f354b9c458c2f7d041df4b505a6e7003e2f209e8ab6fa9e8bb7402"
+    },
+    {
+      "path": "workspace-ui.js",
+      "sha256": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa"
+    },
+    {
+      "path": "write-annexes.js",
+      "sha256": "db049a7a329c11dcae83884e770790d27855ef7106648d0572bb400aa22396e4"
+    },
+    {
+      "path": "write-assembly-view.js",
+      "sha256": "75d76c67bab6e16334173e05acae681d64d1013a9b7e71dc05f4eee8c44a8a76"
+    },
+    {
+      "path": "write-assembly.js",
+      "sha256": "4f84cd37a4cf1af86b75f5ba98699f5f9ac123fa9a3b0701ab3d4458b02b2e82"
+    },
+    {
+      "path": "write-boot.js",
+      "sha256": "c9bb444f6ea0e28c7345e34842e045d5bd47fe47bfe955dfe5fb12ce4ff796d2"
+    },
+    {
+      "path": "write-bytes.js",
+      "sha256": "5f98dc35b1b6356a209e80813f95ba088420980e0b471cb441cb997bc23a4574"
+    },
+    {
+      "path": "write-checks.js",
+      "sha256": "043c0a991996eaf83d24ae519ba9f58a83122fa93cbc556dba7e9d70626a91c3"
+    },
+    {
+      "path": "write-content-editor.js",
+      "sha256": "75429a72f06fe009762f82f27ea5c98c83df5171f0285dc4a45a843cd4b5ff27"
+    },
+    {
+      "path": "write-content.js",
+      "sha256": "aaf9f111222abe5454b53d59b57ee62e741e3ec5e4663c142a501fb66f2d4544"
+    },
+    {
+      "path": "write-continuous.js",
+      "sha256": "68d8e8460fcf5e3c4847aee89c91cf1d63fa6d9e05803c3a045333e147fb91ef"
+    },
+    {
+      "path": "write-engine.js",
+      "sha256": "7ce92a1b923bfcfb5355bb49b97cf1d5b7ea8c7d99a7c35edfba6078b8c071e3"
+    },
+    {
+      "path": "write-feedback-evidence-model.js",
+      "sha256": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604"
+    },
+    {
+      "path": "write-feedback-evidence.js",
+      "sha256": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566"
+    },
+    {
+      "path": "write-feedback.css",
+      "sha256": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892"
+    },
+    {
+      "path": "write-feedback.js",
+      "sha256": "2b853c53afaa28528f1d932e3cc263e181ccfc86a60919bba5c644af79679bb2"
+    },
+    {
+      "path": "write-font-picker.js",
+      "sha256": "2c5386863abfd6ff7fb8842fdb53d7f4ece68a332b1a256881b4586e79e36d57"
+    },
+    {
+      "path": "write-font-source.js",
+      "sha256": "cc0fae0985b828491dc193c344482137faa2f74b54600f971e88e4e604b8574d"
+    },
+    {
+      "path": "write-library.js",
+      "sha256": "233c318481fbaf3ec8d134aa9ea076d6de9cb0e335bde4e539b592947ad8f532"
+    },
+    {
+      "path": "write-local-fonts.js",
+      "sha256": "1c20b0c1a17920116cf178d98fe86a3da2c591d14ee43fe76ef0e42e10d31670"
+    },
+    {
+      "path": "write-material-tables.js",
+      "sha256": "d63d1a708d7c90dfd0f1f78b88eb1fae929da2607874d4625d02234495ae4471"
+    },
+    {
+      "path": "write-materials.js",
+      "sha256": "2a6093553aca344b99194b5c1eff16edc87d3f74024c366f90714e1a7ad7fd75"
+    },
+    {
+      "path": "write-model.js",
+      "sha256": "0c2b500980deb31d5a0ab3093771f2595aee389506c6d339696a63379b370143"
+    },
+    {
+      "path": "write-reference.js",
+      "sha256": "bce20fd7a6fbe1753bd36031c58f92b71687610a9b992361341d6a163c28e178"
+    },
+    {
+      "path": "write-table-blanks.js",
+      "sha256": "18b2aeb9499374f25df4765ba8555d737feb7b2fa70f829829783df74f91f7f3"
+    },
+    {
+      "path": "write-table-layout.js",
+      "sha256": "34faab384246fb27779b55bdf51e8046454392907b41c80e2c43e6f1c36f4db8"
+    },
+    {
+      "path": "write-text-table-view.js",
+      "sha256": "dfd92eea8e4ffab4c3da4123f1182aee1d3b9ae421223adc44783b930715a95c"
+    },
+    {
+      "path": "write-text-table.js",
+      "sha256": "aaf19effee45dcc937c84ed418d3291f5eae37db798254d8f3d5016cfbb631ad"
+    },
+    {
+      "path": "write-word-store.js",
+      "sha256": "ea5e6400313844274cae260c9f3fc886f00247ba4d7dc5e1344b91ed12bf9304"
+    },
+    {
+      "path": "write-word-workspace.js",
+      "sha256": "54c4141b1fb117949e4fa88b570ccc43b97f31beb77e43061353cbed3c018474"
+    },
+    {
+      "path": "write-workspace.css",
+      "sha256": "5f38e643623972327df165430e52857281590b4be12ba2d57c87037deba5ea4c"
+    },
+    {
+      "path": "write.css",
+      "sha256": "a3a73049c4b50417ae44304cae2d828a178bded9fcbc426de80fb681c8ccf7af"
+    },
+    {
+      "path": "write.html",
+      "sha256": "13bb5fd5c5000dadcb32910ee0aa9d4d761bc5c945b9ad7a03867aaafc1bebfd"
+    },
+    {
+      "path": "write.js",
+      "sha256": "cfe5f866b3d113a7807c7540d92e27583bf4b07a4da9f01f98e2df1707e92672"
+    }
+  ]
+}

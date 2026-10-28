@@ -1,0 +1,34 @@
+[
+  {
+    "file": "before-original.docx",
+    "sourceSHA256": "D3029DD3B5F4944E037FB0D39509821E36522723D7B8D3EBAB7AEAE3946DAEF7",
+    "wordVersion": "16.0",
+    "pages": 2,
+    "logicalCharacters": 337,
+    "logicalTextSHA256": "5EB4C02FB500BD9A381718B64F2BCACC6EFFE9203DDDA284575FF6136F5FE8AE"
+  },
+  {
+    "file": "before-copied.docx",
+    "sourceSHA256": "60275BF67332FFAA4E8CF19804F3351A035BDDEA8EB2BDFF56A5DD24AA59A82B",
+    "wordVersion": "16.0",
+    "pages": 1,
+    "logicalCharacters": 326,
+    "logicalTextSHA256": "501C02CC1527DD3BDDC81FA2B0C94AECA747803597568328982C8722955495EC"
+  },
+  {
+    "file": "after-original.docx",
+    "sourceSHA256": "D3029DD3B5F4944E037FB0D39509821E36522723D7B8D3EBAB7AEAE3946DAEF7",
+    "wordVersion": "16.0",
+    "pages": 2,
+    "logicalCharacters": 337,
+    "logicalTextSHA256": "5EB4C02FB500BD9A381718B64F2BCACC6EFFE9203DDDA284575FF6136F5FE8AE"
+  },
+  {
+    "file": "after-copied.docx",
+    "sourceSHA256": "9351F20F5910CE6D4C4962B80C99D2C6AB5DA9788D4A6818C2ECC24B445BC22C",
+    "wordVersion": "16.0",
+    "pages": 2,
+    "logicalCharacters": 349,
+    "logicalTextSHA256": "2B7E13FAFB0DA999798A2B8A080AABB85538C443B22F53C5A25EA020C7646D8D"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "phase": "before",
+    "wordVersion": "16.0",
+    "sourceSHA256": "1D19AAD31A0AC0B9BC17169495087BD8D407B6FE2F70F78A1DECB17C5875D825",
+    "pages": 2,
+    "logicalCharacters": 383,
+    "logicalTextSHA256": "165F909882CF4CB9753948C481BB3DDD75BCB14CE8F455E53322A846E8B3725E",
+    "pageMap": {
+      "attachment": 1,
+      "title": 1,
+      "firstSchool": 1,
+      "lastSchool": 2,
+      "total": 2
+    }
+  },
+  {
+    "phase": "after",
+    "wordVersion": "16.0",
+    "sourceSHA256": "D207A565A2C4CA42446C6587AB89E3F6ECD22690C49A49BE4FAA0BB5A379891D",
+    "pages": 2,
+    "logicalCharacters": 383,
+    "logicalTextSHA256": "165F909882CF4CB9753948C481BB3DDD75BCB14CE8F455E53322A846E8B3725E",
+    "pageMap": {
+      "attachment": 1,
+      "title": 1,
+      "firstSchool": 1,
+      "lastSchool": 2,
+      "total": 2
+    }
+  }
+]

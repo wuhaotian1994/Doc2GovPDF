@@ -1,0 +1,47 @@
+{
+  "method": "Supplied complete original, not CEO 415-character excerpt. Normal UI; memory is read-only worker telemetry, not an OOM/root-cause claim.",
+  "checks": [
+    "normal import preserves original fields and structure",
+    "saved original reopens without renderer crash",
+    "continued editing reaches latest preview",
+    "complete-font reload still preserves original",
+    "no browser errors or renderer crashes"
+  ],
+  "timings": {
+    "firstOriginalPreviewMs": 7431,
+    "savedReloadMs": 6346,
+    "editPreviewMs": 1191,
+    "docxMs": 5004,
+    "pdfMs": 819,
+    "afterWordReloadMs": 4546
+  },
+  "files": [
+    {
+      "format": "docx",
+      "bytes": 17069680,
+      "sha256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c"
+    },
+    {
+      "format": "pdf",
+      "bytes": 156773,
+      "sha256": "1d22ec739b2b308b05f61db2d6f696121fcaa1e41036bc8df2774d75dfaca8b0"
+    }
+  ],
+  "errors": [],
+  "crashes": 0,
+  "passed": true,
+  "maxWasmBytes": 275251200,
+  "settledPending": 0,
+  "fontRequests": [
+    {
+      "phase": "restore",
+      "file": "/fonts/serif-full.ttf",
+      "method": "GET"
+    },
+    {
+      "phase": "restore",
+      "file": "/fonts/serif-black-full.ttf",
+      "method": "GET"
+    }
+  ]
+}

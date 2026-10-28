@@ -1,0 +1,107 @@
+import { installFeedbackEvidence } from './write-feedback-evidence.js';
+
+export const feedbackStatuses = {received:'已收到',needs_information:'需要补充',in_progress:'正在处理',resolved:'已有解决办法',unsupported:'暂不支持'};
+export const randomOpaque = () => { const bytes = crypto.getRandomValues(new Uint8Array(32)); return btoa(String.fromCharCode(...bytes)).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,''); };
+const opaque = /^[A-Za-z0-9_-]{32,100}$/;
+export function readReceipt(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(k => !['id','accessToken'].includes(k)) || !opaque.test(value.id) || !opaque.test(value.accessToken)) throw new Error('请选择仅含反馈编号和私密凭据的回执文件。');
+  return {id:value.id,accessToken:value.accessToken};
+}
+export function saveFeedbackFile(blob, name) { const href=URL.createObjectURL(blob),a=document.createElement('a'); a.href=href;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(href),1000); }
+export async function feedbackRequest(path,{method='GET',token,payload,files=[],signal}={}) {
+  const headers={},options={method,headers,credentials:'omit',cache:'no-store',signal};
+  if (token) headers.Authorization='Bearer '+token;
+  if (payload) {
+    if (files.length) { const form=new FormData();form.append('payload',JSON.stringify(payload));for (const f of files) form.append('files',f.blob,f.name); options.body=form; }
+    else {headers['Content-Type']='application/json';options.body=JSON.stringify(payload);}
+  }
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);if(!signal)options.signal=controller.signal;
+  try { const response=await fetch('/api/feedback/'+path,options);if(!response.ok){let message='服务暂不可用，请保留填写后重试。';try{const v=await response.json();if(typeof v.error==='string')message=v.error;}catch{}const error=new Error(message);error.status=response.status;throw error;}
+    if (path.includes('/attachments/')&&method==='GET') return response.blob();
+    return await response.json();
+  } finally {clearTimeout(timer);}
+}
+const el=(tag,className,text)=>{const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;};
+const button=(text,action,kind='secondary')=>{const b=el('button','feedback-'+kind,text);b.type='button';b.addEventListener('click',action);return b;};
+const field=(label,name,{multiline=false,required=false,max=1000}={})=>{const wrap=el('label','feedback-field'),title=el('span','',label),input=el(multiline?'textarea':'input');input.name=name;input.maxLength=max;input.required=required;if(multiline)input.rows=4;wrap.append(title,input);return {wrap,input};};
+function textLine(parent,label,value){const row=el('div','feedback-summary-row');row.append(el('strong','',label),el('div','feedback-preserve',value||'未提供'));parent.append(row);}
+
+export function installFeedback({button:entryButton,getDraft,appVersion=''}) {
+  if (!entryButton) throw new Error('Feedback entry button is required');
+  const dialog=el('dialog','feedback-dialog');dialog.setAttribute('aria-labelledby','feedback-title');
+  dialog.innerHTML=`<header class="feedback-header"><div><h2 id="feedback-title">说说你的使用需求</h2></div><button type="button" class="feedback-quiet" data-feedback-close>关闭</button></header><nav class="feedback-nav" aria-label="反馈"><button type="button" class="feedback-quiet" data-feedback-compose>填写反馈</button><button type="button" class="feedback-quiet" data-feedback-restore>我的回执</button></nav><p class="feedback-status" role="status" aria-live="polite"></p><main class="feedback-body"></main><footer class="feedback-footer"></footer>`;
+  document.body.append(dialog);const body=dialog.querySelector('.feedback-body'),footer=dialog.querySelector('.feedback-footer'),status=dialog.querySelector('.feedback-status'),nav=dialog.querySelector('.feedback-nav');
+  let disposed=false,captureWasOpen=false;let config=null,busy=false,mode='compose',receipt=null,receiptAccepted=false,thread=null,pending=null,supplement=false,preview=null,restoreView=false;
+  const composer=el('section','feedback-compose'),description=field('想怎么用，或者哪里不好用？','description',{multiline:true,required:true,max:10000});description.input.rows=3;description.input.id='feedback-description';description.input.placeholder='例如：这个表格不好改，想保留现有内容继续调整。';composer.append(description.wrap);
+  const extra=el('div','feedback-contact'),contact=field('联系方式（选填）','contact');const inputs={contact:contact.input};extra.append(contact.wrap);
+  const ua=navigator.userAgent,browserMatch=ua.match(/(Edg|Firefox|Chrome|Version)\/([0-9.]+)/),platformMatch=ua.match(/(Windows NT|Android|Mac OS X|CPU (?:iPhone )?OS) ([0-9._]+)/);const techData={appVersion:String(appVersion).slice(0,200),browser:browserMatch?({Edg:'Edge',Version:'Safari'}[browserMatch[1]]||browserMatch[1])+' '+browserMatch[2]:'其他浏览器',platform:platformMatch?platformMatch[1]+' '+platformMatch[2].replaceAll('_','.'):ua.includes('Linux')?'Linux':'未识别系统'};
+  const evidenceContainer=el('section','feedback-evidence');composer.append(evidenceContainer,extra);const evidence=installFeedbackEvidence({container:evidenceContainer,getDraft,onChange:()=>{preview=null;const send=footer.querySelector('[data-feedback-send]');if(send)send.disabled=busy||Boolean(pending)||Boolean(evidence.isPreparing?.());},onCaptureStart:()=>{captureWasOpen=dialog.open;if(captureWasOpen)dialog.close();},onCaptureEnd:()=>{if(captureWasOpen&&!disposed&&!dialog.open)dialog.showModal();captureWasOpen=false;}});
+  const receiptPrefix='gongwen-feedback-receipt-v1:';
+  const temporaryReceipts=new Map();let receiptStorageError=false;
+  function savedReceipts(){
+    const records=new Map(temporaryReceipts);
+    try{for(let i=0;i<localStorage.length;i++){
+      const key=localStorage.key(i);if(!key?.startsWith(receiptPrefix))continue;
+      try{const item=JSON.parse(localStorage.getItem(key));const credentials=readReceipt({id:item.id,accessToken:item.accessToken});
+        if(key!==receiptPrefix+credentials.id)continue;
+        records.set(item.id,{...credentials,summary:typeof item.summary==='string'?item.summary.slice(0,100):'已提交需求',createdAt:typeof item.createdAt==='string'?item.createdAt:'',status:feedbackStatuses[item.status]?item.status:'received'});
+      }catch{}
+    }}catch{receiptStorageError=true;}
+    return [...records.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+  }
+  function rememberReceipt(summary,statusValue='received'){
+    if(!receipt)return;
+    const old=savedReceipts().find(item=>item.id===receipt.id);
+    const item={...receipt,summary:String(summary||old?.summary||'已提交需求').slice(0,100),createdAt:old?.createdAt||new Date().toISOString(),status:statusValue};
+    try{localStorage.setItem(receiptPrefix+receipt.id,JSON.stringify(item));temporaryReceipts.delete(receipt.id);receiptStorageError=false;}
+    catch{temporaryReceipts.set(receipt.id,item);receiptStorageError=true;}
+  }
+  function forgetReceipt(id){localStorage.removeItem(receiptPrefix+id);temporaryReceipts.delete(id);}
+
+  const tell=(text,error=false)=>{const storageWarning=receiptStorageError&&mode.startsWith('receipt');status.textContent=text+(storageWarning?' 浏览器未能保存回执，请下载回执备份。':'');status.classList.toggle('feedback-error',error||storageWarning);};
+  function controlsDisabled(value){busy=value;dialog.setAttribute('aria-busy',String(value));const locked=value||Boolean(pending);composer.inert=locked;description.input.readOnly=locked;contact.input.readOnly=locked;evidence.setLocked?.(locked);for(const b of footer.querySelectorAll('button'))b.disabled=value||(b.hasAttribute('data-feedback-send')&&(Boolean(pending)||Boolean(evidence.isPreparing?.())));for(const b of nav.querySelectorAll('button'))b.disabled=value;for(const b of body.querySelectorAll('.feedback-receipt-actions button'))b.disabled=value;}
+  async function loadConfig(){
+    try{config=await feedbackRequest('config');if(!config.enabled)throw new Error('反馈暂时无法发送，请稍后重试。');return true;}
+    catch{config=null;tell('反馈暂时无法发送，填写仍保留，请稍后重试。',true);return false;}
+  }
+  function renderCompose(){
+    mode='compose';restoreView=false;preview=null;body.replaceChildren(composer);tell('');extra.hidden=supplement;
+    dialog.querySelector('#feedback-title').textContent=supplement?'补充说明或材料':'说说你的使用需求';
+    const boundary=el('div','feedback-send-boundary');boundary.append(el('p','','反馈及所选附件会上传到服务器，文稿不会自动附带。'));
+    const send=button(supplement?'发送补充':'发送反馈',prepare,'primary');send.dataset.feedbackSend='true';footer.replaceChildren(boundary,send);
+    if(supplement)footer.append(button('返回回执',()=>renderReceipt()));controlsDisabled(busy);
+  }
+  async function prepare(){if(busy||pending)return;if(!description.input.value.trim()){tell('请加一句你想说明的问题。',true);description.input.focus();return;}controlsDisabled(true);if(!config?.enabled&&!await loadConfig()){controlsDisabled(false);return;}const payload={clientRequestId:randomOpaque(),description:description.input.value};if(!supplement){payload.accessToken=randomOpaque();if(contact.input.value)payload.contact=contact.input.value;payload.technicalInfo={...techData};}controlsDisabled(true);try{const files=await evidence.getFiles();if(files.length>4)throw new Error('每次最多发送4份附件，请移除多余图片。');preview={payload,files:files.map(f=>({...f})),supplement};busy=false;mode='sending';await submit();}catch(e){controlsDisabled(false);tell(e.message||'图片还未准备完成，请检查后发送。',true);}}
+  async function submit(){if(busy||!config?.enabled)return;if(!pending){if(!preview)return;pending={...preview,path:preview.supplement?'threads/'+receipt.id+'/messages':'threads',token:preview.supplement?receipt.accessToken:undefined};}controlsDisabled(true);tell('正在确认服务器接收结果，请保留此标签页。');try{const result=await feedbackRequest(pending.path,{method:'POST',token:pending.token,payload:pending.payload,files:pending.files});if(!pending.supplement){receipt=readReceipt({id:result.id,accessToken:result.accessToken});}receiptAccepted=true;rememberReceipt(pending.supplement?thread?.description:pending.payload.description,pending.supplement?thread?.status||'received':'received');pending=null;description.input.value='';for(const input of Object.values(inputs))input.value='';evidence.clear();supplement=false;await refreshReceipt('服务器已确认接收，可在“我的回执”查看回复。');}catch(e){if(e.status===400||e.status===409||e.status===410){pending=null;renderCompose();tell(e.message,true);}else{mode='unknown';body.replaceChildren(el('h3','','接收结果尚未确认'),el('p','','填写与附件仍保留在本标签页。请使用同一请求重试，服务端会核对是否已收到，不会重复创建。关页前请先完成核对。'));footer.replaceChildren(button('核对并重试本次发送',submit,'primary'));tell(e.status?e.message:'连接中断，不能确定是否已接收；没有显示成功。',true);}}finally{controlsDisabled(false);}}
+  async function refreshReceipt(message=''){if(!receipt||busy&&!['preview','unknown','sending','receipt-pending'].includes(mode))return;try{thread=await feedbackRequest('threads/'+receipt.id,{token:receipt.accessToken});receiptAccepted=true;rememberReceipt(thread.description,thread.status);renderReceipt();tell(message||'已读取服务器当前状态。');}catch(e){renderReceiptUnavailable(e.message||'暂时无法读取当前状态。');}}
+  function renderReceiptUnavailable(reason){mode='receipt-pending';dialog.querySelector('#feedback-title').textContent='反馈回执';body.replaceChildren(el('h3','',receiptAccepted?'已收到，但暂时未读到当前状态':'暂时未读到这条反馈'),el('p','',receiptAccepted?'服务器已经确认接收。无需重新发送，可稍后从回执列表重试查看。':'回执仍保留在列表中，可重试查看，不会重新提交反馈。'),el('p','feedback-hint',reason));body.scrollTop=0;footer.replaceChildren(button('返回回执列表',renderRestore,'primary'),button('重试读取状态',()=>refreshReceipt()));if(receiptStorageError)footer.append(button('下载回执备份',saveReceipt));tell(receiptAccepted?'已确认接收；当前状态暂时无法读取。':'当前状态读取失败，私密回执仍保留。',true);}
+  function renderReceipt(){mode='receipt';dialog.querySelector('#feedback-title').textContent='反馈回执';const section=el('section');section.append(el('h3','',feedbackStatuses[thread.status]||thread.status));textLine(section,'你的说明',thread.description);for(const[k,label]of[['role','岗位'],['goal','目标'],['impact','影响'],['contact','联系方式'],['owner','处理负责人'],['fixVersion','关联修复版本']])if(thread[k])textLine(section,label,thread[k]);const messages=el('section','feedback-messages');messages.append(el('h3','','补充与回复'));if(!thread.messages.length)messages.append(el('p','feedback-hint','暂时没有回复。可以保留回执，稍后刷新查看。'));for(const m of thread.messages){const item=el('article','feedback-message');item.append(el('strong','',m.author==='handler'?'处理人员回复':'你的补充'),el('p','feedback-preserve',m.description),el('time','feedback-hint',new Date(m.createdAt).toLocaleString('zh-CN')));messages.append(item);}section.append(messages);const files=el('ul','feedback-file-list');for(const f of thread.attachments){const item=el('li');item.append(el('span','',f.name+' · '+Math.ceil(f.size/1024)+' KB'),button('下载',()=>downloadAttachment(f)),button('移除此附件',()=>removeAttachment(f),'quiet'));files.append(item);}section.append(files);const deleting=el('details','feedback-details');deleting.append(el('summary','','删除这条反馈'),el('p','','删除会移除服务器中的正文、联系方式、回复与附件。清理失败会明确提示；外部备份和底层存储按接收方规则清理。'),button('删除整条反馈',deleteThread,'danger'));section.append(deleting);body.replaceChildren(section);body.scrollTop=0;footer.replaceChildren(button('补充说明或材料',()=>{supplement=true;evidence.clear();renderCompose();description.input.focus();},'primary'),button('返回回执列表',renderRestore),button('刷新状态',()=>refreshReceipt()));if(receiptStorageError)footer.append(button('下载回执备份',saveReceipt));}
+  async function downloadAttachment(f){try{const blob=await feedbackRequest('threads/'+receipt.id+'/attachments/'+f.id,{token:receipt.accessToken});saveFeedbackFile(blob,f.name);}catch(e){tell(e.message,true);}}
+  async function removeAttachment(f){if(!confirm('从服务器移除这份附件？此操作不可撤销。'))return;try{await feedbackRequest('threads/'+receipt.id+'/attachments/'+f.id,{method:'DELETE',token:receipt.accessToken});await refreshReceipt('该附件已从当前服务器记录与私有文件中移除。');}catch(e){tell(e.message||'删除尚未确认，请稍后核对。',true);}}
+  async function deleteThread(){if(!confirm('删除整条反馈及全部附件？此操作不可撤销。'))return;try{await feedbackRequest('threads/'+receipt.id,{method:'DELETE',token:receipt.accessToken});try{forgetReceipt(receipt.id);}catch{}receipt=null;thread=null;supplement=false;body.replaceChildren(el('h3','','该反馈已从当前服务器删除'),el('p','','正文、联系方式、回复及私有附件已移除；备份按接收方规则处理。'));footer.replaceChildren(button('继续填写新反馈',renderCompose,'primary'));tell('服务器已确认删除，不会把这次发送重新排入重试。');}catch(e){tell(e.message||'清理尚未确认，请保存回执后稍后核对。',true);}}
+  function saveReceipt(){if(receipt)saveFeedbackFile(new Blob([JSON.stringify(receipt,null,2)],{type:'application/json'}),'反馈私密回执.json');}
+  function renderRestore(){
+    if(busy||pending)return;mode='restore';dialog.querySelector('#feedback-title').textContent='我的回执';tell('');
+    const list=el('ul','feedback-receipts'),items=savedReceipts();
+    for(const item of items){
+      const row=el('li','feedback-receipt-row'),info=el('div','feedback-receipt-info');
+      info.append(el('p','feedback-receipt-summary',item.summary),el('p','feedback-hint',[feedbackStatuses[item.status],item.createdAt?new Date(item.createdAt).toLocaleString('zh-CN'):null].filter(Boolean).join(' · ')));
+      const actions=el('div','feedback-receipt-actions');
+      actions.append(button('查看',async()=>{
+        receipt=readReceipt({id:item.id,accessToken:item.accessToken});receiptAccepted=true;thread=null;
+        controlsDisabled(true);mode='receipt-pending';tell('正在读取需求状态…');
+        try{await refreshReceipt();}finally{controlsDisabled(false);}
+      }),button('删除回执',()=>{
+        if(!confirm('从此浏览器删除这条回执？服务器中的需求不会删除。'))return;
+        try{forgetReceipt(item.id);if(receipt?.id===item.id){receipt=null;thread=null;}renderRestore();}
+        catch{tell('回执未能删除，请重试。',true);}
+      },'danger'));
+      row.append(info,actions);list.append(row);
+    }
+    body.replaceChildren(items.length?list:el('p','feedback-hint','还没有提交的需求。提交后，回执会自动显示在这里。'));body.scrollTop=0;
+    footer.replaceChildren(button('填写需求',()=>{supplement=false;renderCompose();description.input.focus();},'primary'));
+  }
+  dialog.querySelector('[data-feedback-close]').onclick=()=>dialog.close();dialog.querySelector('[data-feedback-compose]').onclick=()=>{if(pending)return tell('请先核对结果未知的发送；当前请求仍保留。',true);supplement=false;renderCompose();};dialog.querySelector('[data-feedback-restore]').onclick=renderRestore;
+  const open=()=>{if(!dialog.open)dialog.showModal();if(mode==='compose'){renderCompose();description.input.focus();}};entryButton.addEventListener('click',open);
+  return {open,dispose(){disposed=true;entryButton.removeEventListener('click',open);evidence.dispose();dialog.remove();receipt=null;pending=null;}};
+}

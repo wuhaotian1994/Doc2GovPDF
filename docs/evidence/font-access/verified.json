@@ -1,0 +1,138 @@
+{
+  "profiles": [
+    {
+      "profile": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checks": 14
+    },
+    {
+      "profile": "firefox",
+      "browserVersion": "157.0",
+      "checks": 14
+    },
+    {
+      "profile": "webkit",
+      "browserVersion": "27.2",
+      "checks": 14
+    }
+  ],
+  "files": [
+    {
+      "profile": "chrome",
+      "pdfSHA256": "4e52b67dbef5ef323ed3c5478c7563c5192c1ad70296787c5ce1b65015de7e1c",
+      "docxSHA256": "7c338bbc7845bea49a309788a33968a9361bc7e72e147b3f3f7f9dfd3c65f1fa",
+      "pdfPages": 1,
+      "fonts": [
+        {
+          "baseFont": "/utf8f0",
+          "actualNames": [
+            "Noto Serif SC Black",
+            "NotoSerifSC-Black",
+            "Regular"
+          ],
+          "embeddedSHA256": "0ee9cafe83a71ffc3313e3bebe6b5e70482130090aaf6dad6e2c940d08a46b6f"
+        },
+        {
+          "baseFont": "/utf8f1",
+          "actualNames": [
+            "Noto Serif SC Black",
+            "NotoSerifSC-Black",
+            "Regular"
+          ],
+          "embeddedSHA256": "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456"
+        },
+        {
+          "baseFont": "/utf8f2",
+          "actualNames": [
+            "Noto Serif SC",
+            "Noto Serif SC Regular",
+            "NotoSerifSC-Regular",
+            "Regular"
+          ],
+          "embeddedSHA256": "2fd88e10d8a1900103927106853bd8dec14e48a717a323385d220753eeab3f4a"
+        }
+      ],
+      "wordCustomFontEmbedded": false,
+      "wordReliesOnReceiverFont": "仿宋",
+      "fallbackFontParts": 2
+    },
+    {
+      "profile": "firefox",
+      "pdfSHA256": "a5923af8d6f934e7529bfcc94b6c5124ba58421f4e3b008268ee6b852ece06c2",
+      "docxSHA256": "7c338bbc7845bea49a309788a33968a9361bc7e72e147b3f3f7f9dfd3c65f1fa",
+      "pdfPages": 1,
+      "fonts": [
+        {
+          "baseFont": "/utf8f1",
+          "actualNames": [
+            "Noto Serif SC Black",
+            "NotoSerifSC-Black",
+            "Regular"
+          ],
+          "embeddedSHA256": "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456"
+        },
+        {
+          "baseFont": "/utf8f2",
+          "actualNames": [
+            "Noto Serif SC",
+            "Noto Serif SC Regular",
+            "NotoSerifSC-Regular",
+            "Regular"
+          ],
+          "embeddedSHA256": "2fd88e10d8a1900103927106853bd8dec14e48a717a323385d220753eeab3f4a"
+        },
+        {
+          "baseFont": "/utf8f0",
+          "actualNames": [
+            "Noto Serif SC Black",
+            "NotoSerifSC-Black",
+            "Regular"
+          ],
+          "embeddedSHA256": "0ee9cafe83a71ffc3313e3bebe6b5e70482130090aaf6dad6e2c940d08a46b6f"
+        }
+      ],
+      "wordCustomFontEmbedded": false,
+      "wordReliesOnReceiverFont": "仿宋",
+      "fallbackFontParts": 2
+    },
+    {
+      "profile": "webkit",
+      "pdfSHA256": "e6722a073a0af46a96418556625eb261ae12b55294a9ffe694dbe7959f8df2c7",
+      "docxSHA256": "7c338bbc7845bea49a309788a33968a9361bc7e72e147b3f3f7f9dfd3c65f1fa",
+      "pdfPages": 1,
+      "fonts": [
+        {
+          "baseFont": "/utf8f0",
+          "actualNames": [
+            "Noto Serif SC Black",
+            "NotoSerifSC-Black",
+            "Regular"
+          ],
+          "embeddedSHA256": "0ee9cafe83a71ffc3313e3bebe6b5e70482130090aaf6dad6e2c940d08a46b6f"
+        },
+        {
+          "baseFont": "/utf8f1",
+          "actualNames": [
+            "Noto Serif SC Black",
+            "NotoSerifSC-Black",
+            "Regular"
+          ],
+          "embeddedSHA256": "b3b24492361a314f25d2b25b58bda4a657dd72a638d7e235526e3e2a4cb9b456"
+        },
+        {
+          "baseFont": "/utf8f2",
+          "actualNames": [
+            "Noto Serif SC",
+            "Noto Serif SC Regular",
+            "NotoSerifSC-Regular",
+            "Regular"
+          ],
+          "embeddedSHA256": "2fd88e10d8a1900103927106853bd8dec14e48a717a323385d220753eeab3f4a"
+        }
+      ],
+      "wordCustomFontEmbedded": false,
+      "wordReliesOnReceiverFont": "仿宋",
+      "fallbackFontParts": 2
+    }
+  ]
+}

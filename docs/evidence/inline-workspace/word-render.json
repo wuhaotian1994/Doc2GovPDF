@@ -1,0 +1,14 @@
+[
+  {
+    "file": "notice.docx",
+    "pages": 1,
+    "wordVersion": "16.0",
+    "sha256": "D4AAE951B636056A723358CD6FE98CE713CA39312EB8EFB6D5D1095C6CB3677F"
+  },
+  {
+    "file": "composite.docx",
+    "pages": 7,
+    "wordVersion": "16.0",
+    "sha256": "9FAA34CFB89A501AE69A34AAF46D90CD49AF09262D7C0A5BE9D1226E110067BD"
+  }
+]

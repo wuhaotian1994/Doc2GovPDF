@@ -1,0 +1,7 @@
+{
+  "file": "composite.docx",
+  "pages": 7,
+  "wordVersion": "16.0",
+  "sha256": "9FAA34CFB89A501AE69A34AAF46D90CD49AF09262D7C0A5BE9D1226E110067BD",
+  "probe": "bounded retry after RPC disconnect; statistics captured before export"
+}

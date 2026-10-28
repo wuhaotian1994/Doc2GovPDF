@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-22",
+  "method": "Re-render final current downloaded PDFs and compare each PNG SHA256 with the prior eight viewed pages. No page image differs. Renderer and verifier were rerun without rebuilding assets or restarting the service.",
+  "samePageImages": 8,
+  "priorPageImages": {
+    "safe-1.png": "a1f17f0817c4e301d02eb4514124355da73b171f792c4d0f75f5d6385c15424a",
+    "safe.word-1.png": "2190fd281a3acaf6a2c1b559985bb1cc63d89e7ac91bc2cf5fe904d4f30800f5",
+    "mixed-1.png": "665c52c770a79d7828a5536cdcc7dba97c8a649e2a8dcc030a1a37769a4105a3",
+    "mixed.word-1.png": "8e991b83a62eefb42f2862d50f004b9d77ebd116a62f8934b16013c1ac140cd9",
+    "annex-1.png": "7ee9463289d54f678465a0a446286f51b5f750fc3ca2e27015d9da5520ddbe1d",
+    "annex-2.png": "bb17073af8784f8227872b47016ad2d08e32551b862cd5999a6caf484dd190be",
+    "annex.word-1.png": "254897b9d9de09bc8b87d8d33064a40de97ba1bb54293f5cf7fd8cfeb5f2f672",
+    "annex.word-2.png": "09d4689cf998f15cb6f67dfc39b0f9cd21071c68b2c62c615746fdd624cc5ab1"
+  },
+  "currentPageImages": {
+    "safe-1.png": "a1f17f0817c4e301d02eb4514124355da73b171f792c4d0f75f5d6385c15424a",
+    "safe.word-1.png": "2190fd281a3acaf6a2c1b559985bb1cc63d89e7ac91bc2cf5fe904d4f30800f5",
+    "mixed-1.png": "665c52c770a79d7828a5536cdcc7dba97c8a649e2a8dcc030a1a37769a4105a3",
+    "mixed.word-1.png": "8e991b83a62eefb42f2862d50f004b9d77ebd116a62f8934b16013c1ac140cd9",
+    "annex-1.png": "7ee9463289d54f678465a0a446286f51b5f750fc3ca2e27015d9da5520ddbe1d",
+    "annex-2.png": "bb17073af8784f8227872b47016ad2d08e32551b862cd5999a6caf484dd190be",
+    "annex.word-1.png": "254897b9d9de09bc8b87d8d33064a40de97ba1bb54293f5cf7fd8cfeb5f2f672",
+    "annex.word-2.png": "09d4689cf998f15cb6f67dfc39b0f9cd21071c68b2c62c615746fdd624cc5ab1"
+  },
+  "actualWasmSHA256": [
+    "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+  ],
+  "boundary": "Fictional paste equivalents only; excludes the user health-notice reproduction package. Not independent usability approval or full standards certification."
+}

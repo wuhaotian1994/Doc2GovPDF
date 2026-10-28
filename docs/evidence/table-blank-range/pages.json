@@ -1,0 +1,31 @@
+{
+  "pages": [
+    {
+      "file": "kept-blanks.pdf",
+      "pdfSHA256": "3d73d8dc5406ef0ee37fba479d9ba4784bc1c783da9f6fddcd2bb98cd5572977",
+      "image": "kept-blanks-1.png",
+      "imageSHA256": "d36ce52bc9480dd93fdb610fcb42fa4e84f5f5fba6dde446b6a5727cd6fc9623"
+    },
+    {
+      "file": "kept-blanks.pdf",
+      "pdfSHA256": "3d73d8dc5406ef0ee37fba479d9ba4784bc1c783da9f6fddcd2bb98cd5572977",
+      "image": "kept-blanks-2.png",
+      "imageSHA256": "1b0eae5a0260568703dffdf7bad7d60d16af5020d36cdd9bdcf4ed0348f24905"
+    },
+    {
+      "file": "kept-blanks.word.pdf",
+      "pdfSHA256": "53ff06c9e8e2bbe12060bd5f7228c5a7fd9e432f9d8c2712abd9f2c863b09ce7",
+      "image": "kept-blanks.word-1.png",
+      "imageSHA256": "6f2b34c0cc1cb6f26f21889aad1700eca1c8b7832d53fbd216d319fbb4d4b568"
+    },
+    {
+      "file": "kept-blanks.word.pdf",
+      "pdfSHA256": "53ff06c9e8e2bbe12060bd5f7228c5a7fd9e432f9d8c2712abd9f2c863b09ce7",
+      "image": "kept-blanks.word-2.png",
+      "imageSHA256": "ddeeef6123f8d0f6bd1144699c5e71e5dfe6fa24c93abf3bad5cead31cf3e6ea"
+    }
+  ],
+  "groups": [
+    "group-01.png"
+  ]
+}

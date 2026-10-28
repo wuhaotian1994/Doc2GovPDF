@@ -1,0 +1,97 @@
+[
+  {
+    "file": "blank-table",
+    "wordVersion": "16.0",
+    "sourceSHA256": "F18360685F61CC561C6D0F5CEC1CD87D473B675D9C97F00A3F27EEAC51DCF03E",
+    "pages": 1,
+    "tables": 1,
+    "sections": [
+      {
+        "orientation": 0,
+        "width": 595.2999877929688,
+        "height": 841.9000244140625
+      }
+    ],
+    "logicalCharacters": 88,
+    "logicalTextSHA256": "CE543BB9E289296C90E4048BAEF3C7CD9A4342FD100E5D862AE6D6388913CEA4"
+  },
+  {
+    "file": "official-untouched",
+    "wordVersion": "16.0",
+    "sourceSHA256": "BAE60C771F57218B93D2B383D08A26AC025A119B872CA634E01630382A2230B1",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "orientation": 0,
+        "width": 595.2999877929688,
+        "height": 841.9000244140625
+      },
+      {
+        "orientation": 1,
+        "width": 841.9000244140625,
+        "height": 595.2999877929688
+      }
+    ],
+    "logicalCharacters": 1443,
+    "logicalTextSHA256": "7DEF99DBD4EFD5DCC645E266C312AEF31E534FA6F9C6BDFF11B90FFE87CED1D9"
+  },
+  {
+    "file": "official-edited",
+    "wordVersion": "16.0",
+    "sourceSHA256": "1B0662C952BA641052FEF97FA1009F4696A7D1563147BE30D876EA4D4349FEF5",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "orientation": 0,
+        "width": 595.2999877929688,
+        "height": 841.9000244140625
+      },
+      {
+        "orientation": 1,
+        "width": 841.9000244140625,
+        "height": 595.2999877929688
+      }
+    ],
+    "logicalCharacters": 1453,
+    "logicalTextSHA256": "2ABE029718DDC6369411AB97E89A30CEF18C7E9A86A4672B16F63FB8F2A9F94E"
+  },
+  {
+    "file": "legacy-resumed",
+    "wordVersion": "16.0",
+    "sourceSHA256": "EE872AE48033FDBD4F9FB6097CE46616B2CCE39FD6210F29BEF6552703BDC9D4",
+    "pages": 5,
+    "tables": 2,
+    "sections": [
+      {
+        "orientation": 0,
+        "width": 595.2999877929688,
+        "height": 841.9000244140625
+      },
+      {
+        "orientation": 1,
+        "width": 841.9000244140625,
+        "height": 595.2999877929688
+      }
+    ],
+    "logicalCharacters": 1460,
+    "logicalTextSHA256": "0D498486FE875E78101F13E0D894DA1444190E6781C9B7BBD0BE471BDF1819EE"
+  },
+  {
+    "file": "legacy-compose",
+    "wordVersion": "16.0",
+    "sourceSHA256": "D4F794A09FE151EF739F13BB9B8757C9A7EFA52309FC980C4B171FE073FF5B1B",
+    "pages": 1,
+    "tables": 0,
+    "sections": [
+      {
+        "orientation": 0,
+        "width": 595.2999877929688,
+        "height": 841.9000244140625
+      }
+    ],
+    "logicalCharacters": 64,
+    "logicalTextSHA256": "B89D8BEC0F7E83F0886E3C479A5CBB65F03466E38DFA68D16F6FF98D46FF288B"
+  }
+]

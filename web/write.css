@@ -26,7 +26,7 @@ h3 { font-size: 17px; }
 .brand { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-size: 22px; font-weight: 700; white-space: nowrap; }
 .brand > svg { width: 30px; height: 34px; color: var(--blue); }
 .brand-caption { font-size: 13px; color: var(--muted); font-weight: 400; margin-left: 19px; }
-.header-actions { display: flex; align-items: center; gap: 8px; }
+.header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .header-actions button { padding-inline: 12px; }
 #save-status { color: var(--muted); font-size: 12px; margin-right: 18px; }
 .quiet { background: transparent; color: var(--muted); }
@@ -88,7 +88,10 @@ input[type=checkbox], input[type=radio] { accent-color: var(--blue); width: 18px
 .review-summary { margin: 26px 0; }
 .review-row { display: grid; grid-template-columns: 68px 1fr auto; gap: 10px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
 .review-row dt { color: var(--muted); }
-.review-row dd { margin: 0; overflow-wrap: anywhere; }
+.review-row dd { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.reference-feedback { margin-top: 12px; }
+.reference-feedback .dialog-actions { margin-top: 12px; }
+.reference-feedback strong { overflow-wrap: anywhere; }
 .review-row button { font-size: 12px; color: var(--blue); padding: 4px 7px; }
 #checks { margin: 26px 0; }
 #checks h2 { font-size: 14px; margin-bottom: 5px; }
@@ -96,6 +99,21 @@ input[type=checkbox], input[type=radio] { accent-color: var(--blue); width: 18px
 .review-issue p { margin-bottom: 6px; }
 .review-issue .check { margin: 10px 0 0; font-size: 12px; }
 .review-issue button { font-size: 12px; padding: 4px 9px; }
+.review-issue .issue-heading { font-size: 13px; margin: 0 0 8px; color: var(--blue); }
+.review-issue[data-severity=error] .issue-heading { color: var(--error); }
+.review-issue[data-severity=suggestion] .issue-heading { color: var(--muted); }
+.issue-original, .issue-proposed { margin: 12px 0; padding: 10px 12px; background: var(--canvas); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 12em; overflow-y: auto; }
+.issue-help { margin: 0 0 12px; }
+.issue-help summary { color: var(--blue); padding: 6px 0; }
+.issue-help p { color: var(--muted); }
+.issue-location { margin: 0 0 24px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.issue-location p { margin: 0; }
+#material-dialog { width: min(620px, calc(100% - 32px)); }
+.material-choice { margin-bottom: 18px; }
+.material-choice strong, .material-choice span span, .material-choice small { display: block; }
+.material-choice span span { overflow-wrap: anywhere; white-space: pre-line; margin: 5px 0; }
+.material-choice small { color: var(--muted); font-size: 12px; }
+#material-body-preview, #sourceMaterial { margin: 8px 0 16px; }
 .format-picker { margin-top: 30px; }
 .format-picker > label { display: flex; align-items: flex-start; gap: 12px; border: 1px solid var(--line); padding: 14px 16px; margin: 10px 0; border-radius: var(--radius); cursor: pointer; }
 .format-picker > label:has(:checked) { border-color: var(--blue); background: var(--tint); }
@@ -170,3 +188,40 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 25px 0 10px; }
   dialog { padding: 22px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+
+#material-tables { margin: 16px 0 24px; }
+#material-tables h3 { font-size: 16px; margin: 0 0 12px; }
+#material-tables details { margin: 8px 0 14px; }
+.material-table-preview { overflow: auto; max-height: 240px; margin-top: 10px; }
+.material-table-preview table { border-collapse: collapse; width: 100%; }
+.material-table-preview td { border: 1px solid var(--line); padding: 6px 8px; white-space: pre-wrap; min-width: 60px; }
+
+/* Original Word uses the same editor, navigation, checks and preview shell. */
+.word-mode [data-panel="0"]>:not(h1):not(.lead):not(#word-basic),.word-mode [data-panel="1"]>:not(h1):not(.lead):not(#word-body),.word-mode #material-source{display:none}
+.word-workspace{min-width:0}.word-workspace>button{margin:8px 8px 8px 0}.word-paragraph{margin:12px 0}.word-paragraph>label{display:block;font-size:12px;color:var(--muted,#5e6b7b)}.word-paragraph textarea{min-height:42px;resize:vertical}.word-paragraph textarea[readonly]{background:#f1f3f6}.word-section{margin:24px 0 12px;padding-top:12px;border-top:1px solid #dce2ea;font-weight:650}.word-format{font-size:12px}.word-format label{display:inline-block;width:45%;margin:8px 4% 4px 0}.word-table-scroll{max-width:100%;overflow:auto}.word-table table{border-collapse:collapse;min-width:600px}.word-table td,.word-table th{border:1px solid #aeb9c8;min-width:100px;padding:6px;vertical-align:top}.word-table textarea{min-width:90px}.word-table .word-paragraph{margin:0 0 8px}.word-table .word-format{font-weight:400}.word-table h2{font-size:17px}#word-body{padding:0;border:0}#word-basic #word-name{margin:8px 0 16px}
+
+.font-start { margin: 0 24px 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }.font-start h3 { margin: 0 0 8px; font-size: 17px; }.font-start p { margin: 8px 0; font-size: 14px; line-height: 1.6; }.font-start .dialog-actions { justify-content: flex-start; flex-wrap: wrap; }.font-batch-roles { display: grid; gap: 12px; margin: 16px 0; }.font-batch-roles label { font-size: 14px; }.font-batch-roles select { width: 100%; margin-top: 6px; }#font-batch { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+
+#local-font-dialog { width: min(620px,calc(100% - 32px)); }#local-font-dialog > p,#font-batch-message { font-size: 13px; line-height: 1.6; }.font-batch-roles { grid-template-columns: repeat(2,minmax(0,1fr)); }.font-batch-roles label:last-child { grid-column: 1 / -1; }#local-font-dialog #font-batch { border: 0; padding: 0; margin: 0; }.local-font-actions { position: sticky; bottom: -26px; background: var(--paper); padding: 16px 0; margin-bottom: 0; }.word-mode #font-start { display: none; }@media(max-width:480px){.font-batch-roles{grid-template-columns:1fr;}}
+
+/* Continuous PDF pages; 100% uses 96 CSS pixels per physical inch. */
+#pdf-pages{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;max-width:none;min-width:0}
+.pdf-page{position:relative;flex:none;width:min(100%,var(--page-width));margin:0 auto;overflow:hidden}
+.pdf-page-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px}
+.preview-canvas.zoomed #pdf-pages{width:max-content;min-width:100%;max-width:none}
+.preview-canvas.zoomed .pdf-page{width:var(--page-width);max-width:none}
+
+/* Align visible glyphs, not just their font line boxes. */
+.step-number{flex-shrink:0;line-height:1;font-family:Arial,sans-serif;font-variant-numeric:tabular-nums}
+.step-number>span{display:block;line-height:1;transform:translateY(-.5px)}
+#common-form>label.check{display:flex;align-items:center;gap:10px;margin:12px 0 20px;line-height:1.5}
+#common-form>label.check input{flex:0 0 18px;width:18px;height:18px;margin:0;accent-color:var(--blue)}
+#common-form>label.check span{display:block;transform:translateY(-1px)}
+
+#agency-required.is-missing{color:var(--error)}
+#letterhead-state:empty{display:none}
+
+/* Pointer selection uses the card border; keyboard focus stays visible. */
+.format-picker input[type=radio]:focus{outline:none}
+.format-picker>label:has(input:focus-visible){outline:2px solid var(--blue);outline-offset:3px}
+input:is([type=checkbox],[type=radio]):focus:not(:focus-visible){outline:none}

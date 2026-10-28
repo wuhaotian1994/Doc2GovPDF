@@ -1,0 +1,20 @@
+[
+  {
+    "profile": "chrome",
+    "propertySupported": false,
+    "propertyCalls": 0,
+    "listenerCalls": 1
+  },
+  {
+    "profile": "firefox",
+    "propertySupported": false,
+    "propertyCalls": 0,
+    "listenerCalls": 1
+  },
+  {
+    "profile": "webkit",
+    "propertySupported": false,
+    "propertyCalls": 0,
+    "listenerCalls": 1
+  }
+]

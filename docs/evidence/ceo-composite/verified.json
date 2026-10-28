@@ -1,0 +1,97 @@
+{
+  "source": "https://app.www.gov.cn/govdata/gov/202501/13/523605/article.html",
+  "cases": [
+    {
+      "profile": "chrome",
+      "variant": "guided",
+      "charactersWithoutWhitespace": 3179,
+      "exactSourceOrder": true,
+      "pdfPages": 8,
+      "locations": {
+        "outerDate": 1,
+        "deletionMarker": 1,
+        "innerTitle": 1,
+        "lastItem": 8
+      },
+      "wordSHA256": "9f756458aa6475720bb5d640a8866a3dfa1202fe5535c43cb1899e1f68e350a0"
+    },
+    {
+      "profile": "chrome",
+      "variant": "composite",
+      "charactersWithoutWhitespace": 3179,
+      "exactSourceOrder": true,
+      "pdfPages": 8,
+      "locations": {
+        "outerDate": 1,
+        "deletionMarker": 1,
+        "innerTitle": 1,
+        "lastItem": 8
+      },
+      "wordSHA256": "9faa34cfb89a501ae69a34aaf46d90cd49af09262d7c0a5be9d1226e110067bd"
+    },
+    {
+      "profile": "firefox",
+      "variant": "guided",
+      "charactersWithoutWhitespace": 3179,
+      "exactSourceOrder": true,
+      "pdfPages": 8,
+      "locations": {
+        "outerDate": 1,
+        "deletionMarker": 1,
+        "innerTitle": 1,
+        "lastItem": 8
+      },
+      "wordSHA256": "9f756458aa6475720bb5d640a8866a3dfa1202fe5535c43cb1899e1f68e350a0"
+    },
+    {
+      "profile": "firefox",
+      "variant": "composite",
+      "charactersWithoutWhitespace": 3179,
+      "exactSourceOrder": true,
+      "pdfPages": 8,
+      "locations": {
+        "outerDate": 1,
+        "deletionMarker": 1,
+        "innerTitle": 1,
+        "lastItem": 8
+      },
+      "wordSHA256": "9faa34cfb89a501ae69a34aaf46d90cd49af09262d7c0a5be9d1226e110067bd"
+    },
+    {
+      "profile": "webkit",
+      "variant": "guided",
+      "charactersWithoutWhitespace": 3179,
+      "exactSourceOrder": true,
+      "pdfPages": 8,
+      "locations": {
+        "outerDate": 1,
+        "deletionMarker": 1,
+        "innerTitle": 1,
+        "lastItem": 8
+      },
+      "wordSHA256": "9f756458aa6475720bb5d640a8866a3dfa1202fe5535c43cb1899e1f68e350a0"
+    },
+    {
+      "profile": "webkit",
+      "variant": "composite",
+      "charactersWithoutWhitespace": 3179,
+      "exactSourceOrder": true,
+      "pdfPages": 8,
+      "locations": {
+        "outerDate": 1,
+        "deletionMarker": 1,
+        "innerTitle": 1,
+        "lastItem": 8
+      },
+      "wordSHA256": "9faa34cfb89a501ae69a34aaf46d90cd49af09262d7c0a5be9d1226e110067bd"
+    }
+  ],
+  "sources": {
+    "web/write-materials.js": "9b5eb9bb1388e942a1fa6cad517f54f39e9aa48725553dadf70d7f9bc6aae8d4",
+    "web/write.js": "eaa5ab8ef5b671d688351a3a1a5a8c5f59f6369536f6f8341581163f6bdc3a66",
+    "web/write-model.js": "9e4698ffb277ea58cd55b3b2f11cf095f1128c33e94d5f41decc3c4ed0a004b8",
+    "web/write-checks.js": "403bf300775f32d93505d693f66efc9fce1dac6eb63002e6263e75e5de7d6d8d",
+    "web/workspace-ui.js": "79200f46decc7f51a86e5b582ada20b27c912318f818e58e3f19d8eabd644cfa",
+    "web/browser-api.js": "75b81c140eb5e9316b24e8be7da483057fc0eee04837a2426cca2ba926ae7138"
+  }
+}

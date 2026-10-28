@@ -1,0 +1,40 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "baseline": true,
+    "variant": "as-copied",
+    "checks": [
+      "baseline offers explanatory preamble as recipient",
+      "no candidate or whitespace transformation is adopted by default",
+      "default proposal keeps original paragraph gaps",
+      "source remains exact and no website date or hospital signature is fabricated",
+      "actual Word PDF and text files download",
+      "downloaded original is the unchanged input including blank lines",
+      "refresh keeps the chosen paragraph preparation and original",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  },
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "baseline": true,
+    "variant": "tidied",
+    "checks": [
+      "baseline offers explanatory preamble as recipient",
+      "no candidate or whitespace transformation is adopted by default",
+      "default proposal keeps original paragraph gaps",
+      "existing cleanup preserves all eighteen paragraphs and their indentation",
+      "unchecking restores all original gaps before adoption",
+      "source remains exact and no website date or hospital signature is fabricated",
+      "actual Word PDF and text files download",
+      "downloaded original is the unchanged input including blank lines",
+      "refresh keeps the chosen paragraph preparation and original",
+      "no runtime errors"
+    ],
+    "errors": [],
+    "passed": true
+  }
+]

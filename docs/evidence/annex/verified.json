@@ -1,0 +1,77 @@
+[
+  {
+    "profile": "chrome",
+    "case": "admissions",
+    "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+    "pdfSHA256": "102e5d5fad9e93fb7ac88c08de852d400750c8e590e2d4af20a260a6543d2343",
+    "pdfPages": 3,
+    "labels": [
+      "附件"
+    ],
+    "paragraphs": 65,
+    "tables": 1
+  },
+  {
+    "profile": "chrome",
+    "case": "multiple",
+    "docxSHA256": "14a90167f90afb6b01ceb5c4fe7259bbfec35ca769ada2d41f7921b8a3b9a981",
+    "pdfSHA256": "cb24cb7658b3a5fd32d555af890095d1eed60660721cfa6cc07fbee4abbca78d",
+    "pdfPages": 3,
+    "labels": [
+      "附件1",
+      "附件2"
+    ],
+    "paragraphs": 16,
+    "tables": 1
+  },
+  {
+    "profile": "firefox",
+    "case": "admissions",
+    "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+    "pdfSHA256": "d2f881bdce1ecd42e2846ddf4be0dec662ca201ce81b67a7b7e3b23aa07ad5f8",
+    "pdfPages": 3,
+    "labels": [
+      "附件"
+    ],
+    "paragraphs": 65,
+    "tables": 1
+  },
+  {
+    "profile": "firefox",
+    "case": "multiple",
+    "docxSHA256": "14a90167f90afb6b01ceb5c4fe7259bbfec35ca769ada2d41f7921b8a3b9a981",
+    "pdfSHA256": "9840a388a356d8ef11870802c26d886239264eab3f9012e47b8a124189552b3e",
+    "pdfPages": 3,
+    "labels": [
+      "附件1",
+      "附件2"
+    ],
+    "paragraphs": 16,
+    "tables": 1
+  },
+  {
+    "profile": "webkit",
+    "case": "admissions",
+    "docxSHA256": "c98db648923a132ae78d1b56aaa2b4c771bb3d8f3bf7490fd395886016543334",
+    "pdfSHA256": "102e5d5fad9e93fb7ac88c08de852d400750c8e590e2d4af20a260a6543d2343",
+    "pdfPages": 3,
+    "labels": [
+      "附件"
+    ],
+    "paragraphs": 65,
+    "tables": 1
+  },
+  {
+    "profile": "webkit",
+    "case": "multiple",
+    "docxSHA256": "14a90167f90afb6b01ceb5c4fe7259bbfec35ca769ada2d41f7921b8a3b9a981",
+    "pdfSHA256": "8e32aba8314dff0b891f7666fd4ea3b5428d9653c35a6845cfb9c66c87ebc0bb",
+    "pdfPages": 3,
+    "labels": [
+      "附件1",
+      "附件2"
+    ],
+    "paragraphs": 16,
+    "tables": 1
+  }
+]

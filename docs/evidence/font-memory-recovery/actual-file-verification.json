@@ -1,0 +1,71 @@
+{
+  "method": "Read-only byte/content/physical-pixel comparison against all seven previously reviewed complete-original pages; not the unavailable CEO 415-character manuscript.",
+  "wordSHA256": "0103c65e54813ac9aa8b15f9a65bfffaf56a7868dba0bb4b930ae7cb4915174c",
+  "groups": {
+    "baseline": {
+      "wordBytesEqualReviewed": true,
+      "pdfSHA256": "53ca86cded26bcb401d91f4df36b4f6c7cc68a390e90fd77c036139d06b67436",
+      "pages": 7,
+      "contentStreamsEqualReviewed": true,
+      "textAndPaperEqualReviewed": true
+    },
+    "fixed": {
+      "wordBytesEqualReviewed": true,
+      "pdfSHA256": "1d22ec739b2b308b05f61db2d6f696121fcaa1e41036bc8df2774d75dfaca8b0",
+      "pages": 7,
+      "contentStreamsEqualReviewed": true,
+      "textAndPaperEqualReviewed": true
+    },
+    "recovery": {
+      "wordBytesEqualReviewed": true,
+      "pdfSHA256": "3ea80a4c295cd2d8c1c8324a9831387e55ea93c25522f0bcf2c739a6a10a79ce",
+      "pages": 7,
+      "contentStreamsEqualReviewed": true,
+      "textAndPaperEqualReviewed": true
+    }
+  },
+  "recoveryPixelsEqualAllReviewedPages": [
+    {
+      "page": 1,
+      "width": 990,
+      "height": 1400,
+      "pixelSHA256": "1c9f98ea4d22c40a7f5f2dc5c66e3062fa4f82d9fa3eaaaa58d067e906c1061b"
+    },
+    {
+      "page": 2,
+      "width": 990,
+      "height": 1400,
+      "pixelSHA256": "8fa3aaf2c525806122f19919db31d91123c3a42b6669f4152bad92263312e7e9"
+    },
+    {
+      "page": 3,
+      "width": 990,
+      "height": 1400,
+      "pixelSHA256": "07d7a992fa9531dbff8cfaa18701137f13d8d999904e29ec4295e26db3383785"
+    },
+    {
+      "page": 4,
+      "width": 990,
+      "height": 1400,
+      "pixelSHA256": "35f9057801c4b7db36ea8e444d9fecdc2bf358018dcda5d83427e396b5111989"
+    },
+    {
+      "page": 5,
+      "width": 990,
+      "height": 1400,
+      "pixelSHA256": "28687f6732e80c76c64ebd55c20b134545f924ba39639773726b1b40d0c11d94"
+    },
+    {
+      "page": 6,
+      "width": 990,
+      "height": 1400,
+      "pixelSHA256": "3267796ff8c07793db393eb1aa654ca86dc3a316df9074397050d4cf9ba7f7ec"
+    },
+    {
+      "page": 7,
+      "width": 990,
+      "height": 1400,
+      "pixelSHA256": "c9790b4140a1b65cddc007469a2f3aa692ecd870e121862026d66bb57c42fc8e"
+    }
+  ]
+}

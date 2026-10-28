@@ -1,0 +1,249 @@
+{
+  "method": "Actual new UI and evidence modules, proxying same-origin API to dedicated loopback feedbackd/PostgreSQL. The proxy changes Host/Origin to the loopback service; no external destination or user manuscript.",
+  "checks": [
+    "实际服务明确仅虚构材料且当前稿未读取",
+    "政务经办真实PG接收才显示私密回执",
+    "政务经办真实处理回复状态版本回到用户回执",
+    "政务经办真实PG补充可读且不改变当前稿",
+    "政务经办真实服务器确认整条删除",
+    "学校办公室真实PG接收才显示私密回执",
+    "学校办公室真实处理回复状态版本回到用户回执",
+    "学校办公室真实PG补充可读且不改变当前稿",
+    "学校办公室误传附件可单独删除",
+    "学校办公室真实服务器确认整条删除",
+    "医院行政真实PG接收才显示私密回执",
+    "医院行政真实处理回复状态版本回到用户回执",
+    "医院行政真实PG补充可读且不改变当前稿",
+    "医院行政误传附件可单独删除",
+    "医院行政真实服务器确认整条删除",
+    "三岗位完成后处理列表无遗留，所有请求成功",
+    "无浏览器异常/长期凭据/稿件变更"
+  ],
+  "errors": [],
+  "source": {
+    "write-feedback.js": "800aa2633c2f5a496660b24ca32895a761dba0771b13f9f4050e9adb4b2afb61",
+    "write-feedback.css": "18f8f7d0a971980195ab15da61c3e544bd5f8c11cb1faef1813211eb3c12f892",
+    "feedback-admin.html": "a38377569b43459263eb027f3278e9cb18b4a3773db9f3f0766b9c5abc46273a",
+    "feedback-admin.js": "ab37c3a812f4b9b92626e58d66bd3d62432643a51c5a6792c9b2ff00225f4c7e",
+    "write-feedback-evidence.js": "3db13100e53597966beab88bbf26ce5dcc8d47dca8bffe5d3356d3d742922566",
+    "write-feedback-evidence-model.js": "37bdaf48b030aa125ee036c1083b7f4ca2b9547a90981c9212ecaed9bc879604"
+  },
+  "passed": true,
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/feedback/config",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/threads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/admin/threads/:private-id/messages",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/threads/:private-id/messages",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/threads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/admin/threads/:private-id/messages",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/threads/:private-id/messages",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/feedback/threads/:private-id/attachments/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/threads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/admin/threads/:private-id/messages",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/feedback/threads/:private-id/messages",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/feedback/threads/:private-id/attachments/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/feedback/threads/:private-id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/feedback/admin/threads",
+      "status": 200
+    }
+  ]
+}

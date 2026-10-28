@@ -1,0 +1,216 @@
+{
+  "sourceSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+  "profiles": [
+    {
+      "profile": "chrome",
+      "browserVersion": "155.0.8059.86",
+      "checks": 31,
+      "actualWasmSHA256": [
+        "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+      ]
+    },
+    {
+      "profile": "firefox",
+      "browserVersion": "157.0",
+      "checks": 31,
+      "actualWasmSHA256": [
+        "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+      ]
+    },
+    {
+      "profile": "webkit",
+      "browserVersion": "27.2",
+      "checks": 31,
+      "actualWasmSHA256": [
+        "41cdb7e3650b0ced56ac415bd13aacd8d7a311c7faa185acfc4bfe69b0c9bd2c"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "profile": "chrome",
+      "file": "clinic",
+      "docxSHA256": "482a5b45a33bc3ee70fee4c2beec1118a9400f3e90a7930a9691fc0b3c66f299",
+      "pdfSHA256": "b172fc1ff3d54a74f8ad25f11b1c047fc600fbd4052b4ffe665d60009087c6ea",
+      "pdfPages": 1,
+      "tables": 1,
+      "nativeWordPages": 1
+    },
+    {
+      "profile": "chrome",
+      "file": "admissions",
+      "docxSHA256": "20da21408f358b39b87c490e3645e8a76c488466a8548544bb34706ca0e9e4b7",
+      "pdfSHA256": "edbbedc0e845f4be9f55197a6e7a07f22eb61dda86d237ca3d1aeae1ac2709ee",
+      "pdfPages": 3,
+      "tables": 1,
+      "nativeWordPages": 3
+    },
+    {
+      "profile": "chrome",
+      "file": "native-untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pdfSHA256": "c0c1f4b8c28c5230fcd81d5db896a977125038ad574adefe8d391ffe6cb6e9f2",
+      "pdfPages": 5,
+      "tables": 2,
+      "nativeWordPages": 5
+    },
+    {
+      "profile": "chrome",
+      "file": "native-edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pdfSHA256": "d50e717172e15e7958c393b64d0ff819f1019d1d66af76db32619d21f3e79a65",
+      "pdfPages": 5,
+      "tables": 2,
+      "nativeWordPages": 5
+    },
+    {
+      "profile": "firefox",
+      "file": "clinic",
+      "docxSHA256": "482a5b45a33bc3ee70fee4c2beec1118a9400f3e90a7930a9691fc0b3c66f299",
+      "pdfSHA256": "7ec840a3c94e98b7dcb69e9cd499782ae7270c4e2f183564593dc8fe99056bf3",
+      "pdfPages": 1,
+      "tables": 1
+    },
+    {
+      "profile": "firefox",
+      "file": "admissions",
+      "docxSHA256": "20da21408f358b39b87c490e3645e8a76c488466a8548544bb34706ca0e9e4b7",
+      "pdfSHA256": "2375db489cf483df78801d0310c2abaceeed39d89fa701b91514933a11ae1854",
+      "pdfPages": 3,
+      "tables": 1
+    },
+    {
+      "profile": "firefox",
+      "file": "native-untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pdfSHA256": "0d2c56c16af0f6c336c1884186c064e0363b898906744d42ab2399bd8e933243",
+      "pdfPages": 5,
+      "tables": 2
+    },
+    {
+      "profile": "firefox",
+      "file": "native-edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pdfSHA256": "1270e51aff33f6b35b62943057e7ffcaa7bb1b9389c1694fecd7f129ebf667aa",
+      "pdfPages": 5,
+      "tables": 2
+    },
+    {
+      "profile": "webkit",
+      "file": "clinic",
+      "docxSHA256": "482a5b45a33bc3ee70fee4c2beec1118a9400f3e90a7930a9691fc0b3c66f299",
+      "pdfSHA256": "eeb737cb7054702c639e5289437b1db83b2f2c71c75ce0a47a3726d90699f57f",
+      "pdfPages": 1,
+      "tables": 1
+    },
+    {
+      "profile": "webkit",
+      "file": "admissions",
+      "docxSHA256": "20da21408f358b39b87c490e3645e8a76c488466a8548544bb34706ca0e9e4b7",
+      "pdfSHA256": "de9930be9c0bd7ced8773d56e72f00a8e2079b1c33599838c8b572337ed66e6d",
+      "pdfPages": 3,
+      "tables": 1
+    },
+    {
+      "profile": "webkit",
+      "file": "native-untouched",
+      "docxSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pdfSHA256": "92d37c8fc26fbdef12b6afcde0ab0f1358715767b3420538abfeda7a40014ef6",
+      "pdfPages": 5,
+      "tables": 2
+    },
+    {
+      "profile": "webkit",
+      "file": "native-edited",
+      "docxSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pdfSHA256": "e353c5678417bdac244f2bf08a902c873927bf5bca53e3da9031996786755ab8",
+      "pdfPages": 5,
+      "tables": 2
+    }
+  ],
+  "nativeWord": [
+    {
+      "file": "clinic",
+      "wordVersion": "16.0",
+      "sourceSHA256": "482a5b45a33bc3ee70fee4c2beec1118a9400f3e90a7930a9691fc0b3c66f299",
+      "pages": 1,
+      "tables": 1,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "width": 595.2999877929688,
+          "orientation": 0
+        }
+      ],
+      "sample": null,
+      "logicalCharacters": 124,
+      "logicalTextSHA256": "883995ed9f7568ecfee882162d3e8219fc45c5fe0281f2131b33983d804f340e"
+    },
+    {
+      "file": "admissions",
+      "wordVersion": "16.0",
+      "sourceSHA256": "20da21408f358b39b87c490e3645e8a76c488466a8548544bb34706ca0e9e4b7",
+      "pages": 3,
+      "tables": 1,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "width": 595.2999877929688,
+          "orientation": 0
+        }
+      ],
+      "sample": null,
+      "logicalCharacters": 391,
+      "logicalTextSHA256": "fc2ca1a2af2f79b8484ef7aec86314ad01bc2050b00638dc07d88064642e41b3"
+    },
+    {
+      "file": "native-untouched",
+      "wordVersion": "16.0",
+      "sourceSHA256": "bae60c771f57218b93d2b383d08a26ac025a119b872ca634e01630382a2230b1",
+      "pages": 5,
+      "tables": 2,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "width": 595.2999877929688,
+          "orientation": 0
+        },
+        {
+          "height": 595.2999877929688,
+          "width": 841.9000244140625,
+          "orientation": 1
+        }
+      ],
+      "sample": null,
+      "logicalCharacters": 1443,
+      "logicalTextSHA256": "7def99dbd4efd5dcc645e266c312aef31e534fa6f9c6bdff11b90ffe87ced1d9"
+    },
+    {
+      "file": "native-edited",
+      "wordVersion": "16.0",
+      "sourceSHA256": "f4b67c748cec39361b2a83a24cce38b924177e6169a99f10c30771f8029e2781",
+      "pages": 5,
+      "tables": 2,
+      "sections": [
+        {
+          "height": 841.9000244140625,
+          "width": 595.2999877929688,
+          "orientation": 0
+        },
+        {
+          "height": 595.2999877929688,
+          "width": 841.9000244140625,
+          "orientation": 1
+        }
+      ],
+      "sample": {
+        "sizePt": 11.0,
+        "page": 4,
+        "text": "模拟待核",
+        "font": "宋体"
+      },
+      "logicalCharacters": 1454,
+      "logicalTextSHA256": "4277fde30cb2fedcc60ddd16a0677baa578d06e7e899d07842f7a99c86fa5ff3"
+    }
+  ]
+}

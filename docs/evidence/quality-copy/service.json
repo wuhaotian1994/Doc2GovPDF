@@ -1,0 +1,59 @@
+{
+  "url": "http://127.0.0.1:4173",
+  "runtimeState": {
+    "url": "http://127.0.0.1:4173",
+    "pid": 65964,
+    "startedAt": "2026-10-21T07:38:24.6211440Z",
+    "binary": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\tmp\\local-preview\\webserve.exe",
+    "assets": "C:\\Users\\wuhao\\.codex\\worktrees\\ceo-001\\Doc2GovPDF\\dist\\local-preview",
+    "headAtCheck": "8d4a80753a5f0961e9da6027bde9720255ccdda5",
+    "writeJSSHA256": "8F4201CF24A9A9ED3FDA5740BEA006A490CA075CFAD01F972EBB10EDB1A322A2",
+    "engineWASMSHA256": "7CF61E3193856B12EC0696F3A3ACADED4319C40D46A3610C964C63DFBFFA66E6",
+    "checkedAt": "2026-10-22T00:29:58.4386382Z"
+  },
+  "actualHTTPAssetSHA256": {
+    "write.js": "8f4201cf24a9a9ed3fda5740bea006a490ca075cfad01f972ebb10edb1a322a2",
+    "document-engine.wasm": "7cf61e3193856b12ec0696f3a3acaded4319c40d46a3610c964c63dfbffa66e6"
+  },
+  "files": [
+    {
+      "kind": "original",
+      "tables": 2,
+      "exactCharacters": 337,
+      "pdfPages": 2,
+      "docxSHA256": "d3029dd3b5f4944e037fb0d39509821e36522723d7b8d3ebab7aeae3946daef7",
+      "pdfSHA256": "bcfcf2889105325daf864c3b09d36d84d2ce7ce9da424b8c36357fca7f7912f2",
+      "docxSameAsNativeWordRepresentative": true
+    },
+    {
+      "kind": "copied",
+      "tables": 2,
+      "exactCharacters": 349,
+      "pdfPages": 2,
+      "docxSHA256": "9351f20f5910ce6d4c4962b80c99d2c6ab5da9788d4a6818c2ecc24b445bc22c",
+      "pdfSHA256": "160521ef18d27b454335d729bc66cf28c12bf263fe6adcab2539163d49633fad",
+      "docxSameAsNativeWordRepresentative": true
+    }
+  ],
+  "task": {
+    "profile": "chrome",
+    "phase": "after",
+    "url": "http://127.0.0.1:4173",
+    "version": "155.0.8059.86",
+    "method": "实施者知情的制造企业质量文员任务，非盲测；正常UI，无存储注入",
+    "checks": [
+      "正常页分别形成正文问题清单与落款后复查表",
+      "从最近文档复制生成新身份，明确清空独立日期和文号",
+      "从最近文档复制完整保留两张表格和段落格式",
+      "复制后的单元格/标题/日期修改经刷新仍完整",
+      "返回原稿两张表格未被副本复查修改污染",
+      "任务过程无页面错误"
+    ],
+    "errors": [],
+    "passed": true,
+    "initialStructureRetained": true,
+    "originalId": "060cd604-a7f3-465a-a204-d146a6f96a68",
+    "copiedId": "b171bfaf-8f97-424d-b188-0903cedf2614"
+  },
+  "limits": "HTTP assets and visible behavior verified; not browser loaded-byte certification"
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "profile": "chrome",
+    "browser": "155.0.8059.86",
+    "passed": true,
+    "checks": [
+      "mount never reads the current manuscript or auto-selects evidence",
+      "explicit action reads once and no candidate is checked by default",
+      "empty selection cannot silently attach the whole draft",
+      "preview itself does not attach until explicitly added",
+      "final JSON contains only chosen visible text and a real table with blanks",
+      "safe paragraph semantics and table header remain explicit with a non-pixel-replica boundary",
+      "final output excludes source, review, identities, unchosen title and manuscript metadata",
+      "editing temporarily removes old attachment from the send list",
+      "cancel editing restores the confirmed file and leaves manuscript exact",
+      "native Word does not serialize an original or recovery package",
+      "image is prepared locally without attachment or original filename leak",
+      "crop changes actual PNG dimensions and opaque redaction destroys the chosen original pixels",
+      "output PNG has no original hidden tail or filename and contains only raster pixels",
+      "return-and-cancel keeps the confirmed flattened PNG exact",
+      "clear removes all final evidence without altering original draft",
+      "preparation never uploads or fetches manuscript content",
+      "component has no uncaught errors"
+    ]
+  },
+  {
+    "profile": "firefox",
+    "browser": "157.0",
+    "passed": true,
+    "checks": [
+      "mount never reads the current manuscript or auto-selects evidence",
+      "explicit action reads once and no candidate is checked by default",
+      "empty selection cannot silently attach the whole draft",
+      "preview itself does not attach until explicitly added",
+      "final JSON contains only chosen visible text and a real table with blanks",
+      "safe paragraph semantics and table header remain explicit with a non-pixel-replica boundary",
+      "final output excludes source, review, identities, unchosen title and manuscript metadata",
+      "editing temporarily removes old attachment from the send list",
+      "cancel editing restores the confirmed file and leaves manuscript exact",
+      "native Word does not serialize an original or recovery package",
+      "image is prepared locally without attachment or original filename leak",
+      "crop changes actual PNG dimensions and opaque redaction destroys the chosen original pixels",
+      "output PNG has no original hidden tail or filename and contains only raster pixels",
+      "return-and-cancel keeps the confirmed flattened PNG exact",
+      "clear removes all final evidence without altering original draft",
+      "preparation never uploads or fetches manuscript content",
+      "component has no uncaught errors"
+    ]
+  },
+  {
+    "profile": "webkit",
+    "browser": "27.2",
+    "passed": true,
+    "checks": [
+      "mount never reads the current manuscript or auto-selects evidence",
+      "explicit action reads once and no candidate is checked by default",
+      "empty selection cannot silently attach the whole draft",
+      "preview itself does not attach until explicitly added",
+      "final JSON contains only chosen visible text and a real table with blanks",
+      "safe paragraph semantics and table header remain explicit with a non-pixel-replica boundary",
+      "final output excludes source, review, identities, unchosen title and manuscript metadata",
+      "editing temporarily removes old attachment from the send list",
+      "cancel editing restores the confirmed file and leaves manuscript exact",
+      "native Word does not serialize an original or recovery package",
+      "image is prepared locally without attachment or original filename leak",
+      "crop changes actual PNG dimensions and opaque redaction destroys the chosen original pixels",
+      "output PNG has no original hidden tail or filename and contains only raster pixels",
+      "return-and-cancel keeps the confirmed flattened PNG exact",
+      "clear removes all final evidence without altering original draft",
+      "preparation never uploads or fetches manuscript content",
+      "component has no uncaught errors"
+    ]
+  }
+]

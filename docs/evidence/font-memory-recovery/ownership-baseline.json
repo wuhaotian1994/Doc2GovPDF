@@ -1,0 +1,12 @@
+{
+  "scope": "Isolated font ownership and protocol probes; not a reproduction of the unavailable 415-character manuscript",
+  "fontBytes": 14854712,
+  "retainedHeapBytes": 29926552,
+  "retainedRatio": 2.015,
+  "maxSimultaneousFontDownloads": 2,
+  "settledResourcePromises": 2,
+  "sourceFiles": [
+    "engine-resources.js",
+    "font_resources.go"
+  ]
+}

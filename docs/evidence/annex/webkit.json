@@ -1,0 +1,32 @@
+{
+  "profile": "webkit",
+  "browserVersion": "27.2",
+  "url": "http://127.0.0.1:9504",
+  "method": "Implementation-informed role task with normal UI; local public historical material and explicitly fictional second case. Not a blind-user study.",
+  "checks": [
+    "现成表和实际附件均需明确选择",
+    "整理确实改变附件行关系时解释为何重新确认",
+    "把内容定位到落款后仍保留同表及附件确认",
+    "实际附件身份与56格9000数据进入同一v6稿",
+    "正常附件没有名称对应错误",
+    "关页重开保留同稿附件身份、日期与表格",
+    "改实际附件名后准确指出正文说明尚未对应",
+    "名称对应问题能定位当前标题原文",
+    "撤销名称修改恢复原对应关系",
+    "取消附件身份保留文字和完整原表",
+    "附件身份调整可以撤销",
+    "两份实际附件的选择均随位置变化保留",
+    "多附件名称序号按作者原文对应",
+    "应用模块失败仍下载完整v6附件身份和原表",
+    "启动前新输入与附件结构一起恢复，不压平成文字",
+    "浏览器实际Wasm响应对应最终构建"
+  ],
+  "errors": [],
+  "engineSHA256": "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c",
+  "wasmResponseHashes": [
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c",
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c",
+    "0dd43f914824c0d59477cde06c72b4e2d5941aa140b2fe0c4f4eebbfcda2d67c"
+  ],
+  "passed": true
+}

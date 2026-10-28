@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"reflect"
 	"regexp"
 	"sort"
 	"strings"
@@ -83,8 +84,8 @@ func NewDocument(f Fields) (Model, error) {
 	if f.Letterhead && strings.TrimSpace(f.Agency) == "" {
 		return Model{}, fmt.Errorf("显示红头时请填写发文单位")
 	}
-	if f.Signer != "" && f.Kind != "request" && f.Kind != "report" {
-		return Model{}, fmt.Errorf("签发人适用于上行文，请选择请示或报告")
+	if f.Signer != "" && f.Kind != "request" && f.Kind != "report" && f.Kind != "plain" {
+		return Model{}, fmt.Errorf("签发人适用于上行文；可在填写稿明确填写，其他模板请按实际适用条件选择请示或报告")
 	}
 	if f.Kind != "minutes" && (f.Attendees != "" || f.Absentees != "" || f.Observers != "") {
 		return Model{}, fmt.Errorf("填写参会名单时请选择纪要文种")
@@ -197,7 +198,12 @@ func NewDocument(f Fields) (Model, error) {
 			divider.KeepNext = true
 		}
 	}
-	add(f.Title, "title")
+	// Explicit signer metadata in the generic writer precedes the title, even
+	// without a red heading. Preserve legacy unsigned and typed-template order.
+	plainSignerBeforeTitle := f.Kind == "plain" && !f.Letterhead && f.Signer != ""
+	if !plainSignerBeforeTitle {
+		add(f.Title, "title")
+	}
 	if !f.Letterhead && (f.Reference != "" || f.Signer != "") {
 		text := f.Reference
 		if f.Signer != "" {
@@ -211,22 +217,34 @@ func NewDocument(f Fields) (Model, error) {
 			p.Tabs = []TabStop{{Align: "right", Position: 150.36}}
 		}
 	}
+	if plainSignerBeforeTitle {
+		add(f.Title, "title")
+	}
 	if f.Recipient != "" {
 		add(strings.TrimRight(f.Recipient, "：:")+"：", "recipient")
 	}
 	for _, line := range strings.Split(strings.ReplaceAll(f.Body, "\r\n", "\n"), "\n") {
+		roleText := line
+		if f.Kind == "plain" {
+			// Recognize pasted indentation without rewriting authored text.
+			roleText = strings.TrimSpace(line)
+		}
 		role := "body"
-		if h1.MatchString(line) || article.MatchString(line) {
+		if h1.MatchString(roleText) || article.MatchString(roleText) {
 			role = "heading"
 		}
-		if h2.MatchString(line) {
+		if h2.MatchString(roleText) {
 			role = "heading2"
 		}
-		if h3.MatchString(line) {
+		if h3.MatchString(roleText) {
 			role = "heading3"
 		}
-		if h4.MatchString(line) {
+		if h4.MatchString(roleText) {
 			role = "heading4"
+		}
+		if f.Kind == "plain" && articleLabel.MatchString(roleText) {
+			// A numbered article carries prose; it is not a heading paragraph.
+			role = "article"
 		}
 		p := add(line, role)
 		if role == "heading3" || role == "heading4" {
@@ -315,7 +333,8 @@ func NewDocument(f Fields) (Model, error) {
 			add("", "attachment-body")
 		}
 	}
-	imprint := f.Kind != "letter" && f.Letterhead && f.Agency != "" && f.Date != ""
+	issuer, issueDate := imprintValues(f)
+	imprint := f.Kind != "letter" && (hasExplicitImprint(f) || f.Letterhead && f.Agency != "" && f.Date != "")
 	line := func(width, height float64) {
 		p := add("", "imprint")
 		p.Line = height
@@ -336,12 +355,15 @@ func NewDocument(f Fields) (Model, error) {
 		}
 	}
 	if imprint {
-		p := add(f.Agency+"\t"+f.Date+"印发", "imprint")
+		p := add(issuer+"\t"+issueDate+"印发", "imprint")
 		p.LeftIndent = 14 * 25.4 / 72
 		p.Tabs = []TabStop{{Align: "right", Position: 156 - 2*14*25.4/72}}
 		line(.35, 1.06)
 	}
-	m = applyExtraFields(m, f)
+	m, extraErr = applyExtraFields(m, f)
+	if extraErr != nil {
+		return Model{}, extraErr
+	}
 	m.AutoNumbering = f.AutoNumbering
 	m = RenumberDocument(m)
 	return m, m.Validate()
@@ -386,6 +408,16 @@ func paragraphXML(p Paragraph) string {
 	if p.KeepNext {
 		props.WriteString(`<w:keepNext/>`)
 	}
+	if p.KeepLines {
+		props.WriteString(`<w:keepLines/>`)
+	}
+	if p.WidowControl != nil {
+		if *p.WidowControl {
+			props.WriteString(`<w:widowControl/>`)
+		} else {
+			props.WriteString(`<w:widowControl w:val="0"/>`)
+		}
+	}
 	if p.AutoNumbered {
 		fmt.Fprintf(&props, `<w:numPr><w:ilvl w:val="%d"/><w:numId w:val="1"/></w:numPr>`, p.OutlineLevel-1)
 	}
@@ -413,10 +445,6 @@ func paragraphXML(p Paragraph) string {
 		if color == "" {
 			color = "000000"
 		}
-		side := "bottom"
-		if p.BorderTop {
-			side = "top"
-		}
 		width := 12
 		if strings.Contains(strings.ToLower(style), "thick") {
 			width = 18
@@ -424,7 +452,16 @@ func paragraphXML(p Paragraph) string {
 		if p.BorderWidth > 0 {
 			width = int(p.BorderWidth*72/25.4*8 + .5)
 		}
-		fmt.Fprintf(&props, `<w:pBdr><w:%s w:val="%s" w:sz="%d" w:space="0" w:color="%s"/></w:pBdr>`, side, xmlText(style), width, xmlText(color))
+		props.WriteString(`<w:pBdr>`)
+		for _, edge := range []struct {
+			name string
+			on   bool
+		}{{"top", p.BorderTop}, {"bottom", p.BorderBottom}} {
+			if edge.on {
+				fmt.Fprintf(&props, `<w:%s w:val="%s" w:sz="%d" w:space="0" w:color="%s"/>`, edge.name, xmlText(style), width, xmlText(color))
+			}
+		}
+		props.WriteString(`</w:pBdr>`)
 	}
 	var run strings.Builder
 	visiblePrefix := p.Prefix
@@ -498,7 +535,70 @@ func formattedRun(text, font string, size float64, color string) string {
 	out.WriteString(`</w:r>`)
 	return out.String()
 }
+
+// basicImprintWordXML folds only the generated, three-paragraph basic imprint.
+// A single bottom frame with both rules survives Word and LibreOffice; adjacent
+// rule-only frames lose their borders in LibreOffice. The author model and the
+// direct PDF path retain their original paragraphs. Other layouts stay untouched.
+func basicImprintWordXML(m Model, start int) (string, bool) {
+	if m.SourceID != "" || m.ImportedFormatVersion != 0 || m.Template == "" || start+2 >= len(m.Blocks) {
+		return "", false
+	}
+	count := 0
+	for _, block := range m.Blocks {
+		if block.Paragraph != nil && block.Paragraph.Role == "imprint" {
+			count++
+		}
+	}
+	if count != 3 {
+		return "", false
+	}
+	upper, text, lower := m.Blocks[start].Paragraph, m.Blocks[start+1].Paragraph, m.Blocks[start+2].Paragraph
+	if upper == nil || text == nil || lower == nil || upper.Text != "" || upper.Prefix != "" || lower.Text != "" || lower.Prefix != "" {
+		return "", false
+	}
+	parts := strings.Split(text.Text, "\t")
+	if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
+		return "", false
+	}
+	standard := func(p Paragraph, line float64) Paragraph {
+		return Paragraph{ID: p.ID, Text: p.Text, Role: "imprint", Align: "both", Font: "仿宋", Size: 14, Line: line, AnchorBottom: true}
+	}
+	first, last := standard(*upper, 2.1), standard(*lower, 1.06)
+	first.BorderBottom, last.BorderBottom = true, true
+	first.BorderColor, last.BorderColor = "000000", "000000"
+	first.BorderWidth, last.BorderWidth = .35, .35
+	middle := standard(*text, 6.98)
+	middle.LeftIndent = 14 * 25.4 / 72
+	middle.Tabs = []TabStop{{Align: "right", Position: 156 - 2*14*25.4/72}}
+	if !reflect.DeepEqual(*upper, first) || !reflect.DeepEqual(*text, middle) || !reflect.DeepEqual(*lower, last) {
+		return "", false
+	}
+	merged := *text
+	merged.Tabs = append([]TabStop(nil), text.Tabs...)
+	merged.Indent += text.LeftIndent
+	merged.LeftIndent = 0
+	for i := range merged.Tabs {
+		merged.Tabs[i].Position += text.LeftIndent
+	}
+	merged.BorderTop, merged.BorderBottom = true, true
+	merged.BorderColor, merged.BorderWidth = upper.BorderColor, upper.BorderWidth
+	// Preserve even the original empty runs, in their original order. Only the
+	// two purely formatting paragraph wrappers are removed.
+	runs := func(p Paragraph) string {
+		markup := paragraphXML(p)
+		return markup[strings.Index(markup, "</w:pPr>")+len("</w:pPr>") : len(markup)-len("</w:p>")]
+	}
+	markup := paragraphXML(merged)
+	markup = strings.Replace(markup, "</w:pPr>", "</w:pPr>"+runs(*upper), 1)
+	markup = strings.TrimSuffix(markup, "</w:p>") + runs(*lower) + "</w:p>"
+	return markup, true
+}
+
 func CreateDOCX(m Model) ([]byte, error) {
+	if len(RequiredFallbackFonts(m, true)) > 0 {
+		return nil, fmt.Errorf("Word完整字体资源尚未准备完成，请重试")
+	}
 	var fitErr error
 	m, fitErr = fitMarks(m)
 	if fitErr != nil {
@@ -511,7 +611,13 @@ func CreateDOCX(m Model) ([]byte, error) {
 		return nil, e
 	}
 	var body strings.Builder
-	for _, b := range m.Blocks {
+	for i := 0; i < len(m.Blocks); i++ {
+		b := m.Blocks[i]
+		if markup, ok := basicImprintWordXML(m, i); ok {
+			body.WriteString(markup)
+			i += 2
+			continue
+		}
 		if b.Paragraph != nil {
 			body.WriteString(paragraphXML(*b.Paragraph))
 			continue
@@ -625,15 +731,18 @@ func CreateDOCX(m Model) ([]byte, error) {
 	body.WriteString(`<w:docGrid w:type="linesAndChars" w:linePitch="579" w:charSpace="-842"/></w:sectPr>`)
 	parts := map[string]string{"[Content_Types].xml": `<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/word/footer2.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/></Types>`, "_rels/.rels": `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="doc" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`, "word/document.xml": `<w:document xmlns:w="` + W + `" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>` + body.String() + `</w:body></w:document>`, "word/_rels/document.xml.rels": `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="settings" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="footerOdd" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/><Relationship Id="footerEven" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer2.xml"/></Relationships>`, "word/settings.xml": `<w:settings xmlns:w="` + W + `"><w:evenAndOddHeaders/><w:characterSpacingControl w:val="compressPunctuation"/><w:compat><w:doNotExpandShiftReturn/></w:compat></w:settings>`}
 	for i, align := range []string{"right", "left"} {
-		parts[fmt.Sprintf("word/footer%d.xml", i+1)] = pageFooterXML(align)
+		parts[fmt.Sprintf("word/footer%d.xml", i+1)] = generatedPageFooterXML(align)
 	}
 	var out bytes.Buffer
 	addFirstPageParts(parts, m)
-	parts["word/styles.xml"] = `<w:styles xmlns:w="` + W + `"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="仿宋" w:hAnsi="仿宋" w:eastAsia="仿宋"/><w:sz w:val="32"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:line="579" w:lineRule="exact"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style></w:styles>`
+	parts["word/styles.xml"] = `<w:styles xmlns:w="` + W + `"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="仿宋" w:hAnsi="仿宋" w:eastAsia="仿宋"/><w:sz w:val="32"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:line="579" w:lineRule="exact"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>` + pageFooterStyleXML() + `</w:styles>`
 	parts["[Content_Types].xml"] = strings.Replace(parts["[Content_Types].xml"], "</Types>", `<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`, 1)
 	parts["word/_rels/document.xml.rels"] = strings.Replace(parts["word/_rels/document.xml.rels"], "</Relationships>", `<Relationship Id="styles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`, 1)
 	addNumberingPart(parts, m)
-	fontFiles := addFallbackFonts(parts)
+	fontFiles, err := addFallbackFonts(parts)
+	if err != nil {
+		return nil, err
+	}
 	z := zip.NewWriter(&out)
 	names := []string{}
 	for name := range parts {

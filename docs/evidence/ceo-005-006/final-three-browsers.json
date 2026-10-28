@@ -1,0 +1,2606 @@
+{
+  "variant": "final",
+  "environment": {
+    "platform": "win32",
+    "release": "10.0.26200",
+    "cpu": "Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz",
+    "logicalCPUs": 12
+  },
+  "definition": "Input handler = synchronous synthetic input event. Visible = canvas committed plus two animation frames. Ready = full PDF layout and inspection reported updated, excluding human review time.",
+  "rows": [
+    {
+      "profile": "chrome",
+      "version": "155.0.8059.85",
+      "kind": "fresh-context",
+      "sample": 0,
+      "navToInteractiveMS": 583,
+      "inputSequenceMS": 211.0999999642372,
+      "visibleAfterInputMS": 944.9000000357628,
+      "readyAfterInputMS": 924.6000000238419,
+      "paintAt": 1742.1000000238419,
+      "readyAt": 1721.800000011921,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 26.19999998807907
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 9.400000035762787
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 242.30000001192093
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 23.80000001192093
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "cached-reopen",
+      "sample": 0,
+      "navToInteractiveMS": 66.5,
+      "visibleFromNavigationMS": 657.8000000119209,
+      "readyFromNavigationMS": 635.0999999642372,
+      "paintAt": 657.8000000119209,
+      "readyAt": 635.0999999642372,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 25.5
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 9.399999976158142
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 225.10000002384186
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 20
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 0,
+      "characters": 110,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 458.69999998807907,
+      "readyAfterInputMS": 436.80000001192093,
+      "paintAt": 1175.0999999642372,
+      "readyAt": 1153.199999988079,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.699999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 153.10000002384186
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11.100000023841858
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 1,
+      "characters": 110,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 480,
+      "readyAfterInputMS": 461.19999998807907,
+      "paintAt": 1675.3999999761581,
+      "readyAt": 1656.5999999642372,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 164.60000002384186
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11.199999988079071
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 2,
+      "characters": 110,
+      "inputHandlerMS": 0.699999988079071,
+      "visibleAfterInputMS": 460.7000000476837,
+      "readyAfterInputMS": 437.60000002384186,
+      "paintAt": 2159.300000011921,
+      "readyAt": 2136.199999988079,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 154.69999998807907
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 10.700000047683716
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 3,
+      "characters": 110,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 497.19999998807907,
+      "readyAfterInputMS": 473.89999997615814,
+      "paintAt": 2676.399999976158,
+      "readyAt": 2653.099999964237,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.6000000238418579
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 163.4000000357628
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11.699999988079071
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 4,
+      "characters": 110,
+      "inputHandlerMS": 0.6000000238418579,
+      "visibleAfterInputMS": 429.89999997615814,
+      "readyAfterInputMS": 407.19999998807907,
+      "paintAt": 3126.899999976158,
+      "readyAt": 3104.199999988079,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.699999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 141.69999998807907
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11.100000023841858
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 5,
+      "characters": 110,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 429.69999998807907,
+      "readyAfterInputMS": 407.5,
+      "paintAt": 3577.399999976158,
+      "readyAt": 3555.199999988079,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 151.10000002384186
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 10.699999988079071
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 6,
+      "characters": 110,
+      "inputHandlerMS": 0.5999999642372131,
+      "visibleAfterInputMS": 429.9000000357628,
+      "readyAfterInputMS": 406,
+      "paintAt": 4027.800000011921,
+      "readyAt": 4003.899999976158,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.800000011920929
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 144.29999995231628
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12.200000047683716
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 7,
+      "characters": 110,
+      "inputHandlerMS": 0.40000003576278687,
+      "visibleAfterInputMS": 431.0999999642372,
+      "readyAfterInputMS": 406.7999999523163,
+      "paintAt": 4478.399999976158,
+      "readyAt": 4454.099999964237,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.699999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 147.80000001192093
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 14
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 8,
+      "characters": 110,
+      "inputHandlerMS": 0.6000000238418579,
+      "visibleAfterInputMS": 429.60000002384186,
+      "readyAfterInputMS": 407.39999997615814,
+      "paintAt": 4928.800000011921,
+      "readyAt": 4906.599999964237,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.699999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 146.60000002384186
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 9.699999988079071
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 9,
+      "characters": 110,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 430.69999998807907,
+      "readyAfterInputMS": 409.5999999642372,
+      "paintAt": 5379.199999988079,
+      "readyAt": 5358.099999964237,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.5999999642372131
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 141.5
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11.100000023841858
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 10,
+      "characters": 110,
+      "inputHandlerMS": 0.3999999761581421,
+      "visibleAfterInputMS": 430.60000002384186,
+      "readyAfterInputMS": 407.30000001192093,
+      "paintAt": 5829.699999988079,
+      "readyAt": 5806.399999976158,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.6000000238418579
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 151.0999999642372
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 10.200000047683716
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 11,
+      "characters": 110,
+      "inputHandlerMS": 0.40000003576278687,
+      "visibleAfterInputMS": 431.30000001192093,
+      "readyAfterInputMS": 406.80000001192093,
+      "paintAt": 6280.800000011921,
+      "readyAt": 6256.300000011921,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1.2999999523162842
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 139.30000001192093
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 10
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 12,
+      "characters": 110,
+      "inputHandlerMS": 0.8999999761581421,
+      "visibleAfterInputMS": 425.7000000476837,
+      "readyAfterInputMS": 401.80000001192093,
+      "paintAt": 6730.800000011921,
+      "readyAt": 6706.899999976158,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.6000000238418579
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 140.5999999642372
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 9.600000023841858
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 13,
+      "characters": 110,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 430.0999999642372,
+      "readyAfterInputMS": 406.19999998807907,
+      "paintAt": 7181.099999964237,
+      "readyAt": 7157.199999988079,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.6000000238418579
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 145.30000001192093
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 9.900000035762787
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 14,
+      "characters": 110,
+      "inputHandlerMS": 0.3999999761581421,
+      "visibleAfterInputMS": 413.80000001192093,
+      "readyAfterInputMS": 389.80000001192093,
+      "paintAt": 7615,
+      "readyAt": 7591,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.699999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 131.60000002384186
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 9.900000035762787
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 15,
+      "characters": 110,
+      "inputHandlerMS": 0.30000001192092896,
+      "visibleAfterInputMS": 430.89999997615814,
+      "readyAfterInputMS": 407,
+      "paintAt": 8065.399999976158,
+      "readyAt": 8041.5,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.800000011920929
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 147.29999995231628
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 9.899999976158142
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 16,
+      "characters": 110,
+      "inputHandlerMS": 0.3999999761581421,
+      "visibleAfterInputMS": 413.80000001192093,
+      "readyAfterInputMS": 389.5,
+      "paintAt": 8499.199999988079,
+      "readyAt": 8474.899999976158,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.5999999642372131
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 139.10000002384186
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 9.699999988079071
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 17,
+      "characters": 110,
+      "inputHandlerMS": 0.3999999761581421,
+      "visibleAfterInputMS": 430.5,
+      "readyAfterInputMS": 407.4000000357628,
+      "paintAt": 8949.599999964237,
+      "readyAt": 8926.5,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.699999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 143.80000001192093
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 10.199999988079071
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 18,
+      "characters": 110,
+      "inputHandlerMS": 0.3999999761581421,
+      "visibleAfterInputMS": 414.10000002384186,
+      "readyAfterInputMS": 391.69999998807907,
+      "paintAt": 9383.5,
+      "readyAt": 9361.099999964237,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.800000011920929
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 139.0999999642372
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 9.899999976158142
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-short",
+      "sample": 19,
+      "characters": 110,
+      "inputHandlerMS": 0.40000003576278687,
+      "visibleAfterInputMS": 414.19999998807907,
+      "readyAfterInputMS": 392.30000001192093,
+      "paintAt": 9817.199999988079,
+      "readyAt": 9795.300000011921,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 0.7000000476837158
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 137.19999998807907
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 10.199999988079071
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 0,
+      "characters": 2300,
+      "inputHandlerMS": 0.699999988079071,
+      "visibleAfterInputMS": 763.9000000357628,
+      "readyAfterInputMS": 752.1000000238419,
+      "paintAt": 10601.300000011921,
+      "readyAt": 10589.5,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.399999976158142
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 294.5999999642372
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 161.9000000357628
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 1,
+      "characters": 2300,
+      "inputHandlerMS": 0.6000000238418579,
+      "visibleAfterInputMS": 780.3999999761581,
+      "readyAfterInputMS": 771.1999999880791,
+      "paintAt": 11402.099999964237,
+      "readyAt": 11392.899999976158,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.300000011920929
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 289.19999998807907
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 178.19999998807907
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 2,
+      "characters": 2300,
+      "inputHandlerMS": 0.699999988079071,
+      "visibleAfterInputMS": 1014.1999999880791,
+      "readyAfterInputMS": 995.1000000238419,
+      "paintAt": 12436.599999964237,
+      "readyAt": 12417.5,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.699999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 448.19999998807907
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 213.20000004768372
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 3,
+      "characters": 2300,
+      "inputHandlerMS": 0.6000000238418579,
+      "visibleAfterInputMS": 931.0999999642372,
+      "readyAfterInputMS": 921.5999999642372,
+      "paintAt": 13388.399999976158,
+      "readyAt": 13378.899999976158,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.199999988079071
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 459
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 173
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 4,
+      "characters": 2300,
+      "inputHandlerMS": 0.699999988079071,
+      "visibleAfterInputMS": 780.5,
+      "readyAfterInputMS": 768,
+      "paintAt": 14188.399999976158,
+      "readyAt": 14175.899999976158,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.200000047683716
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 303.19999998807907
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 177.60000002384186
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 5,
+      "characters": 2300,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 747.3000000119209,
+      "readyAfterInputMS": 735.4000000357628,
+      "paintAt": 14955.899999976158,
+      "readyAt": 14944,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.299999952316284
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 276.7000000476837
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 164.10000002384186
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 6,
+      "characters": 2300,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 730.6999999880791,
+      "readyAfterInputMS": 725.5,
+      "paintAt": 15706.599999964237,
+      "readyAt": 15701.399999976158,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.200000047683716
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 276.89999997615814
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 161.30000001192093
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "kind": "warm-long",
+      "sample": 7,
+      "characters": 2300,
+      "inputHandlerMS": 0.5,
+      "visibleAfterInputMS": 747.3000000119209,
+      "readyAfterInputMS": 734.8000000119209,
+      "paintAt": 16474,
+      "readyAt": 16461.5,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2.099999964237213
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 275.89999997615814
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 164
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "version": "155.0.8059.85",
+      "kind": "fresh-context",
+      "sample": 1,
+      "navToInteractiveMS": 206.10000002384186,
+      "inputSequenceMS": 120.60000002384186,
+      "visibleAfterInputMS": 832.5999999642372,
+      "readyAfterInputMS": 812,
+      "paintAt": 1160.5,
+      "readyAt": 1139.9000000357628,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 22.19999998807907
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 9.5
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 225.30000001192093
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 25
+        }
+      ]
+    },
+    {
+      "profile": "chrome",
+      "version": "155.0.8059.85",
+      "kind": "fresh-context",
+      "sample": 2,
+      "navToInteractiveMS": 199.19999998807907,
+      "inputSequenceMS": 140.60000002384186,
+      "visibleAfterInputMS": 803.8999999761581,
+      "readyAfterInputMS": 784.1999999880791,
+      "paintAt": 1146.0999999642372,
+      "readyAt": 1126.3999999761581,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 24.80000001192093
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 10.100000023841858
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 228.9000000357628
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 20.399999976158142
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "version": "157.0",
+      "kind": "fresh-context",
+      "sample": 0,
+      "navToInteractiveMS": 520,
+      "inputSequenceMS": 643,
+      "visibleAfterInputMS": 701,
+      "readyAfterInputMS": 679,
+      "paintAt": 1878,
+      "readyAt": 1856,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 5
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 284
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 17
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "cached-reopen",
+      "sample": 0,
+      "navToInteractiveMS": 161,
+      "visibleFromNavigationMS": 1033,
+      "readyFromNavigationMS": 1007,
+      "paintAt": 1033,
+      "readyAt": 1007,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 5
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 209
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 13
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 0,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 489,
+      "readyAfterInputMS": 459,
+      "paintAt": 1618,
+      "readyAt": 1588,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 179
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 1,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 512,
+      "readyAfterInputMS": 482,
+      "paintAt": 2152,
+      "readyAt": 2122,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 181
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 2,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 494,
+      "readyAfterInputMS": 464,
+      "paintAt": 2668,
+      "readyAt": 2638,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 192
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 15
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 3,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 561,
+      "readyAfterInputMS": 536,
+      "paintAt": 3252,
+      "readyAt": 3227,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 211
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 13
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 4,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 646,
+      "readyAfterInputMS": 632,
+      "paintAt": 3921,
+      "readyAt": 3907,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 233
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 20
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 5,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 706,
+      "readyAfterInputMS": 685,
+      "paintAt": 4655,
+      "readyAt": 4634,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 3
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 283
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 17
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 6,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 477,
+      "readyAfterInputMS": 459,
+      "paintAt": 5155,
+      "readyAt": 5137,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 177
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 7,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 512,
+      "readyAfterInputMS": 480,
+      "paintAt": 5688,
+      "readyAt": 5656,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 178
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 8,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 628,
+      "readyAfterInputMS": 600,
+      "paintAt": 6339,
+      "readyAt": 6311,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 240
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 19
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 9,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 515,
+      "readyAfterInputMS": 489,
+      "paintAt": 6877,
+      "readyAt": 6851,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 169
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 10,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 659,
+      "readyAfterInputMS": 635,
+      "paintAt": 7557,
+      "readyAt": 7533,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 3
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 281
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 14
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 11,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 561,
+      "readyAfterInputMS": 531,
+      "paintAt": 8140,
+      "readyAt": 8110,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 220
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 15
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 12,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 527,
+      "readyAfterInputMS": 502,
+      "paintAt": 8691,
+      "readyAt": 8666,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 181
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 13,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 560,
+      "readyAfterInputMS": 528,
+      "paintAt": 9276,
+      "readyAt": 9244,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 235
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 14,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 478,
+      "readyAfterInputMS": 448,
+      "paintAt": 9776,
+      "readyAt": 9746,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 158
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 15,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 513,
+      "readyAfterInputMS": 489,
+      "paintAt": 10310,
+      "readyAt": 10286,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 158
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 16,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 496,
+      "readyAfterInputMS": 478,
+      "paintAt": 10827,
+      "readyAt": 10809,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 184
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 13
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 17,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 480,
+      "readyAfterInputMS": 448,
+      "paintAt": 11328,
+      "readyAt": 11296,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 158
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 18,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 464,
+      "readyAfterInputMS": 446,
+      "paintAt": 11812,
+      "readyAt": 11794,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 181
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-short",
+      "sample": 19,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 465,
+      "readyAfterInputMS": 432,
+      "paintAt": 12296,
+      "readyAt": 12263,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 150
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 11
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 0,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 796,
+      "readyAfterInputMS": 778,
+      "paintAt": 13112,
+      "readyAt": 13094,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 3
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 306
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 197
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 1,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 796,
+      "readyAfterInputMS": 780,
+      "paintAt": 13930,
+      "readyAt": 13914,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 3
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 304
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 188
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 2,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 796,
+      "readyAfterInputMS": 767,
+      "paintAt": 14747,
+      "readyAt": 14718,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 300
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 194
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 3,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 896,
+      "readyAfterInputMS": 878,
+      "paintAt": 15665,
+      "readyAt": 15647,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 3
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 328
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 207
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 4,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 879,
+      "readyAfterInputMS": 859,
+      "paintAt": 16566,
+      "readyAt": 16546,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 3
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 327
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 206
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 5,
+      "characters": 2300,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 797,
+      "readyAfterInputMS": 779,
+      "paintAt": 17384,
+      "readyAt": 17366,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 318
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 192
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 6,
+      "characters": 2300,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 813,
+      "readyAfterInputMS": 793,
+      "paintAt": 18218,
+      "readyAt": 18198,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 302
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 205
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "kind": "warm-long",
+      "sample": 7,
+      "characters": 2300,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 830,
+      "readyAfterInputMS": 811,
+      "paintAt": 19069,
+      "readyAt": 19050,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 318
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 216
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "version": "157.0",
+      "kind": "fresh-context",
+      "sample": 1,
+      "navToInteractiveMS": 187,
+      "inputSequenceMS": 752,
+      "visibleAfterInputMS": 821,
+      "readyAfterInputMS": 800,
+      "paintAt": 1763,
+      "readyAt": 1742,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 8
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 6
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 310
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 239
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 19
+        }
+      ]
+    },
+    {
+      "profile": "firefox",
+      "version": "157.0",
+      "kind": "fresh-context",
+      "sample": 2,
+      "navToInteractiveMS": 211,
+      "inputSequenceMS": 634,
+      "visibleAfterInputMS": 655,
+      "readyAfterInputMS": 626,
+      "paintAt": 1505,
+      "readyAt": 1476,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 8
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 2
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 204
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 1
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 193
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 19
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "version": "27.2",
+      "kind": "fresh-context",
+      "sample": 0,
+      "navToInteractiveMS": 163,
+      "inputSequenceMS": 1019,
+      "visibleAfterInputMS": 783,
+      "readyAfterInputMS": 728,
+      "paintAt": 1971,
+      "readyAt": 1916,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 9
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 14
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 228
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 27
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "cached-reopen",
+      "sample": 0,
+      "navToInteractiveMS": 111,
+      "visibleFromNavigationMS": 1004,
+      "readyFromNavigationMS": 960,
+      "paintAt": 1004,
+      "readyAt": 960,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 15
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 200
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 30
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 0,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 694,
+      "readyAfterInputMS": 652,
+      "paintAt": 1846,
+      "readyAt": 1804,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 164
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 18
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 1,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 668,
+      "readyAfterInputMS": 627,
+      "paintAt": 2535,
+      "readyAt": 2494,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 134
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 20
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 2,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 605,
+      "readyAfterInputMS": 565,
+      "paintAt": 3163,
+      "readyAt": 3123,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 119
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 18
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 3,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 634,
+      "readyAfterInputMS": 588,
+      "paintAt": 3818,
+      "readyAt": 3772,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 132
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 15
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 4,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 620,
+      "readyAfterInputMS": 579,
+      "paintAt": 4460,
+      "readyAt": 4419,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 134
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 21
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 5,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 618,
+      "readyAfterInputMS": 577,
+      "paintAt": 5099,
+      "readyAt": 5058,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 133
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 22
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 6,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 613,
+      "readyAfterInputMS": 570,
+      "paintAt": 5733,
+      "readyAt": 5690,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 124
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 15
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 7,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 612,
+      "readyAfterInputMS": 571,
+      "paintAt": 6366,
+      "readyAt": 6325,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 121
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 17
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 8,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 629,
+      "readyAfterInputMS": 587,
+      "paintAt": 7016,
+      "readyAt": 6974,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 129
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 23
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 9,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 639,
+      "readyAfterInputMS": 596,
+      "paintAt": 7675,
+      "readyAt": 7632,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 126
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 13
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 10,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 656,
+      "readyAfterInputMS": 616,
+      "paintAt": 8352,
+      "readyAt": 8312,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 14
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 126
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 13
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 11,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 631,
+      "readyAfterInputMS": 589,
+      "paintAt": 9005,
+      "readyAt": 8963,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 121
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 17
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 12,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 625,
+      "readyAfterInputMS": 584,
+      "paintAt": 9651,
+      "readyAt": 9610,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 125
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 14
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 13,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 682,
+      "readyAfterInputMS": 640,
+      "paintAt": 10354,
+      "readyAt": 10312,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 138
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 12
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 14,
+      "characters": 110,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 703,
+      "readyAfterInputMS": 656,
+      "paintAt": 11078,
+      "readyAt": 11031,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 146
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 24
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 15,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 772,
+      "readyAfterInputMS": 724,
+      "paintAt": 11871,
+      "readyAt": 11823,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 158
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 25
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 16,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 729,
+      "readyAfterInputMS": 679,
+      "paintAt": 12623,
+      "readyAt": 12573,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 175
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 24
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 17,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 636,
+      "readyAfterInputMS": 595,
+      "paintAt": 13279,
+      "readyAt": 13238,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 131
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 21
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 18,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 614,
+      "readyAfterInputMS": 571,
+      "paintAt": 13915,
+      "readyAt": 13872,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 123
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 15
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-short",
+      "sample": 19,
+      "characters": 110,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 644,
+      "readyAfterInputMS": 601,
+      "paintAt": 14580,
+      "readyAt": 14537,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 120
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 17
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 0,
+      "characters": 2300,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 906,
+      "readyAfterInputMS": 873,
+      "paintAt": 15507,
+      "readyAt": 15474,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 255
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 156
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 1,
+      "characters": 2300,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 939,
+      "readyAfterInputMS": 904,
+      "paintAt": 16468,
+      "readyAt": 16433,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 254
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 172
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 2,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 983,
+      "readyAfterInputMS": 950,
+      "paintAt": 17476,
+      "readyAt": 17443,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 299
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 160
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 3,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 939,
+      "readyAfterInputMS": 905,
+      "paintAt": 18437,
+      "readyAt": 18403,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 14
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 256
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 156
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 4,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 938,
+      "readyAfterInputMS": 905,
+      "paintAt": 19400,
+      "readyAt": 19367,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 260
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 156
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 5,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 998,
+      "readyAfterInputMS": 965,
+      "paintAt": 20420,
+      "readyAt": 20387,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 18
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 283
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 189
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 6,
+      "characters": 2300,
+      "inputHandlerMS": 0,
+      "visibleAfterInputMS": 918,
+      "readyAfterInputMS": 885,
+      "paintAt": 21359,
+      "readyAt": 21326,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 16
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 255
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 163
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "kind": "warm-long",
+      "sample": 7,
+      "characters": 2300,
+      "inputHandlerMS": 1,
+      "visibleAfterInputMS": 930,
+      "readyAfterInputMS": 896,
+      "paintAt": 22310,
+      "readyAt": 22276,
+      "status": "已更新 · 5 页",
+      "jobs": [
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 255
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 158
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "version": "27.2",
+      "kind": "fresh-context",
+      "sample": 1,
+      "navToInteractiveMS": 146,
+      "inputSequenceMS": 1021,
+      "visibleAfterInputMS": 753,
+      "readyAfterInputMS": 706,
+      "paintAt": 1924,
+      "readyAt": 1877,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 7
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 14
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 187
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 152
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 29
+        }
+      ]
+    },
+    {
+      "profile": "webkit",
+      "version": "27.2",
+      "kind": "fresh-context",
+      "sample": 2,
+      "navToInteractiveMS": 190,
+      "inputSequenceMS": 1087,
+      "visibleAfterInputMS": 969,
+      "readyAfterInputMS": 915,
+      "paintAt": 2251,
+      "readyAt": 2197,
+      "status": "已更新 · 1 页",
+      "jobs": [
+        {
+          "method": "Fonts",
+          "ms": 14
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 214
+        },
+        {
+          "method": "BuildDocument",
+          "ms": 15
+        },
+        {
+          "method": "PreviewDocument",
+          "ms": 187
+        },
+        {
+          "method": "InspectDocument",
+          "ms": 40
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+import {blank,validDate} from './write-model.js';
+const heading=/^(?:[一二三四五六七八九十]+、|[（(][一二三四五六七八九十0-9]+[）)]|[0-9]+[.．]|第[一二三四五六七八九十0-9]+[章条])/;
+function sourceDate(text){
+  let value=text.trim();
+  const match=value.match(/^([1-9]\d{3})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日$/);
+  if(match)value=`${match[1]}-${match[2].padStart(2,'0')}-${match[3].padStart(2,'0')}`;
+  return validDate(value)?value:null;
+}
+function recipientLine(value){
+  const text=value.trim();
+  if(text.length>300||!/[：:]$/.test(text)||/[。！？；!?;]/.test(text))return false;
+  // A colon can introduce a narrative or a list. Offer only recognisable
+  // addressees; leave explanatory preambles in the body without a decision.
+  if(/^(?:根据|依据|按照|结合|现将|经研究|为了|为进一步|为贯彻|为落实|为做好|为加强|为确保)/.test(text)||/(?:如下|提示|说明)[：:]$/.test(text))return false;
+  return /^(?:各|全体|有关|相关|广大|尊敬的|亲爱的|敬爱的|诸位)/.test(text)||/(?:人民政府|委员会|单位|部门|公司|学校|中心|同志们?|朋友们|同学们|先生|女士|[局院所处科组室])[：:]$/.test(text);
+}
+export function analyseMaterial(raw){
+  if(typeof raw!=='string'||raw.length>100000)throw Error('原始材料最多支持 100000 字，请拆成两份整理。');
+  const source=raw.replace(/\r\n?/g,'\n'),lines=source.split('\n');
+  const meaningful=lines.map((text,index)=>({text,index})).filter(line=>line.text.trim());
+  const candidates={};
+  const first=meaningful[0];
+  if(first&&first.text.trim().length<=180&&!sourceDate(first.text)&&!/[：:]$/.test(first.text.trim()))candidates.title={...first,value:first.text.trim()};
+  const webMetadata=meaningful.slice(1,3).filter(line=>/^发布(?:日期|时间)[：:]\s*\d{4}[-年]\d{1,2}[-月]\d{1,2}(?:日)?(?:\s.*)?$/.test(line.text.trim()));
+  const recipient=meaningful.filter(line=>!webMetadata.some(meta=>meta.index===line.index)).slice(0,2).find(line=>recipientLine(line.text));
+  if(recipient)candidates.recipient={...recipient,value:recipient.text.trim().replace(/[：:]+$/,'')};
+  const closings=[];
+  for(let dateIndex=0;dateIndex<meaningful.length;dateIndex++){
+    const last=meaningful[dateIndex];if(!sourceDate(last.text))continue;
+    const closing={date:{...last,value:sourceDate(last.text)}};
+    const tail=[];
+    for(let i=dateIndex-1;i>=0;i--){
+      const line=meaningful[i],text=line.text.trim();
+      if(/[：:]/.test(text)||/[。！？；!?;]$/.test(text)||heading.test(text)||[text,...tail.map(row=>row.text.trim())].join('\n').length>120)break;
+      tail.unshift(line);
+    }
+    if(tail.length)closing.signature={...tail[0],indices:tail.map(row=>row.index),text:tail.map(row=>row.text).join('\n'),value:tail.map(row=>row.text.trim()).join('\n')};
+    if(meaningful.some(line=>line.index>last.index)){
+      const indices=lines.map((_,index)=>index).filter(index=>index>last.index);
+      while(indices.length&&!lines[indices[0]].trim()&&!lines[indices[0]].includes('\t'))indices.shift();while(indices.length&&!lines[indices.at(-1)].trim()&&!lines[indices.at(-1)].includes('\t'))indices.pop();
+      const text=indices.map(index=>lines[index]).join('\n');closing.postscript={index:indices[0],indices,text,value:text};
+    }
+    closings.push(closing);
+  }
+  return selectMaterialClosing({source,lines,candidates,closings,webMetadata},closings.length===1?0:-1);
+}
+export function selectMaterialClosing(analysis,index){
+  const {date,signature,postscript,...base}=analysis.candidates;
+  return {...analysis,candidates:{...base,...analysis.closings[index]},closingIndex:index};
+}
+function joinWraps(lines){
+  return lines.reduce((result,line)=>{
+    if(!result)return line;
+    // Do not silently join two numeric/Latin tokens into a new value or word.
+    const separator=/[A-Za-z0-9]$/.test(result)&&/^[A-Za-z0-9]/.test(line)?' ':'';
+    return result+separator+line;
+  },'');
+}
+export function materialProposal(analysis,selected={},mergeWrapped=false,currentTitle=''){
+  const fields=blank(),used=new Map(),conflicts=[];
+  fields.title=selected.keepTitle?currentTitle:'';
+  if(selected.keepTitle&&selected.title)conflicts.push('请选择一个标题来源，不要同时选择两个标题。');
+  if(selected.keepTitle&&!selected.title&&analysis.candidates.title?.value===currentTitle.trim())conflicts.push('原文首行与已填标题相同，请选择提取首行，避免在正文中重复标题。');
+  if(analysis.candidates.postscript){
+    if(selected.signature&&!selected.date||selected.date&&!selected.postscript||selected.postscript&&!selected.date)conflicts.push('这处日期后还有内容。请同时确认日期及其后的内容，或都留在正文，避免改变原始顺序。');
+    if(selected.postscript&&analysis.candidates.postscript.value.length>4000)conflicts.push('日期后的内容超过当前4000字符限制，请取消后在正文中保留，或分份整理。');
+  }
+  if(selected.omitWebMetadata)for(const line of analysis.webMetadata||[])used.set(line.index,'webMetadata');
+  for(const name of ['title','recipient','signature','date','postscript']){
+    const candidate=analysis.candidates[name];if(!candidate||!selected[name])continue;
+    for(const index of candidate.indices||[candidate.index]){
+      if(used.has(index))conflicts.push('同一行不能同时作为两个要素，请取消其中一个选择。');
+      used.set(index,name);
+    }
+    fields[name]=candidate.value;
+  }
+  const remaining=analysis.lines.filter((line,index)=>!used.has(index));
+  while(remaining.length&&!remaining[0].trim()&&!remaining[0].includes('\t'))remaining.shift();
+  while(remaining.length&&!remaining.at(-1).trim()&&!remaining.at(-1).includes('\t'))remaining.pop();
+  if(mergeWrapped){
+    const groups=[];let group=[];
+    const flush=()=>{if(group.length){groups.push(heading.test(group[0].trim())&&group.length>1?group.join('\n'):joinWraps(group));group=[];}};
+    for(const line of remaining){if(line.includes('\t')){flush();groups.push(line);}else if(!line.trim())flush();else group.push(line);}
+    flush();fields.body=groups.join('\n');
+  }else fields.body=remaining.join('\n');
+  fields.sourceMaterial=analysis.source;
+  return {fields,conflicts};
+}

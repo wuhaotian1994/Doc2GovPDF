@@ -1,0 +1,86 @@
+[
+  {
+    "profile": "chrome",
+    "version": "155.0.8059.85",
+    "checks": [
+      "next and back preserve all entered content",
+      "typed and saved before application startup",
+      "refresh before startup restores the complete draft",
+      "browser back and forward preserve the document",
+      "save before startup is durable",
+      "close tab and reopen before startup retains the complete draft",
+      "real PDF preview is visible",
+      "production module responses are JavaScript",
+      "saved draft contains exact input",
+      "Word PDF and text actually downloaded",
+      "cached entry is a real page, not a redirected response",
+      "refresh during a preview update keeps the newest text",
+      "export after refresh includes newest text",
+      "offline refresh still previews and exports",
+      "no generic preview-load failure in the journey",
+      "no missing delivered resources"
+    ],
+    "passed": true,
+    "server": "actual Go webserve",
+    "resources": [
+      {
+        "path": "/vendor/pdfjs/pdf.js",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.worker.js",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.js",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.mjs",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.worker.js",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.worker.mjs",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.js",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.worker.js",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.js",
+        "status": 200,
+        "type": "application/javascript"
+      },
+      {
+        "path": "/vendor/pdfjs/pdf.worker.js",
+        "status": 200,
+        "type": "application/javascript"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": [],
+    "readyAtFirstInput": false,
+    "cacheBeforeRefresh": {
+      "redirected": false,
+      "url": "http://127.0.0.1:4173/",
+      "save": "已保存到此浏览器"
+    }
+  }
+]

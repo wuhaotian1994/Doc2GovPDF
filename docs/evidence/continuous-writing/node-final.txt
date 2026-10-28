@@ -1,0 +1,62 @@
+(node:67540) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-table-layout.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ table choices survive movement between body and post-signature area (1.6476ms)
+✔ identical duplicate-table ambiguity changes keys rather than transferring choices (0.2051ms)
+✔ explicit annex choice survives position and leaves all text/cells unchanged (4.9348ms)
+✔ v6 draft roundtrip preserves semantic identity and refuses broken anchors (2.484ms)
+✔ mark/cancel changes only identity; prose and tables are never automatically attachments (0.3769ms)
+✔ compiled annex label starts a page and original title becomes centered before content (3.9502ms)
+✔ selecting the second identical annex never marks the first occurrence (0.4792ms)
+✔ TXT uses the same author-confirmed annex order after signing/date (0.5905ms)
+✔ removing or moving semantic anchors cannot silently flatten an annex (0.2708ms)
+✔ 3号 actual-annex table space accounts for data widths without shrinking font (7.1551ms)
+(node:50116) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-model.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ article paragraphs and multiple signature lines keep subsequent reminders at the correct source line (3.7193ms)
+✔ unadopted source metadata does not revoke document-scoped decisions (1.2619ms)
+✔ line offsets preserve CRLF, blank lines, emoji and identical occurrences (0.3435ms)
+✔ title and unrelated body edits retain a decision and export the current engine ID (0.3015ms)
+✔ editing a reviewed paragraph revokes immediately, including edit-then-undo before reinspection (0.2505ms)
+✔ identical paragraphs are separate decisions; ambiguous duplicate changes revoke both (0.2184ms)
+✔ moving indistinguishable paragraphs into different context never transfers confirmation (0.183ms)
+✔ rule severity, basis, proposed text, paragraph formatting and inspection version are decision dependencies (0.3609ms)
+✔ cross-paragraph rules revoke when related content changes even if the flagged paragraph stays unchanged (0.2701ms)
+✔ switching drafts, disappearing findings and explicit unchecking clear decisions (0.2382ms)
+✔ reference, signature, attachment and copy-to findings resolve to the authored field, not body (0.2496ms)
+✔ saved review keys restore only after matching a fresh inspection for the same draft (2.0129ms)
+✔ restored decisions revoke for rule, basis, severity, formatting and version changes (0.5718ms)
+✔ restored source changes revoke immediately and malformed metadata never destroys the draft text (0.4191ms)
+✔ opening same-draft paragraph editing preserves an unchanged decision and its saved source (4.6549ms)
+✔ paragraph judgment never moves to a table cell containing the same words (0.8731ms)
+✔ document-scoped rich decisions and malformed optional anchors cannot corrupt the draft (0.5434ms)
+✔ post-signature paragraph judgments restore precisely and do not transfer into cells (0.8993ms)
+(node:67260) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/wuhao/.codex/worktrees/ceo-001/Doc2GovPDF/web/write-content.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\wuhao\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ body structure preserves exact paragraphs and a table in the requested middle position (7.681ms)
+✔ explicit paragraph roles and minimal format overrides do not relocate authored content (0.548ms)
+✔ split merge and move retain author text and keep table boundaries explicit (0.8859ms)
+✔ paragraph and cell reminder sources survive unrelated edits but reject changed text or style (1.4345ms)
+✔ only-table documents discard the internal engine placeholder and never fabricate text (0.3546ms)
+✔ invalid structure, duplicate identities and over-limit table shapes fail before changing content (0.4082ms)
+✔ version four keeps table structure and exact text in the original portable and archived draft (2.1535ms)
+✔ inner signing roles are applied after footer authoring and never removed as an empty footer (0.4583ms)
+✔ blank tables are still authored structure and do not disappear from the library (0.3944ms)
+✔ merging never silently joins numeric or Latin tokens and splitting preserves emoji boundaries (0.4771ms)
+✔ v5 retains body and post-signature structure in one draft and rejects mismatched shadows (0.5223ms)
+✔ suffix table is compiled after independent signing/date and before its following imprint prose (0.8599ms)
+✔ suffix validation enforces shared unique identities and its existing text limit (0.2407ms)
+✔ explicit tab cells preserve blank receipt rows and stop before a different following imprint (0.2296ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 158.1758
