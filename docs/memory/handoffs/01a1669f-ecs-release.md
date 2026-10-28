@@ -23,3 +23,5 @@ E15/E16发布：76be603与a7430d4补丁均已应用并重启返回UI_PATCH_APPLI
 E17：current/web UI已更新到f7c3924（预览高分辨率及选项焦点修复），上传/解包/重启成功返回UI_PATCH_APPLIED；未执行上线校验。
 
 2026-10-28模板发布：0cc4ddb已推送同一PR5并增量应用current/web，含write-templates.js及SW新预缓存条目；服务重启成功返回UI_PATCH_APPLIED。实现首页请示/通知/报告模板新建；本地无头功能测试通过，未执行公网校验。当前UI版本0cc4ddb，发布目录名称仍沿用原目录。
+
+2026-10-28入口修订发布：fea1ab8已推送并应用current/web，重启返回UI_PATCH_APPLIED。新建统一打开模板选择，空白首项，移除独立模板按钮。本地检查通过，未公网校验。
