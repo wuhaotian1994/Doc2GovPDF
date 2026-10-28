@@ -21,3 +21,5 @@ E14发布：7fcb129静态补丁已应用current/web，doc2govpdf重启返回UI_P
 E15/E16发布：76be603与a7430d4补丁均已应用并重启返回UI_PATCH_APPLIED；当前UI源码版本a7430d4。含100%预览居中、设置文案精简/字形对齐和红头缺失红色标记。未浏览器或公网校验。
 
 E17：current/web UI已更新到f7c3924（预览高分辨率及选项焦点修复），上传/解包/重启成功返回UI_PATCH_APPLIED；未执行上线校验。
+
+2026-10-28模板发布：0cc4ddb已推送同一PR5并增量应用current/web，含write-templates.js及SW新预缓存条目；服务重启成功返回UI_PATCH_APPLIED。实现首页请示/通知/报告模板新建；本地无头功能测试通过，未执行公网校验。当前UI版本0cc4ddb，发布目录名称仍沿用原目录。
