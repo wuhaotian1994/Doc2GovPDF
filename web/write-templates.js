@@ -23,7 +23,7 @@ export function installTemplatePicker({create,canEdit}){
     const title=document.createElement('strong'),description=document.createElement('span');title.textContent=item.name;description.textContent=item.description;button.append(title,description);
     button.onclick=()=>{selected=item.id;message.textContent='';render();};choices.append(button);
   }
-  function render(){for(const button of choices.children){button.setAttribute('aria-pressed',String(button.dataset.template===selected));button.disabled=busy;}document.getElementById('template-outline').textContent=articleTemplates.find(item=>item.id===selected).outline;form.querySelector('[type=submit]').disabled=busy;subject.disabled=busy;subject.closest('.field').hidden=selected==='blank';document.getElementById('template-help').hidden=selected==='blank';}
+  function render(){for(const button of choices.children){button.setAttribute('aria-pressed',String(button.dataset.template===selected));button.disabled=busy;}document.getElementById('template-outline').textContent=articleTemplates.find(item=>item.id===selected).outline;form.querySelector('[type=submit]').disabled=busy;subject.disabled=busy;subject.closest('.field').hidden=selected==='blank';}
   function open(){if(!canEdit()||busy)return;selected='blank';subject.value='';message.textContent='';render();dialog.showModal();}
   document.getElementById('template-cancel').onclick=()=>{if(!busy)dialog.close();};
   dialog.addEventListener('cancel',event=>{if(busy)event.preventDefault();});
