@@ -10,5 +10,6 @@
 - 本轮工作树D:/Project/Doc2GovPDF/tmp/wechat-newspic-work，临时本地分支codex/wechat-newspic-mail；增量通过正常快进推送到codex/n8n-mail-wechat，更新原PR #6，不合并。
 - 本机模板包D:/Project/Doc2GovPDF/tmp/wechat-newspic-template.zip已含发收地址和邮件示例。包不含图片，也不直接作为发送附件；Agent应附article.md及真正的图片文件。
 - 无剩余配置阻碍；新模板可开始使用。成功/失败仍看n8n Executions，无自动回执。其他会话未提交修改完全未触碰。
+- 已交付源码提交27c8cb3，已推送原PR #6并更新描述；未合并。最终健康、已启用状态及临时凭据清理通过。
 
 证据与实现边界：[本轮日志](../logs/2026-10-28-01a181ff-newspic-mail.md)。交付PR：https://github.com/wuhaotian1994/Doc2GovPDF/pull/6 。

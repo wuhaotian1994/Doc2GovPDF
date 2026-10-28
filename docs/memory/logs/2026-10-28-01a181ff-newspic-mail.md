@@ -31,3 +31,4 @@
 - 新模板和Agent规范：ops/n8n-wechat-mail/newspic/；本机私有模板包：D:/Project/Doc2GovPDF/tmp/wechat-newspic-template.zip，包含本次确认的收发地址和工作流链接，不进入公开仓库。
 - 应用管理工作树随后创建完成，但归档被工具拒绝，因为它成为本聊天primary checkout；保留其干净原始状态。本轮修改全部在上述项目tmp隔离工作树，无共享主目录改动。
 - 后续维护以本轮交接为准；原部署日志及旧文章模板继续保留。
+- 源码与模板提交27c8cb3已正常推送到原codex/n8n-mail-wechat分支，PR #6标题与描述已更新，未合并。最终复核执行4=success、工作流active=true、UID=7，适配器/PostgreSQL/原网站/Caddy均active，n8n readiness=ok，容器与主机的临时凭据文件均不存在。模板ZIP使用UTF-8文件名重打包并验证无损。
