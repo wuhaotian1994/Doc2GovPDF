@@ -1,3 +1,4 @@
+import {installTemplatePicker,templateFields,hasTemplatePrompts} from './write-templates.js';
 import {createPDFViewer} from './write-pdf-viewer.js';
 import {installHome} from './write-home.js';
 import {installLinePaste} from './write-line-paste.js';
@@ -188,6 +189,7 @@ function validate(target) {
   if (!fields.title.trim()) errors.push(['title','请填写一个文档标题。']);
   if (fields.letterhead && !fields.agency.trim()) errors.push(['agency','显示红头时，请填写发文单位。']);
   if (target >= 1 && !(bodyContent?hasContent(bodyContent):fields.body.trim())) errors.push(['body','请填写正文，也可以粘贴已有内容。']);
+  if(target>=1&&hasTemplatePrompts(fields.body))errors.push(['body','请将正文中的【请填写：…】替换为实际内容；不需要的部分可以删除。']);
   errors.push(...dateProblems());if(target>=1)for(const problem of issuanceProblems())if(!errors.some(p=>p[0]===problem[0]))errors.push(problem);
   for (const name of ['title','agency','body','date',...metadataNames]) fieldError(name, errors.find(e=>e[0]===name)?.[1] || '');
   if (errors.length) {
@@ -647,9 +649,9 @@ function populateCommon(next=common) {
   for(const name of ['recipient','agency','signature','copyTo'])$('common-'+name).value=next.fields[name];
   $('common-letterhead').checked=next.fields.letterhead;$('common-format').value=next.format;
 }
-function newDocument() {
+function newDocument(templateId,subject) {
   const hasCommon=Object.values(common.fields).some(Boolean);
-  const next={...draft(freshFields(common),0),reuseMessage:hasCommon?'已带入常用信息。点击这里修改常用信息。':'已新建空白文档，填写标题即可开始。已有文章会保留在首页。'};
+  const next={...draft(templateId?templateFields(freshFields(common),templateId,subject):freshFields(common),0),reuseMessage:hasCommon?'已带入常用信息。点击这里修改常用信息。':templateId?'已按模板新建，可继续修改标题和正文。':'已新建空白文档，填写标题即可开始。已有文章会保留在首页。'};
   if(requestReplace(next,true)){document.querySelector(`[name=format][value="${common.format}"]`).checked=true;updateExport();return true;}
   return false;
 }
@@ -865,7 +867,7 @@ async function openFeedbackLazily(){
 $('feedback-open')?.addEventListener('click',openFeedbackLazily);
 
 $('backup-before-replace').onclick=saveDraft;
-$('new-document').onclick=newDocument;
+$('new-document').onclick=()=>newDocument();
 
 $('confirm-replace').onclick=()=>replace(replacement);
 $('undo-replace').onclick=()=>{if(previous)requestReplace(previous);};
@@ -918,6 +920,10 @@ $('load-draft').onchange=async event=>{
 };
 assemblyView=installAssemblyView({hasOriginal:()=>false,canUndo:()=>Boolean(previous),ready:()=>readyRevision===revision,kept:entry=>decisions.has(entry),entries:()=>model&&inspection?reviewItems(model,inspection,fields,currentId,bodyContent).filter(e=>e.issue._assembly):[],keep:(entry,value)=>{if(readyRevision!==revision)return;decisions.set(entry,value);persist();renderChecks();},apply:entry=>{if(readyRevision!==revision)return;try{const next=applyAssemblyQuestion(fields,bodyContent,entry.issue._assembly);requestReplace({...draft(next.fields,1,currentId,decisions.snapshot(currentId),next.content),reuseMessage:'已调整这一处，其余原文保持；可撤销上次整理。'},true);}catch(e){error(e.message);}},undo:()=>{if(previous)requestReplace({...previous,reuseMessage:'已撤销上次整理，原稿与原材料保持。'},true);}});
 function openRecoveryDialog(){renderLibrary();$('draft-dialog').showModal();}
+installTemplatePicker({
+  canEdit:()=>window.writerReady&&home?.active&&hasLock&&!blockedSave&&!libraryBroken&&!exporting&&!fontBusy&&!fontReading,
+  create:async(id,subject)=>{if(wordWorkspace?.active)await wordWorkspace.leave();if(!newDocument(id,subject))throw Error($('global-error').dataset.message||'当前文章尚未保存，未新建。请稍后重试。');}
+});
 const intro=installIntro({onRecovery:openRecoveryDialog,onStart:async()=>{if(wordWorkspace?.active)await wordWorkspace.leave();readFields();if(!newDocument())throw Error($('global-error').dataset.message||'当前文章尚未保存，未新建。请稍后重试。');}});
 window.addEventListener('beforeunload',event=>{
   if(wordWorkspace?.dirty||$('save-status').textContent==='自动保存失败' || !wordWorkspace?.active&&(blockedSave&&names.some(name=>fields[name]) || dateProblems().length)){event.preventDefault();event.returnValue='';}
