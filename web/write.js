@@ -867,7 +867,7 @@ async function openFeedbackLazily(){
 $('feedback-open')?.addEventListener('click',openFeedbackLazily);
 
 $('backup-before-replace').onclick=saveDraft;
-$('new-document').onclick=()=>newDocument();
+$('new-document').onclick=()=>templatePicker.open();
 
 $('confirm-replace').onclick=()=>replace(replacement);
 $('undo-replace').onclick=()=>{if(previous)requestReplace(previous);};
@@ -920,9 +920,9 @@ $('load-draft').onchange=async event=>{
 };
 assemblyView=installAssemblyView({hasOriginal:()=>false,canUndo:()=>Boolean(previous),ready:()=>readyRevision===revision,kept:entry=>decisions.has(entry),entries:()=>model&&inspection?reviewItems(model,inspection,fields,currentId,bodyContent).filter(e=>e.issue._assembly):[],keep:(entry,value)=>{if(readyRevision!==revision)return;decisions.set(entry,value);persist();renderChecks();},apply:entry=>{if(readyRevision!==revision)return;try{const next=applyAssemblyQuestion(fields,bodyContent,entry.issue._assembly);requestReplace({...draft(next.fields,1,currentId,decisions.snapshot(currentId),next.content),reuseMessage:'已调整这一处，其余原文保持；可撤销上次整理。'},true);}catch(e){error(e.message);}},undo:()=>{if(previous)requestReplace({...previous,reuseMessage:'已撤销上次整理，原稿与原材料保持。'},true);}});
 function openRecoveryDialog(){renderLibrary();$('draft-dialog').showModal();}
-installTemplatePicker({
-  canEdit:()=>window.writerReady&&home?.active&&hasLock&&!blockedSave&&!libraryBroken&&!exporting&&!fontBusy&&!fontReading,
-  create:async(id,subject)=>{if(wordWorkspace?.active)await wordWorkspace.leave();if(!newDocument(id,subject))throw Error($('global-error').dataset.message||'当前文章尚未保存，未新建。请稍后重试。');}
+const templatePicker=installTemplatePicker({
+  canEdit:()=>window.writerReady&&hasLock&&!blockedSave&&!libraryBroken&&!exporting&&!fontBusy&&!fontReading,
+  create:async(id,subject)=>{if(wordWorkspace?.active)await wordWorkspace.leave();if(!newDocument(id==='blank'?undefined:id,subject))throw Error($('global-error').dataset.message||'当前文章尚未保存，未新建。请稍后重试。');}
 });
 const intro=installIntro({onRecovery:openRecoveryDialog,onStart:async()=>{if(wordWorkspace?.active)await wordWorkspace.leave();readFields();if(!newDocument())throw Error($('global-error').dataset.message||'当前文章尚未保存，未新建。请稍后重试。');}});
 window.addEventListener('beforeunload',event=>{
@@ -968,7 +968,7 @@ home=installHome({
   canEdit:()=>window.writerReady&&hasLock&&!blockedSave&&!libraryBroken&&!exporting&&!fontBusy&&!fontReading,
   onError:error,
   save:async()=>{readFields();if(wordWorkspace?.active){await wordWorkspace.flush();return;}if(dateProblems().length)throw Error('请先修正或清空日期，再返回首页。');persist();if(lastSaveError||blockedSave)throw Error(lastSaveError||'文章尚未保存，请先下载草稿。');},
-  create:async()=>{if(wordWorkspace?.active)await wordWorkspace.leave();newDocument();},
+  create:()=>templatePicker.open(),
   list:async()=>{
     const current=currentDraft();
     const meaningful=value=>Object.entries(value.fields).some(([key,v])=>!['sourceMaterial','pendingMaterial','letterhead'].includes(key)&&typeof v==='string'&&v.trim());

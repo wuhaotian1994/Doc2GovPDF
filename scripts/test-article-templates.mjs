@@ -7,7 +7,7 @@ import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {extname,resolve,sep} from 'node:path';
 const defaults={...blank(),agency:'测试单位',recipient:'测试接收单位',signature:'测试署名',reference:'old',date:'2024-01-01'};
-for(const template of articleTemplates){const fields=templateFields(defaults,template.id,'测试事项');assert.equal(fields.title,`关于测试事项的${template.name}`);assert.equal(fields.date,'');assert.equal(fields.reference,'');assert.equal(fields.agency,'测试单位');assert.ok(hasTemplatePrompts(fields.body));assert.equal(validateDraft(draft(fields,0)).fields.body,fields.body);}
+for(const template of articleTemplates.filter(item=>item.id!=='blank')){const fields=templateFields(defaults,template.id,'测试事项');assert.equal(fields.title,`关于测试事项的${template.name}`);assert.equal(fields.date,'');assert.equal(fields.reference,'');assert.equal(fields.agency,'测试单位');assert.ok(hasTemplatePrompts(fields.body));assert.equal(validateDraft(draft(fields,0)).fields.body,fields.body);}
 assert.equal(defaults.reference,'old');assert.throws(()=>templateFields(defaults,'unknown','事项'));assert.throws(()=>templateFields(defaults,'request','  '));assert.equal(hasTemplatePrompts('这是已填写的内容。'),false);
 const require=createRequire(new URL('./browser-tests/package.json',import.meta.url)),{chromium}=require('playwright');
 const root=fileURLToPath(new URL('../dist/local-preview',import.meta.url));
@@ -17,19 +17,21 @@ const server={url:`http://127.0.0.1:${http.address().port}`,close:()=>new Promis
 const browser=await chromium.launch({headless:true,channel:'msedge',env:{...process.env,HTTP_PROXY:'',HTTPS_PROXY:'',ALL_PROXY:'',NO_PROXY:'127.0.0.1,localhost'}});
 try{
  const page=await browser.newPage({viewport:{width:1366,height:900}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(server.url);await page.waitForFunction(()=>window.writerReady&&!document.querySelector('#template-open').disabled);
+ await page.goto(server.url);await page.waitForFunction(()=>window.writerReady&&!document.querySelector('#home-new').disabled);
  await page.locator('#welcome-dialog').waitFor({state:'visible'});await page.keyboard.press('Escape');
- await page.locator('#template-open').click();await page.locator('#template-cancel').click();assert.equal(await page.locator('.article-card[data-article-id]').count(),0);
- for(const template of articleTemplates){
-  await page.locator('#template-open').click();await page.locator(`[data-template="${template.id}"]`).click();
+ assert.equal(await page.locator('#template-open').count(),0);
+ await page.locator('#home-new').click();assert.equal(await page.locator('.template-choice').first().getAttribute('data-template'),'blank');assert.ok(await page.locator('#template-subject').isHidden());await page.locator('#template-form [type=submit]').click();await page.locator('#template-dialog').waitFor({state:'hidden'});assert.equal(await page.locator('#title').inputValue(),'');await page.locator('#new-document').click();await page.locator('#template-dialog').waitFor({state:'visible'});await page.locator('#template-cancel').click();await page.locator('#back-home').click();
+ await page.locator('#home-new').click();await page.locator('#template-cancel').click();assert.equal(await page.locator('.article-card[data-article-id]').count(),0);
+ for(const template of articleTemplates.filter(item=>item.id!=='blank')){
+  await page.locator('#home-new').click();await page.locator(`[data-template="${template.id}"]`).click();
   await page.locator('#template-form [type=submit]').click();assert.ok((await page.locator('#template-message').textContent()).includes('事项'));
   await page.locator('#template-subject').fill('测试事项');await page.locator('#template-form [type=submit]').click();
   await page.locator('#template-dialog').waitFor({state:'hidden'});assert.equal(await page.locator('#title').inputValue(),`关于测试事项的${template.name}`);assert.equal(new URL(page.url()).hash,'#step-1');
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('gongwen-writer-v1')));assert.equal(saved.fields.body,template.body);assert.equal(saved.fields.signer,'');assert.equal(saved.fields.date,'');
   await page.locator('[data-step="2"]').click();assert.ok((await page.locator('#body-error').textContent()).includes('请填写'));assert.equal(await page.locator('[data-step="1"]').getAttribute('aria-current'),'step');
-  await page.locator('#back-home').click();await page.locator('#template-open:not([disabled])').waitFor();
+  await page.locator('#back-home').click();await page.locator('#home-new:not([disabled])').waitFor();
  }
- await page.reload();await page.waitForFunction(()=>window.writerReady&&!document.querySelector('#template-open').disabled);await page.locator('#welcome-dialog').waitFor({state:'visible'});await page.keyboard.press('Escape');
+ await page.reload();await page.waitForFunction(()=>window.writerReady&&!document.querySelector('#home-new').disabled);await page.locator('#welcome-dialog').waitFor({state:'visible'});await page.keyboard.press('Escape');
  assert.equal(await page.locator('.article-card[data-article-id]').count(),3);
  await page.getByRole('button',{name:/关于测试事项的请示/}).click();assert.equal(await page.locator('#title').inputValue(),'关于测试事项的请示');
  assert.deepEqual(errors,[]);console.log('PASS: three templates, validation, cancellation, old-draft preservation and reload');

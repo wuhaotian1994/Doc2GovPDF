@@ -29,7 +29,7 @@ export function installHome({list,create,open,rename,remove,save,canEdit,onError
     const count=capacity(),pages=Math.max(1,Math.ceil(items.length/count));page=Math.min(page,pages-1);
     grid.replaceChildren();
     const add=document.createElement('button');add.type='button';add.className='article-card article-new';add.id='home-new';add.disabled=!ready||busy||!canEdit();
-    add.innerHTML='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><strong>新建文章</strong><span>从基本信息开始填写</span>';
+    add.innerHTML='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 8v24M8 20h24"/></svg><strong>新建文章</strong><span>选择空白文章或模板</span>';
     add.onclick=()=>act(create);grid.append(add);
     for(const item of items.slice(page*count,(page+1)*count)){
       const card=document.createElement('article');card.className='article-card';card.dataset.articleId=item.id;
@@ -47,7 +47,6 @@ export function installHome({list,create,open,rename,remove,save,canEdit,onError
     $('home-count').textContent=ready?(items.length?`${items.length} 篇文章，仅保存在此浏览器`:'还没有文章，从新建开始'):'正在读取本地文章…';
     $('home-page').textContent=`${page+1} / ${pages}`;$('home-prev').disabled=page===0||busy;$('home-next').disabled=page+1>=pages||busy;
     $('home-pagination').hidden=pages<=1;
-    $('template-open').disabled=!ready||busy||!canEdit();
     $('material-open').disabled=!ready||busy||!canEdit();
   }
   async function act(action){if(busy||!ready)return;busy=true;render();try{await action();}catch(error){onError(error.message);}finally{busy=false;render();}}

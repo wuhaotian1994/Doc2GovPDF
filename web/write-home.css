@@ -41,7 +41,7 @@ body:not(.home-mode) #article-home{display:none}
 #article-action-dialog h2{margin-top:0}#article-action-dialog input{width:100%;box-sizing:border-box}#article-action-error:empty{display:none}
 
 .home-create-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-#template-dialog{width:min(640px,calc(100% - 32px))}#template-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+#template-dialog{width:min(640px,calc(100% - 32px))}#template-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
 .template-choice{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;white-space:normal;background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:16px}
 .template-choice strong{font-size:17px}.template-choice span{font-size:12px;font-weight:400;color:var(--muted);line-height:1.6}.template-choice:hover{border-color:var(--blue)}.template-choice[aria-pressed=true]{border-color:var(--blue);background:var(--tint)}#template-message:empty{display:none}
 @media(max-width:600px){#template-choices{grid-template-columns:1fr}.home-create-actions{gap:6px}.home-create-actions button{padding-inline:10px}}
